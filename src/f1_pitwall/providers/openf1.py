@@ -1,0 +1,147 @@
+import json
+import logging
+import re
+import unicodedata
+from datetime import timedelta
+
+from pydantic import BaseModel
+
+from f1_pitwall.domain.enums import SessionType
+from f1_pitwall.domain.models import Driver, Event, GridEntry, Session
+from f1_pitwall.providers.http import ProviderHTTP, normalized
+
+log = logging.getLogger(__name__)
+
+
+def name_key(name: str) -> str:
+    name = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode()
+    return re.sub(r"[^a-z0-9]", "", name.lower())
+
+
+class Weekend(BaseModel):
+    """Normalized provider weekend used solely to enrich our event schedule."""
+
+    id: int
+    circuit_name: str
+    locality: str
+    sessions: list[Session]
+
+
+class OpenF1:
+    def __init__(self, http: ProviderHTTP):
+        self.http = http
+        self.base = http.settings.openf1_url.rstrip("/")
+
+    async def rows(self, path: str, **params) -> list[dict]:
+        data = json.loads(
+            await self.http.get(
+                f"{self.base}/{path}",
+                self.http.settings.short_ttl,
+                empty_on_no_results=True,
+                **params,
+            )
+        )
+        if not isinstance(data, list):
+            raise ValueError("expected a list")
+        return data
+
+    @normalized
+    async def weekends(self, year: int) -> list[Weekend]:
+        groups: dict[int, Weekend] = {}
+        for row in await self.rows("sessions", year=year):
+            name = row["session_name"]
+            canonical = "Sprint Qualifying" if name == "Sprint Shootout" else name
+            try:
+                kind = SessionType(canonical)
+            except ValueError:
+                kind = SessionType.OTHER
+            session = Session(
+                name=name,
+                type=kind,
+                date=row["date_start"][:10],
+                start=row["date_start"],
+                end=row.get("date_end"),
+                provider_id=row["session_key"],
+                source="openf1",
+                cancelled=row.get("is_cancelled", False),
+            )
+            key = row["meeting_key"]
+            if key not in groups:
+                groups[key] = Weekend(
+                    id=key,
+                    circuit_name=row["circuit_short_name"],
+                    locality=row["location"],
+                    sessions=[],
+                )
+            groups[key].sessions.append(session)
+        return list(groups.values())
+
+    def enrich(self, event: Event, weekends: list[Weekend]) -> Event:
+        # Join on a race within one day AND normalized circuit/locality identity.
+        # Dates alone can join the wrong event after calendar changes.
+        candidates = []
+        date_matches = []
+        for weekend in weekends:
+            races = [s for s in weekend.sessions if s.type == SessionType.RACE]
+            if not any(abs(s.date - event.race_date) <= timedelta(days=1) for s in races):
+                continue
+            date_matches.append(weekend)
+            left = {
+                name_key(event.circuit.name),
+                name_key(event.circuit.locality or ""),
+                name_key(event.circuit.id),
+            } - {""}
+            right = {name_key(weekend.circuit_name), name_key(weekend.locality)} - {""}
+            if any(a in b or b in a for a in left for b in right):
+                candidates.append(weekend)
+        result = event.model_copy(deep=True)
+        if len(candidates) != 1:
+            if date_matches:
+                warning = "OpenF1 event identity differs or is ambiguous; retained Jolpica schedule"
+                result.warnings.append(warning)
+                log.warning("year=%s round=%s %s", event.year, event.round, warning)
+            return result
+        merged = {s.type: s for s in event.sessions}
+        for session in candidates[0].sessions:
+            previous = merged.get(session.type)
+            if previous and previous.start and session.start != previous.start:
+                warning = f"{session.name} start differs; OpenF1 session time takes priority"
+                result.warnings.append(warning)
+                log.warning("year=%s round=%s %s", event.year, event.round, warning)
+            if session.type != SessionType.OTHER:
+                merged[session.type] = session
+        result.sessions = sorted(merged.values(), key=lambda s: (s.date, str(s.start or "~")))
+        return result
+
+    @normalized
+    async def grid(self, session: Session, drivers: list[Driver]) -> list[GridEntry]:
+        rows = await self.rows("starting_grid", session_key=session.provider_id)
+        if not rows:
+            return []
+        profiles = {
+            r["driver_number"]: r
+            for r in await self.rows("drivers", session_key=session.provider_id)
+        }
+        entries = []
+        for row in rows:
+            profile = profiles[row["driver_number"]]
+            matches = [
+                d
+                for d in drivers
+                if (
+                    name_key(d.full_name) == name_key(profile.get("full_name", ""))
+                    or (d.code and d.code == profile.get("name_acronym"))
+                )
+            ]
+            if len(matches) != 1:
+                raise ValueError("cannot unambiguously link OpenF1 driver to canonical identity")
+            position = row.get("position")
+            entries.append(
+                GridEntry(
+                    driver=matches[0],
+                    position=position,
+                    source="openf1",
+                    pit_lane=None if position in (None, 0) else False,
+                )
+            )
+        return sorted(entries, key=lambda g: g.position if g.position else float("inf"))
