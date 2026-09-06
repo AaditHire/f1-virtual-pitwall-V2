@@ -1,4 +1,4 @@
-# F1 Virtual Pit Wall — Phase 1
+# F1 Virtual Pit Wall — Phases 1–2
 
 Python 3.12+ / FastAPI backend for seasons from **2021 through the latest provider-published season**. Calendars, session times, qualifying, starting grids, results, standings and RSS news. No frontend, telemetry, strategy, AI or database.
 
@@ -72,3 +72,27 @@ Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/home?timezone=Asia/Kolkata'
 Default tests exclude network. Network tests call Jolpica, OpenF1 and both RSS feeds, compare counts against provider totals, and exercise acceptance A–H. They fail if required live data is unavailable; next-session acceptance also fails during an off-season with no published future schedule. The smoke script starts a temporary loopback Uvicorn server, exercises HTTP routes, prints a JSON snapshot and stops it. No static type checker is configured.
 
 See [architecture](docs/architecture.md), [provider priorities and limitations](docs/data_sources.md), and [recorded acceptance](docs/acceptance.md).
+
+## Historical replay (Phase 2)
+
+FastF1 supplies cached, timestamped race archives. Replay returns the complete session field at the first reported completion of leader lap N, using only facts published by that instant. Phase 1 endpoints remain unchanged.
+
+```powershell
+Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/replay/2024/1/laps'
+Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/replay/2024/1/25'
+# Use a driver.id returned by the snapshot:
+Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/replay/2024/1/25/drivers/f1:MAXVER01'
+```
+
+Optional configuration: `F1_REPLAY_CACHE_DIR` (default `.cache/fastf1`) and `F1_REPLAY_CACHE_SIZE` (default 4 normalized sessions per process). First loads require network access; later requests reuse the normalized session. Downloaded archives use FastF1's disk cache.
+
+```powershell
+.venv\Scripts\python -m pytest -q -p no:cacheprovider
+.venv\Scripts\python -m pytest -m network -q -p no:cacheprovider
+.venv\Scripts\python scripts/smoke.py --replay 2024 1 25 > replay-output.json
+.venv\Scripts\python scripts/replay_table.py replay-output.json
+```
+
+Add `--replay-only` to the smoke command to exercise only health and replay endpoints. This avoids unrelated homepage providers; the full regression tests still run separately. OpenF1 may require authentication globally during live F1 sessions, which can temporarily block existing Phase 1 network checks.
+
+See [replay semantics and limitations](docs/replay.md) and the [full-grid example](docs/replay-sample.md). No strategy, tyre degradation, simulation or Phase 3 features are included.

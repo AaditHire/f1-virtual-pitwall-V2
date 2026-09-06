@@ -5,12 +5,14 @@ import httpx
 from f1_pitwall.core.config import Settings
 from f1_pitwall.core.exceptions import NotFound, ProviderError
 from f1_pitwall.domain.models import DataSourceStatus, Home
+from f1_pitwall.providers.fastf1 import FastF1Provider
 from f1_pitwall.providers.http import ProviderHTTP
 from f1_pitwall.providers.jolpica import Jolpica
 from f1_pitwall.providers.news import RSSProvider
 from f1_pitwall.providers.openf1 import OpenF1
 from f1_pitwall.services.calendar import CalendarService
 from f1_pitwall.services.news import NewsService
+from f1_pitwall.services.replay import ReplayService
 from f1_pitwall.services.results import ResultsService
 from f1_pitwall.services.season import SeasonService
 from f1_pitwall.services.standings import StandingsService
@@ -24,6 +26,9 @@ class Hub:
         self.calendar = CalendarService(self.seasons, self.jolpica, self.openf1)
         self.results = ResultsService(self.seasons, self.calendar, self.jolpica, self.openf1)
         self.standings = StandingsService(self.seasons, self.jolpica)
+        self.replay = ReplayService(
+            self.seasons, self.jolpica, FastF1Provider(settings), settings.replay_cache_size
+        )
         self.news = NewsService(
             [
                 RSSProvider(ProviderHTTP(name, client, settings), url)

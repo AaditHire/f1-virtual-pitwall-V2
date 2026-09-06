@@ -12,6 +12,8 @@ class Settings(BaseModel):
     medium_ttl: float = Field(default=300, ge=0)
     short_ttl: float = Field(default=60, ge=0)
     cache_size: int = Field(default=256, gt=0)
+    replay_cache_dir: str = ".cache/fastf1"
+    replay_cache_size: int = Field(default=4, gt=0)
     news_feeds: dict[str, str] = {
         "BBC Sport F1": "https://feeds.bbci.co.uk/sport/formula1/rss.xml",
         "Autosport F1": "https://www.autosport.com/rss/f1/news/",

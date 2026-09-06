@@ -11,7 +11,19 @@ import time
 import httpx
 
 
-def main():
+def fetch_replay(get, replay):
+    year, round, lap = replay
+    prefix = f"/api/v1/replay/{year}/{round}"
+    available = get(f"{prefix}/laps")
+    snapshot = get(f"{prefix}/{lap}")
+    assert len(snapshot["drivers"]) == available["participants"]
+    assert snapshot["current_lap"] == lap
+    first = snapshot["drivers"][0]
+    assert get(f"{prefix}/{lap}/drivers/{first['driver']['id']}") == first
+    return snapshot
+
+
+def main(replay: tuple[int, int, int] | None = None, replay_only: bool = False):
     with socket.socket() as sock:
         sock.bind(("127.0.0.1", 0))
         port = sock.getsockname()[1]
@@ -50,6 +62,14 @@ def main():
                     response.raise_for_status()
                     return response.json()
 
+                if replay_only:
+                    report = {
+                        "health": get("/health"),
+                        "replay_snapshot": fetch_replay(get, replay),
+                    }
+                    print(json.dumps(report, indent=2, ensure_ascii=True), flush=True)
+                    return
+
                 latest = get("/api/v1/seasons/latest")
                 year = latest["year"]
                 report = {
@@ -76,6 +96,8 @@ def main():
                 assert home["latest_news"] and home["driver_standings_top"]
                 report["home"] = home
                 report["providers"] = get("/api/v1/providers/status")
+                if replay is not None:
+                    report["replay_snapshot"] = fetch_replay(get, replay)
                 print(json.dumps(report, indent=2, ensure_ascii=True), flush=True)
         except Exception:
             log.seek(0)
@@ -91,4 +113,14 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--replay", nargs=3, type=int, metavar=("YEAR", "ROUND", "LAP"))
+    parser.add_argument(
+        "--replay-only", action="store_true", help="Test replay without the homepage providers"
+    )
+    arguments = parser.parse_args()
+    if arguments.replay_only and not arguments.replay:
+        parser.error("--replay-only requires --replay YEAR ROUND LAP")
+    main(tuple(arguments.replay) if arguments.replay else None, arguments.replay_only)

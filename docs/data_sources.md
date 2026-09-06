@@ -28,4 +28,4 @@ OpenF1 numbers join only to that session's driver profiles; profiles must unique
 - RSS stores only headline/source/URL/publication time, a supplied short summary (at most 600 characters), supplied image URL and supplied categories. HTML is removed; full content fields are ignored. No pages are scraped. Missing publication times remain null. Optional query matching covers title/summary; there is no entity extraction or claim that every headline is a major story.
 - Deduplication removes tracking parameters/fragments, then compares canonical URLs and normalized title similarity (0.94 threshold). Different reporting on one topic can remain; similar titles can occasionally merge.
 
-FastF1 is unnecessary for Phase 1 and is not installed. Telemetry and detailed historical session analysis remain out of scope.
+FastF1 is not used by Phase 1 endpoints. Phase 2 adds it specifically for [causal historical replay](replay.md); telemetry analysis and strategy remain out of scope.

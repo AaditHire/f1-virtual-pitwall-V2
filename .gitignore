@@ -5,4 +5,5 @@ __pycache__/
 .ruff_cache/
 .env
 acceptance-output.json
-
+.cache/
+replay-output.json
