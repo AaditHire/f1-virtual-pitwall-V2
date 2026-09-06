@@ -1,54 +1,18 @@
 """Conditional one-lap stop-offset comparisons, never strategy decisions."""
 
-from statistics import median
-
 from f1_pitwall.domain.analysis import PairAnalysis
+from f1_pitwall.services.fresh_tyre import estimate_fresh_tyre_delta
 from f1_pitwall.services.pace import analyze_tyres, get_recent_pace
 from f1_pitwall.services.pit_analysis import predict_pit_rejoin
 from f1_pitwall.services.traffic import analyze_traffic, blockage_penalty
 
 
-def fresh_tyre_evidence(context, driver_id, pit_loss):
-    """Within-driver before/after differences, same old compound; peers only as fallback."""
-    driver = context.driver(driver_id)
-    samples = []
-    for stop in pit_loss.components["samples"]:
-        identity = stop["driver_id"]
-        old = context.stint_at(identity, stop["entered_at"] - 1)
-        # A compound update can arrive later than the exit packet. The first clean
-        # post-stop crossing is already published and identifies the observed new stint.
-        new = context.stint_at(identity, context.rows[identity][stop["post_laps"][0]].completed_at)
-        if not old or not new or old.compound != driver.compound or old.number == new.number:
-            continue
-        pre = [context.rows[identity][n].lap_time_seconds for n in stop["pre_laps"]]
-        post = [context.rows[identity][n].lap_time_seconds for n in stop["post_laps"]]
-        samples.append(
-            {
-                "driver_id": identity,
-                "old_compound": old.compound,
-                "new_compound": new.compound,
-                "old_age": old.tyre_age,
-                "gain_seconds": median(pre) - median(post),
-                "entered_at": stop["entered_at"],
-                "evidence_available_at": stop["evidence_available_at"],
-            }
-        )
-    own = [s for s in samples if s["driver_id"] == driver_id]
-    selected = own[-1:] or samples
-    return {
-        "gain_seconds": median(s["gain_seconds"] for s in selected) if selected else None,
-        "samples": selected,
-        "scope": "own previous stop" if own else "same old-compound peers",
-        "warm_up_delta_seconds": None,
-    }
-
-
-def calculate_pair(context, driver_id, target_id, pit_loss, kind):
+def calculate_pair(context, driver_id, target_id, pit_loss, kind, new_compound=None):
     driver, target = context.driver(driver_id), context.driver(target_id)
     own_pace = get_recent_pace(context, driver_id)
     target_pace = get_recent_pace(context, target_id)
     fresh_id = driver_id if kind == "undercut" else target_id
-    fresh = fresh_tyre_evidence(context, fresh_id, pit_loss)
+    fresh = estimate_fresh_tyre_delta(context, fresh_id, pit_loss, new_compound)
     rejoin = predict_pit_rejoin(fresh_id, context.state, pit_loss)
     traffic = analyze_traffic(context, driver_id)
     tyres = analyze_tyres(context, driver_id)
@@ -68,7 +32,11 @@ def calculate_pair(context, driver_id, target_id, pit_loss, kind):
             "target_recent_pace": target_pace.seconds,
             "driver_degradation": tyres.degradation_sec_per_lap,
             "driver_tyre_confidence": tyres.confidence,
-            "fresh_tyre_evidence": fresh,
+            "driver_recent_relative_pace_delta": tyres.recent_pace_delta,
+            "driver_candidate_normalized_slope": tyres.components.get(
+                "candidate_normalized_slope_sec_per_lap"
+            ),
+            "fresh_tyre_evidence": fresh.model_dump(),
             "pit_loss_seconds_each": pit_loss.total_seconds,
             "pit_loss_difference_seconds": 0 if pit_loss.total_seconds is not None else None,
             "rejoin": rejoin.model_dump(),
@@ -76,16 +44,18 @@ def calculate_pair(context, driver_id, target_id, pit_loss, kind):
             "offset_laps": 1,
             "decision_band_seconds": 0.5,
         },
+        fresh_tyre=fresh,
         warnings=[
             "Conditional clean-lap margin, not a probability or a pit recommendation.",
             "Fresh-used difference also contains compound, fuel and traffic effects; "
             "transfer is uncertain.",
-            "Unmeasured out-lap warm-up and unequal stop execution can reverse the margin.",
+            "The out-lap is excluded; first-full-lap warm-up, traffic and unequal stop "
+            "execution can still reverse the margin.",
         ],
         conditions_required=[
             "Both cars make equal normal green-flag stops, separated by one racing lap.",
             "Observed fresh-used pace difference transfers to the proposed tyre change.",
-            "No additional warm-up loss, overtakes, neutralisation "
+            "No additional out-lap/warm-up loss, overtakes, neutralisation "
             "or gap evolution beyond the offset.",
         ],
     )
@@ -101,7 +71,7 @@ def calculate_pair(context, driver_id, target_id, pit_loss, kind):
     if (
         own_pace.seconds is None
         or target_pace.seconds is None
-        or fresh["gain_seconds"] is None
+        or fresh.fresh_tyre_delta is None
         or pit_loss.total_seconds is None
         or rejoin.projected_position is None
     ):
@@ -109,9 +79,9 @@ def calculate_pair(context, driver_id, target_id, pit_loss, kind):
             "Insufficient current pace, fresh-tyre evidence or complete rejoin geometry."
         )
         return result
-    fresh_pace = (own_pace.seconds if kind == "undercut" else target_pace.seconds) - fresh[
-        "gain_seconds"
-    ]
+    fresh_pace = (
+        own_pace.seconds if kind == "undercut" else target_pace.seconds
+    ) - fresh.fresh_tyre_delta
     penalty = blockage_penalty(context, rejoin.ahead_id, rejoin.gap_ahead, fresh_pace, True)
     own_penalty = blockage_penalty(
         context, traffic.ahead_id, traffic.gap_ahead, own_pace.seconds, traffic.status != "UNKNOWN"
@@ -119,7 +89,7 @@ def calculate_pair(context, driver_id, target_id, pit_loss, kind):
     if penalty is None or (kind == "overcut" and own_penalty is None):
         result.warnings.append("Missing neighbour pace prevents a traffic-adjusted margin.")
         return result
-    result.estimated_fresh_tyre_gain = fresh["gain_seconds"]
+    result.estimated_fresh_tyre_gain = fresh.fresh_tyre_delta
     result.traffic_penalty = penalty
     result.components.update(
         {
@@ -143,9 +113,9 @@ def calculate_pair(context, driver_id, target_id, pit_loss, kind):
     return result
 
 
-def calculate_undercut(context, attacker, target, pit_loss):
-    return calculate_pair(context, attacker, target, pit_loss, "undercut")
+def calculate_undercut(context, attacker, target, pit_loss, new_compound=None):
+    return calculate_pair(context, attacker, target, pit_loss, "undercut", new_compound)
 
 
-def calculate_overcut(context, driver, opponent, pit_loss):
-    return calculate_pair(context, driver, opponent, pit_loss, "overcut")
+def calculate_overcut(context, driver, opponent, pit_loss, new_compound=None):
+    return calculate_pair(context, driver, opponent, pit_loss, "overcut", new_compound)

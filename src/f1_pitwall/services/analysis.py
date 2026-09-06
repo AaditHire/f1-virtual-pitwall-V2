@@ -46,15 +46,18 @@ class AnalysisService:
     async def analyze_traffic(self, year, round, lap, driver_id):
         return (await self.analyze_driver(year, round, lap, driver_id)).traffic
 
-    async def analyze_undercut(self, year, round, lap, attacker, target):
+    async def analyze_undercut(self, year, round, lap, attacker, target, new_compound=None):
         return await self._run(
             year,
             round,
             lap,
-            lambda c: calculate_undercut(c, attacker, target, estimate_pit_loss(c)),
+            lambda c: calculate_undercut(c, attacker, target, estimate_pit_loss(c), new_compound),
         )
 
-    async def analyze_overcut(self, year, round, lap, driver, target):
+    async def analyze_overcut(self, year, round, lap, driver, target, new_compound=None):
         return await self._run(
-            year, round, lap, lambda c: calculate_overcut(c, driver, target, estimate_pit_loss(c))
+            year,
+            round,
+            lap,
+            lambda c: calculate_overcut(c, driver, target, estimate_pit_loss(c), new_compound),
         )

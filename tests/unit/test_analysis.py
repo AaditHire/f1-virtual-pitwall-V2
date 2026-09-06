@@ -19,6 +19,7 @@ from f1_pitwall.main import create_app
 from f1_pitwall.providers.fastf1 import normalize_lap_validity
 from f1_pitwall.services.analysis import analyze_driver
 from f1_pitwall.services.analysis_context import AnalysisContext
+from f1_pitwall.services.fresh_tyre import estimate_fresh_tyre_delta
 from f1_pitwall.services.pace import analyze_tyres, get_clean_laps, get_recent_pace, get_stint_pace
 from f1_pitwall.services.pair_analysis import calculate_overcut, calculate_undercut
 from f1_pitwall.services.pit_analysis import estimate_pit_loss, find_pit_window, predict_pit_rejoin
@@ -36,7 +37,7 @@ def history():
         circuit=Circuit(id="synthetic", name="Synthetic"),
     )
     people, laps, timing, stints, pits = [], [], [], [], []
-    for i in range(4):
+    for i in range(6):
         identity = f"d{i}"
         people.append(Participant(driver=Driver(id=identity, first_name="Test", last_name=str(i))))
         timing.append(
@@ -100,13 +101,13 @@ def history():
             )
     # Current-gap observations are independent delta packets at a common clock.
     for lap in [r for r in laps if r.driver_id == "d0"]:
-        for i, gap in enumerate((0, 2, 10, 40)):
+        for i, gap in enumerate((0, 2, 10, 40, 60, 80)):
             timing.append(
                 TimingSample(
                     driver_id=f"d{i}",
                     at=lap.completed_at - 0.01,
                     gap_to_leader=gap,
-                    gap_to_ahead=(0, 2, 8, 30)[i],
+                    gap_to_ahead=(0, 2, 8, 30, 20, 20)[i],
                 )
             )
     return HistoricalRace(
@@ -125,9 +126,12 @@ def history():
 def test_pace_medians_and_robust_stint_trend(history):
     context = AnalysisContext(history, 22)
     tyre = analyze_tyres(context, "d0")
-    assert tyre.degradation_sec_per_lap == pytest.approx(0.2)
-    assert tyre.recent_trend_sec_per_lap == pytest.approx(0.2)
-    assert tyre.confidence == "MEDIUM"
+    assert tyre.degradation_sec_per_lap == 0
+    assert tyre.expected_3_lap_pace_loss == 0
+    assert tyre.expected_5_lap_pace_loss == 0
+    assert tyre.components["candidate_raw_slope_sec_per_lap"] == pytest.approx(0.2)
+    assert tyre.recent_trend_sec_per_lap == pytest.approx(0)
+    assert tyre.confidence == "LOW"
     assert tyre.stint_number == 2 and tyre.tyre_age == 12
     assert get_recent_pace(context, "d0").seconds == pytest.approx(102.2)
     assert get_stint_pace(context, "d0").sample_count == 12
@@ -136,7 +140,9 @@ def test_pace_medians_and_robust_stint_trend(history):
     row.lap_time_seconds += 1.5
     changed = AnalysisContext(history, 22)
     assert 16 in [r.number for r in get_clean_laps(changed, "d0")]
-    assert analyze_tyres(changed, "d0").degradation_sec_per_lap == pytest.approx(0.2)
+    changed_tyre = analyze_tyres(changed, "d0")
+    assert changed_tyre.degradation_sec_per_lap == 0
+    assert changed_tyre.components["candidate_raw_slope_sec_per_lap"] == pytest.approx(0.2)
 
 
 @pytest.mark.parametrize("lap", [1, 3, 11, 13])
@@ -145,6 +151,14 @@ def test_young_stint_is_insufficient(history, lap):
     assert result.confidence == "INSUFFICIENT"
     assert result.degradation_sec_per_lap is None
     assert result.estimated_competitive_life_laps is None
+
+
+def test_normalized_forecast_requires_five_other_clean_drivers(history):
+    history.participants = history.participants[:5]
+    result = analyze_tyres(AnalysisContext(history, 22), "d0")
+    assert result.confidence == "INSUFFICIENT"
+    assert result.degradation_sec_per_lap is None
+    assert result.reference_coverage == 0
 
 
 def test_clean_filter_pits_flags_invalid_and_extreme_anomaly(history):
@@ -163,7 +177,7 @@ def test_pit_loss_completed_evidence_and_unknown_components(history):
     early = estimate_pit_loss(AnalysisContext(history, 11))
     assert early.total_seconds is None and early.sample_count == 0
     later = estimate_pit_loss(AnalysisContext(history, 22))
-    assert later.sample_count == 4
+    assert later.sample_count == 6
     # Independently: pit lap=122; mean(pre median101.6, post median100.4)=101.
     assert later.total_seconds == pytest.approx(21)
     assert later.transit_seconds is None and later.stationary_seconds is None
@@ -229,7 +243,8 @@ def test_pair_formulas_include_cost_cancellation_and_traffic(history):
         assert result.confidence == "LOW"
         assert result.required_gain == 2
         assert result.components["pit_loss_difference_seconds"] == 0
-        assert result.components["fresh_tyre_evidence"]["warm_up_delta_seconds"] is None
+        assert result.components["fresh_tyre_evidence"]["warm_up_delta_seconds"] == 0
+        assert result.fresh_tyre.sample_count == 6
         assert result.estimated_margin is not None and result.conditions_required
     assert under.estimated_margin == pytest.approx(
         under.components["target_recent_pace"]
@@ -243,6 +258,19 @@ def test_pair_formulas_include_cost_cancellation_and_traffic(history):
         + over.traffic_penalty
         - over.components["driver_current_traffic_penalty"]
         - 2
+    )
+
+
+def test_fresh_tyre_delta_is_normalized_empirical_evidence(history):
+    context = AnalysisContext(history, 22)
+    result = estimate_fresh_tyre_delta(context, "d1", estimate_pit_loss(context), "MEDIUM")
+    assert result.sample_count == 6
+    assert result.components["transition_exact"] is True
+    assert result.fresh_tyre_delta == pytest.approx(0)
+    assert result.warm_up_delta_seconds == pytest.approx(0)
+    assert result.confidence == "LOW"  # Held-out error does not justify stronger confidence.
+    assert all(
+        sample["evidence_available_at"] <= context.cutoff for sample in result.components["samples"]
     )
 
 
@@ -350,8 +378,13 @@ async def test_analysis_api_all_routes_errors_and_shared_replay(history):
             for kind, query in (("undercut", "attacker=d1"), ("overcut", "driver=d1")):
                 response = await client.get(f"{prefix}/{kind}?{query}&target=d0")
                 assert response.status_code == 200 and response.json()["kind"] == kind
+                response = await client.get(
+                    f"{prefix}/{kind}?{query}&target=d0&new_compound=medium"
+                )
+                assert response.status_code == 200
+                assert response.json()["fresh_tyre"]["new_compound"] == "MEDIUM"
             assert (await client.get(f"{prefix}/drivers/missing")).status_code == 404
             assert (await client.get("/api/v1/analysis/2024/1/999/drivers/d1")).status_code == 404
             assert (await client.get("/api/v1/analysis/2024/1/0/drivers/d1")).status_code == 422
             assert (await client.get(f"{prefix}/undercut?attacker=d1")).status_code == 422
-        assert loader.await_count == 7  # Exactly one replay lookup per valid/path-resolved request.
+        assert loader.await_count == 9  # Exactly one replay lookup per valid/path-resolved request.

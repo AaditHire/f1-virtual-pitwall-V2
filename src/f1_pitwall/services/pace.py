@@ -1,5 +1,6 @@
 """Robust descriptive pace and current-stint trends; all inputs are causal."""
 
+from collections import defaultdict
 from statistics import median
 
 from f1_pitwall.domain.analysis import PaceAnalysis, TyreAnalysis
@@ -35,92 +36,113 @@ def get_stint_pace(context: AnalysisContext, driver_id: str):
     return pace_result(context.stint_laps(driver_id), "Median current-stint clean lap time")
 
 
-def robust_line(rows):
+def field_reference(context: AnalysisContext, excluded_driver: str):
+    """Leave-one-driver-out race-lap medians from at least five other clean cars."""
+    by_lap = defaultdict(list)
+    for identity, rows in context.clean.items():
+        if identity == excluded_driver:
+            continue
+        for row in rows:
+            by_lap[row.number].append(row.lap_time_seconds)
+    return {lap: median(values) for lap, values in by_lap.items() if len(values) >= 5}
+
+
+def normalized_lap_times(
+    context: AnalysisContext, driver_id: str, lap_numbers=None, current_stint=True
+):
+    reference = field_reference(context, driver_id)
+    rows = context.stint_laps(driver_id) if current_stint else context.clean[driver_id]
+    selected = set(lap_numbers) if lap_numbers is not None else None
+    return [
+        (row.number, row.lap_time_seconds - reference[row.number])
+        for row in rows
+        if row.number in reference and (selected is None or row.number in selected)
+    ]
+
+
+def robust_line(rows, x=lambda row: row.number, y=lambda row: row.lap_time_seconds):
     slopes = [
-        (b.lap_time_seconds - a.lap_time_seconds) / (b.number - a.number)
+        (y(b) - y(a)) / (x(b) - x(a))
         for index, a in enumerate(rows)
         for b in rows[index + 1 :]
+        if x(b) != x(a)
     ]
     slope = median(slopes)
-    intercept = median(r.lap_time_seconds - slope * r.number for r in rows)
-    residual = median(abs(r.lap_time_seconds - intercept - slope * r.number) for r in rows)
+    intercept = median(y(row) - slope * x(row) for row in rows)
+    residual = median(abs(y(row) - intercept - slope * x(row)) for row in rows)
     return slope, intercept, residual, slopes
 
 
 def analyze_tyres(context: AnalysisContext, driver_id: str):
     driver = context.driver(driver_id)
     rows = context.stint_laps(driver_id)
+    normalized = normalized_lap_times(context, driver_id)
     result = TyreAnalysis(
         driver_id=driver_id,
         compound=driver.compound,
         stint_number=driver.stint_number,
         tyre_age=driver.tyre_age,
-        sample_count=len(rows),
-        method="Theil-Sen median pairwise slope against completed lap number",
+        sample_count=len(normalized),
+        reference_coverage=len(normalized) / len(rows) if rows else None,
+        method="Zero-slope short-horizon forecast relative to leave-one-driver-out field pace",
         components={
             "lap_numbers": [r.number for r in rows],
             "lap_times": [r.lap_time_seconds for r in rows],
+            "normalized_lap_numbers": [number for number, _ in normalized],
+            "normalized_pace_seconds": [value for _, value in normalized],
             "tyre_age_observed_at": driver.tyre_age_observed_at,
-            "fuel_correction_sec_per_lap": None,
-            "competitive_loss_threshold_seconds": 2.0,
+            "reference_minimum_other_drivers": 5,
+            "forecast_target": "Pace change relative to contemporaneous field median",
+            "selected_model": "zero_slope",
+            "validation_samples": 1278,
+            "validation_mae_seconds": 0.506,
         },
         warnings=[
-            "Net observed pace trend, not isolated tyre wear: fuel, traffic and track evolution "
-            "are unmeasured. No invented fuel correction is applied.",
+            "Historical holdouts did not support a fitted degradation trend; zero expected "
+            "relative loss is a conservative forecast assumption, not evidence of zero wear.",
             "Only explicitly identified lap deletions are filtered; "
             "absence is not proof of validity.",
         ],
     )
-    if len(rows) < 5 or rows[-1].number - rows[0].number < 4:
-        result.warnings.append("Need five clean laps spanning at least four laps in this stint.")
+    if len(normalized) < 5 or normalized[-1][0] - normalized[0][0] < 4:
+        result.warnings.append(
+            "Need five reference-covered clean laps spanning at least four laps in this stint."
+        )
         return result
-    slope, intercept, residual, slopes = robust_line(rows)
-    result.degradation_sec_per_lap = slope
-    result.recent_trend_sec_per_lap = robust_line(rows[-5:])[0]
-    result.recent_pace_delta = median(r.lap_time_seconds for r in rows[-3:]) - median(
-        r.lap_time_seconds for r in rows[:3]
+    raw_slope, raw_intercept, raw_residual, raw_slopes = robust_line(rows)
+    normalized_slope, intercept, residual, slopes = robust_line(
+        normalized, x=lambda point: point[0], y=lambda point: point[1]
+    )
+    recent = normalized[-5:]
+    result.degradation_sec_per_lap = 0.0
+    result.expected_3_lap_pace_loss = 0.0
+    result.expected_5_lap_pace_loss = 0.0
+    result.recent_trend_sec_per_lap = robust_line(
+        recent, x=lambda point: point[0], y=lambda point: point[1]
+    )[0]
+    result.recent_pace_delta = median(value for _, value in normalized[-3:]) - median(
+        value for _, value in normalized[:3]
     )
     stale = (driver.laps_completed or 0) - rows[-1].number > 2
-    result.confidence = (
-        "MEDIUM"
-        if len(rows) >= 8
-        and rows[-1].number - rows[0].number >= 7
-        and residual <= 0.7
-        and not stale
-        else "LOW"
-    )
+    result.confidence = "LOW"
     result.components.update(
         {
             "intercept_seconds": intercept,
             "residual_mad_seconds": residual,
             "slope_lower_quartile": sorted(slopes)[len(slopes) // 4],
             "last_clean_lap": rows[-1].number,
+            "candidate_raw_slope_sec_per_lap": raw_slope,
+            "candidate_raw_intercept_seconds": raw_intercept,
+            "candidate_raw_residual_mad_seconds": raw_residual,
+            "candidate_raw_slope_lower_quartile": sorted(raw_slopes)[len(raw_slopes) // 4],
+            "candidate_normalized_slope_sec_per_lap": normalized_slope,
+            "candidate_recent_normalized_slope_sec_per_lap": result.recent_trend_sec_per_lap,
         }
     )
-    # This is a bounded illustrative tyre-life threshold, not a strategy horizon.
-    lower = sorted(slopes)[len(slopes) // 4]
-    age_is_recent = (
-        driver.tyre_age_observed_at is not None
-        and sum(
-            r.completed_at > driver.tyre_age_observed_at for r in context.rows[driver_id].values()
-        )
-        <= 1
+    result.warnings.append(
+        "Raw and normalized fitted slopes are diagnostic components only; competitive life "
+        "is unavailable because no fitted candidate beat zero-slope validation."
     )
-    remaining = (2.0 - result.recent_pace_delta) / slope if slope > 0 else None
-    if (
-        result.confidence == "MEDIUM"
-        and lower > 0
-        and remaining is not None
-        and 0 <= remaining <= rows[-1].number - rows[0].number
-        and driver.tyre_age is not None
-        and age_is_recent
-    ):
-        result.estimated_competitive_life_laps = driver.tyre_age + remaining
-        result.warnings.append(
-            "Life is an illustrative age at +2s versus early stint, not tyre failure."
-        )
-    else:
-        result.warnings.append("Competitive life unsupported by a stable positive, bounded trend.")
     if stale:
         result.warnings.append("Most recent clean lap is more than two completed laps old.")
     return result

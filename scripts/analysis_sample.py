@@ -27,7 +27,7 @@ async def main(year, round, lap, driver_code, target_code):
 
         print(f"Driver: {driver_code} | {year} {race.event.name} | Lap {lap}")
         print(
-            f"Tyre: {tyre.compound}, age {tyre.tyre_age}, net trend "
+            f"Tyre: {tyre.compound}, age {tyre.tyre_age}, selected relative forecast "
             f"{number(tyre.degradation_sec_per_lap)} s/lap ({tyre.confidence}), "
             f"{tyre.sample_count} clean laps"
         )
@@ -48,7 +48,7 @@ async def main(year, round, lap, driver_code, target_code):
                 f"{pair.opportunity} ({pair.confidence})"
             )
         print(
-            "Conditional clean-lap margins; warm-up and unequal stops unmeasured. "
+            "Conditional clean-lap margins; out-lap and unequal stops unmeasured. "
             "No recommendation."
         )
 

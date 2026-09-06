@@ -1,5 +1,7 @@
 # Deterministic analysis — Phase 3
 
+> Phase 3B calibration supersedes the production tyre and fresh-tyre sections below. See [Phase 3B analysis calibration](analysis-calibration.md) for the selected zero-slope relative-pace forecast, normalized fresh-tyre estimator, chronological holdouts, pair confusion matrices, and expanded rejoin validation. This document retains the original Phase 3 method and baseline results for traceability.
+
 The engine answers engineering questions at an observed replay instant. It does not rank strategies, recommend a stop, predict finishing positions, simulate a race, or use ML/LLMs. All seconds are race/archive-relative, and positive pair margins mean the named driver would be ahead **under the stated assumptions**.
 
 ## Boundary and architecture

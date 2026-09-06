@@ -23,10 +23,26 @@ async def traffic(year: Year, round: Round, lap: Lap, driver_id: str, h: H):
 
 
 @router.get("/{year}/{round}/{lap}/undercut", response_model=PairAnalysis)
-async def undercut(year: Year, round: Round, lap: Lap, attacker: str, target: str, h: H):
-    return await h.analysis.analyze_undercut(year, round, lap, attacker, target)
+async def undercut(
+    year: Year,
+    round: Round,
+    lap: Lap,
+    attacker: str,
+    target: str,
+    h: H,
+    new_compound: str | None = None,
+):
+    return await h.analysis.analyze_undercut(year, round, lap, attacker, target, new_compound)
 
 
 @router.get("/{year}/{round}/{lap}/overcut", response_model=PairAnalysis)
-async def overcut(year: Year, round: Round, lap: Lap, driver: str, target: str, h: H):
-    return await h.analysis.analyze_overcut(year, round, lap, driver, target)
+async def overcut(
+    year: Year,
+    round: Round,
+    lap: Lap,
+    driver: str,
+    target: str,
+    h: H,
+    new_compound: str | None = None,
+):
+    return await h.analysis.analyze_overcut(year, round, lap, driver, target, new_compound)

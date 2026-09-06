@@ -32,6 +32,18 @@ class TyreAnalysis(Evidence):
     recent_trend_sec_per_lap: float | None = None
     recent_pace_delta: float | None = None
     estimated_competitive_life_laps: float | None = None
+    expected_3_lap_pace_loss: float | None = None
+    expected_5_lap_pace_loss: float | None = None
+    reference_coverage: float | None = None
+    sample_count: int = 0
+
+
+class FreshTyreAnalysis(Evidence):
+    driver_id: str
+    old_compound: str | None = None
+    new_compound: str | None = None
+    fresh_tyre_delta: float | None = None
+    warm_up_delta_seconds: float | None = None
     sample_count: int = 0
 
 
@@ -86,6 +98,7 @@ class PairAnalysis(Evidence):
     estimated_margin: float | None = None
     opportunity: Literal["YES", "MARGINAL", "NO", "UNKNOWN"] = "UNKNOWN"
     conditions_required: list[str] = Field(default_factory=list)
+    fresh_tyre: FreshTyreAnalysis | None = None
 
 
 class DriverAnalysis(BaseModel):

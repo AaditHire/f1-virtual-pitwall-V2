@@ -1,7 +1,8 @@
-"""Historical holdout evaluation ONLY: future records are labels, never model inputs.
+"""Original Phase 3 historical holdouts; retained for baseline traceability.
 
 Run: python scripts/evaluate_analysis.py --output docs/analysis-validation.json
 No thresholds are fitted here. Local normalized archives can be reused with --cached.
+Use calibrate_analysis.py for the current Phase 3B model comparison.
 """
 
 import argparse

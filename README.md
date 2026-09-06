@@ -113,3 +113,5 @@ Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/analysis/2023/14/19/overcut?driv
 ```
 
 See [analysis methods, confidence and validation](docs/analysis.md). Historical evaluation uses later laps only as labels, outside the runtime engine. The tyre trend did **not** outperform the zero-slope baseline in the recorded evaluation.
+
+Phase 3B therefore selects a LOW-confidence zero-slope relative-pace forecast while exposing fitted slopes as diagnostics. It also replaces the raw fresh-tyre estimate with a leave-one-driver-out field-normalized estimate that improved on later 2024 holdouts. See the [Phase 3B calibration report](docs/analysis-calibration.md).
