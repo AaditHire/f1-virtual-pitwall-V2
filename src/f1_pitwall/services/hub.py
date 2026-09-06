@@ -10,6 +10,7 @@ from f1_pitwall.providers.http import ProviderHTTP
 from f1_pitwall.providers.jolpica import Jolpica
 from f1_pitwall.providers.news import RSSProvider
 from f1_pitwall.providers.openf1 import OpenF1
+from f1_pitwall.services.analysis import AnalysisService
 from f1_pitwall.services.calendar import CalendarService
 from f1_pitwall.services.news import NewsService
 from f1_pitwall.services.replay import ReplayService
@@ -29,6 +30,7 @@ class Hub:
         self.replay = ReplayService(
             self.seasons, self.jolpica, FastF1Provider(settings), settings.replay_cache_size
         )
+        self.analysis = AnalysisService(self.replay)
         self.news = NewsService(
             [
                 RSSProvider(ProviderHTTP(name, client, settings), url)

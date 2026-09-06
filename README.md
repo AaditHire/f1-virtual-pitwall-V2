@@ -95,4 +95,21 @@ Optional configuration: `F1_REPLAY_CACHE_DIR` (default `.cache/fastf1`) and `F1_
 
 Add `--replay-only` to the smoke command to exercise only health and replay endpoints. This avoids unrelated homepage providers; the full regression tests still run separately. OpenF1 may require authentication globally during live F1 sessions, which can temporarily block existing Phase 1 network checks.
 
-See [replay semantics and limitations](docs/replay.md) and the [full-grid example](docs/replay-sample.md). No strategy, tyre degradation, simulation or Phase 3 features are included.
+See [replay semantics and limitations](docs/replay.md) and the [full-grid example](docs/replay-sample.md).
+
+## Deterministic analysis (Phase 3)
+
+Analysis uses the same cached replay, filtered at the requested leader-lap cutoff. It exposes clean pace, current-stint tyre trends, observed pit loss, approximate rejoin geometry, traffic, and conditional undercut/overcut margins with evidence and confidence. Missing evidence returns null and warnings. No strategy recommendations or future-race simulation are included.
+
+```powershell
+Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/analysis/2023/14/19/drivers/f1:CHALEC01'
+Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/analysis/2023/14/19/drivers/f1:CHALEC01/tyres'
+Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/analysis/2023/14/19/drivers/f1:CHALEC01/traffic'
+Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/analysis/2023/14/19/undercut?attacker=f1:CHALEC01&target=f1:CARSAI01'
+Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/analysis/2023/14/19/overcut?driver=f1:CHALEC01&target=f1:CARSAI01'
+.venv\Scripts\python scripts/analysis_sample.py 2023 14 19 LEC SAI
+.venv\Scripts\python scripts/smoke.py --analysis 2023 14 19
+.venv\Scripts\python scripts/evaluate_analysis.py --output docs/analysis-validation.json
+```
+
+See [analysis methods, confidence and validation](docs/analysis.md). Historical evaluation uses later laps only as labels, outside the runtime engine. The tyre trend did **not** outperform the zero-slope baseline in the recorded evaluation.

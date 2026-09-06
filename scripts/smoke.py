@@ -23,7 +23,23 @@ def fetch_replay(get, replay):
     return snapshot
 
 
-def main(replay: tuple[int, int, int] | None = None, replay_only: bool = False):
+def fetch_analysis(get, selection):
+    year, round, lap = selection
+    snapshot = get(f"/api/v1/replay/{year}/{round}/{lap}")
+    first, second = snapshot["drivers"][:2]
+    driver, target = second["driver"]["id"], first["driver"]["id"]
+    prefix = f"/api/v1/analysis/{year}/{round}/{lap}"
+    aggregate = get(f"{prefix}/drivers/{driver}")
+    for part in ("tyres", "traffic"):
+        assert get(f"{prefix}/drivers/{driver}/{part}") == aggregate[part]
+    undercut = get(f"{prefix}/undercut?attacker={driver}&target={target}")
+    overcut = get(f"{prefix}/overcut?driver={driver}&target={target}")
+    assert aggregate["lap"] == lap and undercut["kind"] == "undercut"
+    assert overcut["kind"] == "overcut"
+    return {"driver": aggregate, "undercut": undercut, "overcut": overcut}
+
+
+def main(replay: tuple[int, int, int] | None = None, replay_only: bool = False, analysis=None):
     with socket.socket() as sock:
         sock.bind(("127.0.0.1", 0))
         port = sock.getsockname()[1]
@@ -61,6 +77,11 @@ def main(replay: tuple[int, int, int] | None = None, replay_only: bool = False):
                     response = client.get(path)
                     response.raise_for_status()
                     return response.json()
+
+                if analysis:
+                    report = {"health": get("/health"), "analysis": fetch_analysis(get, analysis)}
+                    print(json.dumps(report, indent=2, ensure_ascii=True), flush=True)
+                    return
 
                 if replay_only:
                     report = {
@@ -120,7 +141,18 @@ if __name__ == "__main__":
     parser.add_argument(
         "--replay-only", action="store_true", help="Test replay without the homepage providers"
     )
+    parser.add_argument(
+        "--analysis",
+        nargs=3,
+        type=int,
+        metavar=("YEAR", "ROUND", "LAP"),
+        help="Smoke all five Phase 3 routes against a real historical replay",
+    )
     arguments = parser.parse_args()
     if arguments.replay_only and not arguments.replay:
         parser.error("--replay-only requires --replay YEAR ROUND LAP")
-    main(tuple(arguments.replay) if arguments.replay else None, arguments.replay_only)
+    main(
+        tuple(arguments.replay) if arguments.replay else None,
+        arguments.replay_only,
+        tuple(arguments.analysis) if arguments.analysis else None,
+    )

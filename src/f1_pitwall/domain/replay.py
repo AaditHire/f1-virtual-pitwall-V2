@@ -69,6 +69,13 @@ class ControlSample(BaseModel):
     total_scheduled_laps: int | None = None
 
 
+class LapValidity(BaseModel):
+    driver_id: str
+    lap_number: int = Field(ge=1)
+    at: float
+    valid: bool
+
+
 class HistoricalRace(BaseModel):
     event: Event
     session: Session
@@ -79,6 +86,7 @@ class HistoricalRace(BaseModel):
     stints: list[Stint]
     pit_stops: list[PitStop]
     control: list[ControlSample]
+    lap_validity: list[LapValidity] = Field(default_factory=list)
     source: str = "fastf1-live-timing-archive"
 
 

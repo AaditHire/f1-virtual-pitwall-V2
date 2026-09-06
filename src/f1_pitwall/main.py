@@ -4,6 +4,7 @@ import httpx
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
+from f1_pitwall.api.analysis import router as analysis_router
 from f1_pitwall.api.replay import router as replay_router
 from f1_pitwall.api.routes import router
 from f1_pitwall.core.config import Settings
@@ -47,6 +48,7 @@ def create_app(settings: Settings | None = None, transport: httpx.AsyncBaseTrans
 
     app.include_router(router)
     app.include_router(replay_router)
+    app.include_router(analysis_router)
     return app
 
 
