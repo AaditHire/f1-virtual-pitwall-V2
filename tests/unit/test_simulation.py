@@ -9,7 +9,9 @@ from test_strategy import strategy_history
 from f1_pitwall.domain.replay import LapValidity, PitStop
 from f1_pitwall.main import create_app
 from f1_pitwall.services.analysis_context import AnalysisContext
+from f1_pitwall.services.predictive_pace import estimate_multi_lap_relative_pace
 from f1_pitwall.services.simulation import (
+    _circuit_profile,
     build_short_horizon_state,
     compare_counterfactual_actions,
     simulate_action,
@@ -21,6 +23,9 @@ def test_minimal_state_and_independent_one_three_five_lap_outcomes(analysis_hist
     state = build_short_horizon_state(context, "d0")
     assert state.active and state.current_position == 1
     assert state.relative_pace_laps
+    assert state.gap_kind == "TIME"
+    assert state.laps_behind == 0
+    assert state.pit_stops_completed >= 0
     assert not hasattr(state, "pit_loss")
 
     pit = simulate_action(context, "d0", "PIT_NOW_HARD")
@@ -43,11 +48,38 @@ def test_minimal_state_and_independent_one_three_five_lap_outcomes(analysis_hist
     assert pit_components["combined_observed_stop_lap_residual_seconds"] is not None
     assert pit_components["stationary_seconds"] is None
     assert pit.outcomes[-1].components["nearby_car_projection"]
+    assert all(row.components["pit_transition_ridge_applied"] for row in pit.outcomes)
+    assert all(not row.components["pit_transition_ridge_applied"] for row in extend.outcomes)
     assert any(
         row["initial_gap"] != row["projected_gap"]
         for row in pit.outcomes[-1].components["nearby_car_projection"]
         if row["relative_pace"] is not None and row["relative_pace"] != 0
     )
+    nearby = pit.outcomes[-1].components["nearby_car_projection"][0]
+    assert {
+        "pace_uncertainty_seconds_per_lap",
+        "compound",
+        "tyre_age",
+        "traffic_state",
+        "pit_stops_completed",
+        "expected_remaining_stop_obligation",
+        "pit_cycle_target_stops",
+        "gap_kind",
+    } <= nearby.keys()
+    assert pit.outcomes[-1].components["lap_by_lap_projection"][0]["nearby_states"]
+
+
+def test_lapped_driver_preserves_lap_deficit_without_inventing_time_gap(analysis_history):
+    race = strategy_history(analysis_history).model_copy(deep=True)
+    cutoff = AnalysisContext(race, 22).cutoff
+    samples = [row for row in race.timing if row.driver_id == "d1" and row.at <= cutoff]
+    latest = max(samples, key=lambda row: row.at)
+    latest.gap_to_leader = None
+    latest.laps_behind = 1
+    state = build_short_horizon_state(AnalysisContext(race, 22), "d1")
+    assert state.gap_kind == "LAP_DEFICIT"
+    assert state.laps_behind == 1
+    assert state.gap_to_leader is None
 
 
 def test_common_snapshot_comparison_holds_when_uncertainty_overlaps(analysis_history):
@@ -94,6 +126,7 @@ def test_simulation_is_independent_of_future_mutation_and_removal(analysis_histo
     race = strategy_history(analysis_history)
     context = AnalysisContext(race, 22)
     baseline = simulation_output(race)
+    pace_baseline = estimate_multi_lap_relative_pace(context, "d0")
     assert simulation_output(context.race) == baseline
 
     changed = race.model_copy(deep=True)
@@ -113,6 +146,23 @@ def test_simulation_is_independent_of_future_mutation_and_removal(analysis_histo
         LapValidity(driver_id="d0", lap_number=30, at=context.cutoff + 1, valid=False)
     )
     assert simulation_output(changed) == baseline
+    assert (
+        estimate_multi_lap_relative_pace(AnalysisContext(changed, 22), "d0")
+        == pace_baseline
+    )
+
+
+def test_frozen_circuit_prior_is_available_only_after_source_year(analysis_history):
+    same_year = strategy_history(analysis_history).model_copy(deep=True)
+    same_year.event.year = 2023
+    same_year.event.circuit.id = "bahrain"
+    assert _circuit_profile(AnalysisContext(same_year, 22))["source"] == "current_session_prefix"
+
+    later_year = same_year.model_copy(deep=True)
+    later_year.event.year = 2024
+    profile = _circuit_profile(AnalysisContext(later_year, 22))
+    assert profile["source"] == "frozen_chronological_development_history"
+    assert profile["source_year"] == 2023
 
 
 async def test_simulation_api_get_post_and_errors(analysis_history):

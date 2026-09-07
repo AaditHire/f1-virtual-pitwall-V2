@@ -13,6 +13,8 @@ class ShortHorizonState(BaseModel):
     current_position: int | None = None
     field_size: int
     gap_to_leader: float | None = None
+    gap_kind: Literal["TIME", "LAP_DEFICIT", "UNKNOWN"] = "UNKNOWN"
+    laps_behind: int | None = None
     compound: str | None = None
     tyre_age: float | None = None
     relative_pace_seconds_per_lap: float | None = None
@@ -20,6 +22,7 @@ class ShortHorizonState(BaseModel):
     pit_state: Literal["ON_TRACK", "IN_PIT", "TERMINAL", "UNKNOWN"]
     traffic: TrafficLevel = "UNKNOWN"
     laps_completed: int | None = None
+    pit_stops_completed: int = 0
     active: bool
     data_quality: dict[str, Any] = Field(default_factory=dict)
 

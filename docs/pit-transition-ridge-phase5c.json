@@ -1,0 +1,1514 @@
+{
+  "model": "ridge regression benchmark; not a production dependency",
+  "features_available_at_lap_n": [
+    "phase5b raw delta",
+    "recent relative pace times horizon",
+    "causal pit-loss estimate",
+    "causal warm-up gain",
+    "causal traffic loss",
+    "starting position"
+  ],
+  "selection": "Train 2023 rounds 1/6, select alpha on rounds 7/15; refit all 2023; evaluate 2024 once.",
+  "checkpoints": {
+    "+1": {
+      "selected_alpha": 100.0,
+      "development_train_n": 27,
+      "development_tune_n": 25,
+      "tuning": {
+        "0.1": {
+          "n": 25,
+          "mae_seconds": 2.451,
+          "median_ae_seconds": 1.48,
+          "bias_seconds": -0.12,
+          "p90_ae_seconds": 3.687
+        },
+        "1.0": {
+          "n": 25,
+          "mae_seconds": 2.358,
+          "median_ae_seconds": 1.411,
+          "bias_seconds": -0.099,
+          "p90_ae_seconds": 3.512
+        },
+        "10.0": {
+          "n": 25,
+          "mae_seconds": 2.036,
+          "median_ae_seconds": 1.028,
+          "bias_seconds": 0.002,
+          "p90_ae_seconds": 2.91
+        },
+        "100.0": {
+          "n": 25,
+          "mae_seconds": 1.669,
+          "median_ae_seconds": 0.553,
+          "bias_seconds": 0.343,
+          "p90_ae_seconds": 2.452
+        }
+      },
+      "phase5b": {
+        "n": 73,
+        "mae_seconds": 3.224,
+        "median_ae_seconds": 0.873,
+        "bias_seconds": 1.955,
+        "p90_ae_seconds": 12.665
+      },
+      "ridge": {
+        "n": 73,
+        "mae_seconds": 2.736,
+        "median_ae_seconds": 1.272,
+        "bias_seconds": 0.722,
+        "p90_ae_seconds": 5.77
+      },
+      "mae_change_seconds": -0.488,
+      "fitted_parameters": {
+        "feature_order": [
+          "raw_delta",
+          "relative_pace_times_horizon",
+          "pit_loss",
+          "warm_up_gain",
+          "traffic_loss",
+          "starting_position_div_10"
+        ],
+        "mean": [
+          25.90555072463768,
+          1.494217391304348,
+          24.411289855072468,
+          0.0,
+          0.0,
+          0.8405797101449279
+        ],
+        "scale": [
+          1.812765479098061,
+          0.8982258982768329,
+          1.2715504127701407,
+          1.0,
+          1.0,
+          0.4515091732195097
+        ],
+        "weights_with_intercept_first": [
+          23.486434782608697,
+          0.27847450274340696,
+          0.3740970526798548,
+          0.1327099708107379,
+          0.0,
+          0.0,
+          0.48586826044394815
+        ]
+      },
+      "by_circuit": {
+        "bahrain": {
+          "phase5b": {
+            "n": 19,
+            "mae_seconds": 0.818,
+            "median_ae_seconds": 0.397,
+            "bias_seconds": -0.399,
+            "p90_ae_seconds": 1.482
+          },
+          "ridge": {
+            "n": 19,
+            "mae_seconds": 1.672,
+            "median_ae_seconds": 1.415,
+            "bias_seconds": -1.672,
+            "p90_ae_seconds": 2.838
+          }
+        },
+        "catalunya": {
+          "phase5b": {
+            "n": 21,
+            "mae_seconds": 1.825,
+            "median_ae_seconds": 0.809,
+            "bias_seconds": -0.051,
+            "p90_ae_seconds": 2.849
+          },
+          "ridge": {
+            "n": 21,
+            "mae_seconds": 1.535,
+            "median_ae_seconds": 0.86,
+            "bias_seconds": 0.494,
+            "p90_ae_seconds": 1.919
+          }
+        },
+        "monza": {
+          "phase5b": {
+            "n": 15,
+            "mae_seconds": 7.056,
+            "median_ae_seconds": 6.474,
+            "bias_seconds": 6.71,
+            "p90_ae_seconds": 15.189
+          },
+          "ridge": {
+            "n": 15,
+            "mae_seconds": 3.965,
+            "median_ae_seconds": 2.48,
+            "bias_seconds": 1.044,
+            "p90_ae_seconds": 6.769
+          }
+        },
+        "suzuka": {
+          "phase5b": {
+            "n": 17,
+            "mae_seconds": 4.217,
+            "median_ae_seconds": 1.037,
+            "bias_seconds": 2.745,
+            "p90_ae_seconds": 15.834
+          },
+          "ridge": {
+            "n": 17,
+            "mae_seconds": 4.188,
+            "median_ae_seconds": 1.136,
+            "bias_seconds": 3.141,
+            "p90_ae_seconds": 16.827
+          }
+        }
+      },
+      "by_grid_region": {
+        "P1-P5": {
+          "phase5b": {
+            "n": 28,
+            "mae_seconds": 1.681,
+            "median_ae_seconds": 0.824,
+            "bias_seconds": 0.886,
+            "p90_ae_seconds": 3.86
+          },
+          "ridge": {
+            "n": 28,
+            "mae_seconds": 1.672,
+            "median_ae_seconds": 1.161,
+            "bias_seconds": -0.249,
+            "p90_ae_seconds": 2.175
+          }
+        },
+        "P11-P15": {
+          "phase5b": {
+            "n": 17,
+            "mae_seconds": 5.187,
+            "median_ae_seconds": 1.714,
+            "bias_seconds": 4.047,
+            "p90_ae_seconds": 14.906
+          },
+          "ridge": {
+            "n": 17,
+            "mae_seconds": 4.072,
+            "median_ae_seconds": 1.405,
+            "bias_seconds": 2.246,
+            "p90_ae_seconds": 10.861
+          }
+        },
+        "P16+": {
+          "phase5b": {
+            "n": 6,
+            "mae_seconds": 8.222,
+            "median_ae_seconds": 3.535,
+            "bias_seconds": 5.944,
+            "p90_ae_seconds": 20.542
+          },
+          "ridge": {
+            "n": 6,
+            "mae_seconds": 7.852,
+            "median_ae_seconds": 2.749,
+            "bias_seconds": 6.486,
+            "p90_ae_seconds": 19.964
+          }
+        },
+        "P6-P10": {
+          "phase5b": {
+            "n": 22,
+            "mae_seconds": 2.309,
+            "median_ae_seconds": 1.019,
+            "bias_seconds": 0.609,
+            "p90_ae_seconds": 5.333
+          },
+          "ridge": {
+            "n": 22,
+            "mae_seconds": 1.662,
+            "median_ae_seconds": 1.341,
+            "bias_seconds": -0.791,
+            "p90_ae_seconds": 3.896
+          }
+        }
+      },
+      "by_traffic_level": {
+        "CLEAR_AIR": {
+          "phase5b": {
+            "n": 3,
+            "mae_seconds": 8.411,
+            "median_ae_seconds": 0.869,
+            "bias_seconds": 8.411,
+            "p90_ae_seconds": 19.228
+          },
+          "ridge": {
+            "n": 3,
+            "mae_seconds": 8.223,
+            "median_ae_seconds": 1.4,
+            "bias_seconds": 8.223,
+            "p90_ae_seconds": 17.984
+          }
+        },
+        "HEAVY_TRAFFIC": {
+          "phase5b": {
+            "n": 28,
+            "mae_seconds": 1.628,
+            "median_ae_seconds": 0.8,
+            "bias_seconds": 0.002,
+            "p90_ae_seconds": 5.225
+          },
+          "ridge": {
+            "n": 28,
+            "mae_seconds": 1.664,
+            "median_ae_seconds": 1.366,
+            "bias_seconds": -1.158,
+            "p90_ae_seconds": 2.832
+          }
+        },
+        "LIGHT_TRAFFIC": {
+          "phase5b": {
+            "n": 4,
+            "mae_seconds": 9.454,
+            "median_ae_seconds": 10.709,
+            "bias_seconds": 9.454,
+            "p90_ae_seconds": 15.23
+          },
+          "ridge": {
+            "n": 4,
+            "mae_seconds": 3.195,
+            "median_ae_seconds": 2.73,
+            "bias_seconds": -0.466,
+            "p90_ae_seconds": 4.996
+          }
+        },
+        "MODERATE_TRAFFIC": {
+          "phase5b": {
+            "n": 14,
+            "mae_seconds": 2.58,
+            "median_ae_seconds": 0.888,
+            "bias_seconds": 1.092,
+            "p90_ae_seconds": 6.806
+          },
+          "ridge": {
+            "n": 14,
+            "mae_seconds": 1.384,
+            "median_ae_seconds": 0.679,
+            "bias_seconds": 0.066,
+            "p90_ae_seconds": 3.556
+          }
+        },
+        "UNKNOWN": {
+          "phase5b": {
+            "n": 24,
+            "mae_seconds": 3.777,
+            "median_ae_seconds": 0.869,
+            "bias_seconds": 2.679,
+            "p90_ae_seconds": 14.528
+          },
+          "ridge": {
+            "n": 24,
+            "mae_seconds": 4.013,
+            "median_ae_seconds": 1.235,
+            "bias_seconds": 2.559,
+            "p90_ae_seconds": 15.437
+          }
+        }
+      },
+      "worst_cases": []
+    },
+    "+3": {
+      "selected_alpha": 100.0,
+      "development_train_n": 16,
+      "development_tune_n": 23,
+      "tuning": {
+        "0.1": {
+          "n": 23,
+          "mae_seconds": 4.126,
+          "median_ae_seconds": 3.406,
+          "bias_seconds": -0.213,
+          "p90_ae_seconds": 5.232
+        },
+        "1.0": {
+          "n": 23,
+          "mae_seconds": 3.667,
+          "median_ae_seconds": 2.803,
+          "bias_seconds": 0.085,
+          "p90_ae_seconds": 4.926
+        },
+        "10.0": {
+          "n": 23,
+          "mae_seconds": 2.829,
+          "median_ae_seconds": 1.743,
+          "bias_seconds": 0.3,
+          "p90_ae_seconds": 3.746
+        },
+        "100.0": {
+          "n": 23,
+          "mae_seconds": 2.178,
+          "median_ae_seconds": 0.945,
+          "bias_seconds": 0.688,
+          "p90_ae_seconds": 3.115
+        }
+      },
+      "phase5b": {
+        "n": 52,
+        "mae_seconds": 4.934,
+        "median_ae_seconds": 2.407,
+        "bias_seconds": 4.316,
+        "p90_ae_seconds": 15.639
+      },
+      "ridge": {
+        "n": 52,
+        "mae_seconds": 3.732,
+        "median_ae_seconds": 1.896,
+        "bias_seconds": 1.629,
+        "p90_ae_seconds": 8.267
+      },
+      "mae_change_seconds": -1.202,
+      "fitted_parameters": {
+        "feature_order": [
+          "raw_delta",
+          "relative_pace_times_horizon",
+          "pit_loss",
+          "warm_up_gain",
+          "traffic_loss",
+          "starting_position_div_10"
+        ],
+        "mean": [
+          27.963196428571422,
+          4.351124999999998,
+          24.288116071428583,
+          0.3863928571428573,
+          0.07910714285714286,
+          0.885714285714286
+        ],
+        "scale": [
+          3.2907334637240018,
+          2.3566343893547175,
+          1.3565728450211776,
+          0.34495339636429917,
+          0.2706053847111951,
+          0.431950960935453
+        ],
+        "weights_with_intercept_first": [
+          23.469446428571427,
+          0.448559048573607,
+          0.634573638042977,
+          -0.018134021967064554,
+          0.18469242577450923,
+          -0.22819368503730492,
+          0.7747917288442442
+        ]
+      },
+      "by_circuit": {
+        "bahrain": {
+          "phase5b": {
+            "n": 11,
+            "mae_seconds": 1.931,
+            "median_ae_seconds": 2.273,
+            "bias_seconds": 1.349,
+            "p90_ae_seconds": 2.774
+          },
+          "ridge": {
+            "n": 11,
+            "mae_seconds": 1.802,
+            "median_ae_seconds": 1.044,
+            "bias_seconds": -1.649,
+            "p90_ae_seconds": 2.717
+          }
+        },
+        "catalunya": {
+          "phase5b": {
+            "n": 17,
+            "mae_seconds": 2.891,
+            "median_ae_seconds": 1.842,
+            "bias_seconds": 2.218,
+            "p90_ae_seconds": 4.909
+          },
+          "ridge": {
+            "n": 17,
+            "mae_seconds": 2.261,
+            "median_ae_seconds": 1.388,
+            "bias_seconds": 1.891,
+            "p90_ae_seconds": 4.231
+          }
+        },
+        "monza": {
+          "phase5b": {
+            "n": 9,
+            "mae_seconds": 7.857,
+            "median_ae_seconds": 6.978,
+            "bias_seconds": 6.564,
+            "p90_ae_seconds": 16.429
+          },
+          "ridge": {
+            "n": 9,
+            "mae_seconds": 4.096,
+            "median_ae_seconds": 3.418,
+            "bias_seconds": -2.334,
+            "p90_ae_seconds": 8.191
+          }
+        },
+        "suzuka": {
+          "phase5b": {
+            "n": 14,
+            "mae_seconds": 7.353,
+            "median_ae_seconds": 4.694,
+            "bias_seconds": 7.161,
+            "p90_ae_seconds": 21.324
+          },
+          "ridge": {
+            "n": 14,
+            "mae_seconds": 6.18,
+            "median_ae_seconds": 2.573,
+            "bias_seconds": 5.662,
+            "p90_ae_seconds": 20.417
+          }
+        }
+      },
+      "by_grid_region": {
+        "P1-P5": {
+          "phase5b": {
+            "n": 14,
+            "mae_seconds": 2.57,
+            "median_ae_seconds": 1.967,
+            "bias_seconds": 1.524,
+            "p90_ae_seconds": 2.77
+          },
+          "ridge": {
+            "n": 14,
+            "mae_seconds": 1.98,
+            "median_ae_seconds": 1.186,
+            "bias_seconds": 0.476,
+            "p90_ae_seconds": 3.013
+          }
+        },
+        "P11-P15": {
+          "phase5b": {
+            "n": 17,
+            "mae_seconds": 7.467,
+            "median_ae_seconds": 4.812,
+            "bias_seconds": 7.091,
+            "p90_ae_seconds": 17.525
+          },
+          "ridge": {
+            "n": 17,
+            "mae_seconds": 5.742,
+            "median_ae_seconds": 2.674,
+            "bias_seconds": 3.431,
+            "p90_ae_seconds": 15.835
+          }
+        },
+        "P16+": {
+          "phase5b": {
+            "n": 4,
+            "mae_seconds": 8.342,
+            "median_ae_seconds": 4.387,
+            "bias_seconds": 8.342,
+            "p90_ae_seconds": 17.542
+          },
+          "ridge": {
+            "n": 4,
+            "mae_seconds": 6.563,
+            "median_ae_seconds": 3.486,
+            "bias_seconds": 6.549,
+            "p90_ae_seconds": 14.799
+          }
+        },
+        "P6-P10": {
+          "phase5b": {
+            "n": 17,
+            "mae_seconds": 3.546,
+            "median_ae_seconds": 1.842,
+            "bias_seconds": 2.892,
+            "p90_ae_seconds": 7.101
+          },
+          "ridge": {
+            "n": 17,
+            "mae_seconds": 2.5,
+            "median_ae_seconds": 2.359,
+            "bias_seconds": -0.38,
+            "p90_ae_seconds": 4.256
+          }
+        }
+      },
+      "by_traffic_level": {
+        "HEAVY_TRAFFIC": {
+          "phase5b": {
+            "n": 14,
+            "mae_seconds": 2.811,
+            "median_ae_seconds": 2.63,
+            "bias_seconds": 1.429,
+            "p90_ae_seconds": 4.784
+          },
+          "ridge": {
+            "n": 14,
+            "mae_seconds": 2.456,
+            "median_ae_seconds": 2.415,
+            "bias_seconds": -0.479,
+            "p90_ae_seconds": 4.109
+          }
+        },
+        "LIGHT_TRAFFIC": {
+          "phase5b": {
+            "n": 4,
+            "mae_seconds": 10.118,
+            "median_ae_seconds": 11.46,
+            "bias_seconds": 10.118,
+            "p90_ae_seconds": 16.186
+          },
+          "ridge": {
+            "n": 4,
+            "mae_seconds": 3.08,
+            "median_ae_seconds": 1.965,
+            "bias_seconds": -3.024,
+            "p90_ae_seconds": 6.904
+          }
+        },
+        "MODERATE_TRAFFIC": {
+          "phase5b": {
+            "n": 12,
+            "mae_seconds": 3.164,
+            "median_ae_seconds": 1.436,
+            "bias_seconds": 2.511,
+            "p90_ae_seconds": 7.162
+          },
+          "ridge": {
+            "n": 12,
+            "mae_seconds": 2.12,
+            "median_ae_seconds": 0.927,
+            "bias_seconds": 0.136,
+            "p90_ae_seconds": 7.293
+          }
+        },
+        "UNKNOWN": {
+          "phase5b": {
+            "n": 20,
+            "mae_seconds": 6.501,
+            "median_ae_seconds": 2.541,
+            "bias_seconds": 6.252,
+            "p90_ae_seconds": 18.763
+          },
+          "ridge": {
+            "n": 20,
+            "mae_seconds": 5.748,
+            "median_ae_seconds": 1.9,
+            "bias_seconds": 4.746,
+            "p90_ae_seconds": 19.418
+          }
+        }
+      },
+      "worst_cases": []
+    },
+    "+5": {
+      "selected_alpha": 100.0,
+      "development_train_n": 11,
+      "development_tune_n": 23,
+      "tuning": {
+        "0.1": {
+          "n": 23,
+          "mae_seconds": 7.365,
+          "median_ae_seconds": 6.079,
+          "bias_seconds": -2.719,
+          "p90_ae_seconds": 12.704
+        },
+        "1.0": {
+          "n": 23,
+          "mae_seconds": 6.862,
+          "median_ae_seconds": 5.33,
+          "bias_seconds": -2.595,
+          "p90_ae_seconds": 11.695
+        },
+        "10.0": {
+          "n": 23,
+          "mae_seconds": 4.777,
+          "median_ae_seconds": 3.89,
+          "bias_seconds": -2.0,
+          "p90_ae_seconds": 7.314
+        },
+        "100.0": {
+          "n": 23,
+          "mae_seconds": 3.766,
+          "median_ae_seconds": 2.575,
+          "bias_seconds": -1.589,
+          "p90_ae_seconds": 6.152
+        }
+      },
+      "phase5b": {
+        "n": 37,
+        "mae_seconds": 6.789,
+        "median_ae_seconds": 3.964,
+        "bias_seconds": 5.141,
+        "p90_ae_seconds": 17.111
+      },
+      "ridge": {
+        "n": 37,
+        "mae_seconds": 5.207,
+        "median_ae_seconds": 2.835,
+        "bias_seconds": 1.924,
+        "p90_ae_seconds": 16.134
+      },
+      "mae_change_seconds": -1.582,
+      "fitted_parameters": {
+        "feature_order": [
+          "raw_delta",
+          "relative_pace_times_horizon",
+          "pit_loss",
+          "warm_up_gain",
+          "traffic_loss",
+          "starting_position_div_10"
+        ],
+        "mean": [
+          29.892469387755106,
+          6.995714285714286,
+          24.165591836734706,
+          0.35312244897959183,
+          0.08057142857142856,
+          0.8693877551020411
+        ],
+        "scale": [
+          4.848982039613207,
+          3.8285511726543042,
+          1.3849013251280862,
+          0.29408138764170005,
+          0.318843765720416,
+          0.4243622257288845
+        ],
+        "weights_with_intercept_first": [
+          23.229183673469382,
+          0.4190127620941041,
+          0.5887229488043342,
+          -0.07471419345970257,
+          0.016171724974490487,
+          0.24112814670722868,
+          1.0131021936559192
+        ]
+      },
+      "by_circuit": {
+        "bahrain": {
+          "phase5b": {
+            "n": 5,
+            "mae_seconds": 3.1,
+            "median_ae_seconds": 3.231,
+            "bias_seconds": 3.1,
+            "p90_ae_seconds": 4.106
+          },
+          "ridge": {
+            "n": 5,
+            "mae_seconds": 1.781,
+            "median_ae_seconds": 1.638,
+            "bias_seconds": -1.603,
+            "p90_ae_seconds": 3.315
+          }
+        },
+        "catalunya": {
+          "phase5b": {
+            "n": 13,
+            "mae_seconds": 4.356,
+            "median_ae_seconds": 3.949,
+            "bias_seconds": 3.078,
+            "p90_ae_seconds": 6.621
+          },
+          "ridge": {
+            "n": 13,
+            "mae_seconds": 3.01,
+            "median_ae_seconds": 1.453,
+            "bias_seconds": 2.276,
+            "p90_ae_seconds": 4.961
+          }
+        },
+        "monza": {
+          "phase5b": {
+            "n": 5,
+            "mae_seconds": 9.364,
+            "median_ae_seconds": 3.291,
+            "bias_seconds": 7.125,
+            "p90_ae_seconds": 20.476
+          },
+          "ridge": {
+            "n": 5,
+            "mae_seconds": 4.871,
+            "median_ae_seconds": 2.843,
+            "bias_seconds": -0.372,
+            "p90_ae_seconds": 9.668
+          }
+        },
+        "suzuka": {
+          "phase5b": {
+            "n": 13,
+            "mae_seconds": 8.912,
+            "median_ae_seconds": 6.323,
+            "bias_seconds": 6.361,
+            "p90_ae_seconds": 18.785
+          },
+          "ridge": {
+            "n": 13,
+            "mae_seconds": 8.056,
+            "median_ae_seconds": 4.647,
+            "bias_seconds": 2.763,
+            "p90_ae_seconds": 20.338
+          }
+        }
+      },
+      "by_grid_region": {
+        "P1-P5": {
+          "phase5b": {
+            "n": 10,
+            "mae_seconds": 3.894,
+            "median_ae_seconds": 3.371,
+            "bias_seconds": 1.333,
+            "p90_ae_seconds": 5.352
+          },
+          "ridge": {
+            "n": 10,
+            "mae_seconds": 2.757,
+            "median_ae_seconds": 1.668,
+            "bias_seconds": 1.302,
+            "p90_ae_seconds": 5.07
+          }
+        },
+        "P11-P15": {
+          "phase5b": {
+            "n": 13,
+            "mae_seconds": 10.78,
+            "median_ae_seconds": 10.943,
+            "bias_seconds": 8.229,
+            "p90_ae_seconds": 19.05
+          },
+          "ridge": {
+            "n": 13,
+            "mae_seconds": 8.032,
+            "median_ae_seconds": 2.835,
+            "bias_seconds": 3.34,
+            "p90_ae_seconds": 20.338
+          }
+        },
+        "P16+": {
+          "phase5b": {
+            "n": 4,
+            "mae_seconds": 9.295,
+            "median_ae_seconds": 5.231,
+            "bias_seconds": 9.295,
+            "p90_ae_seconds": 20.213
+          },
+          "ridge": {
+            "n": 4,
+            "mae_seconds": 6.955,
+            "median_ae_seconds": 4.816,
+            "bias_seconds": 4.631,
+            "p90_ae_seconds": 13.399
+          }
+        },
+        "P6-P10": {
+          "phase5b": {
+            "n": 10,
+            "mae_seconds": 3.494,
+            "median_ae_seconds": 2.618,
+            "bias_seconds": 3.274,
+            "p90_ae_seconds": 6.73
+          },
+          "ridge": {
+            "n": 10,
+            "mae_seconds": 3.287,
+            "median_ae_seconds": 3.527,
+            "bias_seconds": -0.376,
+            "p90_ae_seconds": 5.404
+          }
+        }
+      },
+      "by_traffic_level": {
+        "HEAVY_TRAFFIC": {
+          "phase5b": {
+            "n": 9,
+            "mae_seconds": 3.855,
+            "median_ae_seconds": 3.291,
+            "bias_seconds": 2.357,
+            "p90_ae_seconds": 6.811
+          },
+          "ridge": {
+            "n": 9,
+            "mae_seconds": 2.86,
+            "median_ae_seconds": 2.843,
+            "bias_seconds": 0.248,
+            "p90_ae_seconds": 4.841
+          }
+        },
+        "MODERATE_TRAFFIC": {
+          "phase5b": {
+            "n": 7,
+            "mae_seconds": 5.545,
+            "median_ae_seconds": 2.849,
+            "bias_seconds": 4.159,
+            "p90_ae_seconds": 12.414
+          },
+          "ridge": {
+            "n": 7,
+            "mae_seconds": 2.238,
+            "median_ae_seconds": 0.825,
+            "bias_seconds": 1.588,
+            "p90_ae_seconds": 5.371
+          }
+        },
+        "UNKNOWN": {
+          "phase5b": {
+            "n": 17,
+            "mae_seconds": 8.717,
+            "median_ae_seconds": 5.498,
+            "bias_seconds": 6.495,
+            "p90_ae_seconds": 17.684
+          },
+          "ridge": {
+            "n": 17,
+            "mae_seconds": 8.017,
+            "median_ae_seconds": 4.647,
+            "bias_seconds": 3.558,
+            "p90_ae_seconds": 19.477
+          }
+        }
+      },
+      "worst_cases": [
+        {
+          "race": "2024/4",
+          "circuit": "suzuka",
+          "lap": 7,
+          "driver_id": "f1:GUAZHO01",
+          "starting_position": 15,
+          "grid_region": "P11-P15",
+          "compound_transition": "SOFT->HARD",
+          "traffic_level": "UNKNOWN",
+          "decision_to_entry_seconds": 23.771999999999935,
+          "predicted_pit_loss": 23.316999999999993,
+          "actual_pit_loss": 23.955000000000013,
+          "predicted_position": 17,
+          "actual_position": 18,
+          "predicted_relative_delta": 26.822,
+          "actual_relative_delta": 51.111999999999995,
+          "error_seconds": -24.29,
+          "cause_flags": {
+            "bad_source_timing": false,
+            "red_flag_or_safety_car_contamination": false,
+            "unusual_or_mispredicted_pit_stop": false,
+            "traffic_interaction": true,
+            "backmarker_or_lapped_interaction": false,
+            "wrong_compound_inference": false,
+            "multi_lap_pace_failure": true,
+            "overtaking_failure": false
+          },
+          "classified_causes": [
+            "traffic_interaction",
+            "multi_lap_pace_failure"
+          ]
+        },
+        {
+          "race": "2024/4",
+          "circuit": "suzuka",
+          "lap": 34,
+          "driver_id": "f1:LANSTR01",
+          "starting_position": 11,
+          "grid_region": "P11-P15",
+          "compound_transition": "HARD->SOFT",
+          "traffic_level": "UNKNOWN",
+          "decision_to_entry_seconds": 73.61200000000099,
+          "predicted_pit_loss": 22.46599999999998,
+          "actual_pit_loss": 18.79200000000003,
+          "predicted_position": 13,
+          "actual_position": 13,
+          "predicted_relative_delta": 23.433,
+          "actual_relative_delta": 2.6640000000000015,
+          "error_seconds": 20.769,
+          "cause_flags": {
+            "bad_source_timing": false,
+            "red_flag_or_safety_car_contamination": false,
+            "unusual_or_mispredicted_pit_stop": false,
+            "traffic_interaction": true,
+            "backmarker_or_lapped_interaction": false,
+            "wrong_compound_inference": false,
+            "multi_lap_pace_failure": true,
+            "overtaking_failure": false
+          },
+          "classified_causes": [
+            "traffic_interaction",
+            "multi_lap_pace_failure",
+            "decision_snapshot_too_early"
+          ]
+        },
+        {
+          "race": "2024/4",
+          "circuit": "suzuka",
+          "lap": 34,
+          "driver_id": "f1:LOGSAR01",
+          "starting_position": 14,
+          "grid_region": "P11-P15",
+          "compound_transition": "HARD->MEDIUM",
+          "traffic_level": "UNKNOWN",
+          "decision_to_entry_seconds": 79.75200000000041,
+          "predicted_pit_loss": 22.46599999999998,
+          "actual_pit_loss": 22.708999999999975,
+          "predicted_position": 13,
+          "actual_position": 15,
+          "predicted_relative_delta": 23.62,
+          "actual_relative_delta": 5.004000000000005,
+          "error_seconds": 18.616,
+          "cause_flags": {
+            "bad_source_timing": false,
+            "red_flag_or_safety_car_contamination": false,
+            "unusual_or_mispredicted_pit_stop": false,
+            "traffic_interaction": true,
+            "backmarker_or_lapped_interaction": false,
+            "wrong_compound_inference": false,
+            "multi_lap_pace_failure": true,
+            "overtaking_failure": true
+          },
+          "classified_causes": [
+            "traffic_interaction",
+            "multi_lap_pace_failure",
+            "overtaking_failure",
+            "decision_snapshot_too_early"
+          ]
+        },
+        {
+          "race": "2024/4",
+          "circuit": "suzuka",
+          "lap": 16,
+          "driver_id": "f1:PIEGAS01",
+          "starting_position": 17,
+          "grid_region": "P16+",
+          "compound_transition": "HARD->MEDIUM",
+          "traffic_level": "UNKNOWN",
+          "decision_to_entry_seconds": 54.05199999999968,
+          "predicted_pit_loss": 22.15349999999998,
+          "actual_pit_loss": 21.836000000000013,
+          "predicted_position": 16,
+          "actual_position": 17,
+          "predicted_relative_delta": 28.202,
+          "actual_relative_delta": 11.197000000000003,
+          "error_seconds": 17.005,
+          "cause_flags": {
+            "bad_source_timing": false,
+            "red_flag_or_safety_car_contamination": false,
+            "unusual_or_mispredicted_pit_stop": false,
+            "traffic_interaction": true,
+            "backmarker_or_lapped_interaction": true,
+            "wrong_compound_inference": false,
+            "multi_lap_pace_failure": true,
+            "overtaking_failure": false
+          },
+          "classified_causes": [
+            "traffic_interaction",
+            "backmarker_or_lapped_interaction",
+            "multi_lap_pace_failure"
+          ]
+        },
+        {
+          "race": "2024/8",
+          "circuit": "monaco",
+          "lap": 15,
+          "driver_id": "f1:VALBOT01",
+          "starting_position": 14,
+          "grid_region": "P11-P15",
+          "compound_transition": "MEDIUM->HARD",
+          "traffic_level": "UNKNOWN",
+          "decision_to_entry_seconds": 19.016999999999825,
+          "predicted_pit_loss": 22.428500000000014,
+          "actual_pit_loss": 20.01599999999999,
+          "predicted_position": 16,
+          "actual_position": 16,
+          "predicted_relative_delta": 24.578,
+          "actual_relative_delta": 9.024999999999999,
+          "error_seconds": 15.553,
+          "cause_flags": {
+            "bad_source_timing": false,
+            "red_flag_or_safety_car_contamination": false,
+            "unusual_or_mispredicted_pit_stop": false,
+            "traffic_interaction": true,
+            "backmarker_or_lapped_interaction": false,
+            "wrong_compound_inference": false,
+            "multi_lap_pace_failure": true,
+            "overtaking_failure": false
+          },
+          "classified_causes": [
+            "traffic_interaction",
+            "multi_lap_pace_failure"
+          ]
+        },
+        {
+          "race": "2024/10",
+          "circuit": "catalunya",
+          "lap": 47,
+          "driver_id": "f1:CHALEC01",
+          "starting_position": 2,
+          "grid_region": "P1-P5",
+          "compound_transition": "MEDIUM->SOFT",
+          "traffic_level": "UNKNOWN",
+          "decision_to_entry_seconds": 9.965000000000146,
+          "predicted_pit_loss": 22.634000000000015,
+          "actual_pit_loss": 23.09699999999998,
+          "predicted_position": 5,
+          "actual_position": 6,
+          "predicted_relative_delta": 20.502,
+          "actual_relative_delta": 8.123,
+          "error_seconds": 12.379,
+          "cause_flags": {
+            "bad_source_timing": false,
+            "red_flag_or_safety_car_contamination": false,
+            "unusual_or_mispredicted_pit_stop": false,
+            "traffic_interaction": true,
+            "backmarker_or_lapped_interaction": false,
+            "wrong_compound_inference": false,
+            "multi_lap_pace_failure": true,
+            "overtaking_failure": false
+          },
+          "classified_causes": [
+            "traffic_interaction",
+            "multi_lap_pace_failure"
+          ]
+        },
+        {
+          "race": "2024/16",
+          "circuit": "monza",
+          "lap": 16,
+          "driver_id": "f1:FRACOL01",
+          "starting_position": 11,
+          "grid_region": "P11-P15",
+          "compound_transition": "MEDIUM->HARD",
+          "traffic_level": "MODERATE_TRAFFIC",
+          "decision_to_entry_seconds": 33.02300000000014,
+          "predicted_pit_loss": 32.50800000000001,
+          "actual_pit_loss": 25.94199999999998,
+          "predicted_position": 18,
+          "actual_position": 16,
+          "predicted_relative_delta": 24.283,
+          "actual_relative_delta": 13.036000000000001,
+          "error_seconds": 11.247,
+          "cause_flags": {
+            "bad_source_timing": false,
+            "red_flag_or_safety_car_contamination": false,
+            "unusual_or_mispredicted_pit_stop": true,
+            "traffic_interaction": true,
+            "backmarker_or_lapped_interaction": false,
+            "wrong_compound_inference": false,
+            "multi_lap_pace_failure": true,
+            "overtaking_failure": true
+          },
+          "classified_causes": [
+            "unusual_or_mispredicted_pit_stop",
+            "traffic_interaction",
+            "multi_lap_pace_failure",
+            "overtaking_failure"
+          ]
+        },
+        {
+          "race": "2024/16",
+          "circuit": "monza",
+          "lap": 31,
+          "driver_id": "f1:ESTOCO01",
+          "starting_position": 10,
+          "grid_region": "P6-P10",
+          "compound_transition": "HARD->MEDIUM",
+          "traffic_level": "LIGHT_TRAFFIC",
+          "decision_to_entry_seconds": 49.32799999999952,
+          "predicted_pit_loss": 25.67449999999998,
+          "actual_pit_loss": 24.477000000000004,
+          "predicted_position": 19,
+          "actual_position": 15,
+          "predicted_relative_delta": 25.328,
+          "actual_relative_delta": 32.626999999999995,
+          "error_seconds": -7.299,
+          "cause_flags": {
+            "bad_source_timing": false,
+            "red_flag_or_safety_car_contamination": false,
+            "unusual_or_mispredicted_pit_stop": false,
+            "traffic_interaction": false,
+            "backmarker_or_lapped_interaction": false,
+            "wrong_compound_inference": false,
+            "multi_lap_pace_failure": true,
+            "overtaking_failure": true
+          },
+          "classified_causes": [
+            "multi_lap_pace_failure",
+            "overtaking_failure"
+          ]
+        },
+        {
+          "race": "2024/4",
+          "circuit": "suzuka",
+          "lap": 22,
+          "driver_id": "f1:KEVMAG01",
+          "starting_position": 10,
+          "grid_region": "P6-P10",
+          "compound_transition": "MEDIUM->HARD",
+          "traffic_level": "UNKNOWN",
+          "decision_to_entry_seconds": 40.54399999999987,
+          "predicted_pit_loss": 21.836000000000013,
+          "actual_pit_loss": 27.16900000000001,
+          "predicted_position": 17,
+          "actual_position": 13,
+          "predicted_relative_delta": 25.473,
+          "actual_relative_delta": 30.666000000000004,
+          "error_seconds": -5.193,
+          "cause_flags": {
+            "bad_source_timing": false,
+            "red_flag_or_safety_car_contamination": false,
+            "unusual_or_mispredicted_pit_stop": true,
+            "traffic_interaction": true,
+            "backmarker_or_lapped_interaction": false,
+            "wrong_compound_inference": false,
+            "multi_lap_pace_failure": true,
+            "overtaking_failure": true
+          },
+          "classified_causes": [
+            "unusual_or_mispredicted_pit_stop",
+            "traffic_interaction",
+            "multi_lap_pace_failure",
+            "overtaking_failure"
+          ]
+        },
+        {
+          "race": "2024/10",
+          "circuit": "catalunya",
+          "lap": 9,
+          "driver_id": "f1:GUAZHO01",
+          "starting_position": 16,
+          "grid_region": "P16+",
+          "compound_transition": "SOFT->MEDIUM",
+          "traffic_level": "CLEAR_AIR",
+          "decision_to_entry_seconds": 24.882000000000517,
+          "predicted_pit_loss": 23.282999999999973,
+          "actual_pit_loss": 21.41500000000002,
+          "predicted_position": 20,
+          "actual_position": 18,
+          "predicted_relative_delta": 25.192,
+          "actual_relative_delta": 20.208000000000002,
+          "error_seconds": 4.984,
+          "cause_flags": {
+            "bad_source_timing": false,
+            "red_flag_or_safety_car_contamination": false,
+            "unusual_or_mispredicted_pit_stop": false,
+            "traffic_interaction": false,
+            "backmarker_or_lapped_interaction": true,
+            "wrong_compound_inference": false,
+            "multi_lap_pace_failure": false,
+            "overtaking_failure": true
+          },
+          "classified_causes": [
+            "backmarker_or_lapped_interaction",
+            "overtaking_failure"
+          ]
+        },
+        {
+          "race": "2024/10",
+          "circuit": "catalunya",
+          "lap": 31,
+          "driver_id": "f1:SERPER01",
+          "starting_position": 9,
+          "grid_region": "P6-P10",
+          "compound_transition": "SOFT->MEDIUM",
+          "traffic_level": "HEAVY_TRAFFIC",
+          "decision_to_entry_seconds": 33.74200000000019,
+          "predicted_pit_loss": 22.875999999999976,
+          "actual_pit_loss": 21.192000000000007,
+          "predicted_position": 14,
+          "actual_position": 11,
+          "predicted_relative_delta": 23.445,
+          "actual_relative_delta": 18.577,
+          "error_seconds": 4.868,
+          "cause_flags": {
+            "bad_source_timing": false,
+            "red_flag_or_safety_car_contamination": false,
+            "unusual_or_mispredicted_pit_stop": false,
+            "traffic_interaction": true,
+            "backmarker_or_lapped_interaction": false,
+            "wrong_compound_inference": false,
+            "multi_lap_pace_failure": false,
+            "overtaking_failure": true
+          },
+          "classified_causes": [
+            "traffic_interaction",
+            "overtaking_failure"
+          ]
+        },
+        {
+          "race": "2024/10",
+          "circuit": "catalunya",
+          "lap": 11,
+          "driver_id": "f1:VALBOT01",
+          "starting_position": 13,
+          "grid_region": "P11-P15",
+          "compound_transition": "SOFT->SOFT",
+          "traffic_level": "HEAVY_TRAFFIC",
+          "decision_to_entry_seconds": 24.203999999999724,
+          "predicted_pit_loss": 23.282999999999973,
+          "actual_pit_loss": 22.22200000000001,
+          "predicted_position": 19,
+          "actual_position": 16,
+          "predicted_relative_delta": 24.152,
+          "actual_relative_delta": 19.317999999999998,
+          "error_seconds": 4.834,
+          "cause_flags": {
+            "bad_source_timing": false,
+            "red_flag_or_safety_car_contamination": false,
+            "unusual_or_mispredicted_pit_stop": false,
+            "traffic_interaction": true,
+            "backmarker_or_lapped_interaction": false,
+            "wrong_compound_inference": false,
+            "multi_lap_pace_failure": false,
+            "overtaking_failure": true
+          },
+          "classified_causes": [
+            "traffic_interaction",
+            "overtaking_failure"
+          ]
+        },
+        {
+          "race": "2024/4",
+          "circuit": "suzuka",
+          "lap": 23,
+          "driver_id": "f1:LEWHAM01",
+          "starting_position": 7,
+          "grid_region": "P6-P10",
+          "compound_transition": "HARD->HARD",
+          "traffic_level": "UNKNOWN",
+          "decision_to_entry_seconds": 22.799999999999272,
+          "predicted_pit_loss": 21.852500000000006,
+          "actual_pit_loss": 22.50400000000002,
+          "predicted_position": 8,
+          "actual_position": 9,
+          "predicted_relative_delta": 23.722,
+          "actual_relative_delta": 19.072,
+          "error_seconds": 4.65,
+          "cause_flags": {
+            "bad_source_timing": false,
+            "red_flag_or_safety_car_contamination": false,
+            "unusual_or_mispredicted_pit_stop": false,
+            "traffic_interaction": true,
+            "backmarker_or_lapped_interaction": false,
+            "wrong_compound_inference": false,
+            "multi_lap_pace_failure": false,
+            "overtaking_failure": false
+          },
+          "classified_causes": [
+            "traffic_interaction"
+          ]
+        },
+        {
+          "race": "2024/4",
+          "circuit": "suzuka",
+          "lap": 19,
+          "driver_id": "f1:ESTOCO01",
+          "starting_position": 16,
+          "grid_region": "P16+",
+          "compound_transition": "HARD->HARD",
+          "traffic_level": "UNKNOWN",
+          "decision_to_entry_seconds": 38.724999999999454,
+          "predicted_pit_loss": 21.6815,
+          "actual_pit_loss": 22.146000000000015,
+          "predicted_position": 17,
+          "actual_position": 14,
+          "predicted_relative_delta": 26.817,
+          "actual_relative_delta": 31.46399999999999,
+          "error_seconds": -4.647,
+          "cause_flags": {
+            "bad_source_timing": false,
+            "red_flag_or_safety_car_contamination": false,
+            "unusual_or_mispredicted_pit_stop": false,
+            "traffic_interaction": true,
+            "backmarker_or_lapped_interaction": true,
+            "wrong_compound_inference": false,
+            "multi_lap_pace_failure": false,
+            "overtaking_failure": true
+          },
+          "classified_causes": [
+            "traffic_interaction",
+            "backmarker_or_lapped_interaction",
+            "overtaking_failure"
+          ]
+        },
+        {
+          "race": "2024/10",
+          "circuit": "catalunya",
+          "lap": 36,
+          "driver_id": "f1:CARSAI01",
+          "starting_position": 5,
+          "grid_region": "P1-P5",
+          "compound_transition": "MEDIUM->HARD",
+          "traffic_level": "UNKNOWN",
+          "decision_to_entry_seconds": 15.785999999999149,
+          "predicted_pit_loss": 22.634000000000015,
+          "actual_pit_loss": 23.23399999999998,
+          "predicted_position": 7,
+          "actual_position": 7,
+          "predicted_relative_delta": 22.849,
+          "actual_relative_delta": 18.591,
+          "error_seconds": 4.258,
+          "cause_flags": {
+            "bad_source_timing": false,
+            "red_flag_or_safety_car_contamination": false,
+            "unusual_or_mispredicted_pit_stop": false,
+            "traffic_interaction": true,
+            "backmarker_or_lapped_interaction": false,
+            "wrong_compound_inference": false,
+            "multi_lap_pace_failure": false,
+            "overtaking_failure": false
+          },
+          "classified_causes": [
+            "traffic_interaction"
+          ]
+        },
+        {
+          "race": "2024/1",
+          "circuit": "bahrain",
+          "lap": 41,
+          "driver_id": "f1:FERALO01",
+          "starting_position": 9,
+          "grid_region": "P6-P10",
+          "compound_transition": "HARD->HARD",
+          "traffic_level": "HEAVY_TRAFFIC",
+          "decision_to_entry_seconds": 45.69499999999971,
+          "predicted_pit_loss": 24.256,
+          "actual_pit_loss": 24.233000000000004,
+          "predicted_position": 12,
+          "actual_position": 10,
+          "predicted_relative_delta": 24.687,
+          "actual_relative_delta": 28.509999999999998,
+          "error_seconds": -3.823,
+          "cause_flags": {
+            "bad_source_timing": false,
+            "red_flag_or_safety_car_contamination": false,
+            "unusual_or_mispredicted_pit_stop": false,
+            "traffic_interaction": true,
+            "backmarker_or_lapped_interaction": false,
+            "wrong_compound_inference": false,
+            "multi_lap_pace_failure": false,
+            "overtaking_failure": true
+          },
+          "classified_causes": [
+            "traffic_interaction",
+            "overtaking_failure"
+          ]
+        },
+        {
+          "race": "2024/4",
+          "circuit": "suzuka",
+          "lap": 22,
+          "driver_id": "f1:GEORUS01",
+          "starting_position": 6,
+          "grid_region": "P6-P10",
+          "compound_transition": "HARD->HARD",
+          "traffic_level": "HEAVY_TRAFFIC",
+          "decision_to_entry_seconds": 16.747999999999593,
+          "predicted_pit_loss": 21.836000000000013,
+          "actual_pit_loss": 22.311000000000007,
+          "predicted_position": 12,
+          "actual_position": 7,
+          "predicted_relative_delta": 23.402,
+          "actual_relative_delta": 20.171000000000003,
+          "error_seconds": 3.231,
+          "cause_flags": {
+            "bad_source_timing": false,
+            "red_flag_or_safety_car_contamination": false,
+            "unusual_or_mispredicted_pit_stop": false,
+            "traffic_interaction": true,
+            "backmarker_or_lapped_interaction": false,
+            "wrong_compound_inference": false,
+            "multi_lap_pace_failure": false,
+            "overtaking_failure": true
+          },
+          "classified_causes": [
+            "traffic_interaction",
+            "overtaking_failure"
+          ]
+        },
+        {
+          "race": "2024/16",
+          "circuit": "monza",
+          "lap": 32,
+          "driver_id": "f1:LANNOR01",
+          "starting_position": 2,
+          "grid_region": "P1-P5",
+          "compound_transition": "HARD->HARD",
+          "traffic_level": "HEAVY_TRAFFIC",
+          "decision_to_entry_seconds": 4.8840000000000146,
+          "predicted_pit_loss": 25.67449999999998,
+          "actual_pit_loss": 25.073000000000036,
+          "predicted_position": 5,
+          "actual_position": 6,
+          "predicted_relative_delta": 20.552,
+          "actual_relative_delta": 23.395,
+          "error_seconds": -2.843,
+          "cause_flags": {
+            "bad_source_timing": false,
+            "red_flag_or_safety_car_contamination": false,
+            "unusual_or_mispredicted_pit_stop": false,
+            "traffic_interaction": true,
+            "backmarker_or_lapped_interaction": false,
+            "wrong_compound_inference": false,
+            "multi_lap_pace_failure": false,
+            "overtaking_failure": false
+          },
+          "classified_causes": [
+            "traffic_interaction"
+          ]
+        },
+        {
+          "race": "2024/4",
+          "circuit": "suzuka",
+          "lap": 6,
+          "driver_id": "f1:VALBOT01",
+          "starting_position": 11,
+          "grid_region": "P11-P15",
+          "compound_transition": "SOFT->HARD",
+          "traffic_level": "UNKNOWN",
+          "decision_to_entry_seconds": 15.28900000000067,
+          "predicted_pit_loss": 23.316999999999993,
+          "actual_pit_loss": 21.869,
+          "predicted_position": 18,
+          "actual_position": 15,
+          "predicted_relative_delta": 25.692,
+          "actual_relative_delta": 22.857,
+          "error_seconds": 2.835,
+          "cause_flags": {
+            "bad_source_timing": false,
+            "red_flag_or_safety_car_contamination": false,
+            "unusual_or_mispredicted_pit_stop": false,
+            "traffic_interaction": true,
+            "backmarker_or_lapped_interaction": false,
+            "wrong_compound_inference": false,
+            "multi_lap_pace_failure": false,
+            "overtaking_failure": true
+          },
+          "classified_causes": [
+            "traffic_interaction",
+            "overtaking_failure"
+          ]
+        },
+        {
+          "race": "2024/1",
+          "circuit": "bahrain",
+          "lap": 11,
+          "driver_id": "f1:KEVMAG01",
+          "starting_position": 12,
+          "grid_region": "P11-P15",
+          "compound_transition": "SOFT->HARD",
+          "traffic_level": "HEAVY_TRAFFIC",
+          "decision_to_entry_seconds": 26.791000000000167,
+          "predicted_pit_loss": 24.52199999999999,
+          "actual_pit_loss": 24.00799999999998,
+          "predicted_position": 16,
+          "actual_position": 13,
+          "predicted_relative_delta": 24.942,
+          "actual_relative_delta": 27.494000000000003,
+          "error_seconds": -2.552,
+          "cause_flags": {
+            "bad_source_timing": false,
+            "red_flag_or_safety_car_contamination": false,
+            "unusual_or_mispredicted_pit_stop": false,
+            "traffic_interaction": true,
+            "backmarker_or_lapped_interaction": false,
+            "wrong_compound_inference": false,
+            "multi_lap_pace_failure": false,
+            "overtaking_failure": true
+          },
+          "classified_causes": [
+            "traffic_interaction",
+            "overtaking_failure"
+          ]
+        }
+      ]
+    }
+  },
+  "decision": "candidate"
+}

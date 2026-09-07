@@ -1,0 +1,179 @@
+{
+  "method": "Green clean-lap normalized pace minus the same driver's median clear-air pace; pit laps and non-green laps are excluded by AnalysisContext.",
+  "races": [
+    [
+      2021,
+      1
+    ],
+    [
+      2021,
+      4
+    ],
+    [
+      2021,
+      5
+    ],
+    [
+      2021,
+      14
+    ],
+    [
+      2022,
+      1
+    ],
+    [
+      2022,
+      6
+    ],
+    [
+      2022,
+      7
+    ],
+    [
+      2022,
+      16
+    ],
+    [
+      2022,
+      18
+    ]
+  ],
+  "overall": {
+    "<=1s": {
+      "samples": 541,
+      "median_loss_seconds": 0.35899999999999466,
+      "mad_seconds": 0.6690000000000111
+    },
+    "1-2s": {
+      "samples": 528,
+      "median_loss_seconds": 0.13500000000000156,
+      "mad_seconds": 0.635749999999998
+    },
+    "2-5s": {
+      "samples": 789,
+      "median_loss_seconds": 0.029000000000003467,
+      "mad_seconds": 0.7170000000000059
+    },
+    ">5s_clear_reference": {
+      "samples": 1253,
+      "median_loss_seconds": 0.0,
+      "mad_seconds": 0.41100000000000136
+    }
+  },
+  "by_circuit": {
+    "bahrain": {
+      "<=1s": {
+        "samples": 139,
+        "median_loss_seconds": 0.15749999999998465,
+        "mad_seconds": 0.6364999999999696
+      },
+      "1-2s": {
+        "samples": 136,
+        "median_loss_seconds": 0.10374999999999801,
+        "mad_seconds": 0.6482499999999938
+      },
+      "2-5s": {
+        "samples": 204,
+        "median_loss_seconds": -0.04649999999999466,
+        "mad_seconds": 0.5970000000000013
+      },
+      ">5s_clear_reference": {
+        "samples": 295,
+        "median_loss_seconds": 0.0,
+        "mad_seconds": 0.2895000000000181
+      }
+    },
+    "catalunya": {
+      "<=1s": {
+        "samples": 116,
+        "median_loss_seconds": 0.3432499999999976,
+        "mad_seconds": 0.5807500000000019
+      },
+      "1-2s": {
+        "samples": 160,
+        "median_loss_seconds": 0.2545000000000073,
+        "mad_seconds": 0.5524999999999913
+      },
+      "2-5s": {
+        "samples": 250,
+        "median_loss_seconds": 0.12700000000000244,
+        "mad_seconds": 0.7432499999999962
+      },
+      ">5s_clear_reference": {
+        "samples": 503,
+        "median_loss_seconds": 0.0,
+        "mad_seconds": 0.4889999999999901
+      }
+    },
+    "monaco": {
+      "<=1s": {
+        "samples": 143,
+        "median_loss_seconds": 0.5250000000000199,
+        "mad_seconds": 0.8210000000000264
+      },
+      "1-2s": {
+        "samples": 134,
+        "median_loss_seconds": 0.03850000000000264,
+        "mad_seconds": 0.7112499999999926
+      },
+      "2-5s": {
+        "samples": 156,
+        "median_loss_seconds": -0.03025000000000233,
+        "mad_seconds": 0.9024999999999963
+      },
+      ">5s_clear_reference": {
+        "samples": 180,
+        "median_loss_seconds": 0.0,
+        "mad_seconds": 0.734499999999997
+      }
+    },
+    "monza": {
+      "<=1s": {
+        "samples": 111,
+        "median_loss_seconds": 0.32099999999999795,
+        "mad_seconds": 0.4339999999999975
+      },
+      "1-2s": {
+        "samples": 62,
+        "median_loss_seconds": 0.0012499999999953104,
+        "mad_seconds": 0.580999999999996
+      },
+      "2-5s": {
+        "samples": 110,
+        "median_loss_seconds": -0.1557499999999905,
+        "mad_seconds": 0.4927499999999938
+      },
+      ">5s_clear_reference": {
+        "samples": 192,
+        "median_loss_seconds": 0.0,
+        "mad_seconds": 0.2648750000000071
+      }
+    },
+    "suzuka": {
+      "<=1s": {
+        "samples": 32,
+        "median_loss_seconds": 1.3004999999999924,
+        "mad_seconds": 0.7392499999999842
+      },
+      "1-2s": {
+        "samples": 36,
+        "median_loss_seconds": 0.3262500000000088,
+        "mad_seconds": 0.8978749999999955
+      },
+      "2-5s": {
+        "samples": 69,
+        "median_loss_seconds": 0.30825000000002234,
+        "mad_seconds": 0.47800000000003706
+      },
+      ">5s_clear_reference": {
+        "samples": 83,
+        "median_loss_seconds": 0.0,
+        "mad_seconds": 0.41474999999999085
+      }
+    }
+  },
+  "exclusions": {
+    "driver_without_three_clear_laps": 88,
+    "stale_or_missing_interval": 78
+  }
+}

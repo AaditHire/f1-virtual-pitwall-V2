@@ -41,45 +41,121 @@ DEFAULT_CALIBRATION = {
     },
 }
 
-# Generated from the complete Phase 5B 2023 development histories. These are measured
-# normalized profiles, not manually scored circuit labels. They are eligible only for a
-# later season and are replaced by an explicitly supplied chronological profile in evaluation.
+# Generated from thirteen cached 2021-2023 development histories. These are measured
+# normalized profiles, not manually scored circuit labels. They are eligible only after the
+# recorded source year and are replaced by an explicitly supplied chronological profile in
+# evaluation.
 HISTORICAL_CIRCUIT_PROFILES = {
     "bahrain": {
         "source_year": 2023,
-        "prior_races": 1,
-        "typical_pit_loss_seconds": 24.232,
-        "pit_loss_mad_seconds": 0.614,
-        "pit_loss_samples": 34,
-        "position_change_frequency": 0.616114,
+        "prior_races": 3,
+        "typical_pit_loss_seconds": 24.522,
+        "pit_loss_mad_seconds": 0.879,
+        "pit_loss_samples": 59,
+        "position_change_frequency": 0.705368,
         "overtake_threshold_seconds": 0.5,
     },
     "monaco": {
         "source_year": 2023,
-        "prior_races": 1,
-        "typical_pit_loss_seconds": 19.584,
-        "pit_loss_mad_seconds": 0.549,
-        "pit_loss_samples": 8,
-        "position_change_frequency": 0.185063,
-        "overtake_threshold_seconds": 0.76,
+        "prior_races": 3,
+        "typical_pit_loss_seconds": 22.429,
+        "pit_loss_mad_seconds": 2.27,
+        "pit_loss_samples": 17,
+        "position_change_frequency": 0.154371,
+        "overtake_threshold_seconds": 0.883,
     },
     "catalunya": {
         "source_year": 2023,
-        "prior_races": 1,
-        "typical_pit_loss_seconds": 23.955,
-        "pit_loss_mad_seconds": 0.732,
-        "pit_loss_samples": 42,
-        "position_change_frequency": 0.528963,
+        "prior_races": 3,
+        "typical_pit_loss_seconds": 23.283,
+        "pit_loss_mad_seconds": 0.935,
+        "pit_loss_samples": 92,
+        "position_change_frequency": 0.449578,
         "overtake_threshold_seconds": 0.5,
     },
     "monza": {
         "source_year": 2023,
-        "prior_races": 1,
-        "typical_pit_loss_seconds": 24.959,
-        "pit_loss_mad_seconds": 0.548,
-        "pit_loss_samples": 24,
-        "position_change_frequency": 0.473298,
+        "prior_races": 3,
+        "typical_pit_loss_seconds": 25.072,
+        "pit_loss_mad_seconds": 0.701,
+        "pit_loss_samples": 41,
+        "position_change_frequency": 0.441166,
         "overtake_threshold_seconds": 0.5,
+    },
+    "suzuka": {
+        "source_year": 2022,
+        "prior_races": 1,
+        "typical_pit_loss_seconds": 23.317,
+        "pit_loss_mad_seconds": 0.658,
+        "pit_loss_samples": 8,
+        "position_change_frequency": 0.740079,
+        "overtake_threshold_seconds": 0.5,
+    },
+}
+
+# Fixed ridge parameters fit on 2023 development cases after chronological alpha selection.
+# Feature order: raw delta, relative pace * horizon, pit loss, final-lap warm-up gain,
+# final-lap traffic loss, and current position / 10. The 2024 holdout never fits these values.
+PIT_TRANSITION_RIDGE = {
+    1: {
+        "mean": (25.9055507246, 1.4942173913, 24.4112898551, 0.0, 0.0, 0.8405797101),
+        "scale": (1.8127654791, 0.8982258983, 1.2715504128, 1.0, 1.0, 0.4515091732),
+        "weights": (
+            23.4864347826,
+            0.2784745027,
+            0.3740970527,
+            0.1327099708,
+            0.0,
+            0.0,
+            0.4858682604,
+        ),
+    },
+    3: {
+        "mean": (27.9631964286, 4.351125, 24.2881160714, 0.3863928571, 0.0791071429, 0.8857142857),
+        "scale": (
+            3.2907334637,
+            2.3566343894,
+            1.356572845,
+            0.3449533964,
+            0.2706053847,
+            0.4319509609,
+        ),
+        "weights": (
+            23.4694464286,
+            0.4485590486,
+            0.634573638,
+            -0.018134022,
+            0.1846924258,
+            -0.228193685,
+            0.7747917288,
+        ),
+    },
+    5: {
+        "mean": (
+            29.8924693878,
+            6.9957142857,
+            24.1655918367,
+            0.353122449,
+            0.0805714286,
+            0.8693877551,
+        ),
+        "scale": (
+            4.8489820396,
+            3.8285511727,
+            1.3849013251,
+            0.2940813876,
+            0.3188437657,
+            0.4243622257,
+        ),
+        "weights": (
+            23.2291836735,
+            0.4190127621,
+            0.5887229488,
+            -0.0747141935,
+            0.016171725,
+            0.2411281467,
+            1.0131021937,
+        ),
     },
 }
 
@@ -194,6 +270,10 @@ def build_short_horizon_state(context, driver_id):
         current_position=driver.position,
         field_size=len(context.state.drivers),
         gap_to_leader=usable_gap,
+        gap_kind=(
+            "LAP_DEFICIT" if driver.lapped else "TIME" if usable_gap is not None else "UNKNOWN"
+        ),
+        laps_behind=driver.laps_behind,
         compound=driver.compound,
         tyre_age=driver.tyre_age,
         relative_pace_seconds_per_lap=_round(relative_pace),
@@ -201,6 +281,7 @@ def build_short_horizon_state(context, driver_id):
         pit_state=pit_state,
         traffic=traffic.status,
         laps_completed=driver.laps_completed,
+        pit_stops_completed=driver.pit_stops_completed,
         active=driver.status == "active",
         data_quality={
             "missing_inputs": missing,
@@ -278,6 +359,7 @@ def _circuit_profile(context):
 def _project_field(context, driver_id, driver_gap, horizon):
     driver = context.driver(driver_id)
     projected, unknown, dynamic = [], 0, []
+    target_cycle = max(item.pit_stops_completed for item in context.state.drivers)
     for item in context.state.drivers:
         if item.driver.id == driver_id or item.status != "active" or item.lapped:
             continue
@@ -292,14 +374,25 @@ def _project_field(context, driver_id, driver_gap, horizon):
         moved = gap + horizon * pace if close and pace is not None else gap
         projected.append((item, moved))
         if close:
+            traffic = analyze_traffic(context, item.driver.id)
             dynamic.append(
                 {
                     "driver_id": item.driver.id,
                     "initial_gap": _round(gap),
                     "projected_gap": _round(moved),
                     "relative_pace": _round(pace),
+                    "pace_uncertainty_seconds_per_lap": PACE_MAE_SECONDS,
                     "gap_source": source,
                     "pace_source": pace_source,
+                    "compound": item.compound,
+                    "tyre_age": item.tyre_age,
+                    "traffic_state": traffic.status,
+                    "pit_stops_completed": item.pit_stops_completed,
+                    "expected_remaining_stop_obligation": max(
+                        0, target_cycle - item.pit_stops_completed
+                    ),
+                    "laps_behind": item.laps_behind,
+                    "gap_kind": "TIME",
                 }
             )
     return projected, unknown, dynamic
@@ -350,6 +443,7 @@ def _position_projection(
     )
     for row in dynamic:
         row["crossing_treated_as_uncertain"] = row["driver_id"] in uncertain_crossings
+        row["pit_cycle_target_stops"] = target_cycle
     return expected, (best, worst), change, unknown, net_position, net_range, dynamic
 
 
@@ -392,6 +486,27 @@ def _warm_up_gain(fresh, post_index):
     return (value if value is not None else 0.0) * FRESH_RELIABILITY
 
 
+def _ridge_pit_transition_delta(raw_delta, relative_pace, pit_loss, trace, position, horizon):
+    parameters = PIT_TRANSITION_RIDGE[horizon]
+    final_lap = trace[-1]
+    values = (
+        raw_delta,
+        relative_pace * horizon,
+        pit_loss,
+        final_lap["fresh_gain_seconds"] or 0.0,
+        final_lap["traffic_loss_seconds"] or 0.0,
+        position / 10,
+    )
+    standardized = [
+        (value - mean) / scale
+        for value, mean, scale in zip(values, parameters["mean"], parameters["scale"], strict=True)
+    ]
+    return parameters["weights"][0] + sum(
+        weight * value
+        for weight, value in zip(parameters["weights"][1:], standardized, strict=True)
+    )
+
+
 def _dynamic_path(
     context,
     driver_id,
@@ -407,6 +522,7 @@ def _dynamic_path(
     driver = context.driver(driver_id)
     cars = []
     unknown = 0
+    target_cycle = max(item.pit_stops_completed for item in context.state.drivers)
     for item in context.state.drivers:
         if item.driver.id == driver_id or item.status != "active" or item.lapped:
             continue
@@ -419,6 +535,7 @@ def _dynamic_path(
             or abs(gap - initial_gap) <= 15
         )
         pace, _, pace_source = _relative_pace(context, item.driver.id)
+        traffic = analyze_traffic(context, item.driver.id) if local else None
         cars.append(
             {
                 "state": item,
@@ -428,6 +545,14 @@ def _dynamic_path(
                 "local": local,
                 "gap_source": gap_source,
                 "pace_source": pace_source,
+                "pace_uncertainty_seconds_per_lap": PACE_MAE_SECONDS if local else None,
+                "compound": item.compound,
+                "tyre_age": item.tyre_age,
+                "traffic_state": traffic.status if traffic else "OUTSIDE_LOCAL_MODEL",
+                "pit_stops_completed": item.pit_stops_completed,
+                "expected_remaining_stop_obligation": max(
+                    0, target_cycle - item.pit_stops_completed
+                ),
             }
         )
     delta = 0.0
@@ -479,12 +604,29 @@ def _dynamic_path(
                 "nearby_gaps": {
                     car["state"].driver.id: _round(car["gap"]) for car in cars if car["local"]
                 },
+                "nearby_states": {
+                    car["state"].driver.id: {
+                        "gap_seconds": _round(car["gap"]),
+                        "relative_pace_seconds_per_lap": _round(car["pace"]),
+                        "pace_uncertainty_seconds_per_lap": car["pace_uncertainty_seconds_per_lap"],
+                        "compound": car["compound"],
+                        "tyre_age": car["tyre_age"],
+                        "traffic_state": car["traffic_state"],
+                        "pit_stops_completed": car["pit_stops_completed"],
+                        "expected_remaining_stop_obligation": car[
+                            "expected_remaining_stop_obligation"
+                        ],
+                    }
+                    for car in cars
+                    if car["local"]
+                },
             }
         )
     return delta, trace, unknown
 
 
 def simulate_action(context, driver_id, action, calibration=None):
+    using_default_calibration = calibration is None
     calibration = calibration or DEFAULT_CALIBRATION
     states = getattr(context, "_simulation_states", {})
     if driver_id not in states:
@@ -618,6 +760,18 @@ def simulate_action(context, driver_id, action, calibration=None):
         calibration_row = _calibration(calibration, kind, horizon)
         bias = calibration_row["bias_seconds"]
         expected_delta = raw_delta + bias
+        ridge_applied = (
+            using_default_calibration and kind == "PIT_NOW" and driver.position is not None
+        )
+        if ridge_applied:
+            expected_delta = _ridge_pit_transition_delta(
+                raw_delta,
+                relative_pace,
+                pit_loss.total_seconds,
+                trace,
+                driver.position,
+                horizon,
+            )
         component_uncertainty = sqrt(
             (PACE_MAE_SECONDS * sqrt(pre_laps)) ** 2
             + (FRESH_MAE_SECONDS * sqrt(post_laps)) ** 2
@@ -660,6 +814,8 @@ def simulate_action(context, driver_id, action, calibration=None):
         outcome.components.update(
             {
                 "uncalibrated_delta_time_seconds": _round(raw_delta),
+                "pit_transition_ridge_applied": ridge_applied,
+                "pit_transition_ridge_training": "2023 chronological development only",
                 "projected_gap_to_leader_seconds": _round(projected_gap),
                 "component_uncertainty_seconds": _round(component_uncertainty),
                 "unknown_same_lap_cars": unknown,

@@ -29,6 +29,17 @@ from f1_pitwall.services.traffic import analyze_traffic
 
 DEVELOPMENT_RACES = ((2023, 1), (2023, 6), (2023, 7), (2023, 14))
 VALIDATION_RACES = ((2024, 1), (2024, 4), (2024, 8), (2024, 10), (2024, 16))
+PRIOR_RACES = (
+    (2021, 1),
+    (2021, 4),
+    (2021, 5),
+    (2021, 14),
+    (2022, 1),
+    (2022, 6),
+    (2022, 7),
+    (2022, 16),
+    (2022, 18),
+)
 RAW_CALIBRATION = {
     kind: {horizon: {"bias_seconds": 0.0, "mae_seconds": 0.0} for horizon in (1, 3, 5)}
     for kind in ("EXTEND", "PIT_NOW")
@@ -143,6 +154,30 @@ def future_values(context, driver_id):
     return driver.gap_to_leader, driver.position
 
 
+def timing_values_at(samples, cutoff):
+    """Replay one driver's delta timing stream without rebuilding a full context."""
+    values, observed = {}, {}
+    for sample in samples:
+        if sample.at > cutoff:
+            break
+        for field in sample.model_fields_set - {"driver_id", "at"}:
+            values[field] = getattr(sample, field)
+            observed[field] = sample.at
+    position = values.get("position")
+    lapped = (values.get("laps_behind") or 0) > 0
+    gap = values.get("gap_to_leader")
+    if position == 1 and not lapped:
+        gap = 0.0
+    elif lapped or observed.get("gap_to_leader") is None:
+        gap = None
+    elif cutoff - observed["gap_to_leader"] > 30:
+        gap = None
+    interval = values.get("gap_to_ahead")
+    if observed.get("gap_to_ahead") is None or cutoff - observed["gap_to_ahead"] > 30:
+        interval = None
+    return {"gap_to_leader": gap, "gap_to_ahead": interval, "position": position}
+
+
 def stable_gap_reference(race, context, cuts, lap, horizon, target_lap=None):
     leader = next((driver for driver in context.state.drivers if driver.position == 1), None)
     if leader is None:
@@ -230,6 +265,17 @@ def collect_factual_cases(races):
                 )
         full_context = cached_context(contexts, race, max(laps))
         full_stop_samples, _ = observed_pit_samples(full_context)
+        timing_by_driver = {
+            participant.driver.id: sorted(
+                (
+                    sample
+                    for sample in race.timing
+                    if sample.driver_id == participant.driver.id
+                ),
+                key=lambda sample: sample.at,
+            )
+            for participant in race.participants
+        }
         for stop in race.pit_stops:
             prior = [lap for lap, cutoff in cuts.items() if cutoff < stop.entered_at]
             if not prior:
@@ -255,8 +301,13 @@ def collect_factual_cases(races):
             targets = {horizon: rejoin_lap + horizon - 1 for horizon in (1, 3, 5)}
             if any(target not in cuts for target in targets.values()):
                 continue
-            future = {
-                horizon: cached_context(contexts, race, target)
+            transition_targets = {
+                "rejoin" if offset == 0 else f"post_stop_lap_{offset}": rejoin_lap + offset
+                for offset in range(6)
+                if rejoin_lap + offset in cuts
+            }
+            actual_by_horizon = {
+                horizon: timing_values_at(timing_by_driver[stop.driver_id], cuts[target])
                 for horizon, target in targets.items()
             }
             observed_stop = next(
@@ -268,7 +319,7 @@ def collect_factual_cases(races):
                 ),
                 None,
             )
-            actual_rejoin = future[1].driver(stop.driver_id)
+            actual_rejoin = actual_by_horizon[1]
             first_post_gain = None
             first_post_lap = None
             if observed_stop:
@@ -309,22 +360,42 @@ def collect_factual_cases(races):
                         "pit_loss_seconds": observed_stop["loss_seconds"]
                         if observed_stop
                         else None,
-                        "rejoin_position": actual_rejoin.position,
-                        "rejoin_gap_ahead": actual_rejoin.gap_to_ahead,
-                        "rejoin_gap_behind": actual_rejoin.gap_to_behind,
+                        "rejoin_position": actual_rejoin["position"],
+                        "rejoin_gap_ahead": None,
+                        "rejoin_gap_behind": None,
                         "first_post_stop_clean_lap": first_post_lap,
                         "first_post_stop_gain_seconds": first_post_gain,
                     },
+                    "actual_transition_path": {
+                        name: {
+                            "target_lap": target,
+                            **timing_values_at(
+                                timing_by_driver[stop.driver_id], cuts[target]
+                            ),
+                            "stable_gap_reference": stable_gap_reference(
+                                race,
+                                current,
+                                cuts,
+                                lap,
+                                target - lap,
+                                target,
+                            ),
+                        }
+                        for name, target in transition_targets.items()
+                    },
                     "actual": {
-                        horizon: labelled_future(
-                            race,
-                            current,
-                            future[horizon],
-                            cuts,
-                            lap,
-                            horizon,
-                            stop.driver_id,
-                            targets[horizon],
+                        horizon: (
+                            actual_by_horizon[horizon]["gap_to_leader"]
+                            if stable_gap_reference(
+                                race,
+                                current,
+                                cuts,
+                                lap,
+                                horizon,
+                                targets[horizon],
+                            )
+                            else None,
+                            actual_by_horizon[horizon]["position"],
                         )
                         for horizon in (1, 3, 5)
                     },
@@ -895,32 +966,50 @@ def policy_report(rows):
 
 
 def build_report():
+    prior_races = load_races(PRIOR_RACES)
     development_races = load_races(DEVELOPMENT_RACES)
     validation_races = load_races(VALIDATION_RACES)
     development_cases = collect_factual_cases(development_races)
     validation_cases = collect_factual_cases(validation_races)
     baseline_development = evaluate_phase5_baseline(development_cases)
     baseline_validation = evaluate_phase5_baseline(validation_cases)
-    development_profiles = attach_chronological_profiles(development_cases, development_races)
+    development_profiles = attach_chronological_profiles(
+        development_cases, prior_races + development_races
+    )
     validation_profiles = attach_chronological_profiles(
-        validation_cases, development_races + validation_races
+        validation_cases, prior_races + development_races + validation_races
     )
     raw_development = evaluate_factual_cases(development_cases, RAW_CALIBRATION)
     calibration = derive_calibration(raw_development)
     development_factual = evaluate_factual_cases(development_cases, calibration)
     validation_factual = evaluate_factual_cases(validation_cases, calibration)
+    selected_development_factual = evaluate_factual_cases(development_cases, None)
+    selected_validation_factual = evaluate_factual_cases(validation_cases, None)
     threshold, threshold_samples = tyre_threshold(development_races)
     (
         development_policy_rows,
         development_exclusions,
         development_backmarker_exclusions,
-    ) = policy_rows(development_races, calibration, threshold, development_races)
+    ) = policy_rows(
+        development_races, calibration, threshold, prior_races + development_races
+    )
     validation_policy_rows, validation_exclusions, validation_backmarker_exclusions = policy_rows(
         validation_races,
         calibration,
         threshold,
-        development_races + validation_races,
+        prior_races + development_races + validation_races,
     )
+    selected_validation_policy_rows, _, _ = policy_rows(
+        validation_races,
+        None,
+        threshold,
+        prior_races + development_races + validation_races,
+    )
+    selected_backmarker_rows = [
+        row
+        for row in selected_validation_policy_rows
+        if row["position"] is not None and row["position"] >= 16
+    ]
     backmarker_rows = [
         row
         for row in validation_policy_rows
@@ -930,6 +1019,7 @@ def build_report():
         "method": {
             "development_races": DEVELOPMENT_RACES,
             "validation_races": VALIDATION_RACES,
+            "prior_profile_races": PRIOR_RACES,
             "causal_boundary": "Only the AnalysisContext prefix is passed to simulation",
             "factual_future_use": "Future gaps/positions and actual compounds exist only here",
             "policy_cohort": "Every reported policy metric uses the same usable snapshots",
@@ -957,10 +1047,17 @@ def build_report():
                 "development": factual_report(development_factual),
                 "validation": factual_report(validation_factual),
             },
+            "phase5c_selected": {
+                "development": factual_report(selected_development_factual),
+                "validation": factual_report(selected_validation_factual),
+            },
         },
         "pit_error_diagnosis": {
             "phase5_before_grouped_validation": grouped_pit_error(baseline_validation),
             "phase5b_after_grouped_validation": grouped_pit_error(validation_factual),
+            "phase5c_selected_grouped_validation": grouped_pit_error(
+                selected_validation_factual
+            ),
             "phase5_factual_pit_cases": pit_case_records(baseline_validation),
             "phase5b_factual_pit_cases": pit_case_records(validation_factual),
             "interpretation": (
@@ -972,6 +1069,7 @@ def build_report():
         "policy_comparison": {
             "development": policy_report(development_policy_rows),
             "validation": policy_report(validation_policy_rows),
+            "phase5c_selected_validation": policy_report(selected_validation_policy_rows),
         },
         "coverage": {
             "development_common_snapshots": len(development_policy_rows),
@@ -985,6 +1083,7 @@ def build_report():
             "definition": "P16+ on the common held-out cohort",
             "common_snapshots": len(backmarker_rows),
             "policies": policy_report(backmarker_rows)["overall"],
+            "phase5c_selected_policies": policy_report(selected_backmarker_rows)["overall"],
             "examples": backmarker_rows[:12],
             "exclusion_causes": validation_backmarker_exclusions,
         },
