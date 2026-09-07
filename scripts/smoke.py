@@ -39,7 +39,29 @@ def fetch_analysis(get, selection):
     return {"driver": aggregate, "undercut": undercut, "overcut": overcut}
 
 
-def main(replay: tuple[int, int, int] | None = None, replay_only: bool = False, analysis=None):
+def fetch_strategy(get, selection):
+    year, round, lap = selection
+    grid = get(f"/api/v1/strategy/{year}/{round}/{lap}/all")
+    assert len(grid["decisions"]) == grid["active_count"]
+    assert grid["decisions"]
+    driver = grid["decisions"][0]["driver"]["id"]
+    decision = get(f"/api/v1/strategy/{year}/{round}/{lap}/drivers/{driver}")
+    actions = get(f"/api/v1/strategy/{year}/{round}/{lap}/drivers/{driver}/actions")
+    assert decision["driver"]["id"] == driver
+    assert actions["actions"] == sorted(
+        actions["actions"],
+        key=lambda action: action["action_score"] if action["action_score"] is not None else -1e12,
+        reverse=True,
+    )
+    return {"grid": grid, "driver": decision, "actions": actions}
+
+
+def main(
+    replay: tuple[int, int, int] | None = None,
+    replay_only: bool = False,
+    analysis=None,
+    strategy=None,
+):
     with socket.socket() as sock:
         sock.bind(("127.0.0.1", 0))
         port = sock.getsockname()[1]
@@ -80,6 +102,11 @@ def main(replay: tuple[int, int, int] | None = None, replay_only: bool = False, 
 
                 if analysis:
                     report = {"health": get("/health"), "analysis": fetch_analysis(get, analysis)}
+                    print(json.dumps(report, indent=2, ensure_ascii=True), flush=True)
+                    return
+
+                if strategy:
+                    report = {"health": get("/health"), "strategy": fetch_strategy(get, strategy)}
                     print(json.dumps(report, indent=2, ensure_ascii=True), flush=True)
                     return
 
@@ -142,6 +169,13 @@ if __name__ == "__main__":
         "--replay-only", action="store_true", help="Test replay without the homepage providers"
     )
     parser.add_argument(
+        "--strategy",
+        nargs=3,
+        type=int,
+        metavar=("YEAR", "ROUND", "LAP"),
+        help="Smoke all three Phase 4 routes against a real historical replay",
+    )
+    parser.add_argument(
         "--analysis",
         nargs=3,
         type=int,
@@ -155,4 +189,5 @@ if __name__ == "__main__":
         tuple(arguments.replay) if arguments.replay else None,
         arguments.replay_only,
         tuple(arguments.analysis) if arguments.analysis else None,
+        tuple(arguments.strategy) if arguments.strategy else None,
     )

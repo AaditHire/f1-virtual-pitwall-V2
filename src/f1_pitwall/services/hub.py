@@ -17,6 +17,7 @@ from f1_pitwall.services.replay import ReplayService
 from f1_pitwall.services.results import ResultsService
 from f1_pitwall.services.season import SeasonService
 from f1_pitwall.services.standings import StandingsService
+from f1_pitwall.services.strategy import StrategyService
 
 
 class Hub:
@@ -31,6 +32,7 @@ class Hub:
             self.seasons, self.jolpica, FastF1Provider(settings), settings.replay_cache_size
         )
         self.analysis = AnalysisService(self.replay)
+        self.strategy = StrategyService(self.replay)
         self.news = NewsService(
             [
                 RSSProvider(ProviderHTTP(name, client, settings), url)
