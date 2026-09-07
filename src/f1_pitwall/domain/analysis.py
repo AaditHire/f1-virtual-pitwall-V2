@@ -49,8 +49,10 @@ class FreshTyreAnalysis(Evidence):
 
 class PitLossAnalysis(Evidence):
     total_seconds: float | None = None
+    entry_seconds: float | None = None
     transit_seconds: float | None = None
     stationary_seconds: float | None = None
+    exit_warm_up_seconds: float | None = None
     sample_count: int = 0
 
 

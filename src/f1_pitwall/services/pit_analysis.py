@@ -54,6 +54,7 @@ def observed_pit_samples(context: AnalysisContext):
                 if not 0 < loss < baseline * 0.6 or not 0 < lane < baseline * 0.75:
                     reason = "Abnormal or inconsistent stop, outside broad lap-relative bounds"
                 else:
+                    residuals = [r.lap_time_seconds - baseline for r in affected]
                     samples.append(
                         {
                             "driver_id": pit.driver_id,
@@ -66,6 +67,7 @@ def observed_pit_samples(context: AnalysisContext):
                             "pit_lane_elapsed_seconds": lane,
                             "baseline_lap_seconds": baseline,
                             "affected_laps": [r.number for r in affected],
+                            "affected_lap_residual_seconds": residuals,
                             "pre_laps": [r.number for r in pre],
                             "post_laps": [r.number for r in post],
                         }
@@ -101,6 +103,10 @@ def estimate_pit_loss(context: AnalysisContext):
     mad = median(abs(v - value) for v in values) if values else None
     result = PitLossAnalysis(
         total_seconds=value,
+        entry_seconds=None,
+        transit_seconds=None,
+        stationary_seconds=None,
+        exit_warm_up_seconds=None,
         sample_count=len(samples),
         confidence="MEDIUM"
         if len(samples) >= 3 and mad <= 3
@@ -117,10 +123,18 @@ def estimate_pit_loss(context: AnalysisContext):
             )
             if samples
             else None,
+            "component_availability": {
+                "entry_loss": "unavailable_without_pit_entry_distance_or_sector_timing",
+                "pit_lane_transit": "observed_elapsed_includes_stationary_time",
+                "stationary_time": "not_present_in_normalized_archive",
+                "exit_warm_up": "modelled_separately_from_post_stop_clean_laps",
+            },
+            "unresolved_transition_uncertainty_seconds": mad,
         },
         warnings=[
-            "Residual includes tyre, warm-up and traffic effects; normal green stop only.",
-            "Pit-lane elapsed time is not race-time loss. Transit and stationary split unknown.",
+            "The stop-lap residual is observed, but entry, transit and stationary race-time "
+            "loss cannot be identified separately from the normalized archive.",
+            "Pit-lane elapsed time includes stationary time and is not race-time loss.",
         ],
     )
     if not samples:

@@ -56,11 +56,37 @@ def fetch_strategy(get, selection):
     return {"grid": grid, "driver": decision, "actions": actions}
 
 
+def fetch_simulation(get, post, selection):
+    year, round, lap = selection
+    grid = get(f"/api/v1/strategy/{year}/{round}/{lap}/all")
+    decision = next(row for row in grid["decisions"] if row["actions"])
+    driver = decision["driver"]["id"]
+    prefix = f"/api/v1/strategy/{year}/{round}/{lap}/drivers/{driver}"
+    comparison = get(f"{prefix}/counterfactuals")
+    first_action = comparison["actions"][0]["action"]
+    outcome = post(
+        "/api/v1/simulation/short-horizon",
+        {
+            "year": year,
+            "round": round,
+            "lap": lap,
+            "driver_id": driver,
+            "action": first_action,
+        },
+    )
+    assert outcome == comparison["actions"][0]
+    assert all(
+        horizon["components"]["phase4_score_used"] is False for horizon in outcome["outcomes"]
+    )
+    return {"comparison": comparison, "single_action": outcome}
+
+
 def main(
     replay: tuple[int, int, int] | None = None,
     replay_only: bool = False,
     analysis=None,
     strategy=None,
+    simulation=None,
 ):
     with socket.socket() as sock:
         sock.bind(("127.0.0.1", 0))
@@ -100,6 +126,11 @@ def main(
                     response.raise_for_status()
                     return response.json()
 
+                def post(path, body):
+                    response = client.post(path, json=body)
+                    response.raise_for_status()
+                    return response.json()
+
                 if analysis:
                     report = {"health": get("/health"), "analysis": fetch_analysis(get, analysis)}
                     print(json.dumps(report, indent=2, ensure_ascii=True), flush=True)
@@ -107,6 +138,14 @@ def main(
 
                 if strategy:
                     report = {"health": get("/health"), "strategy": fetch_strategy(get, strategy)}
+                    print(json.dumps(report, indent=2, ensure_ascii=True), flush=True)
+                    return
+
+                if simulation:
+                    report = {
+                        "health": get("/health"),
+                        "simulation": fetch_simulation(get, post, simulation),
+                    }
                     print(json.dumps(report, indent=2, ensure_ascii=True), flush=True)
                     return
 
@@ -176,6 +215,13 @@ if __name__ == "__main__":
         help="Smoke all three Phase 4 routes against a real historical replay",
     )
     parser.add_argument(
+        "--simulation",
+        nargs=3,
+        type=int,
+        metavar=("YEAR", "ROUND", "LAP"),
+        help="Smoke both Phase 5 routes against a real historical replay",
+    )
+    parser.add_argument(
         "--analysis",
         nargs=3,
         type=int,
@@ -190,4 +236,5 @@ if __name__ == "__main__":
         arguments.replay_only,
         tuple(arguments.analysis) if arguments.analysis else None,
         tuple(arguments.strategy) if arguments.strategy else None,
+        tuple(arguments.simulation) if arguments.simulation else None,
     )

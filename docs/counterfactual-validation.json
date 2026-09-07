@@ -1,0 +1,2154 @@
+{
+  "method": {
+    "development_races": [
+      [
+        2023,
+        1
+      ],
+      [
+        2023,
+        6
+      ],
+      [
+        2023,
+        7
+      ],
+      [
+        2023,
+        14
+      ]
+    ],
+    "validation_races": [
+      [
+        2024,
+        1
+      ],
+      [
+        2024,
+        4
+      ],
+      [
+        2024,
+        8
+      ],
+      [
+        2024,
+        10
+      ],
+      [
+        2024,
+        16
+      ]
+    ],
+    "causal_boundary": "Only the AnalysisContext prefix is passed to simulation",
+    "factual_future_use": "Future gaps/positions and actual compounds exist only here",
+    "policy_cohort": "Every reported policy metric uses the same usable snapshots",
+    "circularity_guard": "Simulation never receives Phase 4 score, margin or recommendation; the recommendation is consulted only after outcomes exist to select an action."
+  },
+  "calibration": {
+    "EXTEND": {
+      "3": {
+        "bias_seconds": -0.0,
+        "mae_seconds": 2.104,
+        "development_samples": 206
+      },
+      "5": {
+        "bias_seconds": -0.0,
+        "mae_seconds": 2.945,
+        "development_samples": 199
+      }
+    },
+    "PIT_NOW": {
+      "3": {
+        "bias_seconds": -1.812,
+        "mae_seconds": 3.586,
+        "development_samples": 54
+      },
+      "5": {
+        "bias_seconds": -3.583,
+        "mae_seconds": 4.888,
+        "development_samples": 50
+      }
+    }
+  },
+  "global_tyre_age_threshold": {
+    "laps": 17,
+    "samples": 159,
+    "method": "Rounded median pre-stop age across the complete development split"
+  },
+  "factual_validation": {
+    "development": {
+      "EXTEND": {
+        "3": {
+          "cases": 330,
+          "relative_time_samples": 206,
+          "relative_time_mae_seconds": 2.103621359223301,
+          "relative_time_bias_seconds": 1.2206407766990293,
+          "position_samples": 258,
+          "position_mae": 1.184108527131783,
+          "position_bias": 1.0368217054263567,
+          "position_range_samples": 258,
+          "position_range_miss_mean": 0.7248062015503876
+        },
+        "5": {
+          "cases": 330,
+          "relative_time_samples": 199,
+          "relative_time_mae_seconds": 2.9447085427135677,
+          "relative_time_bias_seconds": 1.3537236180904524,
+          "position_samples": 258,
+          "position_mae": 1.9728682170542635,
+          "position_bias": 1.8255813953488371,
+          "position_range_samples": 258,
+          "position_range_miss_mean": 1.372093023255814
+        }
+      },
+      "PIT_NOW": {
+        "3": {
+          "cases": 149,
+          "relative_time_samples": 54,
+          "relative_time_mae_seconds": 3.585814814814815,
+          "relative_time_bias_seconds": 1.878925925925926,
+          "position_samples": 107,
+          "position_mae": 1.766355140186916,
+          "position_bias": 1.2242990654205608,
+          "position_range_samples": 107,
+          "position_range_miss_mean": 0.3177570093457944
+        },
+        "5": {
+          "cases": 149,
+          "relative_time_samples": 50,
+          "relative_time_mae_seconds": 4.88794,
+          "relative_time_bias_seconds": 1.7409399999999995,
+          "position_samples": 107,
+          "position_mae": 2.2990654205607477,
+          "position_bias": 1.719626168224299,
+          "position_range_samples": 107,
+          "position_range_miss_mean": 0.4766355140186916
+        }
+      }
+    },
+    "validation": {
+      "EXTEND": {
+        "3": {
+          "cases": 389,
+          "relative_time_samples": 255,
+          "relative_time_mae_seconds": 1.0920627450980394,
+          "relative_time_bias_seconds": 0.09438431372549036,
+          "position_samples": 315,
+          "position_mae": 1.1571428571428573,
+          "position_bias": 1.1063492063492064,
+          "position_range_samples": 315,
+          "position_range_miss_mean": 0.7873015873015873
+        },
+        "5": {
+          "cases": 389,
+          "relative_time_samples": 236,
+          "relative_time_mae_seconds": 1.7645847457627117,
+          "relative_time_bias_seconds": 0.19428813559322028,
+          "position_samples": 315,
+          "position_mae": 1.7777777777777777,
+          "position_bias": 1.6888888888888889,
+          "position_range_samples": 315,
+          "position_range_miss_mean": 1.307936507936508
+        }
+      },
+      "PIT_NOW": {
+        "3": {
+          "cases": 156,
+          "relative_time_samples": 49,
+          "relative_time_mae_seconds": 4.874163265306123,
+          "relative_time_bias_seconds": 3.766857142857143,
+          "position_samples": 119,
+          "position_mae": 1.5252100840336134,
+          "position_bias": 1.2394957983193278,
+          "position_range_samples": 119,
+          "position_range_miss_mean": 0.19327731092436976
+        },
+        "5": {
+          "cases": 156,
+          "relative_time_samples": 34,
+          "relative_time_mae_seconds": 5.756411764705883,
+          "relative_time_bias_seconds": 3.8600588235294104,
+          "position_samples": 119,
+          "position_mae": 1.903361344537815,
+          "position_bias": 1.584033613445378,
+          "position_range_samples": 119,
+          "position_range_miss_mean": 0.37815126050420167
+        }
+      }
+    }
+  },
+  "policy_comparison": {
+    "development": {
+      "overall": {
+        "phase4": {
+          "common_snapshots": 260,
+          "mean_expected_position_change_5": -4.390384615384615,
+          "median_expected_position_change_5": -4.0,
+          "mean_expected_relative_time_3": 2.9493846153846155,
+          "mean_expected_relative_time_5": 26.30323076923077,
+          "downside_rate": 0.9,
+          "pit_frequency": 0.026923076923076925,
+          "extend_frequency": 0.9730769230769231,
+          "actions": {
+            "EXTEND_3": 253,
+            "PIT_NOW_MEDIUM": 3,
+            "PIT_NOW_SOFT": 2,
+            "PIT_NOW_HARD": 2
+          },
+          "hold_frequency": 0.9115384615384615,
+          "decision_coverage": 0.08846153846153847
+        },
+        "always_extend_3": {
+          "common_snapshots": 260,
+          "mean_expected_position_change_5": -4.4096153846153845,
+          "median_expected_position_change_5": -4.0,
+          "mean_expected_relative_time_3": 2.439173076923077,
+          "mean_expected_relative_time_5": 26.498542307692308,
+          "downside_rate": 0.9,
+          "pit_frequency": 0,
+          "extend_frequency": 1,
+          "actions": {
+            "EXTEND_3": 260
+          },
+          "hold_frequency": 0.0,
+          "decision_coverage": 1.0
+        },
+        "pit_when_legal": {
+          "common_snapshots": 260,
+          "mean_expected_position_change_5": -3.878846153846154,
+          "median_expected_position_change_5": -3.0,
+          "mean_expected_relative_time_3": 22.598653846153848,
+          "mean_expected_relative_time_5": 21.55978076923077,
+          "downside_rate": 0.8884615384615384,
+          "pit_frequency": 1,
+          "extend_frequency": 0,
+          "actions": {
+            "PIT_NOW_HARD": 95,
+            "PIT_NOW_SOFT": 14,
+            "PIT_NOW_MEDIUM": 135,
+            "PIT_NOW_WET": 16
+          },
+          "hold_frequency": 0.0,
+          "decision_coverage": 1.0
+        },
+        "age_threshold": {
+          "common_snapshots": 260,
+          "mean_expected_position_change_5": -4.196153846153846,
+          "median_expected_position_change_5": -3.0,
+          "mean_expected_relative_time_3": 9.448734615384616,
+          "mean_expected_relative_time_5": 24.60831153846154,
+          "downside_rate": 0.8923076923076924,
+          "pit_frequency": 0.36153846153846153,
+          "extend_frequency": 0.6384615384615384,
+          "actions": {
+            "EXTEND_3": 166,
+            "PIT_NOW_MEDIUM": 58,
+            "PIT_NOW_HARD": 36
+          },
+          "hold_frequency": 0.0,
+          "decision_coverage": 1.0
+        }
+      },
+      "by_grid_region": {
+        "P1-P5": {
+          "phase4": {
+            "common_snapshots": 88,
+            "mean_expected_position_change_5": -4.568181818181818,
+            "median_expected_position_change_5": -4.0,
+            "mean_expected_relative_time_3": 0.8987386363636364,
+            "mean_expected_relative_time_5": 23.83635227272727,
+            "downside_rate": 0.9545454545454546,
+            "pit_frequency": 0,
+            "extend_frequency": 1,
+            "actions": {
+              "EXTEND_3": 88
+            },
+            "hold_frequency": 0.8863636363636364,
+            "decision_coverage": 0.11363636363636363
+          },
+          "always_extend_3": {
+            "common_snapshots": 88,
+            "mean_expected_position_change_5": -4.568181818181818,
+            "median_expected_position_change_5": -4.0,
+            "mean_expected_relative_time_3": 0.8987386363636364,
+            "mean_expected_relative_time_5": 23.83635227272727,
+            "downside_rate": 0.9545454545454546,
+            "pit_frequency": 0,
+            "extend_frequency": 1,
+            "actions": {
+              "EXTEND_3": 88
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "pit_when_legal": {
+            "common_snapshots": 88,
+            "mean_expected_position_change_5": -3.8295454545454546,
+            "median_expected_position_change_5": -3.0,
+            "mean_expected_relative_time_3": 21.17489772727273,
+            "mean_expected_relative_time_5": 19.41409090909091,
+            "downside_rate": 0.9204545454545454,
+            "pit_frequency": 1,
+            "extend_frequency": 0,
+            "actions": {
+              "PIT_NOW_HARD": 37,
+              "PIT_NOW_SOFT": 3,
+              "PIT_NOW_MEDIUM": 39,
+              "PIT_NOW_WET": 9
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "age_threshold": {
+            "common_snapshots": 88,
+            "mean_expected_position_change_5": -4.2102272727272725,
+            "median_expected_position_change_5": -3.0,
+            "mean_expected_relative_time_3": 8.986431818181819,
+            "mean_expected_relative_time_5": 21.738738636363635,
+            "downside_rate": 0.9318181818181818,
+            "pit_frequency": 0.42045454545454547,
+            "extend_frequency": 0.5795454545454546,
+            "actions": {
+              "EXTEND_3": 51,
+              "PIT_NOW_MEDIUM": 20,
+              "PIT_NOW_HARD": 17
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          }
+        },
+        "P6-P10": {
+          "phase4": {
+            "common_snapshots": 84,
+            "mean_expected_position_change_5": -5.458333333333333,
+            "median_expected_position_change_5": -5.0,
+            "mean_expected_relative_time_3": 3.287190476190476,
+            "mean_expected_relative_time_5": 26.12984523809524,
+            "downside_rate": 0.9285714285714286,
+            "pit_frequency": 0.03571428571428571,
+            "extend_frequency": 0.9642857142857143,
+            "actions": {
+              "EXTEND_3": 81,
+              "PIT_NOW_MEDIUM": 2,
+              "PIT_NOW_HARD": 1
+            },
+            "hold_frequency": 0.8928571428571429,
+            "decision_coverage": 0.10714285714285714
+          },
+          "always_extend_3": {
+            "common_snapshots": 84,
+            "mean_expected_position_change_5": -5.494047619047619,
+            "median_expected_position_change_5": -5.0,
+            "mean_expected_relative_time_3": 2.589345238095238,
+            "mean_expected_relative_time_5": 26.376595238095238,
+            "downside_rate": 0.9285714285714286,
+            "pit_frequency": 0,
+            "extend_frequency": 1,
+            "actions": {
+              "EXTEND_3": 84
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "pit_when_legal": {
+            "common_snapshots": 84,
+            "mean_expected_position_change_5": -4.767857142857143,
+            "median_expected_position_change_5": -5.0,
+            "mean_expected_relative_time_3": 22.336559523809523,
+            "mean_expected_relative_time_5": 21.320678571428573,
+            "downside_rate": 0.9285714285714286,
+            "pit_frequency": 1,
+            "extend_frequency": 0,
+            "actions": {
+              "PIT_NOW_SOFT": 4,
+              "PIT_NOW_HARD": 29,
+              "PIT_NOW_MEDIUM": 44,
+              "PIT_NOW_WET": 7
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "age_threshold": {
+            "common_snapshots": 84,
+            "mean_expected_position_change_5": -5.232142857142857,
+            "median_expected_position_change_5": -5.0,
+            "mean_expected_relative_time_3": 9.738607142857143,
+            "mean_expected_relative_time_5": 24.410809523809522,
+            "downside_rate": 0.9285714285714286,
+            "pit_frequency": 0.36904761904761907,
+            "extend_frequency": 0.6309523809523809,
+            "actions": {
+              "EXTEND_3": 53,
+              "PIT_NOW_HARD": 11,
+              "PIT_NOW_MEDIUM": 20
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          }
+        },
+        "P11-P15": {
+          "phase4": {
+            "common_snapshots": 60,
+            "mean_expected_position_change_5": -4.15,
+            "median_expected_position_change_5": -4.0,
+            "mean_expected_relative_time_3": 4.646,
+            "mean_expected_relative_time_5": 29.2191,
+            "downside_rate": 0.9166666666666666,
+            "pit_frequency": 0.03333333333333333,
+            "extend_frequency": 0.9666666666666667,
+            "actions": {
+              "EXTEND_3": 58,
+              "PIT_NOW_SOFT": 2
+            },
+            "hold_frequency": 0.9666666666666667,
+            "decision_coverage": 0.03333333333333333
+          },
+          "always_extend_3": {
+            "common_snapshots": 60,
+            "mean_expected_position_change_5": -4.183333333333334,
+            "median_expected_position_change_5": -4.0,
+            "mean_expected_relative_time_3": 4.0437666666666665,
+            "mean_expected_relative_time_5": 29.467883333333333,
+            "downside_rate": 0.9166666666666666,
+            "pit_frequency": 0,
+            "extend_frequency": 1,
+            "actions": {
+              "EXTEND_3": 60
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "pit_when_legal": {
+            "common_snapshots": 60,
+            "mean_expected_position_change_5": -4.016666666666667,
+            "median_expected_position_change_5": -4.0,
+            "mean_expected_relative_time_3": 24.318583333333333,
+            "mean_expected_relative_time_5": 24.080033333333333,
+            "downside_rate": 0.9166666666666666,
+            "pit_frequency": 1,
+            "extend_frequency": 0,
+            "actions": {
+              "PIT_NOW_SOFT": 4,
+              "PIT_NOW_HARD": 22,
+              "PIT_NOW_MEDIUM": 34
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "age_threshold": {
+            "common_snapshots": 60,
+            "mean_expected_position_change_5": -4.15,
+            "median_expected_position_change_5": -4.0,
+            "mean_expected_relative_time_3": 11.5842,
+            "mean_expected_relative_time_5": 27.3672,
+            "downside_rate": 0.9166666666666666,
+            "pit_frequency": 0.38333333333333336,
+            "extend_frequency": 0.6166666666666667,
+            "actions": {
+              "EXTEND_3": 37,
+              "PIT_NOW_HARD": 7,
+              "PIT_NOW_MEDIUM": 16
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          }
+        },
+        "P16+": {
+          "phase4": {
+            "common_snapshots": 28,
+            "mean_expected_position_change_5": -1.1428571428571428,
+            "median_expected_position_change_5": -1.0,
+            "mean_expected_relative_time_3": 4.74525,
+            "mean_expected_relative_time_5": 28.328142857142858,
+            "downside_rate": 0.6071428571428571,
+            "pit_frequency": 0.07142857142857142,
+            "extend_frequency": 0.9285714285714286,
+            "actions": {
+              "EXTEND_3": 26,
+              "PIT_NOW_MEDIUM": 1,
+              "PIT_NOW_HARD": 1
+            },
+            "hold_frequency": 0.9285714285714286,
+            "decision_coverage": 0.07142857142857142
+          },
+          "always_extend_3": {
+            "common_snapshots": 28,
+            "mean_expected_position_change_5": -1.1428571428571428,
+            "median_expected_position_change_5": -1.0,
+            "mean_expected_relative_time_3": 3.391607142857143,
+            "mean_expected_relative_time_5": 28.868392857142858,
+            "downside_rate": 0.6071428571428571,
+            "pit_frequency": 0,
+            "extend_frequency": 1,
+            "actions": {
+              "EXTEND_3": 28
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "pit_when_legal": {
+            "common_snapshots": 28,
+            "mean_expected_position_change_5": -1.0714285714285714,
+            "median_expected_position_change_5": -1.0,
+            "mean_expected_relative_time_3": 24.174035714285715,
+            "mean_expected_relative_time_5": 23.620142857142856,
+            "downside_rate": 0.6071428571428571,
+            "pit_frequency": 1,
+            "extend_frequency": 0,
+            "actions": {
+              "PIT_NOW_SOFT": 3,
+              "PIT_NOW_HARD": 7,
+              "PIT_NOW_MEDIUM": 18
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "age_threshold": {
+            "common_snapshots": 28,
+            "mean_expected_position_change_5": -1.1428571428571428,
+            "median_expected_position_change_5": -1.0,
+            "mean_expected_relative_time_3": 5.456071428571429,
+            "mean_expected_relative_time_5": 28.30757142857143,
+            "downside_rate": 0.6071428571428571,
+            "pit_frequency": 0.10714285714285714,
+            "extend_frequency": 0.8928571428571429,
+            "actions": {
+              "EXTEND_3": 25,
+              "PIT_NOW_MEDIUM": 2,
+              "PIT_NOW_HARD": 1
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          }
+        }
+      },
+      "by_circuit": {
+        "2023/1": {
+          "phase4": {
+            "common_snapshots": 63,
+            "mean_expected_position_change_5": -3.888888888888889,
+            "median_expected_position_change_5": -4,
+            "mean_expected_relative_time_3": 2.697015873015873,
+            "mean_expected_relative_time_5": 27.753206349206348,
+            "downside_rate": 0.9206349206349206,
+            "pit_frequency": 0,
+            "extend_frequency": 1,
+            "actions": {
+              "EXTEND_3": 63
+            },
+            "hold_frequency": 0.9206349206349206,
+            "decision_coverage": 0.07936507936507936
+          },
+          "always_extend_3": {
+            "common_snapshots": 63,
+            "mean_expected_position_change_5": -3.888888888888889,
+            "median_expected_position_change_5": -4,
+            "mean_expected_relative_time_3": 2.697015873015873,
+            "mean_expected_relative_time_5": 27.753206349206348,
+            "downside_rate": 0.9206349206349206,
+            "pit_frequency": 0,
+            "extend_frequency": 1,
+            "actions": {
+              "EXTEND_3": 63
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "pit_when_legal": {
+            "common_snapshots": 63,
+            "mean_expected_position_change_5": -3.365079365079365,
+            "median_expected_position_change_5": -3,
+            "mean_expected_relative_time_3": 23.677698412698412,
+            "mean_expected_relative_time_5": 22.7944126984127,
+            "downside_rate": 0.9206349206349206,
+            "pit_frequency": 1,
+            "extend_frequency": 0,
+            "actions": {
+              "PIT_NOW_HARD": 15,
+              "PIT_NOW_SOFT": 14,
+              "PIT_NOW_MEDIUM": 34
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "age_threshold": {
+            "common_snapshots": 63,
+            "mean_expected_position_change_5": -3.8253968253968256,
+            "median_expected_position_change_5": -3,
+            "mean_expected_relative_time_3": 5.6911587301587305,
+            "mean_expected_relative_time_5": 27.03311111111111,
+            "downside_rate": 0.9206349206349206,
+            "pit_frequency": 0.14285714285714285,
+            "extend_frequency": 0.8571428571428571,
+            "actions": {
+              "EXTEND_3": 54,
+              "PIT_NOW_MEDIUM": 7,
+              "PIT_NOW_HARD": 2
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          }
+        },
+        "2023/14": {
+          "phase4": {
+            "common_snapshots": 51,
+            "mean_expected_position_change_5": -5.078431372549019,
+            "median_expected_position_change_5": -5,
+            "mean_expected_relative_time_3": 4.372333333333334,
+            "mean_expected_relative_time_5": 29.30249019607843,
+            "downside_rate": 0.9215686274509803,
+            "pit_frequency": 0.058823529411764705,
+            "extend_frequency": 0.9411764705882353,
+            "actions": {
+              "EXTEND_3": 48,
+              "PIT_NOW_MEDIUM": 1,
+              "PIT_NOW_HARD": 2
+            },
+            "hold_frequency": 0.9019607843137255,
+            "decision_coverage": 0.09803921568627451
+          },
+          "always_extend_3": {
+            "common_snapshots": 51,
+            "mean_expected_position_change_5": -5.137254901960785,
+            "median_expected_position_change_5": -5,
+            "mean_expected_relative_time_3": 3.1746470588235294,
+            "mean_expected_relative_time_5": 29.679372549019607,
+            "downside_rate": 0.9215686274509803,
+            "pit_frequency": 0,
+            "extend_frequency": 1,
+            "actions": {
+              "EXTEND_3": 51
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "pit_when_legal": {
+            "common_snapshots": 51,
+            "mean_expected_position_change_5": -4.549019607843137,
+            "median_expected_position_change_5": -4,
+            "mean_expected_relative_time_3": 25.388490196078433,
+            "mean_expected_relative_time_5": 25.00886274509804,
+            "downside_rate": 0.9215686274509803,
+            "pit_frequency": 1,
+            "extend_frequency": 0,
+            "actions": {
+              "PIT_NOW_HARD": 16,
+              "PIT_NOW_MEDIUM": 35
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "age_threshold": {
+            "common_snapshots": 51,
+            "mean_expected_position_change_5": -4.745098039215686,
+            "median_expected_position_change_5": -5,
+            "mean_expected_relative_time_3": 15.283294117647058,
+            "mean_expected_relative_time_5": 27.019254901960785,
+            "downside_rate": 0.9215686274509803,
+            "pit_frequency": 0.5490196078431373,
+            "extend_frequency": 0.45098039215686275,
+            "actions": {
+              "PIT_NOW_HARD": 9,
+              "PIT_NOW_MEDIUM": 19,
+              "EXTEND_3": 23
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          }
+        },
+        "2023/6": {
+          "phase4": {
+            "common_snapshots": 53,
+            "mean_expected_position_change_5": -2.150943396226415,
+            "median_expected_position_change_5": -2,
+            "mean_expected_relative_time_3": 1.1480754716981132,
+            "mean_expected_relative_time_5": 20.27279245283019,
+            "downside_rate": 0.7924528301886793,
+            "pit_frequency": 0,
+            "extend_frequency": 1,
+            "actions": {
+              "EXTEND_3": 53
+            },
+            "hold_frequency": 1,
+            "decision_coverage": 0
+          },
+          "always_extend_3": {
+            "common_snapshots": 53,
+            "mean_expected_position_change_5": -2.150943396226415,
+            "median_expected_position_change_5": -2,
+            "mean_expected_relative_time_3": 1.1480754716981132,
+            "mean_expected_relative_time_5": 20.27279245283019,
+            "downside_rate": 0.7924528301886793,
+            "pit_frequency": 0,
+            "extend_frequency": 1,
+            "actions": {
+              "EXTEND_3": 53
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "pit_when_legal": {
+            "common_snapshots": 53,
+            "mean_expected_position_change_5": -1.7547169811320755,
+            "median_expected_position_change_5": -2,
+            "mean_expected_relative_time_3": 17.31143396226415,
+            "mean_expected_relative_time_5": 15.241679245283018,
+            "downside_rate": 0.7547169811320755,
+            "pit_frequency": 1,
+            "extend_frequency": 0,
+            "actions": {
+              "PIT_NOW_HARD": 16,
+              "PIT_NOW_MEDIUM": 21,
+              "PIT_NOW_WET": 16
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "age_threshold": {
+            "common_snapshots": 53,
+            "mean_expected_position_change_5": -1.9245283018867925,
+            "median_expected_position_change_5": -2,
+            "mean_expected_relative_time_3": 10.202943396226415,
+            "mean_expected_relative_time_5": 16.96445283018868,
+            "downside_rate": 0.7735849056603774,
+            "pit_frequency": 0.5849056603773585,
+            "extend_frequency": 0.41509433962264153,
+            "actions": {
+              "PIT_NOW_HARD": 12,
+              "PIT_NOW_MEDIUM": 19,
+              "EXTEND_3": 22
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          }
+        },
+        "2023/7": {
+          "phase4": {
+            "common_snapshots": 93,
+            "mean_expected_position_change_5": -5.629032258064516,
+            "median_expected_position_change_5": -5,
+            "mean_expected_relative_time_3": 3.366569892473118,
+            "mean_expected_relative_time_5": 27.112935483870967,
+            "downside_rate": 0.9354838709677419,
+            "pit_frequency": 0.043010752688172046,
+            "extend_frequency": 0.956989247311828,
+            "actions": {
+              "EXTEND_3": 89,
+              "PIT_NOW_MEDIUM": 2,
+              "PIT_NOW_SOFT": 2
+            },
+            "hold_frequency": 0.8602150537634409,
+            "decision_coverage": 0.13978494623655913
+          },
+          "always_extend_3": {
+            "common_snapshots": 93,
+            "mean_expected_position_change_5": -5.650537634408602,
+            "median_expected_position_change_5": -5,
+            "mean_expected_relative_time_3": 2.596967741935484,
+            "mean_expected_relative_time_5": 27.452290322580644,
+            "downside_rate": 0.9354838709677419,
+            "pit_frequency": 0,
+            "extend_frequency": 1,
+            "actions": {
+              "EXTEND_3": 93
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "pit_when_legal": {
+            "common_snapshots": 93,
+            "mean_expected_position_change_5": -5.06989247311828,
+            "median_expected_position_change_5": -5,
+            "mean_expected_relative_time_3": 23.350924731182797,
+            "mean_expected_relative_time_5": 22.43262365591398,
+            "downside_rate": 0.9247311827956989,
+            "pit_frequency": 1,
+            "extend_frequency": 0,
+            "actions": {
+              "PIT_NOW_HARD": 48,
+              "PIT_NOW_MEDIUM": 45
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "age_threshold": {
+            "common_snapshots": 93,
+            "mean_expected_position_change_5": -5.440860215053763,
+            "median_expected_position_change_5": -5.0,
+            "mean_expected_relative_time_3": 8.364774193548387,
+            "mean_expected_relative_time_5": 25.999752688172045,
+            "downside_rate": 0.9247311827956989,
+            "pit_frequency": 0.27956989247311825,
+            "extend_frequency": 0.7204301075268817,
+            "actions": {
+              "EXTEND_3": 67,
+              "PIT_NOW_HARD": 13,
+              "PIT_NOW_MEDIUM": 13
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          }
+        }
+      }
+    },
+    "validation": {
+      "overall": {
+        "phase4": {
+          "common_snapshots": 348,
+          "mean_expected_position_change_5": -4.517241379310345,
+          "median_expected_position_change_5": -4.0,
+          "mean_expected_relative_time_3": 3.802402298850575,
+          "mean_expected_relative_time_5": 27.38453448275862,
+          "downside_rate": 0.9195402298850575,
+          "pit_frequency": 0.017241379310344827,
+          "extend_frequency": 0.9827586206896551,
+          "actions": {
+            "EXTEND_3": 331,
+            "PIT_NOW_HARD": 3,
+            "EXTEND_1": 11,
+            "PIT_NOW_MEDIUM": 3
+          },
+          "hold_frequency": 0.9051724137931034,
+          "decision_coverage": 0.09482758620689655
+        },
+        "always_extend_3": {
+          "common_snapshots": 348,
+          "mean_expected_position_change_5": -4.580459770114943,
+          "median_expected_position_change_5": -4.0,
+          "mean_expected_relative_time_3": 2.8797758620689655,
+          "mean_expected_relative_time_5": 27.611896551724136,
+          "downside_rate": 0.9224137931034483,
+          "pit_frequency": 0,
+          "extend_frequency": 1,
+          "actions": {
+            "EXTEND_3": 348
+          },
+          "hold_frequency": 0.0,
+          "decision_coverage": 1.0
+        },
+        "pit_when_legal": {
+          "common_snapshots": 348,
+          "mean_expected_position_change_5": -3.8994252873563218,
+          "median_expected_position_change_5": -3.0,
+          "mean_expected_relative_time_3": 23.329551724137932,
+          "mean_expected_relative_time_5": 22.462879310344828,
+          "downside_rate": 0.9022988505747126,
+          "pit_frequency": 1,
+          "extend_frequency": 0,
+          "actions": {
+            "PIT_NOW_SOFT": 77,
+            "PIT_NOW_HARD": 108,
+            "PIT_NOW_MEDIUM": 163
+          },
+          "hold_frequency": 0.0,
+          "decision_coverage": 1.0
+        },
+        "age_threshold": {
+          "common_snapshots": 348,
+          "mean_expected_position_change_5": -4.290229885057471,
+          "median_expected_position_change_5": -4.0,
+          "mean_expected_relative_time_3": 9.795741379310344,
+          "mean_expected_relative_time_5": 25.605511494252873,
+          "downside_rate": 0.9137931034482759,
+          "pit_frequency": 0.3764367816091954,
+          "extend_frequency": 0.6235632183908046,
+          "actions": {
+            "EXTEND_3": 217,
+            "PIT_NOW_SOFT": 16,
+            "PIT_NOW_HARD": 37,
+            "PIT_NOW_MEDIUM": 78
+          },
+          "hold_frequency": 0.0,
+          "decision_coverage": 1.0
+        }
+      },
+      "by_grid_region": {
+        "P1-P5": {
+          "phase4": {
+            "common_snapshots": 114,
+            "mean_expected_position_change_5": -5.219298245614035,
+            "median_expected_position_change_5": -4.0,
+            "mean_expected_relative_time_3": 1.7272543859649123,
+            "mean_expected_relative_time_5": 23.815464912280703,
+            "downside_rate": 1,
+            "pit_frequency": 0,
+            "extend_frequency": 1,
+            "actions": {
+              "EXTEND_3": 109,
+              "EXTEND_1": 5
+            },
+            "hold_frequency": 0.8947368421052632,
+            "decision_coverage": 0.10526315789473684
+          },
+          "always_extend_3": {
+            "common_snapshots": 114,
+            "mean_expected_position_change_5": -5.2368421052631575,
+            "median_expected_position_change_5": -4.0,
+            "mean_expected_relative_time_3": 0.8036578947368421,
+            "mean_expected_relative_time_5": 23.879280701754386,
+            "downside_rate": 1,
+            "pit_frequency": 0,
+            "extend_frequency": 1,
+            "actions": {
+              "EXTEND_3": 114
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "pit_when_legal": {
+            "common_snapshots": 114,
+            "mean_expected_position_change_5": -4.140350877192983,
+            "median_expected_position_change_5": -3.0,
+            "mean_expected_relative_time_3": 21.062605263157895,
+            "mean_expected_relative_time_5": 18.94107894736842,
+            "downside_rate": 0.9824561403508771,
+            "pit_frequency": 1,
+            "extend_frequency": 0,
+            "actions": {
+              "PIT_NOW_SOFT": 18,
+              "PIT_NOW_HARD": 44,
+              "PIT_NOW_MEDIUM": 52
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "age_threshold": {
+            "common_snapshots": 114,
+            "mean_expected_position_change_5": -4.7105263157894735,
+            "median_expected_position_change_5": -4.0,
+            "mean_expected_relative_time_3": 8.845070175438597,
+            "mean_expected_relative_time_5": 21.66392105263158,
+            "downside_rate": 0.9824561403508771,
+            "pit_frequency": 0.43859649122807015,
+            "extend_frequency": 0.5614035087719298,
+            "actions": {
+              "EXTEND_3": 64,
+              "PIT_NOW_SOFT": 4,
+              "PIT_NOW_HARD": 11,
+              "PIT_NOW_MEDIUM": 35
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          }
+        },
+        "P6-P10": {
+          "phase4": {
+            "common_snapshots": 105,
+            "mean_expected_position_change_5": -5.333333333333333,
+            "median_expected_position_change_5": -5,
+            "mean_expected_relative_time_3": 3.5327904761904763,
+            "mean_expected_relative_time_5": 26.341809523809523,
+            "downside_rate": 0.9238095238095239,
+            "pit_frequency": 0.02857142857142857,
+            "extend_frequency": 0.9714285714285714,
+            "actions": {
+              "EXTEND_3": 99,
+              "PIT_NOW_HARD": 2,
+              "EXTEND_1": 3,
+              "PIT_NOW_MEDIUM": 1
+            },
+            "hold_frequency": 0.8666666666666667,
+            "decision_coverage": 0.13333333333333333
+          },
+          "always_extend_3": {
+            "common_snapshots": 105,
+            "mean_expected_position_change_5": -5.476190476190476,
+            "median_expected_position_change_5": -6,
+            "mean_expected_relative_time_3": 2.5483142857142855,
+            "mean_expected_relative_time_5": 26.72317142857143,
+            "downside_rate": 0.9238095238095239,
+            "pit_frequency": 0,
+            "extend_frequency": 1,
+            "actions": {
+              "EXTEND_3": 105
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "pit_when_legal": {
+            "common_snapshots": 105,
+            "mean_expected_position_change_5": -4.609523809523809,
+            "median_expected_position_change_5": -5,
+            "mean_expected_relative_time_3": 22.570114285714286,
+            "mean_expected_relative_time_5": 21.334457142857143,
+            "downside_rate": 0.8952380952380953,
+            "pit_frequency": 1,
+            "extend_frequency": 0,
+            "actions": {
+              "PIT_NOW_SOFT": 24,
+              "PIT_NOW_HARD": 34,
+              "PIT_NOW_MEDIUM": 47
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "age_threshold": {
+            "common_snapshots": 105,
+            "mean_expected_position_change_5": -5.161904761904762,
+            "median_expected_position_change_5": -5,
+            "mean_expected_relative_time_3": 9.777295238095238,
+            "mean_expected_relative_time_5": 24.45635238095238,
+            "downside_rate": 0.9238095238095239,
+            "pit_frequency": 0.4,
+            "extend_frequency": 0.6,
+            "actions": {
+              "EXTEND_3": 63,
+              "PIT_NOW_SOFT": 4,
+              "PIT_NOW_MEDIUM": 23,
+              "PIT_NOW_HARD": 15
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          }
+        },
+        "P11-P15": {
+          "phase4": {
+            "common_snapshots": 93,
+            "mean_expected_position_change_5": -4.021505376344086,
+            "median_expected_position_change_5": -4,
+            "mean_expected_relative_time_3": 6.153935483870968,
+            "mean_expected_relative_time_5": 31.20078494623656,
+            "downside_rate": 0.9247311827956989,
+            "pit_frequency": 0.021505376344086023,
+            "extend_frequency": 0.978494623655914,
+            "actions": {
+              "EXTEND_3": 88,
+              "EXTEND_1": 3,
+              "PIT_NOW_HARD": 1,
+              "PIT_NOW_MEDIUM": 1
+            },
+            "hold_frequency": 0.9354838709677419,
+            "decision_coverage": 0.06451612903225806
+          },
+          "always_extend_3": {
+            "common_snapshots": 93,
+            "mean_expected_position_change_5": -4.075268817204301,
+            "median_expected_position_change_5": -4,
+            "mean_expected_relative_time_3": 5.1445483870967745,
+            "mean_expected_relative_time_5": 31.447010752688172,
+            "downside_rate": 0.9354838709677419,
+            "pit_frequency": 0,
+            "extend_frequency": 1,
+            "actions": {
+              "EXTEND_3": 93
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "pit_when_legal": {
+            "common_snapshots": 93,
+            "mean_expected_position_change_5": -3.849462365591398,
+            "median_expected_position_change_5": -4,
+            "mean_expected_relative_time_3": 25.64884946236559,
+            "mean_expected_relative_time_5": 26.257655913978496,
+            "downside_rate": 0.9139784946236559,
+            "pit_frequency": 1,
+            "extend_frequency": 0,
+            "actions": {
+              "PIT_NOW_SOFT": 22,
+              "PIT_NOW_HARD": 24,
+              "PIT_NOW_MEDIUM": 47
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "age_threshold": {
+            "common_snapshots": 93,
+            "mean_expected_position_change_5": -3.989247311827957,
+            "median_expected_position_change_5": -4,
+            "mean_expected_relative_time_3": 11.86641935483871,
+            "mean_expected_relative_time_5": 29.460870967741936,
+            "downside_rate": 0.9247311827956989,
+            "pit_frequency": 0.3655913978494624,
+            "extend_frequency": 0.6344086021505376,
+            "actions": {
+              "EXTEND_3": 59,
+              "PIT_NOW_SOFT": 6,
+              "PIT_NOW_MEDIUM": 17,
+              "PIT_NOW_HARD": 11
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          }
+        },
+        "P16+": {
+          "phase4": {
+            "common_snapshots": 36,
+            "mean_expected_position_change_5": -1.1944444444444444,
+            "median_expected_position_change_5": -1.0,
+            "mean_expected_relative_time_3": 5.085277777777778,
+            "mean_expected_relative_time_5": 31.869222222222223,
+            "downside_rate": 0.6388888888888888,
+            "pit_frequency": 0.027777777777777776,
+            "extend_frequency": 0.9722222222222222,
+            "actions": {
+              "EXTEND_3": 35,
+              "PIT_NOW_MEDIUM": 1
+            },
+            "hold_frequency": 0.9722222222222222,
+            "decision_coverage": 0.027777777777777776
+          },
+          "always_extend_3": {
+            "common_snapshots": 36,
+            "mean_expected_position_change_5": -1.1944444444444444,
+            "median_expected_position_change_5": -1.0,
+            "mean_expected_relative_time_3": 4.57025,
+            "mean_expected_relative_time_5": 32.11658333333333,
+            "downside_rate": 0.6388888888888888,
+            "pit_frequency": 0,
+            "extend_frequency": 1,
+            "actions": {
+              "EXTEND_3": 36
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "pit_when_legal": {
+            "common_snapshots": 36,
+            "mean_expected_position_change_5": -1.1944444444444444,
+            "median_expected_position_change_5": -1.0,
+            "mean_expected_relative_time_3": 26.73172222222222,
+            "mean_expected_relative_time_5": 27.103305555555554,
+            "downside_rate": 0.6388888888888888,
+            "pit_frequency": 1,
+            "extend_frequency": 0,
+            "actions": {
+              "PIT_NOW_SOFT": 13,
+              "PIT_NOW_MEDIUM": 17,
+              "PIT_NOW_HARD": 6
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "age_threshold": {
+            "common_snapshots": 36,
+            "mean_expected_position_change_5": -1.1944444444444444,
+            "median_expected_position_change_5": -1.0,
+            "mean_expected_relative_time_3": 7.51075,
+            "mean_expected_relative_time_5": 31.47925,
+            "downside_rate": 0.6388888888888888,
+            "pit_frequency": 0.1388888888888889,
+            "extend_frequency": 0.8611111111111112,
+            "actions": {
+              "EXTEND_3": 31,
+              "PIT_NOW_SOFT": 2,
+              "PIT_NOW_MEDIUM": 3
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          }
+        }
+      },
+      "by_circuit": {
+        "2024/1": {
+          "phase4": {
+            "common_snapshots": 70,
+            "mean_expected_position_change_5": -5.071428571428571,
+            "median_expected_position_change_5": -5.0,
+            "mean_expected_relative_time_3": 4.641042857142857,
+            "mean_expected_relative_time_5": 31.155671428571427,
+            "downside_rate": 0.9428571428571428,
+            "pit_frequency": 0,
+            "extend_frequency": 1,
+            "actions": {
+              "EXTEND_3": 70
+            },
+            "hold_frequency": 1,
+            "decision_coverage": 0
+          },
+          "always_extend_3": {
+            "common_snapshots": 70,
+            "mean_expected_position_change_5": -5.071428571428571,
+            "median_expected_position_change_5": -5.0,
+            "mean_expected_relative_time_3": 4.641042857142857,
+            "mean_expected_relative_time_5": 31.155671428571427,
+            "downside_rate": 0.9428571428571428,
+            "pit_frequency": 0,
+            "extend_frequency": 1,
+            "actions": {
+              "EXTEND_3": 70
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "pit_when_legal": {
+            "common_snapshots": 70,
+            "mean_expected_position_change_5": -4.514285714285714,
+            "median_expected_position_change_5": -4.0,
+            "mean_expected_relative_time_3": 25.75722857142857,
+            "mean_expected_relative_time_5": 26.20227142857143,
+            "downside_rate": 0.9285714285714286,
+            "pit_frequency": 1,
+            "extend_frequency": 0,
+            "actions": {
+              "PIT_NOW_SOFT": 64,
+              "PIT_NOW_HARD": 6
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "age_threshold": {
+            "common_snapshots": 70,
+            "mean_expected_position_change_5": -4.942857142857143,
+            "median_expected_position_change_5": -4.0,
+            "mean_expected_relative_time_3": 9.418128571428571,
+            "mean_expected_relative_time_5": 29.97637142857143,
+            "downside_rate": 0.9428571428571428,
+            "pit_frequency": 0.22857142857142856,
+            "extend_frequency": 0.7714285714285715,
+            "actions": {
+              "EXTEND_3": 54,
+              "PIT_NOW_SOFT": 16
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          }
+        },
+        "2024/10": {
+          "phase4": {
+            "common_snapshots": 73,
+            "mean_expected_position_change_5": -4.013698630136986,
+            "median_expected_position_change_5": -4,
+            "mean_expected_relative_time_3": 1.7069589041095892,
+            "mean_expected_relative_time_5": 24.832876712328765,
+            "downside_rate": 0.9452054794520548,
+            "pit_frequency": 0,
+            "extend_frequency": 1,
+            "actions": {
+              "EXTEND_3": 73
+            },
+            "hold_frequency": 0.9178082191780822,
+            "decision_coverage": 0.0821917808219178
+          },
+          "always_extend_3": {
+            "common_snapshots": 73,
+            "mean_expected_position_change_5": -4.013698630136986,
+            "median_expected_position_change_5": -4,
+            "mean_expected_relative_time_3": 1.7069589041095892,
+            "mean_expected_relative_time_5": 24.832876712328765,
+            "downside_rate": 0.9452054794520548,
+            "pit_frequency": 0,
+            "extend_frequency": 1,
+            "actions": {
+              "EXTEND_3": 73
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "pit_when_legal": {
+            "common_snapshots": 73,
+            "mean_expected_position_change_5": -3.2465753424657535,
+            "median_expected_position_change_5": -3,
+            "mean_expected_relative_time_3": 21.295205479452054,
+            "mean_expected_relative_time_5": 19.72113698630137,
+            "downside_rate": 0.9315068493150684,
+            "pit_frequency": 1,
+            "extend_frequency": 0,
+            "actions": {
+              "PIT_NOW_MEDIUM": 22,
+              "PIT_NOW_SOFT": 13,
+              "PIT_NOW_HARD": 38
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "age_threshold": {
+            "common_snapshots": 73,
+            "mean_expected_position_change_5": -3.863013698630137,
+            "median_expected_position_change_5": -4,
+            "mean_expected_relative_time_3": 6.765301369863014,
+            "mean_expected_relative_time_5": 23.480520547945204,
+            "downside_rate": 0.9452054794520548,
+            "pit_frequency": 0.2602739726027397,
+            "extend_frequency": 0.7397260273972602,
+            "actions": {
+              "PIT_NOW_MEDIUM": 8,
+              "EXTEND_3": 54,
+              "PIT_NOW_HARD": 11
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          }
+        },
+        "2024/16": {
+          "phase4": {
+            "common_snapshots": 68,
+            "mean_expected_position_change_5": -5.897058823529412,
+            "median_expected_position_change_5": -5.0,
+            "mean_expected_relative_time_3": 3.148044117647059,
+            "mean_expected_relative_time_5": 32.71698529411765,
+            "downside_rate": 0.9411764705882353,
+            "pit_frequency": 0.04411764705882353,
+            "extend_frequency": 0.9558823529411765,
+            "actions": {
+              "EXTEND_3": 65,
+              "PIT_NOW_MEDIUM": 3
+            },
+            "hold_frequency": 0.8088235294117647,
+            "decision_coverage": 0.19117647058823528
+          },
+          "always_extend_3": {
+            "common_snapshots": 68,
+            "mean_expected_position_change_5": -5.955882352941177,
+            "median_expected_position_change_5": -5.0,
+            "mean_expected_relative_time_3": 2.3373529411764706,
+            "mean_expected_relative_time_5": 33.117176470588234,
+            "downside_rate": 0.9411764705882353,
+            "pit_frequency": 0,
+            "extend_frequency": 1,
+            "actions": {
+              "EXTEND_3": 68
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "pit_when_legal": {
+            "common_snapshots": 68,
+            "mean_expected_position_change_5": -5.705882352941177,
+            "median_expected_position_change_5": -5.0,
+            "mean_expected_relative_time_3": 29.72910294117647,
+            "mean_expected_relative_time_5": 29.23908823529412,
+            "downside_rate": 0.9411764705882353,
+            "pit_frequency": 1,
+            "extend_frequency": 0,
+            "actions": {
+              "PIT_NOW_HARD": 15,
+              "PIT_NOW_MEDIUM": 53
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "age_threshold": {
+            "common_snapshots": 68,
+            "mean_expected_position_change_5": -5.867647058823529,
+            "median_expected_position_change_5": -5.0,
+            "mean_expected_relative_time_3": 8.530279411764706,
+            "mean_expected_relative_time_5": 32.15542647058824,
+            "downside_rate": 0.9411764705882353,
+            "pit_frequency": 0.2647058823529412,
+            "extend_frequency": 0.7352941176470589,
+            "actions": {
+              "EXTEND_3": 50,
+              "PIT_NOW_MEDIUM": 18
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          }
+        },
+        "2024/4": {
+          "phase4": {
+            "common_snapshots": 65,
+            "mean_expected_position_change_5": -4.338461538461538,
+            "median_expected_position_change_5": -4,
+            "mean_expected_relative_time_3": 7.056153846153846,
+            "mean_expected_relative_time_5": 25.51016923076923,
+            "downside_rate": 0.9076923076923077,
+            "pit_frequency": 0.03076923076923077,
+            "extend_frequency": 0.9692307692307692,
+            "actions": {
+              "EXTEND_3": 52,
+              "PIT_NOW_HARD": 2,
+              "EXTEND_1": 11
+            },
+            "hold_frequency": 0.8,
+            "decision_coverage": 0.2
+          },
+          "always_extend_3": {
+            "common_snapshots": 65,
+            "mean_expected_position_change_5": -4.538461538461538,
+            "median_expected_position_change_5": -4,
+            "mean_expected_relative_time_3": 3.1577076923076923,
+            "mean_expected_relative_time_5": 26.166630769230768,
+            "downside_rate": 0.9076923076923077,
+            "pit_frequency": 0,
+            "extend_frequency": 1,
+            "actions": {
+              "EXTEND_3": 65
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "pit_when_legal": {
+            "common_snapshots": 65,
+            "mean_expected_position_change_5": -3.5846153846153848,
+            "median_expected_position_change_5": -3,
+            "mean_expected_relative_time_3": 21.321907692307693,
+            "mean_expected_relative_time_5": 20.13309230769231,
+            "downside_rate": 0.8923076923076924,
+            "pit_frequency": 1,
+            "extend_frequency": 0,
+            "actions": {
+              "PIT_NOW_HARD": 25,
+              "PIT_NOW_MEDIUM": 40
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "age_threshold": {
+            "common_snapshots": 65,
+            "mean_expected_position_change_5": -4.338461538461538,
+            "median_expected_position_change_5": -4,
+            "mean_expected_relative_time_3": 5.885569230769231,
+            "mean_expected_relative_time_5": 25.1938,
+            "downside_rate": 0.9076923076923077,
+            "pit_frequency": 0.15384615384615385,
+            "extend_frequency": 0.8461538461538461,
+            "actions": {
+              "EXTEND_3": 55,
+              "PIT_NOW_HARD": 2,
+              "PIT_NOW_MEDIUM": 8
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          }
+        },
+        "2024/8": {
+          "phase4": {
+            "common_snapshots": 72,
+            "mean_expected_position_change_5": -3.3472222222222223,
+            "median_expected_position_change_5": -3.0,
+            "mean_expected_relative_time_3": 2.792194444444444,
+            "mean_expected_relative_time_5": 22.961180555555554,
+            "downside_rate": 0.8611111111111112,
+            "pit_frequency": 0.013888888888888888,
+            "extend_frequency": 0.9861111111111112,
+            "actions": {
+              "EXTEND_3": 71,
+              "PIT_NOW_HARD": 1
+            },
+            "hold_frequency": 0.9861111111111112,
+            "decision_coverage": 0.013888888888888888
+          },
+          "always_extend_3": {
+            "common_snapshots": 72,
+            "mean_expected_position_change_5": -3.4166666666666665,
+            "median_expected_position_change_5": -3.0,
+            "mean_expected_relative_time_3": 2.6179166666666664,
+            "mean_expected_relative_time_5": 23.0895,
+            "downside_rate": 0.875,
+            "pit_frequency": 0,
+            "extend_frequency": 1,
+            "actions": {
+              "EXTEND_3": 72
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "pit_when_legal": {
+            "common_snapshots": 72,
+            "mean_expected_position_change_5": -2.5416666666666665,
+            "median_expected_position_change_5": -2.0,
+            "mean_expected_relative_time_3": 18.80034722222222,
+            "mean_expected_relative_time_5": 17.310708333333334,
+            "downside_rate": 0.8194444444444444,
+            "pit_frequency": 1,
+            "extend_frequency": 0,
+            "actions": {
+              "PIT_NOW_MEDIUM": 48,
+              "PIT_NOW_HARD": 24
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          },
+          "age_threshold": {
+            "common_snapshots": 72,
+            "mean_expected_position_change_5": -2.5555555555555554,
+            "median_expected_position_change_5": -2.0,
+            "mean_expected_relative_time_3": 17.960569444444445,
+            "mean_expected_relative_time_5": 17.69622222222222,
+            "downside_rate": 0.8333333333333334,
+            "pit_frequency": 0.9444444444444444,
+            "extend_frequency": 0.05555555555555555,
+            "actions": {
+              "PIT_NOW_MEDIUM": 44,
+              "PIT_NOW_HARD": 24,
+              "EXTEND_3": 4
+            },
+            "hold_frequency": 0.0,
+            "decision_coverage": 1.0
+          }
+        }
+      }
+    }
+  },
+  "coverage": {
+    "development_common_snapshots": 260,
+    "validation_common_snapshots": 348,
+    "development_exclusions": {
+      "always_extend_3: causal pit-loss estimate": 79,
+      "phase4: causal pit-loss estimate": 79,
+      "pit_when_legal: causal pit-loss estimate": 79,
+      "age_threshold: causal pit-loss estimate": 79,
+      "phase4: recent relative pace": 19,
+      "always_extend_3: recent relative pace": 19,
+      "age_threshold: recent relative pace": 19,
+      "pit_when_legal: recent relative pace": 19,
+      "pit_when_legal: same-lap gap to leader": 78,
+      "always_extend_3: same-lap gap to leader": 78,
+      "phase4: same-lap gap to leader": 78,
+      "age_threshold: same-lap gap to leader": 78
+    },
+    "validation_exclusions": {
+      "always_extend_3: causal pit-loss estimate": 56,
+      "phase4: causal pit-loss estimate": 56,
+      "pit_when_legal: causal pit-loss estimate": 56,
+      "age_threshold: causal pit-loss estimate": 56,
+      "phase4: recent relative pace": 20,
+      "always_extend_3: recent relative pace": 20,
+      "age_threshold: recent relative pace": 20,
+      "pit_when_legal: recent relative pace": 20,
+      "always_extend_3: same-lap gap to leader": 61,
+      "pit_when_legal: same-lap gap to leader": 61,
+      "age_threshold: same-lap gap to leader": 61,
+      "phase4: same-lap gap to leader": 61
+    },
+    "development_backmarker_exclusions": {
+      "always_extend_3: causal pit-loss estimate": 19,
+      "phase4: causal pit-loss estimate": 19,
+      "pit_when_legal: causal pit-loss estimate": 19,
+      "age_threshold: causal pit-loss estimate": 19,
+      "phase4: recent relative pace": 13,
+      "always_extend_3: recent relative pace": 13,
+      "age_threshold: recent relative pace": 13,
+      "pit_when_legal: recent relative pace": 13,
+      "pit_when_legal: same-lap gap to leader": 47,
+      "always_extend_3: same-lap gap to leader": 47,
+      "phase4: same-lap gap to leader": 47,
+      "age_threshold: same-lap gap to leader": 47
+    },
+    "validation_backmarker_exclusions": {
+      "always_extend_3: causal pit-loss estimate": 11,
+      "phase4: causal pit-loss estimate": 11,
+      "pit_when_legal: causal pit-loss estimate": 11,
+      "age_threshold: causal pit-loss estimate": 11,
+      "phase4: recent relative pace": 14,
+      "always_extend_3: recent relative pace": 14,
+      "age_threshold: recent relative pace": 14,
+      "pit_when_legal: recent relative pace": 14,
+      "always_extend_3: same-lap gap to leader": 34,
+      "pit_when_legal: same-lap gap to leader": 34,
+      "age_threshold: same-lap gap to leader": 34,
+      "phase4: same-lap gap to leader": 34
+    }
+  },
+  "backmarkers": {
+    "definition": "P16+ on the common held-out cohort",
+    "common_snapshots": 36,
+    "policies": {
+      "phase4": {
+        "common_snapshots": 36,
+        "mean_expected_position_change_5": -1.1944444444444444,
+        "median_expected_position_change_5": -1.0,
+        "mean_expected_relative_time_3": 5.085277777777778,
+        "mean_expected_relative_time_5": 31.869222222222223,
+        "downside_rate": 0.6388888888888888,
+        "pit_frequency": 0.027777777777777776,
+        "extend_frequency": 0.9722222222222222,
+        "actions": {
+          "EXTEND_3": 35,
+          "PIT_NOW_MEDIUM": 1
+        },
+        "hold_frequency": 0.9722222222222222,
+        "decision_coverage": 0.027777777777777776
+      },
+      "always_extend_3": {
+        "common_snapshots": 36,
+        "mean_expected_position_change_5": -1.1944444444444444,
+        "median_expected_position_change_5": -1.0,
+        "mean_expected_relative_time_3": 4.57025,
+        "mean_expected_relative_time_5": 32.11658333333333,
+        "downside_rate": 0.6388888888888888,
+        "pit_frequency": 0,
+        "extend_frequency": 1,
+        "actions": {
+          "EXTEND_3": 36
+        },
+        "hold_frequency": 0.0,
+        "decision_coverage": 1.0
+      },
+      "pit_when_legal": {
+        "common_snapshots": 36,
+        "mean_expected_position_change_5": -1.1944444444444444,
+        "median_expected_position_change_5": -1.0,
+        "mean_expected_relative_time_3": 26.73172222222222,
+        "mean_expected_relative_time_5": 27.103305555555554,
+        "downside_rate": 0.6388888888888888,
+        "pit_frequency": 1,
+        "extend_frequency": 0,
+        "actions": {
+          "PIT_NOW_SOFT": 13,
+          "PIT_NOW_MEDIUM": 17,
+          "PIT_NOW_HARD": 6
+        },
+        "hold_frequency": 0.0,
+        "decision_coverage": 1.0
+      },
+      "age_threshold": {
+        "common_snapshots": 36,
+        "mean_expected_position_change_5": -1.1944444444444444,
+        "median_expected_position_change_5": -1.0,
+        "mean_expected_relative_time_3": 7.51075,
+        "mean_expected_relative_time_5": 31.47925,
+        "downside_rate": 0.6388888888888888,
+        "pit_frequency": 0.1388888888888889,
+        "extend_frequency": 0.8611111111111112,
+        "actions": {
+          "EXTEND_3": 31,
+          "PIT_NOW_SOFT": 2,
+          "PIT_NOW_MEDIUM": 3
+        },
+        "hold_frequency": 0.0,
+        "decision_coverage": 1.0
+      }
+    },
+    "examples": [
+      {
+        "race": "2024/1",
+        "lap": 20,
+        "driver_id": "f1:DANRIC01",
+        "position": 16,
+        "region": "P16+",
+        "phase4_state": "HOLD_NO_CLEAR_ADVANTAGE",
+        "phase4": {
+          "action": "EXTEND_3",
+          "position_change_3": -3,
+          "position_change_5": -3,
+          "relative_time_3": 9.333,
+          "relative_time_5": 38.573,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "always_extend_3": {
+          "action": "EXTEND_3",
+          "position_change_3": -3,
+          "position_change_5": -3,
+          "relative_time_3": 9.333,
+          "relative_time_5": 38.573,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "pit_when_legal": {
+          "action": "PIT_NOW_SOFT",
+          "position_change_3": -3,
+          "position_change_5": -3,
+          "relative_time_3": 29.907,
+          "relative_time_5": 33.094,
+          "uncertainty_3": 3.586,
+          "uncertainty_5": 4.888
+        },
+        "age_threshold": {
+          "action": "EXTEND_3",
+          "position_change_3": -3,
+          "position_change_5": -3,
+          "relative_time_3": 9.333,
+          "relative_time_5": 38.573,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        }
+      },
+      {
+        "race": "2024/1",
+        "lap": 20,
+        "driver_id": "f1:NICHUL01",
+        "position": 17,
+        "region": "P16+",
+        "phase4_state": "HOLD_NO_CLEAR_ADVANTAGE",
+        "phase4": {
+          "action": "EXTEND_3",
+          "position_change_3": -2,
+          "position_change_5": -2,
+          "relative_time_3": 8.007,
+          "relative_time_5": 37.627,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "always_extend_3": {
+          "action": "EXTEND_3",
+          "position_change_3": -2,
+          "position_change_5": -2,
+          "relative_time_3": 8.007,
+          "relative_time_5": 37.627,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "pit_when_legal": {
+          "action": "PIT_NOW_SOFT",
+          "position_change_3": -2,
+          "position_change_5": -2,
+          "relative_time_3": 30.477,
+          "relative_time_5": 34.044,
+          "uncertainty_3": 3.586,
+          "uncertainty_5": 4.888
+        },
+        "age_threshold": {
+          "action": "PIT_NOW_SOFT",
+          "position_change_3": -2,
+          "position_change_5": -2,
+          "relative_time_3": 30.477,
+          "relative_time_5": 34.044,
+          "uncertainty_3": 3.586,
+          "uncertainty_5": 4.888
+        }
+      },
+      {
+        "race": "2024/1",
+        "lap": 20,
+        "driver_id": "f1:VALBOT01",
+        "position": 18,
+        "region": "P16+",
+        "phase4_state": "HOLD_NO_CLEAR_ADVANTAGE",
+        "phase4": {
+          "action": "EXTEND_3",
+          "position_change_3": -1,
+          "position_change_5": -1,
+          "relative_time_3": 8.01,
+          "relative_time_5": 37.38,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "always_extend_3": {
+          "action": "EXTEND_3",
+          "position_change_3": -1,
+          "position_change_5": -1,
+          "relative_time_3": 8.01,
+          "relative_time_5": 37.38,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "pit_when_legal": {
+          "action": "PIT_NOW_SOFT",
+          "position_change_3": -1,
+          "position_change_5": -1,
+          "relative_time_3": 30.102,
+          "relative_time_5": 33.419,
+          "uncertainty_3": 3.586,
+          "uncertainty_5": 4.888
+        },
+        "age_threshold": {
+          "action": "EXTEND_3",
+          "position_change_3": -1,
+          "position_change_5": -1,
+          "relative_time_3": 8.01,
+          "relative_time_5": 37.38,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        }
+      },
+      {
+        "race": "2024/1",
+        "lap": 20,
+        "driver_id": "f1:PIEGAS01",
+        "position": 19,
+        "region": "P16+",
+        "phase4_state": "HOLD_NO_CLEAR_ADVANTAGE",
+        "phase4": {
+          "action": "EXTEND_3",
+          "position_change_3": 0,
+          "position_change_5": 0,
+          "relative_time_3": 7.71,
+          "relative_time_5": 37.132,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "always_extend_3": {
+          "action": "EXTEND_3",
+          "position_change_3": 0,
+          "position_change_5": 0,
+          "relative_time_3": 7.71,
+          "relative_time_5": 37.132,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "pit_when_legal": {
+          "action": "PIT_NOW_SOFT",
+          "position_change_3": 0,
+          "position_change_5": 0,
+          "relative_time_3": 30.18,
+          "relative_time_5": 33.549,
+          "uncertainty_3": 3.586,
+          "uncertainty_5": 4.888
+        },
+        "age_threshold": {
+          "action": "EXTEND_3",
+          "position_change_3": 0,
+          "position_change_5": 0,
+          "relative_time_3": 7.71,
+          "relative_time_5": 37.132,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        }
+      },
+      {
+        "race": "2024/1",
+        "lap": 30,
+        "driver_id": "f1:PIEGAS01",
+        "position": 16,
+        "region": "P16+",
+        "phase4_state": "HOLD_NO_CLEAR_ADVANTAGE",
+        "phase4": {
+          "action": "EXTEND_3",
+          "position_change_3": -2,
+          "position_change_5": -3,
+          "relative_time_3": 8.472,
+          "relative_time_5": 37.343,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "always_extend_3": {
+          "action": "EXTEND_3",
+          "position_change_3": -2,
+          "position_change_5": -3,
+          "relative_time_3": 8.472,
+          "relative_time_5": 37.343,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "pit_when_legal": {
+          "action": "PIT_NOW_SOFT",
+          "position_change_3": -3,
+          "position_change_5": -3,
+          "relative_time_3": 29.344,
+          "relative_time_5": 32.145,
+          "uncertainty_3": 3.586,
+          "uncertainty_5": 4.888
+        },
+        "age_threshold": {
+          "action": "PIT_NOW_SOFT",
+          "position_change_3": -3,
+          "position_change_5": -3,
+          "relative_time_3": 29.344,
+          "relative_time_5": 32.145,
+          "uncertainty_3": 3.586,
+          "uncertainty_5": 4.888
+        }
+      },
+      {
+        "race": "2024/1",
+        "lap": 30,
+        "driver_id": "f1:LANSTR01",
+        "position": 18,
+        "region": "P16+",
+        "phase4_state": "HOLD_NO_CLEAR_ADVANTAGE",
+        "phase4": {
+          "action": "EXTEND_3",
+          "position_change_3": 0,
+          "position_change_5": -1,
+          "relative_time_3": 0.249,
+          "relative_time_5": 23.728,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "always_extend_3": {
+          "action": "EXTEND_3",
+          "position_change_3": 0,
+          "position_change_5": -1,
+          "relative_time_3": 0.249,
+          "relative_time_5": 23.728,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "pit_when_legal": {
+          "action": "PIT_NOW_SOFT",
+          "position_change_3": -1,
+          "position_change_5": -1,
+          "relative_time_3": 21.256,
+          "relative_time_5": 18.665,
+          "uncertainty_3": 3.586,
+          "uncertainty_5": 4.888
+        },
+        "age_threshold": {
+          "action": "EXTEND_3",
+          "position_change_3": 0,
+          "position_change_5": -1,
+          "relative_time_3": 0.249,
+          "relative_time_5": 23.728,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        }
+      },
+      {
+        "race": "2024/1",
+        "lap": 30,
+        "driver_id": "f1:NICHUL01",
+        "position": 19,
+        "region": "P16+",
+        "phase4_state": "HOLD_NO_CLEAR_ADVANTAGE",
+        "phase4": {
+          "action": "EXTEND_3",
+          "position_change_3": 0,
+          "position_change_5": 0,
+          "relative_time_3": 3.198,
+          "relative_time_5": 28.643,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "always_extend_3": {
+          "action": "EXTEND_3",
+          "position_change_3": 0,
+          "position_change_5": 0,
+          "relative_time_3": 3.198,
+          "relative_time_5": 28.643,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "pit_when_legal": {
+          "action": "PIT_NOW_SOFT",
+          "position_change_3": 0,
+          "position_change_5": 0,
+          "relative_time_3": 24.205,
+          "relative_time_5": 23.58,
+          "uncertainty_3": 3.586,
+          "uncertainty_5": 4.888
+        },
+        "age_threshold": {
+          "action": "EXTEND_3",
+          "position_change_3": 0,
+          "position_change_5": 0,
+          "relative_time_3": 3.198,
+          "relative_time_5": 28.643,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        }
+      },
+      {
+        "race": "2024/1",
+        "lap": 40,
+        "driver_id": "f1:ALEALB01",
+        "position": 16,
+        "region": "P16+",
+        "phase4_state": "HOLD_NO_CLEAR_ADVANTAGE",
+        "phase4": {
+          "action": "EXTEND_3",
+          "position_change_3": -1,
+          "position_change_5": -2,
+          "relative_time_3": 4.182,
+          "relative_time_5": 29.85,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "always_extend_3": {
+          "action": "EXTEND_3",
+          "position_change_3": -1,
+          "position_change_5": -2,
+          "relative_time_3": 4.182,
+          "relative_time_5": 29.85,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "pit_when_legal": {
+          "action": "PIT_NOW_SOFT",
+          "position_change_3": -2,
+          "position_change_5": -2,
+          "relative_time_3": 24.177,
+          "relative_time_5": 23.623,
+          "uncertainty_3": 3.586,
+          "uncertainty_5": 4.888
+        },
+        "age_threshold": {
+          "action": "EXTEND_3",
+          "position_change_3": -1,
+          "position_change_5": -2,
+          "relative_time_3": 4.182,
+          "relative_time_5": 29.85,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        }
+      },
+      {
+        "race": "2024/1",
+        "lap": 40,
+        "driver_id": "f1:ESTOCO01",
+        "position": 17,
+        "region": "P16+",
+        "phase4_state": "HOLD_NO_CLEAR_ADVANTAGE",
+        "phase4": {
+          "action": "EXTEND_3",
+          "position_change_3": -1,
+          "position_change_5": -1,
+          "relative_time_3": 5.943,
+          "relative_time_5": 32.785,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "always_extend_3": {
+          "action": "EXTEND_3",
+          "position_change_3": -1,
+          "position_change_5": -1,
+          "relative_time_3": 5.943,
+          "relative_time_5": 32.785,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "pit_when_legal": {
+          "action": "PIT_NOW_SOFT",
+          "position_change_3": -1,
+          "position_change_5": -1,
+          "relative_time_3": 25.938,
+          "relative_time_5": 26.558,
+          "uncertainty_3": 3.586,
+          "uncertainty_5": 4.888
+        },
+        "age_threshold": {
+          "action": "EXTEND_3",
+          "position_change_3": -1,
+          "position_change_5": -1,
+          "relative_time_3": 5.943,
+          "relative_time_5": 32.785,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        }
+      },
+      {
+        "race": "2024/1",
+        "lap": 40,
+        "driver_id": "f1:PIEGAS01",
+        "position": 18,
+        "region": "P16+",
+        "phase4_state": "HOLD_NO_CLEAR_ADVANTAGE",
+        "phase4": {
+          "action": "EXTEND_3",
+          "position_change_3": 0,
+          "position_change_5": 0,
+          "relative_time_3": 6.09,
+          "relative_time_5": 33.03,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "always_extend_3": {
+          "action": "EXTEND_3",
+          "position_change_3": 0,
+          "position_change_5": 0,
+          "relative_time_3": 6.09,
+          "relative_time_5": 33.03,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "pit_when_legal": {
+          "action": "PIT_NOW_SOFT",
+          "position_change_3": 0,
+          "position_change_5": 0,
+          "relative_time_3": 26.085,
+          "relative_time_5": 26.803,
+          "uncertainty_3": 3.586,
+          "uncertainty_5": 4.888
+        },
+        "age_threshold": {
+          "action": "EXTEND_3",
+          "position_change_3": 0,
+          "position_change_5": 0,
+          "relative_time_3": 6.09,
+          "relative_time_5": 33.03,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        }
+      },
+      {
+        "race": "2024/4",
+        "lap": 10,
+        "driver_id": "f1:YUKTSU01",
+        "position": 16,
+        "region": "P16+",
+        "phase4_state": "HOLD_NO_CLEAR_ADVANTAGE",
+        "phase4": {
+          "action": "EXTEND_3",
+          "position_change_3": 0,
+          "position_change_5": -2,
+          "relative_time_3": -0.477,
+          "relative_time_5": 21.424,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "always_extend_3": {
+          "action": "EXTEND_3",
+          "position_change_3": 0,
+          "position_change_5": -2,
+          "relative_time_3": -0.477,
+          "relative_time_5": 21.424,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "pit_when_legal": {
+          "action": "PIT_NOW_MEDIUM",
+          "position_change_3": -2,
+          "position_change_5": -2,
+          "relative_time_3": 19.93,
+          "relative_time_5": 17.841,
+          "uncertainty_3": 3.586,
+          "uncertainty_5": 4.888
+        },
+        "age_threshold": {
+          "action": "EXTEND_3",
+          "position_change_3": 0,
+          "position_change_5": -2,
+          "relative_time_3": -0.477,
+          "relative_time_5": 21.424,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        }
+      },
+      {
+        "race": "2024/4",
+        "lap": 10,
+        "driver_id": "f1:NICHUL01",
+        "position": 17,
+        "region": "P16+",
+        "phase4_state": "HOLD_NO_CLEAR_ADVANTAGE",
+        "phase4": {
+          "action": "EXTEND_3",
+          "position_change_3": 0,
+          "position_change_5": -1,
+          "relative_time_3": 0.861,
+          "relative_time_5": 23.654,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "always_extend_3": {
+          "action": "EXTEND_3",
+          "position_change_3": 0,
+          "position_change_5": -1,
+          "relative_time_3": 0.861,
+          "relative_time_5": 23.654,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        },
+        "pit_when_legal": {
+          "action": "PIT_NOW_MEDIUM",
+          "position_change_3": -1,
+          "position_change_5": -1,
+          "relative_time_3": 21.268,
+          "relative_time_5": 20.071,
+          "uncertainty_3": 3.586,
+          "uncertainty_5": 4.888
+        },
+        "age_threshold": {
+          "action": "EXTEND_3",
+          "position_change_3": 0,
+          "position_change_5": -1,
+          "relative_time_3": 0.861,
+          "relative_time_5": 23.654,
+          "uncertainty_3": 2.104,
+          "uncertainty_5": 2.945
+        }
+      }
+    ],
+    "exclusion_causes": {
+      "always_extend_3: causal pit-loss estimate": 11,
+      "phase4: causal pit-loss estimate": 11,
+      "pit_when_legal: causal pit-loss estimate": 11,
+      "age_threshold: causal pit-loss estimate": 11,
+      "phase4: recent relative pace": 14,
+      "always_extend_3: recent relative pace": 14,
+      "age_threshold: recent relative pace": 14,
+      "pit_when_legal: recent relative pace": 14,
+      "always_extend_3: same-lap gap to leader": 34,
+      "pit_when_legal: same-lap gap to leader": 34,
+      "age_threshold: same-lap gap to leader": 34,
+      "phase4: same-lap gap to leader": 34
+    }
+  },
+  "phase4_recalibration": {
+    "changed": false,
+    "reason": "Outcome-model factual errors must be judged before its counterfactual ranking can justify changing Phase 4. Validation races were not used to tune Phase 4."
+  }
+}
