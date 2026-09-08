@@ -16,6 +16,7 @@ from f1_pitwall.services.simulation import (
     compare_counterfactual_actions,
     simulate_action,
 )
+from f1_pitwall.services.transition_kernel import rollout_action
 
 
 def test_minimal_state_and_independent_one_three_five_lap_outcomes(analysis_history):
@@ -148,10 +149,17 @@ def simulation_output(source):
     return compare_counterfactual_actions(AnalysisContext(source, 22), "d0").model_dump()
 
 
+def kernel_output(source):
+    return rollout_action(
+        AnalysisContext(source, 22), "d0", "PIT_NOW_HARD", 100, 31, "INDEPENDENT"
+    ).model_dump()
+
+
 def test_simulation_is_independent_of_future_mutation_and_removal(analysis_history):
     race = strategy_history(analysis_history)
     context = AnalysisContext(race, 22)
     baseline = simulation_output(race)
+    kernel_baseline = kernel_output(race)
     pace_baseline = estimate_multi_lap_relative_pace(context, "d0")
     assert simulation_output(context.race) == baseline
 
@@ -172,6 +180,7 @@ def test_simulation_is_independent_of_future_mutation_and_removal(analysis_histo
         LapValidity(driver_id="d0", lap_number=30, at=context.cutoff + 1, valid=False)
     )
     assert simulation_output(changed) == baseline
+    assert kernel_output(changed) == kernel_baseline
     assert estimate_multi_lap_relative_pace(AnalysisContext(changed, 22), "d0") == pace_baseline
 
 
@@ -223,3 +232,69 @@ async def test_simulation_api_get_post_and_errors(analysis_history):
             )
             assert bad.status_code == 404
         assert loader.await_count == 3
+
+
+def test_probabilistic_kernel_is_reproducible_and_widens(analysis_history):
+    race = strategy_history(analysis_history)
+    first = rollout_action(
+        AnalysisContext(race, 22), "d0", "PIT_NOW_HARD", 100, 73, "PERSISTENT"
+    )
+    second = rollout_action(
+        AnalysisContext(race, 22), "d0", "PIT_NOW_HARD", 100, 73, "PERSISTENT"
+    )
+    assert first == second
+    assert first.trajectory_count == 100
+    assert first.transitions[0].transition_phases == ["PIT_ENTRY", "PIT_TRANSIT", "PIT_EXIT"]
+    widths = [row.interval_80[1] - row.interval_80[0] for row in first.outcomes]
+    assert widths[0] < widths[1] < widths[2]
+    assert all(row.position_range_80 is not None for row in first.outcomes)
+    assert first.components["seconds_gap_fabricated"] is False
+
+
+def test_kernel_supports_extend_and_preserves_lap_deficit(analysis_history):
+    race = strategy_history(analysis_history)
+    extend = rollout_action(
+        AnalysisContext(race, 22), "d0", "EXTEND_3", 100, 9, "INDEPENDENT"
+    )
+    assert extend.kind == "EXTEND"
+    assert extend.transitions[3].transition_phases == ["PIT_ENTRY", "PIT_TRANSIT", "PIT_EXIT"]
+
+    lapped = race.model_copy(deep=True)
+    cutoff = AnalysisContext(lapped, 22).cutoff
+    latest = max(
+        (row for row in lapped.timing if row.driver_id == "d1" and row.at <= cutoff),
+        key=lambda row: row.at,
+    )
+    latest.gap_to_leader = None
+    latest.laps_behind = 1
+    result = rollout_action(
+        AnalysisContext(lapped, 22), "d1", "PIT_NOW_HARD", 100, 2, "PERSISTENT"
+    )
+    assert all(row.median_relative_delta_seconds is None for row in result.outcomes)
+    assert all(row.position_range_80 is not None for row in result.outcomes)
+    assert result.components["seconds_gap_fabricated"] is False
+
+
+async def test_transition_kernel_api(analysis_history):
+    app = create_app()
+    async with app.router.lifespan_context(app):
+        app.state.hub.replay.load_race = AsyncMock(
+            return_value=strategy_history(analysis_history)
+        )
+        body = {
+            "year": 2024,
+            "round": 1,
+            "lap": 22,
+            "driver_id": "d0",
+            "action": "PIT_NOW_HARD",
+            "trajectory_count": 100,
+            "seed": 41,
+        }
+        async with httpx.AsyncClient(
+            transport=httpx.ASGITransport(app=app), base_url="http://test"
+        ) as client:
+            transition = await client.post("/api/v1/simulation/transition", json=body)
+            rollout = await client.post("/api/v1/simulation/rollout", json=body)
+        assert transition.status_code == rollout.status_code == 200
+        assert transition.json() == rollout.json()["transitions"][0]
+        assert rollout.json()["seed"] == 41

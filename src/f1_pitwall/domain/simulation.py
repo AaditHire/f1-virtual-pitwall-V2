@@ -78,3 +78,54 @@ class ShortHorizonRequest(BaseModel):
     lap: int = Field(ge=1)
     driver_id: str
     action: str
+
+
+class TransitionKernelRequest(ShortHorizonRequest):
+    trajectory_count: Literal[100, 500, 1000] = 100
+    seed: int = 0
+    error_model: Literal["FROZEN_SELECTED", "INDEPENDENT", "PERSISTENT"] = (
+        "FROZEN_SELECTED"
+    )
+
+
+class OneLapTransition(BaseModel):
+    lap_index: int
+    from_phase: str
+    to_phase: str
+    transition_phases: list[str] = Field(default_factory=list)
+    median_relative_delta_seconds: float | None = None
+    interval_50: tuple[float, float] | None = None
+    interval_80: tuple[float, float] | None = None
+    interval_90: tuple[float, float] | None = None
+    median_position: int | None = None
+    position_range_80: tuple[int, int] | None = None
+
+
+class RolloutDistribution(BaseModel):
+    horizon_laps: Literal[1, 3, 5]
+    trajectory_count: int
+    median_relative_delta_seconds: float | None = None
+    mean_relative_delta_seconds: float | None = None
+    interval_50: tuple[float, float] | None = None
+    interval_80: tuple[float, float] | None = None
+    interval_90: tuple[float, float] | None = None
+    median_position: int | None = None
+    position_range_50: tuple[int, int] | None = None
+    position_range_80: tuple[int, int] | None = None
+    position_range_90: tuple[int, int] | None = None
+    median_net_pit_cycle_position: int | None = None
+    net_pit_cycle_position_range_80: tuple[int, int] | None = None
+    applicability: Literal["RELIABLE", "USABLE", "WEAK", "OUT_OF_DOMAIN"] | None = None
+
+
+class ProbabilisticRollout(BaseModel):
+    action: str
+    kind: Literal["PIT_NOW", "EXTEND"]
+    seed: int
+    trajectory_count: int
+    error_model: Literal["INDEPENDENT", "PERSISTENT"]
+    state: ShortHorizonState
+    transitions: list[OneLapTransition]
+    outcomes: list[RolloutDistribution]
+    components: dict[str, Any] = Field(default_factory=dict)
+    warnings: list[str] = Field(default_factory=list)

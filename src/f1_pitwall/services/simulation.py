@@ -548,11 +548,13 @@ def _dynamic_path(
                 "state": item,
                 "gap": gap,
                 "initial_gap": gap,
-                "pace": pace if local else 0.0,
+                "pace": pace if local and pace is not None else 0.0,
                 "local": local,
                 "gap_source": gap_source,
                 "pace_source": pace_source,
-                "pace_uncertainty_seconds_per_lap": PACE_MAE_SECONDS if local else None,
+                "pace_uncertainty_seconds_per_lap": (
+                    PACE_MAE_SECONDS if local and pace is not None else None
+                ),
                 "compound": item.compound,
                 "tyre_age": item.tyre_age,
                 "traffic_state": traffic.status if traffic else "OUTSIDE_LOCAL_MODEL",
@@ -974,3 +976,25 @@ class SimulationService:
             lap,
             lambda context: compare_counterfactual_actions(context, driver_id),
         )
+
+    async def rollout(
+        self, year, round, lap, driver_id, action, trajectory_count, seed, error_model
+    ):
+        from f1_pitwall.services.transition_kernel import rollout_action
+
+        def operation(context):
+            if action not in legal_counterfactual_actions(context, driver_id):
+                raise NotFound(f"Action {action} is not legal at this snapshot")
+            return rollout_action(
+                context, driver_id, action, trajectory_count, seed, error_model
+            )
+
+        return await self._run(year, round, lap, operation)
+
+    async def transition(
+        self, year, round, lap, driver_id, action, trajectory_count, seed, error_model
+    ):
+        result = await self.rollout(
+            year, round, lap, driver_id, action, trajectory_count, seed, error_model
+        )
+        return result.transitions[0]
