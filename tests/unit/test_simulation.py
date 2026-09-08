@@ -249,6 +249,9 @@ def test_probabilistic_kernel_is_reproducible_and_widens(analysis_history):
     assert widths[0] < widths[1] < widths[2]
     assert all(row.position_range_80 is not None for row in first.outcomes)
     assert first.components["seconds_gap_fabricated"] is False
+    assert first.components["whole_race_safety_policy"]["OUT_OF_DOMAIN"].startswith(
+        "stop precise"
+    )
 
 
 def test_kernel_supports_extend_and_preserves_lap_deficit(analysis_history):

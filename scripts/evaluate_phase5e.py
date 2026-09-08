@@ -54,6 +54,7 @@ def upper_quantile(values, fraction):
 def collect_records(races, prior_races):
     cases = collect_factual_cases(races)
     attach_chronological_profiles(cases, prior_races)
+    full_races = {f"{race.event.year}/{race.event.round}": race for race in races}
     records = []
     for kind, selected in cases.items():
         for case in selected:
@@ -99,6 +100,7 @@ def collect_records(races, prior_races):
                         "TIME" if current.gap_to_leader is not None else "UNKNOWN"
                     ),
                     "context": context,
+                    "full_race": full_races[case["race"]],
                     "outcomes": outcomes,
                 }
             )
@@ -163,12 +165,14 @@ def fit_artifact(records):
     }
 
 
-def score_records(records, error_model, trajectories=100):
+def score_records(
+    records, error_model, trajectories=100, artifact_override=None, seed_offset=0
+):
     rows = []
     for record in records:
         seed = zlib.crc32(
             f"{record['race']}:{record['lap']}:{record['driver_id']}:{record['action']}".encode()
-        )
+        ) + seed_offset
         rollout = rollout_action(
             record["context"],
             record["driver_id"],
@@ -176,19 +180,45 @@ def score_records(records, error_model, trajectories=100):
             trajectories,
             seed,
             error_model,
+            artifact_override,
         )
         for outcome in rollout.outcomes:
             factual = record["outcomes"][outcome.horizon_laps]
             if not factual["green"]:
                 continue
+            direct_outcome = next(
+                row
+                for row in rollout.components["direct_baseline"]["outcomes"]
+                if row["horizon_laps"] == outcome.horizon_laps
+            )
+            components = direct_outcome.get("components") or {}
+            rejoin = components.get("predicted_rejoin") or {}
+            pit = components.get("pit_loss_components") or {}
+            nearby = components.get("nearby_car_projection") or []
             rows.append(
                 {
                     "race": record["race"],
                     "circuit": record["circuit"],
                     "driver_id": record["driver_id"],
                     "kind": record["kind"],
+                    "action": record["action"],
+                    "phase": _phase_for_lap(
+                        record["kind"],
+                        int(record["action"].removeprefix("EXTEND_"))
+                        if record["kind"] == "EXTEND"
+                        else 0,
+                        outcome.horizon_laps,
+                    ),
                     "grid_region": record["grid_region"],
                     "gap_kind": record["gap_kind"],
+                    "applicability": factual["applicability"],
+                    "traffic_level": rejoin.get("traffic") or "UNKNOWN",
+                    "rejoin_width": rejoin.get("position_range_width"),
+                    "pit_loss_mad": pit.get("residual_mad_seconds"),
+                    "unknown_cars": components.get("unknown_same_lap_cars"),
+                    "uncertain_crossings": sum(
+                        bool(row.get("crossing_treated_as_uncertain")) for row in nearby
+                    ),
                     "horizon": outcome.horizon_laps,
                     "actual": factual["actual_delta"],
                     "actual_position": factual["actual_position"],

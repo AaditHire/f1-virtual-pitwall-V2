@@ -94,6 +94,32 @@ def _position_interval(values, coverage):
     return int(interval[0]), int(interval[1])
 
 
+def _calibrated_time_interval(artifact, kind, horizon, applicability, level, values):
+    raw = _interval(values, level / 100)
+    factors = artifact.get("time_calibration_factors", {})
+    factor = factors.get(
+        f"{kind}:{horizon}:{applicability}:{level}",
+        factors.get(f"{kind}:{horizon}:{level}", 1.0),
+    )
+    center = median(values)
+    return round(center + (raw[0] - center) * factor, 3), round(
+        center + (raw[1] - center) * factor, 3
+    )
+
+
+def _calibrated_position_interval(
+    artifact, kind, horizon, applicability, level, values, field_size
+):
+    lower, upper = _position_interval(values, level / 100)
+    padding = artifact.get("position_calibration_padding", {}).get(
+        f"{kind}:{horizon}:{applicability}:{level}",
+        artifact.get("position_calibration_padding", {}).get(
+            f"{kind}:{horizon}:{level}", 0
+        ),
+    )
+    return max(1, lower - padding), min(field_size, upper + padding)
+
+
 def _deterministic_curve(direct, initial_gap):
     first = _anchor_outcome(direct, 1).expected_delta_time_seconds
     trace = _anchor_outcome(direct, 5).components.get("lap_by_lap_projection") or []
@@ -182,13 +208,21 @@ def _position_sample(rng, direct, horizon, cumulative_residual, field_size):
     return min(field_size, max(1, anchor.expected_position + movement))
 
 
-def rollout_action(context, driver_id, action, trajectory_count=100, seed=0, error_model=None):
+def rollout_action(
+    context,
+    driver_id,
+    action,
+    trajectory_count=100,
+    seed=0,
+    error_model=None,
+    artifact_override=None,
+):
     """Recursively apply a frozen one-lap residual kernel without replanning."""
     direct = simulate_action(context, driver_id, action)
     state = build_short_horizon_state(context, driver_id)
     kind = direct.kind
     extension = direct.extension_laps or 0
-    artifact = _artifact()
+    artifact = artifact_override or _artifact()
     selected = artifact.get("selected_error_model", "PERSISTENT")
     error_model = selected if error_model in {None, "FROZEN_SELECTED"} else error_model
     curve = _deterministic_curve(direct, state.gap_to_leader)
@@ -296,13 +330,37 @@ def rollout_action(context, driver_id, action, trajectory_count=100, seed=0, err
                 trajectory_count=trajectory_count,
                 median_relative_delta_seconds=round(median(values), 3) if values else None,
                 mean_relative_delta_seconds=round(mean(values), 3) if values else None,
-                interval_50=_interval(values, 0.5) if values else None,
-                interval_80=_interval(values, 0.8) if values else None,
-                interval_90=_interval(values, 0.9) if values else None,
+                interval_50=_calibrated_time_interval(
+                    artifact, kind, horizon, applicability[horizon], 50, values
+                )
+                if values
+                else None,
+                interval_80=_calibrated_time_interval(
+                    artifact, kind, horizon, applicability[horizon], 80, values
+                )
+                if values
+                else None,
+                interval_90=_calibrated_time_interval(
+                    artifact, kind, horizon, applicability[horizon], 90, values
+                )
+                if values
+                else None,
                 median_position=round(median(pos)) if pos else None,
-                position_range_50=_position_interval(pos, 0.5) if pos else anchor.position_range,
-                position_range_80=_position_interval(pos, 0.8) if pos else anchor.position_range,
-                position_range_90=_position_interval(pos, 0.9) if pos else anchor.position_range,
+                position_range_50=_calibrated_position_interval(
+                    artifact, kind, horizon, applicability[horizon], 50, pos, state.field_size
+                )
+                if pos
+                else anchor.position_range,
+                position_range_80=_calibrated_position_interval(
+                    artifact, kind, horizon, applicability[horizon], 80, pos, state.field_size
+                )
+                if pos
+                else anchor.position_range,
+                position_range_90=_calibrated_position_interval(
+                    artifact, kind, horizon, applicability[horizon], 90, pos, state.field_size
+                )
+                if pos
+                else anchor.position_range,
                 median_net_pit_cycle_position=anchor.net_race_position_estimate,
                 net_pit_cycle_position_range_80=anchor.net_race_position_range,
                 applicability=applicability[horizon],
@@ -315,6 +373,16 @@ def rollout_action(context, driver_id, action, trajectory_count=100, seed=0, err
     if curve is None:
         warnings.append(
             "No seconds distribution is produced for a lap-deficit or unknown-gap state."
+        )
+    if any(value == "WEAK" for value in applicability.values()):
+        warnings.append(
+            "WEAK applicability broadens uncertainty and must not support a precise "
+            "strategic conclusion."
+        )
+    if any(value == "OUT_OF_DOMAIN" for value in applicability.values()):
+        warnings.append(
+            "OUT_OF_DOMAIN applicability requires stopping precise projection and retaining "
+            "only coarse state evolution."
         )
     return ProbabilisticRollout(
         action=action,
@@ -335,6 +403,7 @@ def rollout_action(context, driver_id, action, trajectory_count=100, seed=0, err
             "seconds_gap_fabricated": False,
             "direct_baseline": direct.model_dump(),
             "deterministic_one_lap_curve": curve,
+            "whole_race_safety_policy": artifact.get("safety_policy", {}),
         },
         warnings=warnings,
     )
