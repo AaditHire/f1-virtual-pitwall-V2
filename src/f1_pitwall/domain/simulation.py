@@ -22,6 +22,8 @@ class ShortHorizonState(BaseModel):
     pit_state: Literal["ON_TRACK", "IN_PIT", "TERMINAL", "UNKNOWN"]
     traffic: TrafficLevel = "UNKNOWN"
     laps_completed: int | None = None
+    race_progress_fraction: float | None = None
+    race_elapsed_seconds: float | None = None
     pit_stops_completed: int = 0
     active: bool
     data_quality: dict[str, Any] = Field(default_factory=dict)
@@ -31,6 +33,9 @@ class HorizonOutcome(BaseModel):
     horizon_laps: Literal[1, 3, 5]
     expected_delta_time_seconds: float | None = None
     uncertainty_seconds: float | None = None
+    prediction_interval_80: tuple[float, float] | None = None
+    prediction_interval_90: tuple[float, float] | None = None
+    applicability: Literal["RELIABLE", "USABLE", "WEAK", "OUT_OF_DOMAIN"] | None = None
     expected_position: int | None = None
     position_range: tuple[int, int] | None = None
     expected_position_change: float | None = None

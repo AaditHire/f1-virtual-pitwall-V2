@@ -16,6 +16,7 @@ from f1_pitwall.services.analysis_context import AnalysisContext
 from f1_pitwall.services.fresh_tyre import estimate_fresh_tyre_delta
 from f1_pitwall.services.pace import get_recent_pace, get_stint_pace
 from f1_pitwall.services.pit_analysis import estimate_pit_loss, predict_pit_rejoin
+from f1_pitwall.services.reliability import apply_pit_reliability
 from f1_pitwall.services.strategy import generate_actions
 from f1_pitwall.services.traffic import analyze_traffic, blockage_penalty
 
@@ -281,6 +282,12 @@ def build_short_horizon_state(context, driver_id):
         pit_state=pit_state,
         traffic=traffic.status,
         laps_completed=driver.laps_completed,
+        race_progress_fraction=_round(
+            driver.laps_completed / context.state.total_scheduled_laps
+            if driver.laps_completed is not None and context.state.total_scheduled_laps
+            else None
+        ),
+        race_elapsed_seconds=_round(context.state.elapsed_race_seconds),
         pit_stops_completed=driver.pit_stops_completed,
         active=driver.status == "active",
         data_quality={
@@ -706,6 +713,8 @@ def simulate_action(context, driver_id, action, calibration=None):
             "post_pit_laps": post_laps,
             "pit_occurs_within_horizon": pit_occurred,
             "pit_loss_components": {
+                "sample_count": pit_loss.sample_count,
+                "confidence": pit_loss.confidence,
                 "entry_loss_seconds": pit_loss.entry_seconds,
                 "pit_lane_transit_seconds": pit_loss.transit_seconds,
                 "stationary_seconds": pit_loss.stationary_seconds,
@@ -717,10 +726,13 @@ def simulate_action(context, driver_id, action, calibration=None):
                     "pit_lane_elapsed_median_seconds"
                 ),
                 "component_availability": pit_loss.components.get("component_availability"),
+                "residual_mad_seconds": pit_loss.components.get("residual_mad_seconds"),
             },
             "current_blockage_seconds_per_lap": current_penalty,
             "rejoin_blockage_seconds_per_lap": rejoin_penalty,
             "raw_fresh_delta_seconds_per_lap": raw_fresh,
+            "fresh_tyre_sample_count": fresh.sample_count,
+            "fresh_tyre_sample_mad_seconds": fresh.components.get("sample_mad_seconds"),
             "fresh_reliability_shrinkage": FRESH_RELIABILITY,
             "shrunk_fresh_delta_seconds_per_lap": _round(shrunk_fresh),
             "warm_up_curve": fresh.components.get("warm_up_curve_gain_seconds"),
@@ -729,6 +741,11 @@ def simulate_action(context, driver_id, action, calibration=None):
             "predicted_rejoin": {
                 "position": rejoin.projected_position,
                 "position_range": rejoin.position_range,
+                "position_range_width": (
+                    rejoin.position_range[1] - rejoin.position_range[0]
+                    if rejoin.position_range
+                    else None
+                ),
                 "gap_ahead": rejoin.gap_ahead,
                 "gap_behind": rejoin.gap_behind,
                 "traffic": rejoin.traffic,
@@ -738,6 +755,29 @@ def simulate_action(context, driver_id, action, calibration=None):
             "missing_inputs": missing,
         }
         if missing:
+            if (
+                state.gap_kind == "LAP_DEFICIT"
+                and state.current_position is not None
+                and set(missing) <= {"same-lap gap to leader"}
+            ):
+                outcome.position_range = (
+                    max(1, state.current_position - ceil(REJOIN_MAE_POSITIONS)),
+                    state.field_size,
+                )
+                outcome.net_race_position_range = outcome.position_range
+                outcome.applicability = "OUT_OF_DOMAIN"
+                outcome.components["lap_deficit_projection"] = {
+                    "laps_behind": state.laps_behind,
+                    "laps_completed": state.laps_completed,
+                    "race_progress_fraction": state.race_progress_fraction,
+                    "race_elapsed_seconds": state.race_elapsed_seconds,
+                    "track_order_position": state.current_position,
+                    "seconds_gap_fabricated": False,
+                }
+                outcome.warnings.append(
+                    "Only a broad track-order range is available for this lapped driver; "
+                    "no seconds gap or point position is inferred."
+                )
             outcome.warnings.append("Cannot simulate: missing " + ", ".join(missing) + ".")
             outcomes.append(outcome)
             continue
@@ -837,6 +877,8 @@ def simulate_action(context, driver_id, action, calibration=None):
                 "Entry, lane transit and stationary race-time loss remain inseparable in "
                 "the source archive and are carried in transition uncertainty."
             )
+        if using_default_calibration and kind == "PIT_NOW":
+            apply_pit_reliability(context, state, outcome)
         outcomes.append(outcome)
     return CounterfactualActionOutcome(
         action=action,

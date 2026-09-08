@@ -40,6 +40,23 @@ def test_minimal_state_and_independent_one_three_five_lap_outcomes(analysis_hist
             assert "candidate_raw_slope" not in str(outcome.components)
             assert outcome.position_range is not None
             assert outcome.components["lap_by_lap_projection"]
+            if result.kind == "PIT_NOW":
+                assert outcome.prediction_interval_80 is not None
+                assert outcome.prediction_interval_90 is not None
+                assert outcome.prediction_interval_90[0] <= outcome.prediction_interval_80[0]
+                assert outcome.prediction_interval_90[1] >= outcome.prediction_interval_80[1]
+                assert (
+                    outcome.prediction_interval_90[0]
+                    <= outcome.expected_delta_time_seconds
+                    <= outcome.prediction_interval_90[1]
+                )
+                assert outcome.components["reliability_envelope"]["interval_method"]
+                assert outcome.applicability in {
+                    "RELIABLE",
+                    "USABLE",
+                    "WEAK",
+                    "OUT_OF_DOMAIN",
+                }
             assert outcome.physical_track_position == outcome.expected_position
             assert outcome.net_race_position_range is not None
     assert extend.outcomes[1].components["pit_occurs_within_horizon"] is False
@@ -80,6 +97,15 @@ def test_lapped_driver_preserves_lap_deficit_without_inventing_time_gap(analysis
     assert state.gap_kind == "LAP_DEFICIT"
     assert state.laps_behind == 1
     assert state.gap_to_leader is None
+    assert state.race_progress_fraction is not None
+    pit = simulate_action(AnalysisContext(race, 22), "d1", "PIT_NOW_HARD")
+    assert all(outcome.expected_delta_time_seconds is None for outcome in pit.outcomes)
+    assert all(outcome.applicability == "OUT_OF_DOMAIN" for outcome in pit.outcomes)
+    assert all(outcome.position_range is not None for outcome in pit.outcomes)
+    assert all(
+        outcome.components["lap_deficit_projection"]["seconds_gap_fabricated"] is False
+        for outcome in pit.outcomes
+    )
 
 
 def test_common_snapshot_comparison_holds_when_uncertainty_overlaps(analysis_history):
@@ -146,10 +172,7 @@ def test_simulation_is_independent_of_future_mutation_and_removal(analysis_histo
         LapValidity(driver_id="d0", lap_number=30, at=context.cutoff + 1, valid=False)
     )
     assert simulation_output(changed) == baseline
-    assert (
-        estimate_multi_lap_relative_pace(AnalysisContext(changed, 22), "d0")
-        == pace_baseline
-    )
+    assert estimate_multi_lap_relative_pace(AnalysisContext(changed, 22), "d0") == pace_baseline
 
 
 def test_frozen_circuit_prior_is_available_only_after_source_year(analysis_history):
