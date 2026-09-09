@@ -144,3 +144,8 @@ Phase 6C adds the [broad historical decision audit](docs/phase6c-historical-deci
 [untouched fix validation](docs/phase6c-fix-validation.json), and
 [full-grid performance runs](docs/phase6c-performance.json). Its current decision is NO-GO for
 current/live integration pending a defensible pit-cycle or short-horizon PIT signal.
+
+Phase 6D compares three transparent, pit-cycle-independent opportunity formulations in the
+[focused PIT signal report](docs/phase6d-focused-pit-opportunity.md) and
+[development evidence](docs/phase6d-development.json). None separated near-stop states from
+matched controls, so the held-out races remain untouched and Phase 7 remains NO-GO.

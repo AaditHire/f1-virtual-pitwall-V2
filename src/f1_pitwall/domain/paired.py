@@ -13,6 +13,8 @@ PitWindowState = Literal[
     "PIT_WINDOW_STRONG",
     "PIT_WINDOW_UNCERTAIN",
 ]
+OpportunityStrength = Literal["NO_OPPORTUNITY", "MARGINAL", "STRONG"]
+OpportunityCandidate = Literal["TIME_ONLY", "TIME_POSITION", "FULL_EVIDENCE"]
 
 
 class PairedRegret(BaseModel):
@@ -87,4 +89,15 @@ class PairedCandidateSet(BaseModel):
     marginal_outcomes: dict[str, list[RolloutDistribution]] = Field(default_factory=dict)
     comparisons: list[PairedComparison] = Field(default_factory=list)
     best_comparison: PairedComparison | None = None
+    components: dict[str, Any] = Field(default_factory=dict)
+
+
+class PitOpportunityValue(BaseModel):
+    """Interpretable short-horizon PIT evidence; negative deltas favor PIT."""
+
+    candidate: OpportunityCandidate
+    signal: OpportunityStrength
+    time_opportunity: OpportunityStrength
+    position_opportunity: OpportunityStrength
+    value: float | None = None
     components: dict[str, Any] = Field(default_factory=dict)
