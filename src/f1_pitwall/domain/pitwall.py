@@ -6,6 +6,7 @@ from pydantic import BaseModel, Field
 
 from f1_pitwall.domain.analysis import DriverAnalysis, TrafficLevel
 from f1_pitwall.domain.models import Driver, Event
+from f1_pitwall.domain.paired import PairedComparison, PitWindow, PitWindowState
 from f1_pitwall.domain.simulation import RolloutDistribution
 
 DecisionState = Literal["ACTIONABLE", "CAUTION", "COARSE_ONLY", "INSUFFICIENT_DATA"]
@@ -27,6 +28,8 @@ class PitWallAlert(BaseModel):
         "REJOIN_TRAFFIC_RISK",
         "PIT_WINDOW_OPEN",
         "PIT_WINDOW_CLOSED",
+        "PIT_WINDOW_STRONG",
+        "PIT_WINDOW_UNCERTAIN",
         "STRATEGY_MODEL_UNCERTAIN",
         "RIVAL_STOPPED",
         "POSITION_AT_RISK",
@@ -62,6 +65,10 @@ class PitWallDriver(BaseModel):
     horizons_laps: list[int] = Field(default_factory=lambda: [1, 3, 5])
     policy_recommendation: str | None = None
     model_disagreement: bool = False
+    best_pit_compound: str | None = None
+    paired_comparison: PairedComparison | None = None
+    paired_candidates: list[PairedComparison] = Field(default_factory=list)
+    pit_window: PitWindow | None = None
     evaluated_action_count: int = 0
     decision_margin_seconds: float | None = None
     uncertainty_overlap: bool | None = None
@@ -98,6 +105,9 @@ class PitWallTimelineEntry(BaseModel):
     recommendation: str | None
     decision_state: DecisionState
     model_disagreement: bool = False
+    pit_window_state: PitWindowState = "PIT_WINDOW_CLOSED"
+    pit_window_age: int = 0
+    pit_window_change_reason: str | None = None
     recommendation_age: int = 1
     persistence: int = 1
     changed: bool = False

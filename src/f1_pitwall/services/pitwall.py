@@ -6,6 +6,7 @@ import asyncio
 from collections import Counter, defaultdict
 from time import perf_counter
 
+from f1_pitwall.domain.paired import PitWindow
 from f1_pitwall.domain.pitwall import (
     PitWallAction,
     PitWallAlert,
@@ -18,9 +19,9 @@ from f1_pitwall.domain.pitwall import (
 )
 from f1_pitwall.services.analysis import analyze_driver
 from f1_pitwall.services.analysis_context import AnalysisContext
+from f1_pitwall.services.paired import EQUIVALENCE_BANDS, evaluate_paired_candidates
 from f1_pitwall.services.pit_analysis import estimate_pit_loss
 from f1_pitwall.services.strategy import recommend_driver_action
-from f1_pitwall.services.transition_kernel import rollout_action
 
 
 def _outcome(action, horizon=3):
@@ -67,23 +68,6 @@ def _relevant_rivals(context, driver):
     return sorted(rivals, key=lambda row: abs(row.gap_seconds or 99))[:4]
 
 
-def _overlap(left, right):
-    if left.interval_90 is None or right.interval_90 is None:
-        return None
-    return max(left.interval_90[0], right.interval_90[0]) <= min(
-        left.interval_90[1], right.interval_90[1]
-    )
-
-
-def _action_rank(action):
-    outcome = _outcome(action)
-    return (
-        outcome.median_relative_delta_seconds,
-        outcome.median_net_pit_cycle_position or 99,
-        -(action.policy_score or 0),
-    )
-
-
 def _alerts(
     driver,
     traffic_status,
@@ -91,7 +75,7 @@ def _alerts(
     rivals,
     recommendation,
     decision_state,
-    pit_action,
+    pit_window_state,
 ):
     alerts = []
     driver_id = driver.driver.id
@@ -103,7 +87,10 @@ def _alerts(
                 detail="Observed local traffic is clear.",
             )
         )
-    if pit_action and rejoin_traffic in {"HEAVY_TRAFFIC", "UNKNOWN"}:
+    if pit_window_state != "PIT_WINDOW_CLOSED" and rejoin_traffic in {
+        "HEAVY_TRAFFIC",
+        "UNKNOWN",
+    }:
         alerts.append(
             PitWallAlert(
                 kind="REJOIN_TRAFFIC_RISK",
@@ -113,11 +100,9 @@ def _alerts(
         )
     alerts.append(
         PitWallAlert(
-            kind="PIT_WINDOW_OPEN" if pit_action else "PIT_WINDOW_CLOSED",
+            kind=pit_window_state,
             driver_id=driver_id,
-            detail="A causal PIT_NOW action is available."
-            if pit_action
-            else "No causal PIT_NOW action is available.",
+            detail=f"Paired counterfactual state is {pit_window_state}.",
         )
     )
     if decision_state != "ACTIONABLE":
@@ -192,73 +177,99 @@ def evaluate_driver(context, driver_id, trajectory_count=100, detail=False, pit_
     pit_loss = pit_loss or estimate_pit_loss(context)
     policy = recommend_driver_action(context, driver_id, pit_loss)
     analysis = analyze_driver(context, driver_id, pit_loss) if detail else None
-    actions = []
-    for policy_action in policy.actions:
-        rollout = rollout_action(
-            context,
-            driver_id,
-            policy_action.id,
-            trajectory_count,
-            6000 + context.state.current_lap,
+    paired = evaluate_paired_candidates(
+        context,
+        driver_id,
+        policy.actions,
+        trajectory_count,
+        6000 + context.state.current_lap,
+    )
+    policy_by_id = {action.id: action for action in policy.actions}
+    actions = [
+        PitWallAction(
+            action=action_id,
+            kind="PIT_NOW" if action_id.startswith("PIT_NOW") else "EXTEND",
+            policy_score=(
+                policy_by_id[action_id].action_score if action_id in policy_by_id else None
+            ),
+            outcomes=outcomes,
         )
-        actions.append(
-            PitWallAction(
-                action=policy_action.id,
-                kind=policy_action.kind,
-                policy_score=policy_action.action_score,
-                outcomes=rollout.outcomes,
-            )
-        )
-    usable = [row for row in actions if _outcome(row).median_relative_delta_seconds is not None]
-    pits = [row for row in usable if row.kind == "PIT_NOW"]
-    extends = [row for row in usable if row.kind == "EXTEND"]
+        for action_id, outcomes in paired.marginal_outcomes.items()
+    ]
+    best = paired.best_comparison
+    best_pit_policy = next(
+        (action for action in policy.actions if best and action.id == best.pit_action),
+        None,
+    )
     recommendation = None
     alternative = None
     decision_state = "INSUFFICIENT_DATA"
     margin = None
     overlap = None
-    best_pit = min(pits, key=_action_rank) if pits else None
-    best_extend = min(extends, key=_action_rank) if extends else None
-    best_pit_policy = next(
-        (action for action in policy.actions if best_pit and action.id == best_pit.action),
-        None,
-    )
-    if best_pit and best_extend:
-        pit_result, extend_result = _outcome(best_pit), _outcome(best_extend)
-        overlap = _overlap(pit_result, extend_result)
-        ordered = sorted((best_pit, best_extend), key=_action_rank)
-        best, second = ordered
-        margin = (
-            _outcome(second).median_relative_delta_seconds
-            - _outcome(best).median_relative_delta_seconds
-        )
-        if overlap is not False:
+    pit_window = None
+    if best:
+        decision_outcome = next(row for row in best.outcomes if row.horizon_laps == 5)
+        interval = decision_outcome.interval_90
+        overlap = bool(interval and interval[0] <= 0 <= interval[1])
+        window_state = best.pit_window_state
+        if window_state == "PIT_WINDOW_STRONG":
+            recommendation, alternative = "PIT_NOW", "EXTEND"
+        elif window_state == "PIT_WINDOW_CLOSED":
+            recommendation, alternative = "EXTEND", "PIT_NOW"
+        else:
             recommendation = "HOLD_NO_CLEAR_ADVANTAGE"
-            alternative = best.action
+            alternative = "PIT_NOW" if window_state == "PIT_WINDOW_OPEN" else "EXTEND"
+        applicable = [
+            _outcome(action).applicability
+            for action in actions
+            if action.action in {best.pit_action, best.extend_action} and action.outcomes
+        ]
+        if decision_outcome.median_time_delta_seconds is None:
+            decision_state = "COARSE_ONLY"
+        elif any(value in {"WEAK", "OUT_OF_DOMAIN"} for value in applicable):
+            decision_state = "COARSE_ONLY"
+        elif window_state in {"PIT_WINDOW_OPEN", "PIT_WINDOW_UNCERTAIN"}:
             decision_state = "CAUTION"
         else:
-            recommendation = best.action
-            alternative = second.action
-            internal = _outcome(best).applicability
-            decision_state = (
-                "COARSE_ONLY" if internal in {"WEAK", "OUT_OF_DOMAIN"} else "ACTIONABLE"
-            )
-    elif usable:
-        recommendation = min(usable, key=_action_rank).action
-        decision_state = "COARSE_ONLY"
-    policy_name = (
-        f"PIT_NOW_{policy.recommended_compound}"
-        if policy.recommended_action == "PIT_NOW" and policy.recommended_compound
-        else f"EXTEND_{policy.recommended_extension_laps}"
-        if policy.recommended_action == "EXTEND" and policy.recommended_extension_laps
-        else policy.recommended_action
-    )
-    disagreement = bool(
-        policy_name
-        and recommendation
-        and policy_name != recommendation
-        and not (policy_name.startswith("EXTEND") and recommendation.startswith("EXTEND"))
-    )
+            decision_state = "ACTIONABLE"
+        margin = abs(decision_outcome.median_time_delta_seconds or 0)
+        advantage = (
+            -decision_outcome.median_time_delta_seconds
+            if decision_outcome.median_time_delta_seconds is not None
+            else None
+        )
+        cycle_advantage = (
+            -decision_outcome.median_pit_cycle_position_delta
+            if decision_outcome.median_pit_cycle_position_delta is not None
+            else None
+        )
+        reason = (
+            f"PIT clears the paired {EQUIVALENCE_BANDS[5]:.3f}s band with "
+            f"frequency {decision_outcome.pit_better_frequency:.3f}."
+            if window_state == "PIT_WINDOW_STRONG"
+            and decision_outcome.pit_better_frequency is not None
+            and decision_outcome.median_time_delta_seconds is not None
+            and decision_outcome.median_time_delta_seconds <= -EQUIVALENCE_BANDS[5]
+            else "PIT's 80% pit-cycle position range clears the stay-out range."
+            if window_state == "PIT_WINDOW_STRONG"
+            else "Paired evidence favors PIT but does not clear the strong-window gate."
+            if window_state == "PIT_WINDOW_OPEN"
+            else "Paired evidence favors EXTEND and shows no pit-cycle position gain."
+            if window_state == "PIT_WINDOW_CLOSED"
+            else "Paired time and pit-cycle evidence remain practically equivalent."
+        )
+        pit_window = PitWindow(
+            state=window_state,
+            best_compound=best_pit_policy.compound if best_pit_policy else None,
+            paired_advantage_seconds=round(advantage, 3) if advantage is not None else None,
+            pit_cycle_position_advantage=cycle_advantage,
+            traffic=policy.traffic_status,
+            rejoin=best_pit_policy.traffic_status if best_pit_policy else None,
+            uncertainty=decision_state,
+            reason=reason,
+        )
+    policy_name = policy.recommended_action
+    disagreement = bool(policy_name and recommendation and policy_name != recommendation)
     if disagreement and decision_state == "ACTIONABLE":
         decision_state = "CAUTION"
     rivals = _relevant_rivals(context, driver)
@@ -269,7 +280,7 @@ def evaluate_driver(context, driver_id, trajectory_count=100, detail=False, pit_
         rivals,
         recommendation,
         decision_state,
-        bool(pits),
+        pit_window.state if pit_window else "PIT_WINDOW_CLOSED",
     )
     risk_alert = next(
         (
@@ -285,9 +296,15 @@ def evaluate_driver(context, driver_id, trajectory_count=100, detail=False, pit_
         ),
         None,
     )
-    net_position = None
-    if usable:
-        net_position = _outcome(min(usable, key=_action_rank)).median_net_pit_cycle_position
+    chosen_action = (
+        best.pit_action
+        if best and recommendation == "PIT_NOW"
+        else best.extend_action
+        if best
+        else None
+    )
+    chosen = next((action for action in actions if action.action == chosen_action), None)
+    net_position = _outcome(chosen).median_net_pit_cycle_position if chosen else None
     return PitWallDriver(
         driver=driver.driver,
         status=driver.status,
@@ -305,6 +322,12 @@ def evaluate_driver(context, driver_id, trajectory_count=100, detail=False, pit_
         decision_state=decision_state,
         policy_recommendation=policy_name,
         model_disagreement=disagreement,
+        best_pit_compound=best_pit_policy.compound if best_pit_policy else None,
+        paired_comparison=(
+            best if detail or best is None else best.model_copy(update={"outcomes": []})
+        ),
+        paired_candidates=paired.comparisons if detail else [],
+        pit_window=pit_window,
         evaluated_action_count=len(actions),
         decision_margin_seconds=round(margin, 3) if margin is not None else None,
         uncertainty_overlap=overlap,
@@ -316,9 +339,9 @@ def evaluate_driver(context, driver_id, trajectory_count=100, detail=False, pit_
             else "No specific short-horizon risk was identified."
         ),
         main_opportunity=(
-            f"{recommendation} leads by {margin:.2f}s over three laps."
-            if margin is not None and overlap is False
-            else "Observed outcomes overlap; preserve optionality."
+            pit_window.reason
+            if pit_window
+            else "No paired PIT-versus-EXTEND comparison is available."
         ),
         relevant_rivals=rivals,
         alerts=alerts,
@@ -418,6 +441,37 @@ def build_timeline(race, start_lap, end_lap, driver_id=None, trajectory_count=10
                 if changed or not previous
                 else history[current.driver.id][-1].recommendation_age + 1
             )
+            current_window = current.pit_window.state if current.pit_window else "PIT_WINDOW_CLOSED"
+            previous_window = (
+                previous.pit_window.state
+                if previous and previous.pit_window
+                else "PIT_WINDOW_CLOSED"
+            )
+            window_changed = bool(previous and previous_window != current_window)
+            pit_states = {"PIT_WINDOW_OPEN", "PIT_WINDOW_STRONG"}
+            if current_window in pit_states:
+                window_age = (
+                    history[current.driver.id][-1].pit_window_age + 1
+                    if previous and previous_window in pit_states
+                    else 1
+                )
+            else:
+                window_age = 0
+            window_reason = None
+            if window_changed:
+                direction = (
+                    "opened"
+                    if current_window in {"PIT_WINDOW_OPEN", "PIT_WINDOW_STRONG"}
+                    else "closed"
+                    if current_window == "PIT_WINDOW_CLOSED"
+                    else "became uncertain"
+                )
+                detail = (
+                    current.pit_window.reason
+                    if current.pit_window
+                    else f"driver status is {current.status}"
+                )
+                window_reason = f"Pit window {direction}: {detail}"
             entry = PitWallTimelineEntry(
                 lap=lap,
                 observed_position=current.current_position,
@@ -428,6 +482,9 @@ def build_timeline(race, start_lap, end_lap, driver_id=None, trajectory_count=10
                 recommendation=recommendation,
                 decision_state="CAUTION" if suppressed else current.decision_state,
                 model_disagreement=current.model_disagreement,
+                pit_window_state=current_window,
+                pit_window_age=window_age,
+                pit_window_change_reason=window_reason,
                 recommendation_age=age,
                 persistence=age,
                 changed=changed,
@@ -454,6 +511,18 @@ def build_timeline(race, start_lap, end_lap, driver_id=None, trajectory_count=10
     pit_entries = [
         entry for entry in recommendation_entries if entry.recommendation.startswith("PIT_NOW")
     ]
+    all_entries = [entry for timeline in timelines for entry in timeline.entries]
+    one_lap_pit_spikes = 0
+    for timeline in timelines:
+        for index, entry in enumerate(timeline.entries):
+            if entry.recommendation != "PIT_NOW":
+                continue
+            before = index == 0 or timeline.entries[index - 1].recommendation != "PIT_NOW"
+            after = (
+                index == len(timeline.entries) - 1
+                or timeline.entries[index + 1].recommendation != "PIT_NOW"
+            )
+            one_lap_pit_spikes += int(before and after)
     return PitWallTimeline(
         event=race.event,
         start_lap=start_lap,
@@ -481,6 +550,13 @@ def build_timeline(race, start_lap, end_lap, driver_id=None, trajectory_count=10
             / max(recommendations, 1),
             "mean_pit_call_age_laps": sum(entry.recommendation_age for entry in pit_entries)
             / max(len(pit_entries), 1),
+            "pit_window_open_count": sum(
+                entry.pit_window_state == "PIT_WINDOW_OPEN" for entry in all_entries
+            ),
+            "pit_window_strong_count": sum(
+                entry.pit_window_state == "PIT_WINDOW_STRONG" for entry in all_entries
+            ),
+            "one_lap_pit_spikes": one_lap_pit_spikes,
             "elapsed_seconds": sum(snapshot_elapsed),
             "mean_snapshot_elapsed_seconds": sum(snapshot_elapsed) / max(len(snapshot_elapsed), 1),
         },

@@ -132,3 +132,9 @@ Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/pitwall/2024/1/timeline?start_la
 
 See the [architecture and operating limits](docs/pitwall.md) and the recorded
 [four-race rolling evaluation](docs/pitwall-evaluation.json).
+
+Phase 6B replaces independent marginal-interval comparison with matched PIT-versus-EXTEND
+trajectories, empirical equivalence bands, expected regret, and a structured pit-window model.
+See the [paired Pit Wall report](docs/phase6b-paired-pitwall.md),
+[threshold calibration](docs/phase6b-paired-calibration.json), and
+[frozen 2025 evaluation](docs/phase6b-paired-evaluation.json).

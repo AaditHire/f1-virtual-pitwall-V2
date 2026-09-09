@@ -9,7 +9,9 @@ from test_strategy import strategy_history
 from f1_pitwall.domain.replay import PitStop
 from f1_pitwall.main import create_app
 from f1_pitwall.services.analysis_context import AnalysisContext
+from f1_pitwall.services.paired import evaluate_paired_candidates
 from f1_pitwall.services.pitwall import build_pitwall_snapshot, build_timeline, evaluate_driver
+from f1_pitwall.services.strategy import recommend_driver_action
 
 
 def test_full_grid_snapshot_and_driver_detail(analysis_history):
@@ -30,6 +32,11 @@ def test_full_grid_snapshot_and_driver_detail(analysis_history):
     detail = build_pitwall_snapshot(AnalysisContext(race, 22), 100, "d0")
     driver = next(row for row in detail.drivers if row.driver.id == "d0")
     assert driver.actions and driver.engineering_analysis is not None
+    assert driver.paired_comparison is not None
+    assert driver.pit_window is not None
+    assert driver.paired_comparison.extend_action == "EXTEND_5"
+    assert driver.paired_comparison.decision_horizon_laps == 5
+    assert driver.paired_candidates
     assert all(
         {outcome.horizon_laps for outcome in action.outcomes} == {1, 3, 5}
         for action in driver.actions
@@ -56,6 +63,31 @@ def test_lapped_driver_never_gets_fabricated_seconds_gap(analysis_history):
     assert result.gap_to_leader_seconds is None
 
 
+def test_paired_paths_are_reproducible_and_share_common_draws(analysis_history):
+    race = strategy_history(analysis_history)
+    context = AnalysisContext(race, 22)
+    actions = recommend_driver_action(context, "d0").actions
+    first = evaluate_paired_candidates(context, "d0", actions, 100, 71)
+    second = evaluate_paired_candidates(context, "d0", list(reversed(actions)), 100, 71)
+    by_pair = {(row.pit_action, row.extend_action): row for row in second.comparisons}
+    assert first.best_comparison is not None
+    assert len(first.comparisons) == sum(action.kind == "PIT_NOW" for action in actions)
+    for comparison in first.comparisons:
+        assert comparison == by_pair[comparison.pit_action, comparison.extend_action]
+        for outcome in comparison.outcomes:
+            frequencies = (
+                outcome.pit_better_frequency
+                + outcome.extend_better_frequency
+                + outcome.equivalence_frequency
+            )
+            assert abs(frequencies - 1) < 0.01
+            if outcome.interval_80:
+                assert outcome.interval_80[0] < outcome.interval_80[1]
+    assert first.components["seconds_gap_fabricated"] is False
+    assert first.components["shared"]
+    assert first.components["action_specific"]
+
+
 def test_timeline_reanchors_and_tracks_changes(analysis_history):
     race = strategy_history(analysis_history)
     timeline = build_timeline(race, 20, 22, "d0", 100)
@@ -64,6 +96,8 @@ def test_timeline_reanchors_and_tracks_changes(analysis_history):
     assert [row.lap for row in timeline.drivers[0].entries] == [20, 21, 22]
     assert 0 <= timeline.metrics["flip_rate"] <= 1
     assert 0 <= timeline.metrics["unsupported_flip_rate"] <= 1
+    assert "pit_window_open_count" in timeline.metrics
+    assert all(row.pit_window_age >= 0 for row in timeline.drivers[0].entries)
 
 
 def pitwall_output(race):

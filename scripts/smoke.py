@@ -93,6 +93,9 @@ def fetch_pitwall(get, selection):
         f"&driver={driver_id}&trajectory_count=100"
     )
     assert detail["actions"]
+    assert detail["paired_comparison"]["extend_action"] == "EXTEND_5"
+    assert detail["paired_comparison"]["decision_horizon_laps"] == 5
+    assert detail["pit_window"]["state"].startswith("PIT_WINDOW_")
     assert all(
         {outcome["horizon_laps"] for outcome in action["outcomes"]} == {1, 3, 5}
         for action in detail["actions"]

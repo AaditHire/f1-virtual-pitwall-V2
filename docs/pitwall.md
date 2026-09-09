@@ -37,20 +37,18 @@ For each active driver the orchestrator:
 1. Reuses one causal pit-loss estimate for the complete grid.
 2. Obtains the Phase 4 legal PIT_NOW and EXTEND candidates and their policy scores.
 3. Runs the Phase 5E frozen stochastic transition kernel for every candidate.
-4. Ranks each action using its three-lap median relative time, terminal pit-cycle position, and
-   policy score as a final tie-break.
-5. Compares the best PIT_NOW and EXTEND 90% intervals.
+4. Generates matched trajectories for every legal PIT compound and a five-lap stay-out control.
+5. Compares PIT minus EXTEND directly using time, regret, physical position, and pit-cycle position.
 
-If those intervals overlap, the final call is `HOLD_NO_CLEAR_ADVANTAGE`. If they separate, the
-better evaluated action may be returned. A strong difference from the Phase 4 policy is exposed
-as `model_disagreement` and reduces an otherwise actionable recommendation to `CAUTION`. This
-makes the independent outcome model a safety check instead of treating the old policy score as
-ground truth.
+The paired five-lap equivalence band and probability gates are frozen from earlier chronological
+data. An open window returns `HOLD_NO_CLEAR_ADVANTAGE`; a strong time or pit-cycle position window
+can return `PIT_NOW`. Phase 4 policy disagreement remains explicit secondary evidence. See the
+[Phase 6B paired decision report](phase6b-paired-pitwall.md).
 
 The public uncertainty states are:
 
-- `ACTIONABLE`: supported short-horizon outcomes separate and the policy agrees.
-- `CAUTION`: outcomes overlap, or policy and outcome evaluation disagree.
+- `ACTIONABLE`: paired time or pit-cycle evidence clears a frozen decision gate.
+- `CAUTION`: the window is open or uncertain without a strong final action.
 - `COARSE_ONLY`: only limited or weakly applicable timing evidence is available.
 - `INSUFFICIENT_DATA`: no defensible action comparison can be made.
 
@@ -76,8 +74,9 @@ into an invented seconds gap.
 
 Alerts are deterministic response objects with a kind, driver, optional rival, and concrete
 detail. Supported kinds are `UNDERCUT_THREAT`, `CLEAR_AIR_WINDOW`, `REJOIN_TRAFFIC_RISK`,
-`PIT_WINDOW_OPEN`, `PIT_WINDOW_CLOSED`, `STRATEGY_MODEL_UNCERTAIN`, `RIVAL_STOPPED`, and
-`POSITION_AT_RISK`. No language model generates or interprets them.
+`PIT_WINDOW_OPEN`, `PIT_WINDOW_CLOSED`, `PIT_WINDOW_STRONG`, `PIT_WINDOW_UNCERTAIN`,
+`STRATEGY_MODEL_UNCERTAIN`, `RIVAL_STOPPED`, and `POSITION_AT_RISK`. No language model
+generates or interprets them.
 
 ## History, changes, and stability
 
@@ -96,10 +95,10 @@ Timeline metrics report recommendation frequency, HOLD and PIT rates, accepted f
 unsupported flip rate, actionability coverage, policy disagreement, mean persistence, and mean
 PIT-call age. The recorded multi-race results are in `docs/pitwall-evaluation.json`.
 
-The recorded run covered 189 consecutive eligible laps across the 2024 Japanese, Bahrain,
+The original Phase 6 run covered 189 consecutive eligible laps across the 2024 Japanese, Bahrain,
 Italian, and Spanish Grands Prix, producing 3,780 driver-lap observations. Of 3,195 returned
 recommendations, 1,304 (40.8%) were HOLD and 1,891 were EXTEND_3. No PIT_NOW call cleared the
-interval-overlap and disagreement safeguards. Strict actionability coverage was 2.6%, policy
+original marginal-interval safeguards. Strict actionability coverage was 2.6%, policy
 disagreement was 56.8%, mean persistence was 6.58 laps, accepted flip rate was 17.6%, and
 unsupported-flip suppression was 4.3%.
 

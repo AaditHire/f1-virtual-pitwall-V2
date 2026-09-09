@@ -1,0 +1,102 @@
+{
+  "chronology": {
+    "development": [
+      "2024/1",
+      "2024/4",
+      "2024/10",
+      "2024/16"
+    ],
+    "validation": "2025 races only; not inspected during this calibration run"
+  },
+  "equivalence_band": {
+    "seconds_by_horizon": {
+      "1": 0.948,
+      "3": 1.791,
+      "5": 2.482
+    },
+    "position_places": 1,
+    "method": "Chronological factual MAE in Phase 5F's 2024 evaluation after fitting the transition model on 2021-2023 races. The position band is the one-place median absolute position error at +3 and +5."
+  },
+  "sampled_driver_states": 908,
+  "trajectory_count": 100,
+  "repeat_seeds": [
+    6100,
+    16100,
+    26100
+  ],
+  "candidate_thresholds": [
+    {
+      "open_threshold": 0.55,
+      "strong_threshold": 0.7,
+      "states": {
+        "PIT_WINDOW_CLOSED": 517,
+        "PIT_WINDOW_OPEN": 183,
+        "PIT_WINDOW_STRONG": 103,
+        "PIT_WINDOW_UNCERTAIN": 105
+      },
+      "unanimous_seed_rate": 1,
+      "strong_signal_instability_rate": 0
+    },
+    {
+      "open_threshold": 0.6,
+      "strong_threshold": 0.75,
+      "states": {
+        "PIT_WINDOW_CLOSED": 517,
+        "PIT_WINDOW_OPEN": 183,
+        "PIT_WINDOW_STRONG": 103,
+        "PIT_WINDOW_UNCERTAIN": 105
+      },
+      "unanimous_seed_rate": 1,
+      "strong_signal_instability_rate": 0
+    },
+    {
+      "open_threshold": 0.67,
+      "strong_threshold": 0.8,
+      "states": {
+        "PIT_WINDOW_CLOSED": 516,
+        "PIT_WINDOW_OPEN": 183,
+        "PIT_WINDOW_STRONG": 103,
+        "PIT_WINDOW_UNCERTAIN": 106
+      },
+      "unanimous_seed_rate": 0.9966960352422908,
+      "strong_signal_instability_rate": 0
+    },
+    {
+      "open_threshold": 0.7,
+      "strong_threshold": 0.85,
+      "states": {
+        "PIT_WINDOW_CLOSED": 498,
+        "PIT_WINDOW_OPEN": 183,
+        "PIT_WINDOW_STRONG": 103,
+        "PIT_WINDOW_UNCERTAIN": 124
+      },
+      "unanimous_seed_rate": 0.9559471365638766,
+      "strong_signal_instability_rate": 0
+    },
+    {
+      "open_threshold": 0.75,
+      "strong_threshold": 0.9,
+      "states": {
+        "PIT_WINDOW_CLOSED": 465,
+        "PIT_WINDOW_OPEN": 183,
+        "PIT_WINDOW_STRONG": 103,
+        "PIT_WINDOW_UNCERTAIN": 157
+      },
+      "unanimous_seed_rate": 0.8480176211453745,
+      "strong_signal_instability_rate": 0
+    }
+  ],
+  "selected": {
+    "open_threshold": 0.55,
+    "strong_threshold": 0.7,
+    "states": {
+      "PIT_WINDOW_CLOSED": 517,
+      "PIT_WINDOW_OPEN": 183,
+      "PIT_WINDOW_STRONG": 103,
+      "PIT_WINDOW_UNCERTAIN": 105
+    },
+    "unanimous_seed_rate": 1,
+    "strong_signal_instability_rate": 0
+  },
+  "selection_rule": "Choose the least restrictive candidate within one percentage point of the best repeated-seed unanimity, then minimize strong-signal instability. PIT frequency is not part of the objective."
+}
