@@ -81,12 +81,33 @@ def fetch_simulation(get, post, selection):
     return {"comparison": comparison, "single_action": outcome}
 
 
+def fetch_pitwall(get, selection):
+    year, round, lap = selection
+    prefix = f"/api/v1/pitwall/{year}/{round}"
+    snapshot = get(f"{prefix}/{lap}?trajectory_count=100")
+    active = next(driver for driver in snapshot["drivers"] if driver["status"] == "active")
+    driver_id = active["driver"]["id"]
+    detail = get(f"{prefix}/{lap}/drivers/{driver_id}?trajectory_count=100")
+    timeline = get(
+        f"{prefix}/timeline?start_lap={lap - 1}&end_lap={lap}"
+        f"&driver={driver_id}&trajectory_count=100"
+    )
+    assert detail["actions"]
+    assert all(
+        {outcome["horizon_laps"] for outcome in action["outcomes"]} == {1, 3, 5}
+        for action in detail["actions"]
+    )
+    assert timeline["reanchored_laps"] == [lap - 1, lap]
+    return {"snapshot": snapshot, "driver": detail, "timeline": timeline}
+
+
 def main(
     replay: tuple[int, int, int] | None = None,
     replay_only: bool = False,
     analysis=None,
     strategy=None,
     simulation=None,
+    pitwall=None,
 ):
     with socket.socket() as sock:
         sock.bind(("127.0.0.1", 0))
@@ -146,6 +167,11 @@ def main(
                         "health": get("/health"),
                         "simulation": fetch_simulation(get, post, simulation),
                     }
+                    print(json.dumps(report, indent=2, ensure_ascii=True), flush=True)
+                    return
+
+                if pitwall:
+                    report = {"health": get("/health"), "pitwall": fetch_pitwall(get, pitwall)}
                     print(json.dumps(report, indent=2, ensure_ascii=True), flush=True)
                     return
 
@@ -222,6 +248,13 @@ if __name__ == "__main__":
         help="Smoke both Phase 5 routes against a real historical replay",
     )
     parser.add_argument(
+        "--pitwall",
+        nargs=3,
+        type=int,
+        metavar=("YEAR", "ROUND", "LAP"),
+        help="Smoke all three Phase 6 routes against a real historical replay",
+    )
+    parser.add_argument(
         "--analysis",
         nargs=3,
         type=int,
@@ -237,4 +270,5 @@ if __name__ == "__main__":
         tuple(arguments.analysis) if arguments.analysis else None,
         tuple(arguments.strategy) if arguments.strategy else None,
         tuple(arguments.simulation) if arguments.simulation else None,
+        tuple(arguments.pitwall) if arguments.pitwall else None,
     )

@@ -115,3 +115,20 @@ Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/analysis/2023/14/19/overcut?driv
 See [analysis methods, confidence and validation](docs/analysis.md). Historical evaluation uses later laps only as labels, outside the runtime engine. The tyre trend did **not** outperform the zero-slope baseline in the recorded evaluation.
 
 Phase 3B therefore selects a LOW-confidence zero-slope relative-pace forecast while exposing fitted slopes as diagnostics. It also replaces the raw fresh-tyre estimate with a leave-one-driver-out field-normalized estimate that improved on later 2024 holdouts. See the [Phase 3B calibration report](docs/analysis-calibration.md).
+
+## Rolling Virtual Pit Wall (Phase 6)
+
+The Pit Wall evaluates the complete observed grid with the existing causal analysis, policy, and
+stochastic transition services. Each new lap is rebuilt from real archived observations; simulated
+states never feed the next decision. Outcomes are limited to the validated 1-, 3-, and 5-lap
+envelope.
+
+```powershell
+Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/pitwall/2024/1/25'
+Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/pitwall/2024/1/25/drivers/f1:MAXVER01'
+Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/pitwall/2024/1/timeline?start_lap=20&end_lap=25'
+.venv\Scripts\python scripts/smoke.py --pitwall 2024 1 25
+```
+
+See the [architecture and operating limits](docs/pitwall.md) and the recorded
+[four-race rolling evaluation](docs/pitwall-evaluation.json).

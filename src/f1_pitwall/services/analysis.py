@@ -10,9 +10,9 @@ from f1_pitwall.services.pit_analysis import estimate_pit_loss, find_pit_window
 from f1_pitwall.services.traffic import analyze_traffic
 
 
-def analyze_driver(context, driver_id):
+def analyze_driver(context, driver_id, pit_loss=None):
     driver = context.driver(driver_id)
-    loss = estimate_pit_loss(context)
+    loss = pit_loss or estimate_pit_loss(context)
     window = find_pit_window(driver_id, context.state, loss)
     return DriverAnalysis(
         year=context.state.event.year,

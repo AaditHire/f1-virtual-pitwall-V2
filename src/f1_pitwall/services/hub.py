@@ -13,6 +13,7 @@ from f1_pitwall.providers.openf1 import OpenF1
 from f1_pitwall.services.analysis import AnalysisService
 from f1_pitwall.services.calendar import CalendarService
 from f1_pitwall.services.news import NewsService
+from f1_pitwall.services.pitwall import PitWallService
 from f1_pitwall.services.replay import ReplayService
 from f1_pitwall.services.results import ResultsService
 from f1_pitwall.services.season import SeasonService
@@ -35,6 +36,7 @@ class Hub:
         self.analysis = AnalysisService(self.replay)
         self.strategy = StrategyService(self.replay)
         self.simulation = SimulationService(self.replay)
+        self.pitwall = PitWallService(self.replay)
         self.news = NewsService(
             [
                 RSSProvider(ProviderHTTP(name, client, settings), url)
