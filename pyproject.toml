@@ -27,7 +27,7 @@ dev = [
 ]
 
 [tool.setuptools.package-data]
-"f1_pitwall" = ["models/*.joblib"]
+"f1_pitwall" = ["models/*.joblib", "models/*.json"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

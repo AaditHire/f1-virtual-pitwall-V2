@@ -149,3 +149,9 @@ Phase 6D compares three transparent, pit-cycle-independent opportunity formulati
 [focused PIT signal report](docs/phase6d-focused-pit-opportunity.md) and
 [development evidence](docs/phase6d-development.json). None separated near-stop states from
 matched controls, so the held-out races remain untouched and Phase 7 remains NO-GO.
+
+Phase 6E adds a separate [strategic stint-value model report](docs/phase6e-strategic-stint-value.md),
+[chronological validation](docs/phase6e-validation.json), and frozen empirical
+[stint priors](src/f1_pitwall/models/strategic_stint_priors.json). Common-horizon owed-stop
+accounting works, but holdout forecasts do not beat the generic baseline, so public Pit Wall
+recommendations remain unchanged.
