@@ -1,0 +1,2211 @@
+{
+  "chronology": {
+    "defects_observed_in": "Phase 6C frozen 2021-2025 audit",
+    "untouched_fix_validation": [
+      "2025/20",
+      "2025/22",
+      "2025/23",
+      "2025/24"
+    ],
+    "retuned_on_validation": false
+  },
+  "fix": {
+    "normal_stop_cooldown_laps": 3,
+    "position_only_strong_window_disabled": true,
+    "equivalence_bands_and_frequency_thresholds_changed": false
+  },
+  "dataset": [
+    {
+      "race": "2025/20",
+      "event": "Mexico City Grand Prix",
+      "circuit": "Mexico City",
+      "profile": "high altitude/overtaking-friendly",
+      "lap_range": [
+        6,
+        66
+      ]
+    },
+    {
+      "race": "2025/22",
+      "event": "Las Vegas Grand Prix",
+      "circuit": "Las Vegas",
+      "profile": "street/low degradation",
+      "lap_range": [
+        6,
+        45
+      ]
+    },
+    {
+      "race": "2025/23",
+      "event": "Qatar Grand Prix",
+      "circuit": "Qatar",
+      "profile": "high-speed/high tyre load",
+      "lap_range": [
+        6,
+        52
+      ]
+    },
+    {
+      "race": "2025/24",
+      "event": "Abu Dhabi Grand Prix",
+      "circuit": "Abu Dhabi",
+      "profile": "traction/overtaking-friendly",
+      "lap_range": [
+        6,
+        53
+      ]
+    }
+  ],
+  "audit": {
+    "decision_distribution": {
+      "states": 3860,
+      "recommendations": {
+        "EXTEND": 1687,
+        "HOLD_NO_CLEAR_ADVANTAGE": 1882,
+        "INSUFFICIENT_DATA": 291
+      },
+      "recommendation_rates": {
+        "PIT_NOW": 0.0,
+        "EXTEND": 0.43704663212435235,
+        "HOLD_NO_CLEAR_ADVANTAGE": 0.4875647668393782,
+        "INSUFFICIENT_DATA": 0.07538860103626943
+      },
+      "windows": {
+        "PIT_WINDOW_CLOSED": 2040,
+        "PIT_WINDOW_OPEN": 786,
+        "PIT_WINDOW_UNCERTAIN": 1034
+      }
+    },
+    "lead_time": {
+      "factual_green_stops": 98,
+      "open": {
+        "distribution": {
+          "count": 64,
+          "min": 1,
+          "median": 6.5,
+          "mean": 9.46875,
+          "p90": 21,
+          "max": 32
+        },
+        "buckets": {
+          "1": 2,
+          "2": 2,
+          "3-5": 25,
+          ">5": 35,
+          "never": 34
+        }
+      },
+      "strong": {
+        "distribution": {
+          "count": 0
+        },
+        "buckets": {
+          "never": 98
+        }
+      },
+      "pit_now": {
+        "distribution": {
+          "count": 0
+        },
+        "buckets": {
+          "never": 98
+        }
+      }
+    },
+    "persistence": {
+      "window_episodes": 186,
+      "window_duration": {
+        "count": 186,
+        "min": 1,
+        "median": 3.0,
+        "mean": 4.225806451612903,
+        "p90": 9,
+        "max": 24
+      },
+      "pit_recommendation_duration": {
+        "count": 186,
+        "min": 0,
+        "median": 0.0,
+        "mean": 0,
+        "p90": 0,
+        "max": 0
+      },
+      "survived_until_pit": 40,
+      "closed_before_later_pit": 54,
+      "closure_reasons": {
+        "compound changed": 33,
+        "pit-cycle changed": 96,
+        "position changed": 92,
+        "rival stopped": 98,
+        "traffic changed": 75,
+        "uncertainty increased": 49,
+        "unsupported model fluctuation": 32
+      }
+    },
+    "isolated_pit_audit": {
+      "count": 0,
+      "classifications": {},
+      "cases": []
+    },
+    "non_pit_controls": {
+      "pit_states_excluding_next_lap_stops": 0,
+      "groups": {
+        "within_next_2_laps": {
+          "pit_states": 0,
+          "persistence": {
+            "count": 0
+          }
+        },
+        "on_lap_3": {
+          "pit_states": 0,
+          "persistence": {
+            "count": 0
+          }
+        },
+        "on_laps_4_to_5": {
+          "pit_states": 0,
+          "persistence": {
+            "count": 0
+          }
+        },
+        "later_than_5_laps": {
+          "pit_states": 0,
+          "persistence": {
+            "count": 0
+          }
+        },
+        "no_later_stop": {
+          "pit_states": 0,
+          "persistence": {
+            "count": 0
+          }
+        }
+      }
+    },
+    "post_pit_windows": {
+      "0-3": {
+        "open_or_strong_states": 0,
+        "strong_states": 0,
+        "pit_recommendations": 0
+      },
+      "4-5": {
+        "open_or_strong_states": 42,
+        "strong_states": 0,
+        "pit_recommendations": 0
+      }
+    },
+    "compound_audit": {
+      "factual_stops": 98,
+      "different_compound": 64,
+      "agreement": 29,
+      "insufficient_information": 5,
+      "generated_illegal": 0,
+      "implausible_dry_choice": 0,
+      "soft_choices_requiring_later_strategy": 72,
+      "cases": [
+        {
+          "race": "2025/20",
+          "driver": "SAI",
+          "pit_lap": 18,
+          "actual": "HARD",
+          "recommended": "SOFT",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": true
+        },
+        {
+          "race": "2025/20",
+          "driver": "ALO",
+          "pit_lap": 21,
+          "actual": "MEDIUM",
+          "recommended": "MEDIUM",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": false
+        },
+        {
+          "race": "2025/20",
+          "driver": "ANT",
+          "pit_lap": 23,
+          "actual": "MEDIUM",
+          "recommended": "MEDIUM",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": false
+        },
+        {
+          "race": "2025/20",
+          "driver": "HAM",
+          "pit_lap": 24,
+          "actual": "MEDIUM",
+          "recommended": "MEDIUM",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": false
+        },
+        {
+          "race": "2025/20",
+          "driver": "BEA",
+          "pit_lap": 25,
+          "actual": "MEDIUM",
+          "recommended": "MEDIUM",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": false
+        },
+        {
+          "race": "2025/20",
+          "driver": "PIA",
+          "pit_lap": 25,
+          "actual": "MEDIUM",
+          "recommended": "MEDIUM",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": false
+        },
+        {
+          "race": "2025/20",
+          "driver": "RUS",
+          "pit_lap": 26,
+          "actual": "MEDIUM",
+          "recommended": "MEDIUM",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": false
+        },
+        {
+          "race": "2025/20",
+          "driver": "HUL",
+          "pit_lap": 26,
+          "actual": null,
+          "recommended": "MEDIUM",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": false
+        },
+        {
+          "race": "2025/20",
+          "driver": "STR",
+          "pit_lap": 27,
+          "actual": "MEDIUM",
+          "recommended": "MEDIUM",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": false
+        },
+        {
+          "race": "2025/20",
+          "driver": "OCO",
+          "pit_lap": 28,
+          "actual": "MEDIUM",
+          "recommended": "MEDIUM",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": false
+        },
+        {
+          "race": "2025/20",
+          "driver": "LEC",
+          "pit_lap": 32,
+          "actual": "MEDIUM",
+          "recommended": "MEDIUM",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": false
+        },
+        {
+          "race": "2025/20",
+          "driver": "GAS",
+          "pit_lap": 34,
+          "actual": "SOFT",
+          "recommended": "SOFT",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": true
+        },
+        {
+          "race": "2025/20",
+          "driver": "NOR",
+          "pit_lap": 34,
+          "actual": "MEDIUM",
+          "recommended": "MEDIUM",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": false
+        },
+        {
+          "race": "2025/20",
+          "driver": "HAD",
+          "pit_lap": 35,
+          "actual": "SOFT",
+          "recommended": "SOFT",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": true
+        },
+        {
+          "race": "2025/20",
+          "driver": "ALO",
+          "pit_lap": 35,
+          "actual": null,
+          "recommended": "SOFT",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": true
+        },
+        {
+          "race": "2025/20",
+          "driver": "TSU",
+          "pit_lap": 37,
+          "actual": "SOFT",
+          "recommended": "SOFT",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": true
+        },
+        {
+          "race": "2025/20",
+          "driver": "VER",
+          "pit_lap": 38,
+          "actual": "SOFT",
+          "recommended": "SOFT",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": true
+        },
+        {
+          "race": "2025/20",
+          "driver": "BOR",
+          "pit_lap": 38,
+          "actual": "SOFT",
+          "recommended": "SOFT",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": true
+        },
+        {
+          "race": "2025/20",
+          "driver": "ALB",
+          "pit_lap": 42,
+          "actual": "SOFT",
+          "recommended": "SOFT",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": true
+        },
+        {
+          "race": "2025/20",
+          "driver": "STR",
+          "pit_lap": 44,
+          "actual": "SOFT",
+          "recommended": "SOFT",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": true
+        },
+        {
+          "race": "2025/20",
+          "driver": "SAI",
+          "pit_lap": 47,
+          "actual": "SOFT",
+          "recommended": "MEDIUM",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": false
+        },
+        {
+          "race": "2025/20",
+          "driver": "ANT",
+          "pit_lap": 48,
+          "actual": "SOFT",
+          "recommended": "SOFT",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": true
+        },
+        {
+          "race": "2025/20",
+          "driver": "PIA",
+          "pit_lap": 48,
+          "actual": "SOFT",
+          "recommended": "SOFT",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": true
+        },
+        {
+          "race": "2025/20",
+          "driver": "HAM",
+          "pit_lap": 48,
+          "actual": "SOFT",
+          "recommended": "SOFT",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": true
+        },
+        {
+          "race": "2025/20",
+          "driver": "BEA",
+          "pit_lap": 49,
+          "actual": "SOFT",
+          "recommended": "SOFT",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": true
+        },
+        {
+          "race": "2025/20",
+          "driver": "RUS",
+          "pit_lap": 49,
+          "actual": "SOFT",
+          "recommended": "SOFT",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": true
+        },
+        {
+          "race": "2025/20",
+          "driver": "COL",
+          "pit_lap": 50,
+          "actual": "SOFT",
+          "recommended": "SOFT",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": true
+        },
+        {
+          "race": "2025/20",
+          "driver": "SAI",
+          "pit_lap": 57,
+          "actual": "SOFT",
+          "recommended": "MEDIUM",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": false
+        },
+        {
+          "race": "2025/22",
+          "driver": "ALB",
+          "pit_lap": 14,
+          "actual": "MEDIUM",
+          "recommended": "SOFT",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": true
+        },
+        {
+          "race": "2025/22",
+          "driver": "ALO",
+          "pit_lap": 17,
+          "actual": "HARD",
+          "recommended": "SOFT",
+          "generated_legal": true,
+          "dry_and_different_from_current": true,
+          "soft_requires_strategy_beyond_envelope": true
+        }
+      ]
+    },
+    "pit_cycle_validation": {
+      "cases": 81,
+      "substantial_adjustments": 46,
+      "physical_position_mae_at_plus_5": 1.8641975308641976,
+      "net_position_mae_at_plus_5": 2.759259259259259,
+      "matched_compound": {
+        "cases": 28,
+        "physical_position_mae_at_plus_5": 1.5714285714285714,
+        "net_position_mae_at_plus_5": 2.357142857142857
+      },
+      "examples": [
+        {
+          "race": "2025/24",
+          "driver": "HAM",
+          "decision_lap": 31,
+          "actual_compound_matches": false,
+          "physical_position": 18,
+          "net_position": 6,
+          "actual_position_plus_5": 14,
+          "physical_absolute_error": 4,
+          "net_absolute_error": 8,
+          "substantial_adjustment": true
+        },
+        {
+          "race": "2025/24",
+          "driver": "ALB",
+          "decision_lap": 33,
+          "actual_compound_matches": false,
+          "physical_position": 19,
+          "net_position": 9,
+          "actual_position_plus_5": 20,
+          "physical_absolute_error": 1,
+          "net_absolute_error": 11,
+          "substantial_adjustment": true
+        },
+        {
+          "race": "2025/23",
+          "driver": "OCO",
+          "decision_lap": 34,
+          "actual_compound_matches": false,
+          "physical_position": 12,
+          "net_position": 3,
+          "actual_position_plus_5": 17,
+          "physical_absolute_error": 5,
+          "net_absolute_error": 14,
+          "substantial_adjustment": true
+        },
+        {
+          "race": "2025/24",
+          "driver": "RUS",
+          "decision_lap": 14,
+          "actual_compound_matches": false,
+          "physical_position": 14,
+          "net_position": 5,
+          "actual_position_plus_5": 8,
+          "physical_absolute_error": 6,
+          "net_absolute_error": 3,
+          "substantial_adjustment": true
+        },
+        {
+          "race": "2025/24",
+          "driver": "HUL",
+          "decision_lap": 42,
+          "actual_compound_matches": true,
+          "physical_position": 17,
+          "net_position": 8,
+          "actual_position_plus_5": 17,
+          "physical_absolute_error": 0,
+          "net_absolute_error": 9,
+          "substantial_adjustment": true
+        },
+        {
+          "race": "2025/20",
+          "driver": "ANT",
+          "decision_lap": 22,
+          "actual_compound_matches": true,
+          "physical_position": 12,
+          "net_position": 4,
+          "actual_position_plus_5": 6,
+          "physical_absolute_error": 6,
+          "net_absolute_error": 2,
+          "substantial_adjustment": true
+        },
+        {
+          "race": "2025/23",
+          "driver": "ANT",
+          "decision_lap": 32,
+          "actual_compound_matches": false,
+          "physical_position": 10,
+          "net_position": 2,
+          "actual_position_plus_5": 5,
+          "physical_absolute_error": 5,
+          "net_absolute_error": 3,
+          "substantial_adjustment": true
+        },
+        {
+          "race": "2025/23",
+          "driver": "BEA",
+          "decision_lap": 32,
+          "actual_compound_matches": false,
+          "physical_position": 15,
+          "net_position": 7,
+          "actual_position_plus_5": 18,
+          "physical_absolute_error": 3,
+          "net_absolute_error": 11,
+          "substantial_adjustment": true
+        },
+        {
+          "race": "2025/23",
+          "driver": "LAW",
+          "decision_lap": 32,
+          "actual_compound_matches": false,
+          "physical_position": 15,
+          "net_position": 7,
+          "actual_position_plus_5": 11,
+          "physical_absolute_error": 4,
+          "net_absolute_error": 4,
+          "substantial_adjustment": true
+        },
+        {
+          "race": "2025/23",
+          "driver": "TSU",
+          "decision_lap": 32,
+          "actual_compound_matches": false,
+          "physical_position": 17,
+          "net_position": 9,
+          "actual_position_plus_5": 12,
+          "physical_absolute_error": 5,
+          "net_absolute_error": 3,
+          "substantial_adjustment": true
+        },
+        {
+          "race": "2025/23",
+          "driver": "ALB",
+          "decision_lap": 32,
+          "actual_compound_matches": false,
+          "physical_position": 17,
+          "net_position": 9,
+          "actual_position_plus_5": 13,
+          "physical_absolute_error": 4,
+          "net_absolute_error": 4,
+          "substantial_adjustment": true
+        },
+        {
+          "race": "2025/24",
+          "driver": "BEA",
+          "decision_lap": 14,
+          "actual_compound_matches": false,
+          "physical_position": 19,
+          "net_position": 11,
+          "actual_position_plus_5": 16,
+          "physical_absolute_error": 3,
+          "net_absolute_error": 5,
+          "substantial_adjustment": true
+        },
+        {
+          "race": "2025/20",
+          "driver": "PIA",
+          "decision_lap": 24,
+          "actual_compound_matches": true,
+          "physical_position": 12,
+          "net_position": 5,
+          "actual_position_plus_5": 8,
+          "physical_absolute_error": 4,
+          "net_absolute_error": 3,
+          "substantial_adjustment": true
+        },
+        {
+          "race": "2025/23",
+          "driver": "SAI",
+          "decision_lap": 32,
+          "actual_compound_matches": false,
+          "physical_position": 9,
+          "net_position": 2,
+          "actual_position_plus_5": 4,
+          "physical_absolute_error": 5,
+          "net_absolute_error": 2,
+          "substantial_adjustment": true
+        },
+        {
+          "race": "2025/23",
+          "driver": "HAD",
+          "decision_lap": 32,
+          "actual_compound_matches": false,
+          "physical_position": 13,
+          "net_position": 6,
+          "actual_position_plus_5": 7,
+          "physical_absolute_error": 6,
+          "net_absolute_error": 1,
+          "substantial_adjustment": true
+        },
+        {
+          "race": "2025/24",
+          "driver": "HAD",
+          "decision_lap": 14,
+          "actual_compound_matches": false,
+          "physical_position": 18,
+          "net_position": 11,
+          "actual_position_plus_5": 15,
+          "physical_absolute_error": 3,
+          "net_absolute_error": 4,
+          "substantial_adjustment": true
+        },
+        {
+          "race": "2025/20",
+          "driver": "HAM",
+          "decision_lap": 23,
+          "actual_compound_matches": true,
+          "physical_position": 9,
+          "net_position": 3,
+          "actual_position_plus_5": 11,
+          "physical_absolute_error": 2,
+          "net_absolute_error": 8,
+          "substantial_adjustment": true
+        },
+        {
+          "race": "2025/20",
+          "driver": "BEA",
+          "decision_lap": 24,
+          "actual_compound_matches": true,
+          "physical_position": 9,
+          "net_position": 3,
+          "actual_position_plus_5": 5,
+          "physical_absolute_error": 4,
+          "net_absolute_error": 2,
+          "substantial_adjustment": true
+        },
+        {
+          "race": "2025/22",
+          "driver": "ALB",
+          "decision_lap": 34,
+          "actual_compound_matches": false,
+          "physical_position": 18,
+          "net_position": 12,
+          "actual_position_plus_5": 18,
+          "physical_absolute_error": 0,
+          "net_absolute_error": 6,
+          "substantial_adjustment": true
+        },
+        {
+          "race": "2025/23",
+          "driver": "ALO",
+          "decision_lap": 32,
+          "actual_compound_matches": false,
+          "physical_position": 11,
+          "net_position": 5,
+          "actual_position_plus_5": 6,
+          "physical_absolute_error": 5,
+          "net_absolute_error": 1,
+          "substantial_adjustment": true
+        }
+      ]
+    },
+    "grid_regions": {
+      "P1-P5": {
+        "states": 965,
+        "recommendations": {
+          "EXTEND": 541,
+          "HOLD_NO_CLEAR_ADVANTAGE": 416,
+          "INSUFFICIENT_DATA": 8
+        },
+        "recommendation_rates": {
+          "PIT_NOW": 0.0,
+          "EXTEND": 0.5606217616580311,
+          "HOLD_NO_CLEAR_ADVANTAGE": 0.4310880829015544,
+          "INSUFFICIENT_DATA": 0.008290155440414507
+        },
+        "windows": {
+          "PIT_WINDOW_CLOSED": 591,
+          "PIT_WINDOW_OPEN": 117,
+          "PIT_WINDOW_UNCERTAIN": 257
+        },
+        "mean_window_duration": 2.891891891891892,
+        "isolated_pit_calls": 0,
+        "isolated_pit_rate": 0.0,
+        "median_pit_lead_time": null,
+        "lap_deficit_states": 0,
+        "unknown_gap_states": 3,
+        "fabricated_seconds_gaps": 0
+      },
+      "P11-P15": {
+        "states": 965,
+        "recommendations": {
+          "EXTEND": 340,
+          "HOLD_NO_CLEAR_ADVANTAGE": 624,
+          "INSUFFICIENT_DATA": 1
+        },
+        "recommendation_rates": {
+          "PIT_NOW": 0.0,
+          "EXTEND": 0.35233160621761656,
+          "HOLD_NO_CLEAR_ADVANTAGE": 0.6466321243523316,
+          "INSUFFICIENT_DATA": 0.0010362694300518134
+        },
+        "windows": {
+          "PIT_WINDOW_CLOSED": 377,
+          "PIT_WINDOW_OPEN": 310,
+          "PIT_WINDOW_UNCERTAIN": 278
+        },
+        "mean_window_duration": 5.651515151515151,
+        "isolated_pit_calls": 0,
+        "isolated_pit_rate": 0.0,
+        "median_pit_lead_time": null,
+        "lap_deficit_states": 29,
+        "unknown_gap_states": 2,
+        "fabricated_seconds_gaps": 0
+      },
+      "P16+": {
+        "states": 965,
+        "recommendations": {
+          "EXTEND": 344,
+          "HOLD_NO_CLEAR_ADVANTAGE": 339,
+          "INSUFFICIENT_DATA": 282
+        },
+        "recommendation_rates": {
+          "PIT_NOW": 0.0,
+          "EXTEND": 0.35647668393782384,
+          "HOLD_NO_CLEAR_ADVANTAGE": 0.35129533678756475,
+          "INSUFFICIENT_DATA": 0.2922279792746114
+        },
+        "windows": {
+          "PIT_WINDOW_CLOSED": 625,
+          "PIT_WINDOW_OPEN": 98,
+          "PIT_WINDOW_UNCERTAIN": 242
+        },
+        "mean_window_duration": 4.137931034482759,
+        "isolated_pit_calls": 0,
+        "isolated_pit_rate": 0.0,
+        "median_pit_lead_time": null,
+        "lap_deficit_states": 81,
+        "unknown_gap_states": 273,
+        "fabricated_seconds_gaps": 0
+      },
+      "P6-P10": {
+        "states": 965,
+        "recommendations": {
+          "EXTEND": 462,
+          "HOLD_NO_CLEAR_ADVANTAGE": 503
+        },
+        "recommendation_rates": {
+          "PIT_NOW": 0.0,
+          "EXTEND": 0.47875647668393784,
+          "HOLD_NO_CLEAR_ADVANTAGE": 0.5212435233160622,
+          "INSUFFICIENT_DATA": 0.0
+        },
+        "windows": {
+          "PIT_WINDOW_CLOSED": 447,
+          "PIT_WINDOW_OPEN": 261,
+          "PIT_WINDOW_UNCERTAIN": 257
+        },
+        "mean_window_duration": 3.4444444444444446,
+        "isolated_pit_calls": 0,
+        "isolated_pit_rate": 0.0,
+        "median_pit_lead_time": null,
+        "lap_deficit_states": 0,
+        "unknown_gap_states": 0,
+        "fabricated_seconds_gaps": 0
+      }
+    },
+    "by_year": {
+      "2025": {
+        "states": 3860,
+        "recommendations": {
+          "EXTEND": 1687,
+          "HOLD_NO_CLEAR_ADVANTAGE": 1882,
+          "INSUFFICIENT_DATA": 291
+        },
+        "recommendation_rates": {
+          "PIT_NOW": 0.0,
+          "EXTEND": 0.43704663212435235,
+          "HOLD_NO_CLEAR_ADVANTAGE": 0.4875647668393782,
+          "INSUFFICIENT_DATA": 0.07538860103626943
+        },
+        "windows": {
+          "PIT_WINDOW_CLOSED": 2040,
+          "PIT_WINDOW_OPEN": 786,
+          "PIT_WINDOW_UNCERTAIN": 1034
+        }
+      }
+    },
+    "by_circuit": {
+      "Abu Dhabi": {
+        "states": 960,
+        "recommendations": {
+          "EXTEND": 569,
+          "HOLD_NO_CLEAR_ADVANTAGE": 388,
+          "INSUFFICIENT_DATA": 3
+        },
+        "recommendation_rates": {
+          "PIT_NOW": 0.0,
+          "EXTEND": 0.5927083333333333,
+          "HOLD_NO_CLEAR_ADVANTAGE": 0.4041666666666667,
+          "INSUFFICIENT_DATA": 0.003125
+        },
+        "windows": {
+          "PIT_WINDOW_CLOSED": 579,
+          "PIT_WINDOW_OPEN": 270,
+          "PIT_WINDOW_UNCERTAIN": 111
+        }
+      },
+      "Las Vegas": {
+        "states": 800,
+        "recommendations": {
+          "EXTEND": 341,
+          "HOLD_NO_CLEAR_ADVANTAGE": 368,
+          "INSUFFICIENT_DATA": 91
+        },
+        "recommendation_rates": {
+          "PIT_NOW": 0.0,
+          "EXTEND": 0.42625,
+          "HOLD_NO_CLEAR_ADVANTAGE": 0.46,
+          "INSUFFICIENT_DATA": 0.11375
+        },
+        "windows": {
+          "PIT_WINDOW_CLOSED": 453,
+          "PIT_WINDOW_OPEN": 95,
+          "PIT_WINDOW_UNCERTAIN": 252
+        }
+      },
+      "Mexico City": {
+        "states": 1220,
+        "recommendations": {
+          "EXTEND": 543,
+          "HOLD_NO_CLEAR_ADVANTAGE": 540,
+          "INSUFFICIENT_DATA": 137
+        },
+        "recommendation_rates": {
+          "PIT_NOW": 0.0,
+          "EXTEND": 0.44508196721311477,
+          "HOLD_NO_CLEAR_ADVANTAGE": 0.4426229508196721,
+          "INSUFFICIENT_DATA": 0.11229508196721312
+        },
+        "windows": {
+          "PIT_WINDOW_CLOSED": 724,
+          "PIT_WINDOW_OPEN": 141,
+          "PIT_WINDOW_UNCERTAIN": 355
+        }
+      },
+      "Qatar": {
+        "states": 880,
+        "recommendations": {
+          "EXTEND": 234,
+          "HOLD_NO_CLEAR_ADVANTAGE": 586,
+          "INSUFFICIENT_DATA": 60
+        },
+        "recommendation_rates": {
+          "PIT_NOW": 0.0,
+          "EXTEND": 0.26590909090909093,
+          "HOLD_NO_CLEAR_ADVANTAGE": 0.6659090909090909,
+          "INSUFFICIENT_DATA": 0.06818181818181818
+        },
+        "windows": {
+          "PIT_WINDOW_CLOSED": 284,
+          "PIT_WINDOW_OPEN": 280,
+          "PIT_WINDOW_UNCERTAIN": 316
+        }
+      }
+    },
+    "quality_states": {
+      "ACTIONABLE": {
+        "sampled_states": 7,
+        "timing_completeness": 1,
+        "median_interval_90_width_seconds": 5.919999999999998,
+        "mean_recommendation_age": 7
+      },
+      "CAUTION": {
+        "sampled_states": 46,
+        "timing_completeness": 0.9565217391304348,
+        "median_interval_90_width_seconds": 4.827,
+        "mean_recommendation_age": 8.608695652173912
+      },
+      "COARSE_ONLY": {
+        "sampled_states": 90,
+        "timing_completeness": 0.9888888888888889,
+        "median_interval_90_width_seconds": 9.195,
+        "mean_recommendation_age": 10.144444444444444
+      },
+      "INSUFFICIENT_DATA": {
+        "sampled_states": 18,
+        "timing_completeness": 0.5,
+        "median_interval_90_width_seconds": null,
+        "mean_recommendation_age": 1.3333333333333333
+      }
+    },
+    "strategic_rivals": {
+      "pit_probe_states": 0,
+      "pit_probe_states_without_strong_time_evidence": 0,
+      "lapped_rivals_attached_to_same_lap_drivers": 0,
+      "invalid_examples": []
+    },
+    "backmarker_case_studies": [
+      {
+        "race": "2025/20",
+        "event": "Mexico City Grand Prix",
+        "driver": "HUL",
+        "lap": 25,
+        "case_types": [
+          "TIME",
+          "long_first_stint",
+          "alternate_pit_cycle"
+        ],
+        "state": {
+          "lap": 25,
+          "observed_position": 16,
+          "gap_kind": "TIME",
+          "laps_behind": 0,
+          "pit_cycle_position": 17,
+          "traffic": "HEAVY_TRAFFIC",
+          "recommendation": "EXTEND",
+          "decision_state": "COARSE_ONLY",
+          "model_disagreement": true,
+          "pit_window_state": "PIT_WINDOW_CLOSED",
+          "pit_window_age": 0,
+          "pit_window_change_reason": null,
+          "recommendation_age": 3,
+          "persistence": 3,
+          "changed": false,
+          "change_reasons": [],
+          "unsupported_flip_suppressed": false,
+          "driver_id": "f1:NICHUL01",
+          "driver_code": "HUL",
+          "compound": "SOFT",
+          "tyre_age": 24.0,
+          "stint_number": 1,
+          "status": "active",
+          "grid_group": "P16+"
+        },
+        "paired": {
+          "pit_action": "PIT_NOW_MEDIUM",
+          "extend_action": "EXTEND_5",
+          "decision_horizon_laps": 5,
+          "median_time_delta_seconds": 15.609,
+          "position_delta": 2.0,
+          "pit_cycle_position_delta": 0.0,
+          "pit_net_position_range_80": [
+            15,
+            19
+          ],
+          "extend_net_position_range_80": [
+            15,
+            19
+          ],
+          "pit_better_frequency": 0.0,
+          "extend_better_frequency": 1.0,
+          "equivalence_frequency": 0.0,
+          "expected_regret": {
+            "pit_seconds": 12.876,
+            "extend_seconds": 0.0
+          },
+          "downside_tail": {
+            "pit_seconds": 15.326,
+            "extend_seconds": 0.0
+          },
+          "action_value": {
+            "pit_time_advantage_seconds": -15.609,
+            "pit_track_position_advantage": -2.0,
+            "pit_cycle_position_advantage": 0.0
+          },
+          "pit_window_state": "PIT_WINDOW_CLOSED",
+          "components": {
+            "equivalence_band_seconds": 2.482,
+            "time_delta_sign": "PIT minus EXTEND; negative favors PIT",
+            "position_delta_sign": "PIT minus EXTEND; negative favors PIT",
+            "track_position_is_distinct_from_pit_cycle_position": true
+          }
+        },
+        "quality": "COARSE_ONLY",
+        "future_observed_lap_plus_5": {
+          "lap": 30,
+          "observed_position": 19,
+          "gap_kind": "UNKNOWN",
+          "laps_behind": null,
+          "pit_cycle_position": 19,
+          "traffic": "UNKNOWN",
+          "recommendation": null,
+          "decision_state": "INSUFFICIENT_DATA",
+          "model_disagreement": false,
+          "pit_window_state": "PIT_WINDOW_CLOSED",
+          "pit_window_age": 0,
+          "pit_window_change_reason": null,
+          "recommendation_age": 5,
+          "persistence": 5,
+          "changed": false,
+          "change_reasons": [],
+          "unsupported_flip_suppressed": false,
+          "driver_id": "f1:NICHUL01",
+          "driver_code": "HUL",
+          "compound": "SOFT",
+          "tyre_age": 25.0,
+          "stint_number": 1,
+          "status": "retired",
+          "grid_group": "P16+"
+        }
+      },
+      {
+        "race": "2025/20",
+        "event": "Mexico City Grand Prix",
+        "driver": "ALO",
+        "lap": 35,
+        "case_types": [
+          "UNKNOWN"
+        ],
+        "state": {
+          "lap": 35,
+          "observed_position": 17,
+          "gap_kind": "UNKNOWN",
+          "laps_behind": 0,
+          "pit_cycle_position": 17,
+          "traffic": "UNKNOWN",
+          "recommendation": null,
+          "decision_state": "INSUFFICIENT_DATA",
+          "model_disagreement": false,
+          "pit_window_state": "PIT_WINDOW_CLOSED",
+          "pit_window_age": 0,
+          "pit_window_change_reason": null,
+          "recommendation_age": 1,
+          "persistence": 1,
+          "changed": true,
+          "change_reasons": [
+            "traffic window changed",
+            "position changed",
+            "pit-cycle position changed",
+            "uncertainty state changed",
+            "relevant rival or rival pit state changed"
+          ],
+          "unsupported_flip_suppressed": false,
+          "driver_id": "f1:FERALO01",
+          "driver_code": "ALO",
+          "compound": "MEDIUM",
+          "tyre_age": 15.0,
+          "stint_number": 2,
+          "status": "in_pit",
+          "grid_group": "P16+"
+        },
+        "paired": null,
+        "quality": "INSUFFICIENT_DATA",
+        "future_observed_lap_plus_5": {
+          "lap": 40,
+          "observed_position": 18,
+          "gap_kind": "UNKNOWN",
+          "laps_behind": null,
+          "pit_cycle_position": 18,
+          "traffic": "UNKNOWN",
+          "recommendation": null,
+          "decision_state": "INSUFFICIENT_DATA",
+          "model_disagreement": false,
+          "pit_window_state": "PIT_WINDOW_CLOSED",
+          "pit_window_age": 0,
+          "pit_window_change_reason": null,
+          "recommendation_age": 6,
+          "persistence": 6,
+          "changed": false,
+          "change_reasons": [],
+          "unsupported_flip_suppressed": false,
+          "driver_id": "f1:FERALO01",
+          "driver_code": "ALO",
+          "compound": "MEDIUM",
+          "tyre_age": 15.0,
+          "stint_number": 2,
+          "status": "retired",
+          "grid_group": "P16+"
+        }
+      },
+      {
+        "race": "2025/20",
+        "event": "Mexico City Grand Prix",
+        "driver": "COL",
+        "lap": 49,
+        "case_types": [
+          "LAP_DEFICIT"
+        ],
+        "state": {
+          "lap": 49,
+          "observed_position": 16,
+          "gap_kind": "LAP_DEFICIT",
+          "laps_behind": 1,
+          "pit_cycle_position": 16,
+          "traffic": "LIGHT_TRAFFIC",
+          "recommendation": "HOLD_NO_CLEAR_ADVANTAGE",
+          "decision_state": "COARSE_ONLY",
+          "model_disagreement": true,
+          "pit_window_state": "PIT_WINDOW_UNCERTAIN",
+          "pit_window_age": 0,
+          "pit_window_change_reason": null,
+          "recommendation_age": 5,
+          "persistence": 5,
+          "changed": false,
+          "change_reasons": [],
+          "unsupported_flip_suppressed": false,
+          "driver_id": "f1:FRACOL01",
+          "driver_code": "COL",
+          "compound": "HARD",
+          "tyre_age": 47.0,
+          "stint_number": 1,
+          "status": "active",
+          "grid_group": "P16+"
+        },
+        "paired": {
+          "pit_action": "PIT_NOW_SOFT",
+          "extend_action": "EXTEND_5",
+          "decision_horizon_laps": 5,
+          "median_time_delta_seconds": null,
+          "position_delta": 0.0,
+          "pit_cycle_position_delta": null,
+          "pit_net_position_range_80": [
+            14,
+            20
+          ],
+          "extend_net_position_range_80": [
+            14,
+            20
+          ],
+          "pit_better_frequency": 0.0,
+          "extend_better_frequency": 0.0,
+          "equivalence_frequency": 1.0,
+          "expected_regret": {
+            "pit_seconds": null,
+            "extend_seconds": null
+          },
+          "downside_tail": {
+            "pit_seconds": null,
+            "extend_seconds": null
+          },
+          "action_value": {
+            "pit_time_advantage_seconds": null,
+            "pit_track_position_advantage": -0.0,
+            "pit_cycle_position_advantage": null
+          },
+          "pit_window_state": "PIT_WINDOW_UNCERTAIN",
+          "components": {
+            "equivalence_band_seconds": 2.482,
+            "time_delta_sign": "PIT minus EXTEND; negative favors PIT",
+            "position_delta_sign": "PIT minus EXTEND; negative favors PIT",
+            "track_position_is_distinct_from_pit_cycle_position": true
+          }
+        },
+        "quality": "COARSE_ONLY",
+        "future_observed_lap_plus_5": {
+          "lap": 54,
+          "observed_position": 17,
+          "gap_kind": "LAP_DEFICIT",
+          "laps_behind": 1,
+          "pit_cycle_position": 17,
+          "traffic": "UNKNOWN",
+          "recommendation": "HOLD_NO_CLEAR_ADVANTAGE",
+          "decision_state": "COARSE_ONLY",
+          "model_disagreement": true,
+          "pit_window_state": "PIT_WINDOW_UNCERTAIN",
+          "pit_window_age": 0,
+          "pit_window_change_reason": "Pit window became uncertain: Paired time and pit-cycle evidence remain practically equivalent.",
+          "recommendation_age": 1,
+          "persistence": 1,
+          "changed": true,
+          "change_reasons": [
+            "uncertainty state changed"
+          ],
+          "unsupported_flip_suppressed": false,
+          "driver_id": "f1:FRACOL01",
+          "driver_code": "COL",
+          "compound": "SOFT",
+          "tyre_age": 4.0,
+          "stint_number": 2,
+          "status": "active",
+          "grid_group": "P16+"
+        }
+      }
+    ],
+    "historical_case_studies": {
+      "early_window_before_stop": {
+        "driver_id": "f1:LANSTR01",
+        "driver_code": "STR",
+        "pit_lap": 43,
+        "pre": {
+          "lap": 42,
+          "observed_position": 6,
+          "gap_kind": "TIME",
+          "laps_behind": 0,
+          "pit_cycle_position": 18,
+          "traffic": "CLEAR_AIR",
+          "recommendation": "EXTEND",
+          "decision_state": "COARSE_ONLY",
+          "model_disagreement": true,
+          "pit_window_state": "PIT_WINDOW_CLOSED",
+          "pit_window_age": 0,
+          "pit_window_change_reason": null,
+          "recommendation_age": 2,
+          "persistence": 2,
+          "changed": false,
+          "change_reasons": [],
+          "unsupported_flip_suppressed": false,
+          "driver_id": "f1:LANSTR01",
+          "driver_code": "STR",
+          "compound": "HARD",
+          "tyre_age": 42.0,
+          "stint_number": 1,
+          "status": "active",
+          "grid_group": "P6-P10"
+        },
+        "actual_compound": "MEDIUM",
+        "lead_time": {
+          "open": 32,
+          "strong": null,
+          "pit_now": null
+        },
+        "timeline": [
+          {
+            "lap": 36,
+            "observed_position": 6,
+            "gap_kind": "TIME",
+            "laps_behind": 0,
+            "pit_cycle_position": 19,
+            "traffic": "CLEAR_AIR",
+            "recommendation": "HOLD_NO_CLEAR_ADVANTAGE",
+            "decision_state": "COARSE_ONLY",
+            "model_disagreement": true,
+            "pit_window_state": "PIT_WINDOW_CLOSED",
+            "pit_window_age": 0,
+            "pit_window_change_reason": null,
+            "recommendation_age": 4,
+            "persistence": 4,
+            "changed": false,
+            "change_reasons": [],
+            "unsupported_flip_suppressed": false,
+            "driver_id": "f1:LANSTR01",
+            "driver_code": "STR",
+            "compound": "HARD",
+            "tyre_age": 36.0,
+            "stint_number": 1,
+            "status": "active",
+            "grid_group": "P6-P10"
+          },
+          {
+            "lap": 37,
+            "observed_position": 6,
+            "gap_kind": "TIME",
+            "laps_behind": 0,
+            "pit_cycle_position": 19,
+            "traffic": "CLEAR_AIR",
+            "recommendation": "HOLD_NO_CLEAR_ADVANTAGE",
+            "decision_state": "COARSE_ONLY",
+            "model_disagreement": false,
+            "pit_window_state": "PIT_WINDOW_OPEN",
+            "pit_window_age": 1,
+            "pit_window_change_reason": "Pit window opened: Paired evidence favors PIT but does not clear the strong-window gate.",
+            "recommendation_age": 5,
+            "persistence": 5,
+            "changed": false,
+            "change_reasons": [
+              "relevant rival or rival pit state changed"
+            ],
+            "unsupported_flip_suppressed": false,
+            "driver_id": "f1:LANSTR01",
+            "driver_code": "STR",
+            "compound": "HARD",
+            "tyre_age": 37.0,
+            "stint_number": 1,
+            "status": "active",
+            "grid_group": "P6-P10"
+          },
+          {
+            "lap": 38,
+            "observed_position": 6,
+            "gap_kind": "TIME",
+            "laps_behind": 0,
+            "pit_cycle_position": 20,
+            "traffic": "CLEAR_AIR",
+            "recommendation": "HOLD_NO_CLEAR_ADVANTAGE",
+            "decision_state": "COARSE_ONLY",
+            "model_disagreement": false,
+            "pit_window_state": "PIT_WINDOW_OPEN",
+            "pit_window_age": 2,
+            "pit_window_change_reason": null,
+            "recommendation_age": 6,
+            "persistence": 6,
+            "changed": false,
+            "change_reasons": [],
+            "unsupported_flip_suppressed": false,
+            "driver_id": "f1:LANSTR01",
+            "driver_code": "STR",
+            "compound": "HARD",
+            "tyre_age": 38.0,
+            "stint_number": 1,
+            "status": "active",
+            "grid_group": "P6-P10"
+          },
+          {
+            "lap": 39,
+            "observed_position": 6,
+            "gap_kind": "TIME",
+            "laps_behind": 0,
+            "pit_cycle_position": 20,
+            "traffic": "CLEAR_AIR",
+            "recommendation": "HOLD_NO_CLEAR_ADVANTAGE",
+            "decision_state": "COARSE_ONLY",
+            "model_disagreement": false,
+            "pit_window_state": "PIT_WINDOW_OPEN",
+            "pit_window_age": 3,
+            "pit_window_change_reason": null,
+            "recommendation_age": 7,
+            "persistence": 7,
+            "changed": false,
+            "change_reasons": [],
+            "unsupported_flip_suppressed": false,
+            "driver_id": "f1:LANSTR01",
+            "driver_code": "STR",
+            "compound": "HARD",
+            "tyre_age": 39.0,
+            "stint_number": 1,
+            "status": "active",
+            "grid_group": "P6-P10"
+          },
+          {
+            "lap": 40,
+            "observed_position": 6,
+            "gap_kind": "TIME",
+            "laps_behind": 0,
+            "pit_cycle_position": 20,
+            "traffic": "CLEAR_AIR",
+            "recommendation": "HOLD_NO_CLEAR_ADVANTAGE",
+            "decision_state": "COARSE_ONLY",
+            "model_disagreement": false,
+            "pit_window_state": "PIT_WINDOW_OPEN",
+            "pit_window_age": 4,
+            "pit_window_change_reason": null,
+            "recommendation_age": 8,
+            "persistence": 8,
+            "changed": false,
+            "change_reasons": [],
+            "unsupported_flip_suppressed": false,
+            "driver_id": "f1:LANSTR01",
+            "driver_code": "STR",
+            "compound": "HARD",
+            "tyre_age": 40.0,
+            "stint_number": 1,
+            "status": "active",
+            "grid_group": "P6-P10"
+          },
+          {
+            "lap": 41,
+            "observed_position": 6,
+            "gap_kind": "TIME",
+            "laps_behind": 0,
+            "pit_cycle_position": 18,
+            "traffic": "CLEAR_AIR",
+            "recommendation": "EXTEND",
+            "decision_state": "COARSE_ONLY",
+            "model_disagreement": true,
+            "pit_window_state": "PIT_WINDOW_CLOSED",
+            "pit_window_age": 0,
+            "pit_window_change_reason": "Pit window closed: Paired evidence favors EXTEND and shows no pit-cycle position gain.",
+            "recommendation_age": 1,
+            "persistence": 1,
+            "changed": true,
+            "change_reasons": [
+              "pit-cycle position changed"
+            ],
+            "unsupported_flip_suppressed": false,
+            "driver_id": "f1:LANSTR01",
+            "driver_code": "STR",
+            "compound": "HARD",
+            "tyre_age": 41.0,
+            "stint_number": 1,
+            "status": "active",
+            "grid_group": "P6-P10"
+          },
+          {
+            "lap": 42,
+            "observed_position": 6,
+            "gap_kind": "TIME",
+            "laps_behind": 0,
+            "pit_cycle_position": 18,
+            "traffic": "CLEAR_AIR",
+            "recommendation": "EXTEND",
+            "decision_state": "COARSE_ONLY",
+            "model_disagreement": true,
+            "pit_window_state": "PIT_WINDOW_CLOSED",
+            "pit_window_age": 0,
+            "pit_window_change_reason": null,
+            "recommendation_age": 2,
+            "persistence": 2,
+            "changed": false,
+            "change_reasons": [],
+            "unsupported_flip_suppressed": false,
+            "driver_id": "f1:LANSTR01",
+            "driver_code": "STR",
+            "compound": "HARD",
+            "tyre_age": 42.0,
+            "stint_number": 1,
+            "status": "active",
+            "grid_group": "P6-P10"
+          }
+        ],
+        "probe": {
+          "recommendation": "EXTEND",
+          "decision_state": "COARSE_ONLY",
+          "current_position": 6,
+          "pit_cycle_position": 18,
+          "best_compound": "MEDIUM",
+          "current_compound": "HARD",
+          "gap_kind": "TIME",
+          "laps_behind": 0,
+          "traffic": "CLEAR_AIR",
+          "window": {
+            "state": "PIT_WINDOW_CLOSED",
+            "best_compound": "MEDIUM",
+            "paired_advantage_seconds": -13.778,
+            "pit_cycle_position_advantage": -0.0,
+            "traffic": "CLEAR_AIR",
+            "rejoin": "HEAVY_TRAFFIC",
+            "uncertainty": "COARSE_ONLY",
+            "reason": "Paired evidence favors EXTEND and shows no pit-cycle position gain."
+          },
+          "comparison": {
+            "pit_action": "PIT_NOW_MEDIUM",
+            "extend_action": "EXTEND_5",
+            "decision_horizon_laps": 5,
+            "median_time_delta_seconds": 13.778,
+            "position_delta": 11.0,
+            "pit_cycle_position_delta": 0.0,
+            "pit_net_position_range_80": [
+              16,
+              20
+            ],
+            "extend_net_position_range_80": [
+              16,
+              20
+            ],
+            "pit_better_frequency": 0.0,
+            "extend_better_frequency": 1.0,
+            "equivalence_frequency": 0.0,
+            "expected_regret": {
+              "pit_seconds": 11.756,
+              "extend_seconds": 0.0
+            },
+            "downside_tail": {
+              "pit_seconds": 14.366,
+              "extend_seconds": 0.0
+            },
+            "action_value": {
+              "pit_time_advantage_seconds": -13.778,
+              "pit_track_position_advantage": -11.0,
+              "pit_cycle_position_advantage": 0.0
+            },
+            "pit_window_state": "PIT_WINDOW_CLOSED",
+            "components": {
+              "equivalence_band_seconds": 2.482,
+              "time_delta_sign": "PIT minus EXTEND; negative favors PIT",
+              "position_delta_sign": "PIT minus EXTEND; negative favors PIT",
+              "track_position_is_distinct_from_pit_cycle_position": true
+            }
+          },
+          "interval_90": [
+            10.894,
+            17.819
+          ],
+          "physical_pit_position_at_5": 17,
+          "legal_pit_actions": [
+            "PIT_NOW_SOFT",
+            "PIT_NOW_MEDIUM"
+          ],
+          "rivals": [
+            {
+              "driver": {
+                "id": "f1:FERALO01",
+                "number": 14,
+                "code": "ALO",
+                "first_name": "Fernando",
+                "last_name": "Alonso",
+                "nationality": null,
+                "full_name": "Fernando Alonso"
+              },
+              "position": 7,
+              "gap_seconds": 3.143,
+              "relative_pace_seconds_per_lap": -0.234,
+              "pit_stops_completed": 1,
+              "status": "active",
+              "lapped": false
+            },
+            {
+              "driver": {
+                "id": "f1:ESTOCO01",
+                "number": 31,
+                "code": "OCO",
+                "first_name": "Esteban",
+                "last_name": "Ocon",
+                "nationality": null,
+                "full_name": "Esteban Ocon"
+              },
+              "position": 8,
+              "gap_seconds": 3.775,
+              "relative_pace_seconds_per_lap": -0.109,
+              "pit_stops_completed": 1,
+              "status": "active",
+              "lapped": false
+            },
+            {
+              "driver": {
+                "id": "f1:GEORUS01",
+                "number": 63,
+                "code": "RUS",
+                "first_name": "George",
+                "last_name": "Russell",
+                "nationality": null,
+                "full_name": "George Russell"
+              },
+              "position": 5,
+              "gap_seconds": -15.054,
+              "relative_pace_seconds_per_lap": -0.94,
+              "pit_stops_completed": 1,
+              "status": "active",
+              "lapped": false
+            },
+            {
+              "driver": {
+                "id": "f1:CHALEC01",
+                "number": 16,
+                "code": "LEC",
+                "first_name": "Charles",
+                "last_name": "Leclerc",
+                "nationality": null,
+                "full_name": "Charles Leclerc"
+              },
+              "position": 4,
+              "gap_seconds": -15.518,
+              "relative_pace_seconds_per_lap": -2.066,
+              "pit_stops_completed": 2,
+              "status": "active",
+              "lapped": false
+            }
+          ]
+        },
+        "race": "2025/24",
+        "event": "Abu Dhabi Grand Prix"
+      },
+      "window_closes_before_stop": {
+        "driver_id": "f1:LEWHAM01",
+        "driver_code": "HAM",
+        "start_lap": 30,
+        "end_lap": 30,
+        "duration": 1,
+        "pit_recommendation_duration": 0,
+        "survives_until_pit": false,
+        "closes_before_pit": true,
+        "next_stop_lap": 48,
+        "closure_reasons": [
+          "position changed",
+          "pit-cycle position changed"
+        ],
+        "grid_group": "P6-P10",
+        "timeline": [
+          {
+            "lap": 28,
+            "observed_position": 11,
+            "gap_kind": "TIME",
+            "laps_behind": 0,
+            "pit_cycle_position": 7,
+            "traffic": "MODERATE_TRAFFIC",
+            "recommendation": "HOLD_NO_CLEAR_ADVANTAGE",
+            "decision_state": "CAUTION",
+            "model_disagreement": true,
+            "pit_window_state": "PIT_WINDOW_CLOSED",
+            "pit_window_age": 0,
+            "pit_window_change_reason": null,
+            "recommendation_age": 23,
+            "persistence": 23,
+            "changed": false,
+            "change_reasons": [],
+            "unsupported_flip_suppressed": false,
+            "driver_id": "f1:LEWHAM01",
+            "driver_code": "HAM",
+            "compound": "MEDIUM",
+            "tyre_age": 4.0,
+            "stint_number": 2,
+            "status": "active",
+            "grid_group": "P11-P15"
+          },
+          {
+            "lap": 29,
+            "observed_position": 11,
+            "gap_kind": "TIME",
+            "laps_behind": 0,
+            "pit_cycle_position": 8,
+            "traffic": "MODERATE_TRAFFIC",
+            "recommendation": "HOLD_NO_CLEAR_ADVANTAGE",
+            "decision_state": "COARSE_ONLY",
+            "model_disagreement": false,
+            "pit_window_state": "PIT_WINDOW_CLOSED",
+            "pit_window_age": 0,
+            "pit_window_change_reason": null,
+            "recommendation_age": 24,
+            "persistence": 24,
+            "changed": false,
+            "change_reasons": [],
+            "unsupported_flip_suppressed": false,
+            "driver_id": "f1:LEWHAM01",
+            "driver_code": "HAM",
+            "compound": "MEDIUM",
+            "tyre_age": 5.0,
+            "stint_number": 2,
+            "status": "active",
+            "grid_group": "P11-P15"
+          },
+          {
+            "lap": 30,
+            "observed_position": 10,
+            "gap_kind": "TIME",
+            "laps_behind": 0,
+            "pit_cycle_position": 8,
+            "traffic": "MODERATE_TRAFFIC",
+            "recommendation": "HOLD_NO_CLEAR_ADVANTAGE",
+            "decision_state": "COARSE_ONLY",
+            "model_disagreement": true,
+            "pit_window_state": "PIT_WINDOW_OPEN",
+            "pit_window_age": 1,
+            "pit_window_change_reason": "Pit window opened: Paired evidence favors PIT but does not clear the strong-window gate.",
+            "recommendation_age": 25,
+            "persistence": 25,
+            "changed": false,
+            "change_reasons": [
+              "position changed"
+            ],
+            "unsupported_flip_suppressed": false,
+            "driver_id": "f1:LEWHAM01",
+            "driver_code": "HAM",
+            "compound": "MEDIUM",
+            "tyre_age": 6.0,
+            "stint_number": 2,
+            "status": "active",
+            "grid_group": "P6-P10"
+          },
+          {
+            "lap": 31,
+            "observed_position": 9,
+            "gap_kind": "TIME",
+            "laps_behind": 0,
+            "pit_cycle_position": 7,
+            "traffic": "MODERATE_TRAFFIC",
+            "recommendation": "EXTEND",
+            "decision_state": "COARSE_ONLY",
+            "model_disagreement": true,
+            "pit_window_state": "PIT_WINDOW_CLOSED",
+            "pit_window_age": 0,
+            "pit_window_change_reason": "Pit window closed: Paired evidence favors EXTEND and shows no pit-cycle position gain.",
+            "recommendation_age": 1,
+            "persistence": 1,
+            "changed": true,
+            "change_reasons": [
+              "position changed",
+              "pit-cycle position changed"
+            ],
+            "unsupported_flip_suppressed": false,
+            "driver_id": "f1:LEWHAM01",
+            "driver_code": "HAM",
+            "compound": "MEDIUM",
+            "tyre_age": 7.0,
+            "stint_number": 2,
+            "status": "active",
+            "grid_group": "P6-P10"
+          },
+          {
+            "lap": 32,
+            "observed_position": 9,
+            "gap_kind": "TIME",
+            "laps_behind": 0,
+            "pit_cycle_position": 7,
+            "traffic": "MODERATE_TRAFFIC",
+            "recommendation": "EXTEND",
+            "decision_state": "COARSE_ONLY",
+            "model_disagreement": true,
+            "pit_window_state": "PIT_WINDOW_CLOSED",
+            "pit_window_age": 0,
+            "pit_window_change_reason": null,
+            "recommendation_age": 2,
+            "persistence": 2,
+            "changed": false,
+            "change_reasons": [],
+            "unsupported_flip_suppressed": false,
+            "driver_id": "f1:LEWHAM01",
+            "driver_code": "HAM",
+            "compound": "MEDIUM",
+            "tyre_age": 8.0,
+            "stint_number": 2,
+            "status": "active",
+            "grid_group": "P6-P10"
+          },
+          {
+            "lap": 33,
+            "observed_position": 9,
+            "gap_kind": "TIME",
+            "laps_behind": 0,
+            "pit_cycle_position": 7,
+            "traffic": "MODERATE_TRAFFIC",
+            "recommendation": "EXTEND",
+            "decision_state": "CAUTION",
+            "model_disagreement": true,
+            "pit_window_state": "PIT_WINDOW_CLOSED",
+            "pit_window_age": 0,
+            "pit_window_change_reason": null,
+            "recommendation_age": 3,
+            "persistence": 3,
+            "changed": false,
+            "change_reasons": [],
+            "unsupported_flip_suppressed": false,
+            "driver_id": "f1:LEWHAM01",
+            "driver_code": "HAM",
+            "compound": "MEDIUM",
+            "tyre_age": 9.0,
+            "stint_number": 2,
+            "status": "active",
+            "grid_group": "P6-P10"
+          }
+        ],
+        "race": "2025/20",
+        "event": "Mexico City Grand Prix"
+      },
+      "midfield_pit_opportunity": null,
+      "backmarker_pit_opportunity": null,
+      "hold_before_factual_stop": {
+        "driver_id": "f1:CARSAI01",
+        "driver_code": "SAI",
+        "pit_lap": 18,
+        "pre": {
+          "lap": 17,
+          "observed_position": 13,
+          "gap_kind": "TIME",
+          "laps_behind": 0,
+          "pit_cycle_position": 13,
+          "traffic": "MODERATE_TRAFFIC",
+          "recommendation": "HOLD_NO_CLEAR_ADVANTAGE",
+          "decision_state": "COARSE_ONLY",
+          "model_disagreement": true,
+          "pit_window_state": "PIT_WINDOW_UNCERTAIN",
+          "pit_window_age": 0,
+          "pit_window_change_reason": null,
+          "recommendation_age": 12,
+          "persistence": 12,
+          "changed": false,
+          "change_reasons": [],
+          "unsupported_flip_suppressed": false,
+          "driver_id": "f1:CARSAI01",
+          "driver_code": "SAI",
+          "compound": "MEDIUM",
+          "tyre_age": 16.0,
+          "stint_number": 1,
+          "status": "active",
+          "grid_group": "P11-P15"
+        },
+        "actual_compound": "HARD",
+        "lead_time": {
+          "open": null,
+          "strong": null,
+          "pit_now": null
+        },
+        "timeline": [
+          {
+            "lap": 11,
+            "observed_position": 13,
+            "gap_kind": "TIME",
+            "laps_behind": 0,
+            "pit_cycle_position": 14,
+            "traffic": "MODERATE_TRAFFIC",
+            "recommendation": "HOLD_NO_CLEAR_ADVANTAGE",
+            "decision_state": "COARSE_ONLY",
+            "model_disagreement": true,
+            "pit_window_state": "PIT_WINDOW_UNCERTAIN",
+            "pit_window_age": 0,
+            "pit_window_change_reason": null,
+            "recommendation_age": 6,
+            "persistence": 6,
+            "changed": false,
+            "change_reasons": [],
+            "unsupported_flip_suppressed": false,
+            "driver_id": "f1:CARSAI01",
+            "driver_code": "SAI",
+            "compound": "MEDIUM",
+            "tyre_age": 10.0,
+            "stint_number": 1,
+            "status": "active",
+            "grid_group": "P11-P15"
+          },
+          {
+            "lap": 12,
+            "observed_position": 13,
+            "gap_kind": "TIME",
+            "laps_behind": 0,
+            "pit_cycle_position": 13,
+            "traffic": "MODERATE_TRAFFIC",
+            "recommendation": "HOLD_NO_CLEAR_ADVANTAGE",
+            "decision_state": "COARSE_ONLY",
+            "model_disagreement": true,
+            "pit_window_state": "PIT_WINDOW_UNCERTAIN",
+            "pit_window_age": 0,
+            "pit_window_change_reason": null,
+            "recommendation_age": 7,
+            "persistence": 7,
+            "changed": false,
+            "change_reasons": [],
+            "unsupported_flip_suppressed": false,
+            "driver_id": "f1:CARSAI01",
+            "driver_code": "SAI",
+            "compound": "MEDIUM",
+            "tyre_age": 11.0,
+            "stint_number": 1,
+            "status": "active",
+            "grid_group": "P11-P15"
+          },
+          {
+            "lap": 13,
+            "observed_position": 13,
+            "gap_kind": "TIME",
+            "laps_behind": 0,
+            "pit_cycle_position": 13,
+            "traffic": "MODERATE_TRAFFIC",
+            "recommendation": "HOLD_NO_CLEAR_ADVANTAGE",
+            "decision_state": "COARSE_ONLY",
+            "model_disagreement": true,
+            "pit_window_state": "PIT_WINDOW_UNCERTAIN",
+            "pit_window_age": 0,
+            "pit_window_change_reason": null,
+            "recommendation_age": 8,
+            "persistence": 8,
+            "changed": false,
+            "change_reasons": [],
+            "unsupported_flip_suppressed": false,
+            "driver_id": "f1:CARSAI01",
+            "driver_code": "SAI",
+            "compound": "MEDIUM",
+            "tyre_age": 12.0,
+            "stint_number": 1,
+            "status": "active",
+            "grid_group": "P11-P15"
+          },
+          {
+            "lap": 14,
+            "observed_position": 13,
+            "gap_kind": "TIME",
+            "laps_behind": 0,
+            "pit_cycle_position": 13,
+            "traffic": "MODERATE_TRAFFIC",
+            "recommendation": "HOLD_NO_CLEAR_ADVANTAGE",
+            "decision_state": "COARSE_ONLY",
+            "model_disagreement": true,
+            "pit_window_state": "PIT_WINDOW_UNCERTAIN",
+            "pit_window_age": 0,
+            "pit_window_change_reason": null,
+            "recommendation_age": 9,
+            "persistence": 9,
+            "changed": false,
+            "change_reasons": [],
+            "unsupported_flip_suppressed": false,
+            "driver_id": "f1:CARSAI01",
+            "driver_code": "SAI",
+            "compound": "MEDIUM",
+            "tyre_age": 13.0,
+            "stint_number": 1,
+            "status": "active",
+            "grid_group": "P11-P15"
+          },
+          {
+            "lap": 15,
+            "observed_position": 13,
+            "gap_kind": "TIME",
+            "laps_behind": 0,
+            "pit_cycle_position": 13,
+            "traffic": "MODERATE_TRAFFIC",
+            "recommendation": "HOLD_NO_CLEAR_ADVANTAGE",
+            "decision_state": "COARSE_ONLY",
+            "model_disagreement": true,
+            "pit_window_state": "PIT_WINDOW_UNCERTAIN",
+            "pit_window_age": 0,
+            "pit_window_change_reason": null,
+            "recommendation_age": 10,
+            "persistence": 10,
+            "changed": false,
+            "change_reasons": [],
+            "unsupported_flip_suppressed": false,
+            "driver_id": "f1:CARSAI01",
+            "driver_code": "SAI",
+            "compound": "MEDIUM",
+            "tyre_age": 14.0,
+            "stint_number": 1,
+            "status": "active",
+            "grid_group": "P11-P15"
+          },
+          {
+            "lap": 16,
+            "observed_position": 13,
+            "gap_kind": "TIME",
+            "laps_behind": 0,
+            "pit_cycle_position": 13,
+            "traffic": "MODERATE_TRAFFIC",
+            "recommendation": "HOLD_NO_CLEAR_ADVANTAGE",
+            "decision_state": "COARSE_ONLY",
+            "model_disagreement": true,
+            "pit_window_state": "PIT_WINDOW_UNCERTAIN",
+            "pit_window_age": 0,
+            "pit_window_change_reason": null,
+            "recommendation_age": 11,
+            "persistence": 11,
+            "changed": false,
+            "change_reasons": [],
+            "unsupported_flip_suppressed": false,
+            "driver_id": "f1:CARSAI01",
+            "driver_code": "SAI",
+            "compound": "MEDIUM",
+            "tyre_age": 15.0,
+            "stint_number": 1,
+            "status": "active",
+            "grid_group": "P11-P15"
+          },
+          {
+            "lap": 17,
+            "observed_position": 13,
+            "gap_kind": "TIME",
+            "laps_behind": 0,
+            "pit_cycle_position": 13,
+            "traffic": "MODERATE_TRAFFIC",
+            "recommendation": "HOLD_NO_CLEAR_ADVANTAGE",
+            "decision_state": "COARSE_ONLY",
+            "model_disagreement": true,
+            "pit_window_state": "PIT_WINDOW_UNCERTAIN",
+            "pit_window_age": 0,
+            "pit_window_change_reason": null,
+            "recommendation_age": 12,
+            "persistence": 12,
+            "changed": false,
+            "change_reasons": [],
+            "unsupported_flip_suppressed": false,
+            "driver_id": "f1:CARSAI01",
+            "driver_code": "SAI",
+            "compound": "MEDIUM",
+            "tyre_age": 16.0,
+            "stint_number": 1,
+            "status": "active",
+            "grid_group": "P11-P15"
+          }
+        ],
+        "probe": {
+          "recommendation": "HOLD_NO_CLEAR_ADVANTAGE",
+          "decision_state": "COARSE_ONLY",
+          "current_position": 13,
+          "pit_cycle_position": 13,
+          "best_compound": "SOFT",
+          "current_compound": "MEDIUM",
+          "gap_kind": "TIME",
+          "laps_behind": 0,
+          "traffic": "MODERATE_TRAFFIC",
+          "window": {
+            "state": "PIT_WINDOW_UNCERTAIN",
+            "best_compound": "SOFT",
+            "paired_advantage_seconds": null,
+            "pit_cycle_position_advantage": null,
+            "traffic": "MODERATE_TRAFFIC",
+            "rejoin": "UNKNOWN",
+            "uncertainty": "COARSE_ONLY",
+            "reason": "Paired time and pit-cycle evidence remain practically equivalent."
+          },
+          "comparison": {
+            "pit_action": "PIT_NOW_SOFT",
+            "extend_action": "EXTEND_5",
+            "decision_horizon_laps": 5,
+            "median_time_delta_seconds": null,
+            "position_delta": null,
+            "pit_cycle_position_delta": null,
+            "pit_net_position_range_80": null,
+            "extend_net_position_range_80": [
+              12,
+              16
+            ],
+            "pit_better_frequency": null,
+            "extend_better_frequency": null,
+            "equivalence_frequency": null,
+            "expected_regret": {
+              "pit_seconds": null,
+              "extend_seconds": null
+            },
+            "downside_tail": {
+              "pit_seconds": null,
+              "extend_seconds": null
+            },
+            "action_value": {
+              "pit_time_advantage_seconds": null,
+              "pit_track_position_advantage": null,
+              "pit_cycle_position_advantage": null
+            },
+            "pit_window_state": "PIT_WINDOW_UNCERTAIN",
+            "components": {
+              "equivalence_band_seconds": 2.482,
+              "time_delta_sign": "PIT minus EXTEND; negative favors PIT",
+              "position_delta_sign": "PIT minus EXTEND; negative favors PIT",
+              "track_position_is_distinct_from_pit_cycle_position": true
+            }
+          },
+          "interval_90": null,
+          "physical_pit_position_at_5": null,
+          "legal_pit_actions": [
+            "PIT_NOW_SOFT",
+            "PIT_NOW_HARD"
+          ],
+          "rivals": [
+            {
+              "driver": {
+                "id": "f1:FERALO01",
+                "number": 14,
+                "code": "ALO",
+                "first_name": "Fernando",
+                "last_name": "Alonso",
+                "nationality": null,
+                "full_name": "Fernando Alonso"
+              },
+              "position": 14,
+              "gap_seconds": 0.572,
+              "relative_pace_seconds_per_lap": -0.138,
+              "pit_stops_completed": 0,
+              "status": "active",
+              "lapped": false
+            },
+            {
+              "driver": {
+                "id": "f1:LANSTR01",
+                "number": 18,
+                "code": "STR",
+                "first_name": "Lance",
+                "last_name": "Stroll",
+                "nationality": null,
+                "full_name": "Lance Stroll"
+              },
+              "position": 15,
+              "gap_seconds": 1.922,
+              "relative_pace_seconds_per_lap": -0.289,
+              "pit_stops_completed": 0,
+              "status": "active",
+              "lapped": false
+            },
+            {
+              "driver": {
+                "id": "f1:GABBOR01",
+                "number": 5,
+                "code": "BOR",
+                "first_name": "Gabriel",
+                "last_name": "Bortoleto",
+                "nationality": null,
+                "full_name": "Gabriel Bortoleto"
+              },
+              "position": 12,
+              "gap_seconds": -2.695,
+              "relative_pace_seconds_per_lap": -0.22,
+              "pit_stops_completed": 0,
+              "status": "active",
+              "lapped": false
+            },
+            {
+              "driver": {
+                "id": "f1:ISAHAD01",
+                "number": 6,
+                "code": "HAD",
+                "first_name": "Isack",
+                "last_name": "Hadjar",
+                "nationality": null,
+                "full_name": "Isack Hadjar"
+              },
+              "position": 11,
+              "gap_seconds": -3.512,
+              "relative_pace_seconds_per_lap": -0.039,
+              "pit_stops_completed": 0,
+              "status": "active",
+              "lapped": false
+            }
+          ]
+        },
+        "race": "2025/20",
+        "event": "Mexico City Grand Prix"
+      },
+      "phase4_disagreement": {
+        "lap": 6,
+        "observed_position": 1,
+        "gap_kind": "TIME",
+        "laps_behind": 0,
+        "pit_cycle_position": 1,
+        "traffic": "CLEAR_AIR",
+        "recommendation": "HOLD_NO_CLEAR_ADVANTAGE",
+        "decision_state": "COARSE_ONLY",
+        "model_disagreement": true,
+        "pit_window_state": "PIT_WINDOW_UNCERTAIN",
+        "pit_window_age": 0,
+        "pit_window_change_reason": null,
+        "recommendation_age": 1,
+        "persistence": 1,
+        "changed": false,
+        "change_reasons": [],
+        "unsupported_flip_suppressed": false,
+        "driver_id": "f1:LANNOR01",
+        "driver_code": "NOR",
+        "compound": "SOFT",
+        "tyre_age": 5.0,
+        "stint_number": 1,
+        "status": "active",
+        "grid_group": "P1-P5",
+        "race": "2025/20",
+        "event": "Mexico City Grand Prix"
+      }
+    }
+  },
+  "wall_clock_seconds": 961.999052500003
+}

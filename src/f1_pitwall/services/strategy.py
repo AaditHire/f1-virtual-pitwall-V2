@@ -15,6 +15,7 @@ from f1_pitwall.services.fresh_tyre import estimate_fresh_tyre_delta
 from f1_pitwall.services.pace import analyze_tyres, get_recent_pace
 from f1_pitwall.services.pair_analysis import calculate_overcut, calculate_undercut
 from f1_pitwall.services.pit_analysis import estimate_pit_loss, predict_pit_rejoin
+from f1_pitwall.services.race_state import cutoff_for
 from f1_pitwall.services.traffic import analyze_traffic, blockage_penalty
 
 HORIZON_LAPS = 3
@@ -25,6 +26,7 @@ FRESH_TYRE_MAE_SECONDS = 0.911
 REJOIN_POSITION_MAE = 1.013
 DRY_COMPOUNDS = ("SOFT", "MEDIUM", "HARD")
 WET_COMPOUNDS = ("INTERMEDIATE", "WET")
+NORMAL_STOP_COOLDOWN_LAPS = 3
 POINTS = (25, 18, 15, 12, 10, 8, 6, 4, 2, 1)
 
 
@@ -85,6 +87,24 @@ def _pit_compounds(context, driver):
     return [compound for compound in family if compound in observed and compound != current]
 
 
+def laps_since_last_pit(context, driver_id):
+    """Return causal leader laps since the latest observed pit entry."""
+    stops = [
+        stop
+        for stop in context.race.pit_stops
+        if stop.driver_id == driver_id and stop.entered_at <= context.cutoff
+    ]
+    if not stops:
+        return None
+    entered_at = max(stop.entered_at for stop in stops)
+    available_laps = sorted({lap.number for lap in context.race.laps})
+    pit_lap = next(
+        (lap for lap in available_laps if cutoff_for(context.race, lap) >= entered_at),
+        None,
+    )
+    return context.state.current_lap - pit_lap if pit_lap is not None else None
+
+
 def _max_extension(context, driver):
     total = context.state.total_scheduled_laps
     if total is None:
@@ -102,17 +122,15 @@ def generate_actions(context, driver_id):
     if driver.status != "active":
         return []
     actions = []
-    if context.state.track.track_status == "1":
+    since_pit = laps_since_last_pit(context, driver_id)
+    pit_cooldown_active = since_pit is not None and since_pit <= NORMAL_STOP_COOLDOWN_LAPS
+    if context.state.track.track_status == "1" and not pit_cooldown_active:
         for compound in _pit_compounds(context, driver):
             actions.append(
-                StrategyAction(
-                    id=f"PIT_NOW_{compound}", kind="PIT_NOW", compound=compound
-                )
+                StrategyAction(id=f"PIT_NOW_{compound}", kind="PIT_NOW", compound=compound)
             )
     for laps in range(1, _max_extension(context, driver) + 1):
-        actions.append(
-            StrategyAction(id=f"EXTEND_{laps}", kind="EXTEND", extension_laps=laps)
-        )
+        actions.append(StrategyAction(id=f"EXTEND_{laps}", kind="EXTEND", extension_laps=laps))
     return actions
 
 
@@ -139,9 +157,7 @@ def _rejoin_blockage(context, rejoin, fresh_pace):
 def _pair_signal(context, driver, pit_loss, kind, compound=None):
     if driver.position is None or driver.position <= 1:
         return 0.0, None
-    target = next(
-        (d for d in context.state.drivers if d.position == driver.position - 1), None
-    )
+    target = next((d for d in context.state.drivers if d.position == driver.position - 1), None)
     if target is None or target.status != "active" or target.lapped:
         return 0.0, None
     result = (
@@ -252,9 +268,7 @@ def _evaluate_action(
         "uncertainty_seconds": _round(uncertainty),
         "uncertainty_penalty_seconds": _round(uncertainty_penalty),
         "unknown_traffic_inputs": unknown_traffic,
-        "traffic_opportunity_seconds": _round(
-            HORIZON_LAPS * (current_penalty - rejoin_penalty)
-        ),
+        "traffic_opportunity_seconds": _round(HORIZON_LAPS * (current_penalty - rejoin_penalty)),
         "pair_signal": pair,
         "pair_signal_contribution_seconds": _round(pair_signal),
         "objective": objective,
@@ -378,8 +392,7 @@ def recommend_driver_action(context, driver_id, pit_loss=None):
         ]
     elif best.kind == "PIT_NOW" and (
         best.traffic_status == "UNKNOWN"
-        or best.score_components["traffic_opportunity_seconds"]
-        < MINIMUM_DECISION_MARGIN_SECONDS
+        or best.score_components["traffic_opportunity_seconds"] < MINIMUM_DECISION_MARGIN_SECONDS
     ):
         decision.recommended_action = "HOLD_NO_CLEAR_ADVANTAGE"
         decision.main_reasons = [

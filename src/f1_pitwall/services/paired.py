@@ -300,18 +300,15 @@ def _window_state(outcome):
     cycle_delta = outcome.median_pit_cycle_position_delta
     band = EQUIVALENCE_BANDS[5]
     position_open = cycle_delta is not None and cycle_delta <= -(POSITION_EQUIVALENCE_PLACES + 1)
-    position_strong = bool(
-        position_open
-        and outcome.pit_net_position_range_80
-        and outcome.extend_net_position_range_80
-        and outcome.pit_net_position_range_80[1] <= outcome.extend_net_position_range_80[0]
-    )
     strong_time = (
         time_delta is not None
         and time_delta <= -band
         and pit_frequency >= STRONG_PIT_FREQUENCY_THRESHOLD
     )
-    if strong_time or position_strong:
+    # Phase 6C's frozen audit found that the pit-cycle estimate did not converge as well
+    # as physical position at +5. It may open a window, but cannot independently promote
+    # PIT to STRONG until that estimate is improved and revalidated.
+    if strong_time:
         return "PIT_WINDOW_STRONG"
     if pit_frequency >= PIT_FREQUENCY_THRESHOLD or position_open:
         return "PIT_WINDOW_OPEN"

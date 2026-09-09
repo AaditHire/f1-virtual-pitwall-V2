@@ -1,0 +1,49 @@
+{
+  "race": "2025/4",
+  "lap": 25,
+  "warmup_trajectories": 100,
+  "runs": {
+    "100": {
+      "seconds": [
+        1.4454013999966264,
+        1.5075032000022475,
+        1.4607524999992165
+      ],
+      "median_seconds": 1.4607524999992165,
+      "mean_seconds": 1.4712190333326969,
+      "stable_outputs": true,
+      "recommendations": {
+        "EXTEND": 6,
+        "HOLD_NO_CLEAR_ADVANTAGE": 14
+      }
+    },
+    "500": {
+      "seconds": [
+        2.340617600002588,
+        2.4910524999977497,
+        2.479846099999122
+      ],
+      "median_seconds": 2.479846099999122,
+      "mean_seconds": 2.4371720666664864,
+      "stable_outputs": true,
+      "recommendations": {
+        "EXTEND": 6,
+        "HOLD_NO_CLEAR_ADVANTAGE": 14
+      }
+    },
+    "1000": {
+      "seconds": [
+        3.4591022999993584,
+        3.3724220000003697,
+        3.3983402000012575
+      ],
+      "median_seconds": 3.3983402000012575,
+      "mean_seconds": 3.409954833333662,
+      "stable_outputs": true,
+      "recommendations": {
+        "EXTEND": 6,
+        "HOLD_NO_CLEAR_ADVANTAGE": 14
+      }
+    }
+  }
+}

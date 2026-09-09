@@ -138,3 +138,9 @@ trajectories, empirical equivalence bands, expected regret, and a structured pit
 See the [paired Pit Wall report](docs/phase6b-paired-pitwall.md),
 [threshold calibration](docs/phase6b-paired-calibration.json), and
 [frozen 2025 evaluation](docs/phase6b-paired-evaluation.json).
+
+Phase 6C adds the [broad historical decision audit](docs/phase6c-historical-decision-audit.md),
+[frozen 27-race evidence](docs/phase6c-frozen-audit.json),
+[untouched fix validation](docs/phase6c-fix-validation.json), and
+[full-grid performance runs](docs/phase6c-performance.json). Its current decision is NO-GO for
+current/live integration pending a defensible pit-cycle or short-horizon PIT signal.

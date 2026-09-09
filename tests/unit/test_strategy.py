@@ -8,6 +8,7 @@ from test_analysis import history as analysis_history  # noqa: F401
 from f1_pitwall.domain.replay import LapValidity, PitStop, Stint
 from f1_pitwall.main import create_app
 from f1_pitwall.services.analysis_context import AnalysisContext
+from f1_pitwall.services.race_state import cutoff_for
 from f1_pitwall.services.strategy import (
     PAIR_SIGNAL_CAP_SECONDS,
     analyze_strategy_all,
@@ -73,16 +74,24 @@ def test_actions_are_short_legal_and_ignore_diagnostic_slopes(analysis_history):
 
 
 def test_close_scores_hold_and_action_comparison_is_ranked(analysis_history):
-    result = recommend_driver_action(
-        AnalysisContext(strategy_history(analysis_history), 22), "d1"
-    )
+    result = recommend_driver_action(AnalysisContext(strategy_history(analysis_history), 22), "d1")
     assert result.decision_margin < 0.75
     assert result.recommended_action == "HOLD_NO_CLEAR_ADVANTAGE"
-    comparison = compare_actions(
-        AnalysisContext(strategy_history(analysis_history), 22), "d0"
-    )
+    comparison = compare_actions(AnalysisContext(strategy_history(analysis_history), 22), "d0")
     scores = [row.action_score for row in comparison.actions if row.action_score is not None]
     assert scores == sorted(scores, reverse=True)
+
+
+def test_normal_stop_cooldown_blocks_immediate_repit(analysis_history):
+    race = strategy_history(analysis_history)
+    entered_at = cutoff_for(race, 21) - 0.1
+    race.pit_stops.append(PitStop(driver_id="d0", entered_at=entered_at, exited_at=entered_at + 5))
+    actions = generate_actions(AnalysisContext(race, 22), "d0")
+    assert actions
+    assert all(action.kind == "EXTEND" for action in actions)
+    assert any(
+        action.kind == "PIT_NOW" for action in generate_actions(AnalysisContext(race, 25), "d0")
+    )
 
 
 def test_grid_objective_varies_smoothly_and_weak_signals_cannot_trigger_pit(

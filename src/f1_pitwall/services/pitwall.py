@@ -21,7 +21,11 @@ from f1_pitwall.services.analysis import analyze_driver
 from f1_pitwall.services.analysis_context import AnalysisContext
 from f1_pitwall.services.paired import EQUIVALENCE_BANDS, evaluate_paired_candidates
 from f1_pitwall.services.pit_analysis import estimate_pit_loss
-from f1_pitwall.services.strategy import recommend_driver_action
+from f1_pitwall.services.strategy import (
+    NORMAL_STOP_COOLDOWN_LAPS,
+    laps_since_last_pit,
+    recommend_driver_action,
+)
 
 
 def _outcome(action, horizon=3):
@@ -267,6 +271,25 @@ def evaluate_driver(context, driver_id, trajectory_count=100, detail=False, pit_
             rejoin=best_pit_policy.traffic_status if best_pit_policy else None,
             uncertainty=decision_state,
             reason=reason,
+        )
+    elif (since_pit := laps_since_last_pit(context, driver_id)) is not None and (
+        since_pit <= NORMAL_STOP_COOLDOWN_LAPS
+    ):
+        recommendation, alternative = "EXTEND", None
+        decision_state = "ACTIONABLE"
+        overlap = False
+        pit_window = PitWindow(
+            state="PIT_WINDOW_CLOSED",
+            best_compound=None,
+            paired_advantage_seconds=None,
+            pit_cycle_position_advantage=None,
+            traffic=policy.traffic_status,
+            rejoin=None,
+            uncertainty=decision_state,
+            reason=(
+                f"Normal-stop cooldown: {since_pit} of {NORMAL_STOP_COOLDOWN_LAPS} "
+                "leader laps have elapsed since the observed pit entry."
+            ),
         )
     policy_name = policy.recommended_action
     disagreement = bool(policy_name and recommendation and policy_name != recommendation)

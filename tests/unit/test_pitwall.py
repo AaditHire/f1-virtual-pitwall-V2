@@ -9,8 +9,14 @@ from test_strategy import strategy_history
 from f1_pitwall.domain.replay import PitStop
 from f1_pitwall.main import create_app
 from f1_pitwall.services.analysis_context import AnalysisContext
-from f1_pitwall.services.paired import evaluate_paired_candidates
-from f1_pitwall.services.pitwall import build_pitwall_snapshot, build_timeline, evaluate_driver
+from f1_pitwall.services.paired import _window_state, evaluate_paired_candidates
+from f1_pitwall.services.pitwall import (
+    _change_reasons,
+    build_pitwall_snapshot,
+    build_timeline,
+    evaluate_driver,
+)
+from f1_pitwall.services.race_state import cutoff_for
 from f1_pitwall.services.strategy import recommend_driver_action
 
 
@@ -88,6 +94,34 @@ def test_paired_paths_are_reproducible_and_share_common_draws(analysis_history):
     assert first.components["action_specific"]
 
 
+def test_position_only_signal_opens_hold_but_cannot_trigger_strong():
+    from f1_pitwall.domain.paired import PairedHorizonDistribution
+
+    outcome = PairedHorizonDistribution(
+        horizon_laps=5,
+        trajectory_count=100,
+        median_time_delta_seconds=8,
+        median_pit_cycle_position_delta=-5,
+        pit_net_position_range_80=(4, 6),
+        extend_net_position_range_80=(9, 11),
+        pit_better_frequency=0.1,
+        extend_better_frequency=0.8,
+        equivalence_frequency=0.1,
+    )
+    assert _window_state(outcome) == "PIT_WINDOW_OPEN"
+
+
+def test_pitwall_returns_extend_during_normal_stop_cooldown(analysis_history):
+    race = strategy_history(analysis_history)
+    entered_at = cutoff_for(race, 21) - 0.1
+    race.pit_stops.append(PitStop(driver_id="d0", entered_at=entered_at, exited_at=entered_at + 5))
+    result = evaluate_driver(AnalysisContext(race, 22), "d0", 100)
+    assert result.recommendation == "EXTEND"
+    assert result.pit_window.state == "PIT_WINDOW_CLOSED"
+    assert "cooldown" in result.pit_window.reason
+    assert result.paired_comparison is None
+
+
 def test_timeline_reanchors_and_tracks_changes(analysis_history):
     race = strategy_history(analysis_history)
     timeline = build_timeline(race, 20, 22, "d0", 100)
@@ -98,6 +132,55 @@ def test_timeline_reanchors_and_tracks_changes(analysis_history):
     assert 0 <= timeline.metrics["unsupported_flip_rate"] <= 1
     assert "pit_window_open_count" in timeline.metrics
     assert all(row.pit_window_age >= 0 for row in timeline.drivers[0].entries)
+
+
+def test_timeline_persists_open_window_and_records_supported_closure(analysis_history, monkeypatch):
+    race = strategy_history(analysis_history)
+    baseline = evaluate_driver(AnalysisContext(race, 20), "d0", 100)
+    open_window = baseline.pit_window.model_copy(
+        update={"state": "PIT_WINDOW_OPEN", "reason": "pit-cycle opportunity"}
+    )
+    closed_window = baseline.pit_window.model_copy(
+        update={"state": "PIT_WINDOW_CLOSED", "reason": "traffic no longer supports PIT"}
+    )
+    changed_traffic = "UNKNOWN" if baseline.traffic != "UNKNOWN" else "CLEAR_AIR"
+    responses = iter(
+        [
+            baseline.model_copy(update={"pit_window": open_window}),
+            baseline.model_copy(update={"pit_window": open_window}),
+            baseline.model_copy(update={"traffic": changed_traffic, "pit_window": closed_window}),
+        ]
+    )
+    monkeypatch.setattr(
+        "f1_pitwall.services.pitwall.evaluate_driver", lambda *args, **kwargs: next(responses)
+    )
+
+    timeline = build_timeline(race, 20, 22, "d0", 100)
+    entries = timeline.drivers[0].entries
+    assert [row.pit_window_age for row in entries] == [1, 2, 0]
+    assert entries[-1].pit_window_change_reason == (
+        "Pit window closed: traffic no longer supports PIT"
+    )
+
+
+def test_change_reasons_only_name_observed_component_changes(analysis_history):
+    race = strategy_history(analysis_history)
+    previous = evaluate_driver(AnalysisContext(race, 20), "d0", 100)
+    changed_traffic = "UNKNOWN" if previous.traffic != "UNKNOWN" else "CLEAR_AIR"
+    current = previous.model_copy(
+        update={
+            "traffic": changed_traffic,
+            "current_position": previous.current_position + 1,
+            "pit_cycle_position": previous.pit_cycle_position + 2,
+            "decision_state": "CAUTION",
+        }
+    )
+    assert _change_reasons(previous, current) == [
+        "traffic window changed",
+        "position changed",
+        "pit-cycle position changed",
+        "uncertainty state changed",
+    ]
 
 
 def pitwall_output(race):
