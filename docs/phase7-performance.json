@@ -1,0 +1,48 @@
+{
+  "measured_at": "2026-09-10",
+  "event": "Italian Grand Prix",
+  "lap": 53,
+  "trajectory_count": 100,
+  "seconds": {
+    "current_weekend_cold": 4.6987,
+    "live_bundle_warm": 0.0548,
+    "live_race_snapshot_warm": 0.6127,
+    "live_pitwall": 0.6888,
+    "historical_archive_load": 2.1156,
+    "historical_pitwall": 3.778
+  },
+  "counts": {
+    "live_drivers": 22,
+    "pitwall_drivers": 22,
+    "historical_pitwall_drivers": 22,
+    "completed_session_classifications": 0
+  },
+  "notes": [
+    "Cold current-weekend timing includes public network latency.",
+    "Warm live calls use the bounded in-memory HTTP cache.",
+    "Pit Wall measurements use the same PitWallService and 100 trajectories."
+  ],
+  "historical_non_regression": {
+    "case": "2025/4 lap 25, 100 trajectories",
+    "baseline_commit": "0788968",
+    "phase6e_seconds": [
+      2.4764,
+      2.2572,
+      2.5119,
+      2.2978,
+      2.3699
+    ],
+    "phase6e_median_seconds": 2.3699,
+    "phase7_seconds": [
+      2.2199,
+      1.9695,
+      2.3089,
+      1.9207,
+      2.3773
+    ],
+    "phase7_median_seconds": 2.2199,
+    "change_percent": -6.33,
+    "result": "PASS",
+    "note": "Same committed Phase 6E code path, Python environment, disk cache, and warm five-run protocol."
+  }
+}

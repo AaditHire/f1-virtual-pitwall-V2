@@ -12,6 +12,7 @@ from f1_pitwall.providers.news import RSSProvider
 from f1_pitwall.providers.openf1 import OpenF1
 from f1_pitwall.services.analysis import AnalysisService
 from f1_pitwall.services.calendar import CalendarService
+from f1_pitwall.services.live import LiveService, freshness
 from f1_pitwall.services.news import NewsService
 from f1_pitwall.services.pitwall import PitWallService
 from f1_pitwall.services.replay import ReplayService
@@ -20,6 +21,7 @@ from f1_pitwall.services.season import SeasonService
 from f1_pitwall.services.simulation import SimulationService
 from f1_pitwall.services.standings import StandingsService
 from f1_pitwall.services.strategy import StrategyService
+from f1_pitwall.services.weekend import CurrentWeekendService
 
 
 class Hub:
@@ -42,6 +44,16 @@ class Hub:
                 RSSProvider(ProviderHTTP(name, client, settings), url)
                 for name, url in settings.news_feeds.items()
             ]
+        )
+        self.live = LiveService(self.openf1, self.calendar, self.results, self.news)
+        self.weekend = CurrentWeekendService(
+            self.seasons,
+            self.calendar,
+            self.results,
+            self.standings,
+            self.news,
+            self.live,
+            self.provider_status,
         )
 
     def provider_status(self) -> list[DataSourceStatus]:
@@ -117,4 +129,107 @@ class Hub:
                     if grid:
                         home.grid_event, home.recent_or_available_grid = event, grid
         home.provider_status = self.provider_status()
+        current_weekend, live_status = await asyncio.gather(
+            section("current_weekend", self.weekend.current),
+            section(
+                "live_status",
+                lambda: self.live.status(home.next_session),
+            ),
+        )
+        if current_weekend:
+            home.current_weekend = current_weekend.model_dump()
+        if live_status:
+            home.live_status = live_status.model_dump()
+            if live_status.live:
+                race = await section("current_race_state", self.live_race)
+                if race:
+                    home.current_race_state = race.model_dump()
+        home.navigation = {
+            "current_weekend": "/api/v1/weekend/current",
+            "next_session": "/api/v1/sessions/next",
+            "live_race": "/api/v1/live/race",
+            "live_pitwall": "/api/v1/live/pitwall",
+        }
         return home
+
+    async def live_race(self):
+        async def safe(call, default):
+            try:
+                return await call()
+            except (ProviderError, NotFound):
+                return default
+
+        next_session, latest, feed = await asyncio.gather(
+            safe(self.calendar.get_next_session, None),
+            safe(self.results.get_latest_results, (None, [])),
+            safe(lambda: self.news.get_latest_news(8), None),
+        )
+        return await self.live.race(
+            next_session=next_session,
+            latest_results=latest[1],
+            news=feed.articles if feed else [],
+        )
+
+    async def live_status(self):
+        try:
+            next_session = await self.calendar.get_next_session()
+        except (ProviderError, NotFound):
+            next_session = None
+        return await self.live.status(next_session)
+
+    async def live_weather(self):
+        try:
+            bundle = await self.live.weather_bundle()
+        except ProviderError as exc:
+            return {
+                "available": False,
+                "weather": None,
+                "freshness": freshness("openf1", self.live.clock(), None),
+                "reason": exc.message,
+            }
+        return {
+            "available": bool(bundle and bundle.weather),
+            "weather": self.live.weather(bundle) if bundle else None,
+            "freshness": self.live.metadata(bundle)
+            if bundle
+            else freshness("openf1", self.live.clock(), None),
+            "reason": None
+            if bundle and bundle.weather
+            else (
+                next(iter(bundle.errors.values()))
+                if bundle and bundle.errors
+                else "Weather is not available"
+            ),
+        }
+
+    async def live_control(self):
+        try:
+            bundle = await self.live.control_bundle()
+        except ProviderError as exc:
+            return {
+                "available": False,
+                "track_status": "UNKNOWN",
+                "messages": [],
+                "freshness": freshness("openf1", self.live.clock(), None),
+                "reason": exc.message,
+            }
+        if bundle:
+            feed = self.live.control(bundle)
+            return {
+                "available": bool(bundle.track_status or bundle.race_control),
+                **feed.model_dump(),
+                "reason": None
+                if bundle.track_status or bundle.race_control
+                else (
+                    next(iter(bundle.errors.values()))
+                    if bundle.errors
+                    else "Race control is not available"
+                ),
+            }
+        return {
+            "available": False,
+            "track_status": "UNKNOWN",
+            "messages": [],
+            "freshness": freshness("openf1", self.live.clock(), None),
+            "reason": "No provider session is available",
+        }

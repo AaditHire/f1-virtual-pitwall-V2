@@ -1,6 +1,8 @@
-# F1 Virtual Pit Wall — Phases 1–2
+# F1 Virtual Pit Wall — Phases 1–7
 
-Python 3.12+ / FastAPI backend for seasons from **2021 through the latest provider-published season**. Calendars, session times, qualifying, starting grids, results, standings and RSS news. No frontend, telemetry, strategy, AI or database.
+Python 3.12+ / FastAPI backend for historical analysis and the current F1 weekend. It combines
+calendars, session state, qualifying, grids, results, standings, deduplicated news, current timing,
+weather, race control, and an explicitly experimental live Pit Wall. No frontend or database.
 
 ## Install and run
 
@@ -49,6 +51,13 @@ All data routes use `/api/v1`; `/health` is process liveness. Invalid input retu
 | `/news?limit=10&query=Ferrari` | Recent news; optional simple text filter |
 | `/providers/status` | Observed health, errors and unavailable resources |
 | `/home` | Homepage aggregation with explicitly identified grid event |
+| `/weekend/current` | Current/next weekend, session states, results, standings and news |
+| `/live/status` | Provider availability, session evidence and freshness |
+| `/live/race` | Compact current race/session state or graceful non-race response |
+| `/live/pitwall` | Full-grid current analysis when requirements are satisfied |
+| `/live/pitwall/drivers/{driver_id}` | Current driver state and supported Pit Wall analysis |
+| `/live/weather` | Current normalized session weather when published |
+| `/live/race-control` | Normalized track state and recent race-control messages |
 
 Calendar/event/session/home/latest-result routes accept `?timezone=Asia/Kolkata`. Canonical timestamps remain UTC (`start: "...Z"`). A non-UTC zone adds `start_local`, `end_local`, and corresponding timestamp companions with ISO offsets. These extension fields are documented here; OpenAPI describes the base UTC models. IANA zones support daylight saving; unknown zones return 422. Missing times remain `null` with the known date preserved.
 
@@ -155,3 +164,21 @@ Phase 6E adds a separate [strategic stint-value model report](docs/phase6e-strat
 [stint priors](src/f1_pitwall/models/strategic_stint_priors.json). Common-horizon owed-stop
 accounting works, but holdout forecasts do not beat the generic baseline, so public Pit Wall
 recommendations remain unchanged.
+
+## Current/live weekend backend (Phase 7)
+
+Current mode auto-detects the event and provider session. Scheduled start time alone never marks a
+session live. Every live response includes explicit availability and freshness, and missing timing
+remains missing. The same `PitWallService` accepts FastF1 archive history and OpenF1 live-style
+history; current strategy output is always labelled **EXPERIMENTAL**.
+
+```powershell
+Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/weekend/current?timezone=Asia/Kolkata'
+Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/live/status?timezone=Asia/Kolkata'
+Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/live/race'
+Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/live/pitwall'
+```
+
+See the [Phase 7 backend contract](docs/phase7-current-live-backend.md),
+[live/archive compatibility result](docs/phase7-live-historical-consistency.json), and
+[runtime measurements](docs/phase7-performance.json).

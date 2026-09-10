@@ -1,0 +1,36 @@
+{
+  "event": "Italian Grand Prix",
+  "season": 2026,
+  "round": 13,
+  "lap": 53,
+  "common_drivers": 22,
+  "live_drivers": 22,
+  "archive_drivers": 22,
+  "matches": {
+    "position": 22,
+    "laps_completed": 22,
+    "compound": 22,
+    "stint_number": 22,
+    "pit_stops_completed": 22
+  },
+  "missing_live": {
+    "position": 0,
+    "laps_completed": 0,
+    "compound": 0,
+    "stint_number": 0,
+    "pit_stops_completed": 0
+  },
+  "examples": {
+    "position": [],
+    "laps_completed": [],
+    "compound": [],
+    "stint_number": [],
+    "pit_stops_completed": []
+  },
+  "timings_seconds": {
+    "current_aggregation_and_normalization": 5.693,
+    "archive_load": 2.844,
+    "live_snapshot": 0.3172,
+    "historical_snapshot": 0.3126
+  }
+}

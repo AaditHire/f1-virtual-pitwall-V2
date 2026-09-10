@@ -151,3 +151,7 @@ class Home(BaseModel):
     latest_news: list[NewsArticle] = Field(default_factory=list)
     provider_status: list[DataSourceStatus] = Field(default_factory=list)
     errors: dict[str, str] = Field(default_factory=dict)
+    current_weekend: dict | None = None
+    live_status: dict | None = None
+    current_race_state: dict | None = None
+    navigation: dict[str, str] = Field(default_factory=dict)

@@ -108,7 +108,7 @@ async def test_openf1_no_results_distinct_from_broken_endpoint(body, empty):
                 await provider.weekends(2021)
 
 
-@pytest.mark.parametrize("code,expected", [(503, 2), (429, 2), (404, 1), (401, 1)])
+@pytest.mark.parametrize("code,expected", [(503, 2), (429, 2), (404, 1), (401, 1), (403, 1)])
 async def test_retry_only_transient_errors(code, expected):
     count = 0
 
@@ -141,6 +141,17 @@ async def test_cache_expiry_bounding_and_concurrent_requests():
         await p.get("https://test.invalid/b", 10)
         await p.get("https://test.invalid/c", 10)
         assert calls == 4 and len(p.cache) == 2
+
+
+async def test_provider_timeout_is_explicit():
+    async def handler(request):
+        raise httpx.ReadTimeout("timed out", request=request)
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        provider = ProviderHTTP("test", client, Settings(retries=0))
+        with pytest.raises(ProviderError, match="ReadTimeout"):
+            await provider.get("https://test.invalid/data", 1)
+        assert provider.status.status == "degraded"
 
 
 async def test_news_deduplication_failure_and_filtering():

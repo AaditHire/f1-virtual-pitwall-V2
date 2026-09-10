@@ -601,8 +601,17 @@ class PitWallService:
             build_pitwall_snapshot, AnalysisContext(race, lap), trajectory_count
         )
 
+    async def snapshot_history(self, race, lap, trajectory_count=100):
+        return await asyncio.to_thread(
+            build_pitwall_snapshot, AnalysisContext(race, lap), trajectory_count
+        )
+
     async def driver(self, year, round, lap, driver_id, trajectory_count=100):
         race = await self.replay.load_race(year, round)
+        context = AnalysisContext(race, lap)
+        return await asyncio.to_thread(evaluate_driver, context, driver_id, trajectory_count, True)
+
+    async def driver_history(self, race, lap, driver_id, trajectory_count=100):
         context = AnalysisContext(race, lap)
         return await asyncio.to_thread(evaluate_driver, context, driver_id, trajectory_count, True)
 

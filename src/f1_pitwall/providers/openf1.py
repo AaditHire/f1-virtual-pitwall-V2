@@ -2,11 +2,12 @@ import json
 import logging
 import re
 import unicodedata
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 from pydantic import BaseModel
 
 from f1_pitwall.domain.enums import SessionType
+from f1_pitwall.domain.live import LiveSession
 from f1_pitwall.domain.models import Driver, Event, GridEntry, Session
 from f1_pitwall.providers.http import ProviderHTTP, normalized
 
@@ -31,6 +32,7 @@ class OpenF1:
     def __init__(self, http: ProviderHTTP):
         self.http = http
         self.base = http.settings.openf1_url.rstrip("/")
+        self.name = "openf1"
 
     async def rows(self, path: str, **params) -> list[dict]:
         data = json.loads(
@@ -44,6 +46,69 @@ class OpenF1:
         if not isinstance(data, list):
             raise ValueError("expected a list")
         return data
+
+    @normalized
+    async def _live_rows(self, path: str, session_key: int) -> list[dict]:
+        return await self.rows(path, session_key=session_key)
+
+    @normalized
+    async def get_current_session(self) -> LiveSession | None:
+        rows = await self.rows("sessions", session_key="latest")
+        if not rows:
+            return None
+        row = max(rows, key=lambda item: item["date_start"])
+        timestamps = [row.get("date_end"), row.get("date_start")]
+        return LiveSession(
+            session_key=row["session_key"],
+            meeting_key=row.get("meeting_key"),
+            name=row["session_name"],
+            type=row.get("session_type", row["session_name"]),
+            start=row["date_start"],
+            end=row.get("date_end"),
+            year=row.get("year", datetime.fromisoformat(row["date_start"]).year),
+            circuit_name=row.get("circuit_short_name"),
+            location=row.get("location"),
+            country=row.get("country_name"),
+            provider_timestamp=max(t for t in timestamps if t),
+        )
+
+    async def get_drivers(self, session_key: int):
+        return await self._live_rows("drivers", session_key)
+
+    async def get_positions(self, session_key: int):
+        return await self._live_rows("position", session_key)
+
+    async def get_intervals(self, session_key: int):
+        return await self._live_rows("intervals", session_key)
+
+    async def get_laps(self, session_key: int):
+        return await self._live_rows("laps", session_key)
+
+    async def get_stints(self, session_key: int):
+        return await self._live_rows("stints", session_key)
+
+    async def get_pit_stops(self, session_key: int):
+        return await self._live_rows("pit", session_key)
+
+    async def get_track_status(self, session_key: int):
+        return await self._live_rows("track_status", session_key)
+
+    async def get_weather(self, session_key: int):
+        return await self._live_rows("weather", session_key)
+
+    async def get_race_control(self, session_key: int):
+        return await self._live_rows("race_control", session_key)
+
+    @normalized
+    async def get_session_results(
+        self, session_key: int | None = None, meeting_key: int | None = None
+    ):
+        params = {}
+        if session_key is not None:
+            params["session_key"] = session_key
+        if meeting_key is not None:
+            params["meeting_key"] = meeting_key
+        return await self.rows("session_result", **params)
 
     @normalized
     async def weekends(self, year: int) -> list[Weekend]:

@@ -31,6 +31,14 @@ async def test_health_openapi_and_validation(client):
     assert (await client.get("/health")).json()["status"] == "ok"
     paths = (await client.get("/openapi.json")).json()["paths"]
     assert "/api/v1/home" in paths and "/api/v1/sessions/next" in paths
+    assert {
+        "/api/v1/weekend/current",
+        "/api/v1/live/status",
+        "/api/v1/live/race",
+        "/api/v1/live/pitwall",
+        "/api/v1/live/weather",
+        "/api/v1/live/race-control",
+    } <= set(paths)
     assert (await client.get("/api/v1/seasons/latest")).json()["year"] == 2030
     assert (await client.get("/api/v1/seasons/2031")).status_code == 404
     assert (await client.get("/api/v1/seasons/2020/drivers")).status_code == 422
@@ -56,6 +64,23 @@ async def test_home_outage_is_explicit(client):
     assert home["weekend_status"] == "unavailable"
     assert not home["latest_news"]
     assert any(p["status"] == "degraded" for p in home["provider_status"])
+    assert home["navigation"]["live_race"] == "/api/v1/live/race"
+
+
+async def test_live_endpoints_degrade_without_fabricating_data(client):
+    status = (await client.get("/api/v1/live/status?timezone=Asia/Kolkata")).json()
+    assert not status["live"] and status["availability"] == "UNAVAILABLE"
+    assert status["freshness"]["state"] == "UNKNOWN"
+    assert status["freshness"]["retrieved_at_local"].endswith("+05:30")
+    race = (await client.get("/api/v1/live/race")).json()
+    assert not race["live"] and race["race_state"] is None
+    assert race["missing_requirements"]
+    pitwall = (await client.get("/api/v1/live/pitwall")).json()
+    assert pitwall["analysis_status"] == "UNAVAILABLE"
+    assert pitwall["strategy_status"] == "EXPERIMENTAL"
+    assert not (await client.get("/api/v1/live/weather")).json()["available"]
+    assert not (await client.get("/api/v1/live/race-control")).json()["available"]
+    assert (await client.get("/api/v1/weekend/current")).status_code == 200
 
 
 async def test_grid_penalties_pit_lane_unknown_and_no_qualifying_fallback():

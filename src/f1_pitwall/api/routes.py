@@ -46,8 +46,12 @@ TZ = Annotated[ZoneInfo, Depends(timezone_query)]
 
 def present(value, timezone: ZoneInfo):
     """Keep canonical UTC fields; add local companions only when explicitly requested."""
-    from datetime import datetime
+    from datetime import date, datetime
 
+    if isinstance(value, datetime):
+        return value.isoformat()
+    if isinstance(value, date):
+        return value.isoformat()
     if isinstance(value, BaseModel):
         result = value.model_dump(mode="json")
         for key in type(value).model_fields:
