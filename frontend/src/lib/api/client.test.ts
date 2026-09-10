@@ -1,0 +1,3 @@
+import { afterEach,describe,expect,it,vi } from "vitest";
+import { apiGet,ApiError } from "./client";
+describe("apiGet",()=>{afterEach(()=>vi.restoreAllMocks());it("returns decoded data",async()=>{vi.stubGlobal("fetch",vi.fn().mockResolvedValue(new Response(JSON.stringify({ok:true}),{status:200})));await expect(apiGet<{ok:boolean}>("/health")).resolves.toEqual({ok:true})});it("surfaces backend errors",async()=>{vi.stubGlobal("fetch",vi.fn().mockResolvedValue(new Response(JSON.stringify({detail:"offline"}),{status:503})));await expect(apiGet("/health")).rejects.toEqual(new ApiError(503,"offline"))})});
