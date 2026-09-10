@@ -116,8 +116,8 @@ class Hub:
                     lambda: self.standings.get_constructor_standings(season.year),
                 ),
             )
-            home.driver_standings_top = (drivers or [])[:5]
-            home.constructor_standings_top = (teams or [])[:5]
+            home.driver_standings_top = (drivers or [])[:10]
+            home.constructor_standings_top = (teams or [])[:10]
             if not home.recent_or_available_grid:
                 latest = await section("latest_results", self.results.get_latest_results)
                 if latest and latest[0]:

@@ -113,8 +113,9 @@ main { flex: 1; width: 100%; }
 
 /* Editorial news */
 .home-news, .championship-band, .live-entry, .weekend-content { border-bottom: 1px solid var(--line); }
-.home-intelligence { display: grid; grid-template-columns: 55% 45%; border-bottom: 1px solid var(--line); }
-.home-intelligence > .home-news { border-right: 1px solid var(--line); border-bottom: 0; }
+.home-intelligence { border-bottom: 1px solid var(--line); }
+.home-intelligence > *, .championship-band > section { min-width: 0; }
+.home-intelligence > .home-news { border-bottom: 1px solid var(--line); }
 .editorial-news { min-height: 350px; display: grid; grid-template-columns: 55% 45%; }
 .lead-story { padding: 20px var(--gutter) 24px; border-right: 1px solid var(--line); display: grid; align-content: end; grid-template-columns: 1fr; position: relative; }
 .story-image { display: block; background-position: center; background-size: cover; background-repeat: no-repeat; }
@@ -352,7 +353,7 @@ tbody tr:hover { background: var(--surface-2); }
   .event-session strong { font-size: 31px; }
   .event-session time { font-size: 12px; }
   .event-session .hero-countdown { min-width: 0; }
-  .hero-countdown time { font-size: clamp(23px, 7vw, 31px); }
+  .hero-countdown time { font-size: clamp(18px, 5.2vw, 27px); white-space: nowrap; }
   .event-feature-weekend .event-copy { min-height: 410px; }
   .event-feature-weekend .event-session { grid-template-columns: .75fr 1.25fr; }
 
@@ -374,12 +375,10 @@ tbody tr:hover { background: var(--surface-2); }
   .secondary-stories a { grid-template-columns: 110px 1fr; min-height: 105px; border-right: 0 !important; }
   .secondary-stories a:nth-child(n+4) { display: none; }
   .home-intelligence { display: block; }
-  .home-intelligence > .home-news { border-right: 0; border-bottom: 1px solid var(--line); }
   .home-intelligence .secondary-stories { display: block; }
   .home-intelligence .secondary-stories a { padding: 18px; grid-template-columns: 110px 1fr; }
   .championship-band { display: block; }
   .championship-band > section:first-child { border-right: 0; border-bottom: 1px solid var(--line); }
-  .championship-band tbody tr:nth-child(n+4) { display: none; }
   .championship-band th, .championship-band td { padding-inline: 20px; }
   .cell-detail { display: none; }
   .live-entry { grid-template-columns: 1fr auto; gap: 18px; padding: 24px 20px; }
