@@ -76,6 +76,19 @@ class LapValidity(BaseModel):
     valid: bool
 
 
+class RadioRecord(BaseModel):
+    """One provider-published radio clip, aligned using its publication time."""
+
+    session_id: str = Field(min_length=1)
+    driver_id: str = Field(min_length=1)
+    available_at: float = Field(ge=0)
+    provider_timestamp: UTCTime | None = None
+    race_elapsed_seconds: float | None = Field(default=None, ge=0)
+    leader_lap: int | None = Field(default=None, ge=1)
+    audio_url: str = Field(min_length=1)
+    source: str = "fastf1-live-timing-archive"
+
+
 class HistoricalRace(BaseModel):
     event: Event
     session: Session
@@ -87,6 +100,7 @@ class HistoricalRace(BaseModel):
     pit_stops: list[PitStop]
     control: list[ControlSample]
     lap_validity: list[LapValidity] = Field(default_factory=list)
+    radio: list[RadioRecord] = Field(default_factory=list)
     source: str = "fastf1-live-timing-archive"
 
 
@@ -145,3 +159,19 @@ class AvailableLaps(BaseModel):
     laps: list[int]
     participants: int
     definition: str = "First reported completion of leader lap N; common archive-time cutoff"
+
+
+class RadioFeed(BaseModel):
+    session_id: str
+    year: int
+    round: int
+    leader_lap: int
+    causal_cutoff: float = Field(ge=0)
+    driver_id: str | None = None
+    total_available: int = Field(default=0, ge=0)
+    messages: list[RadioRecord] = Field(default_factory=list)
+    source: str = "fastf1-live-timing-archive"
+    definition: str = (
+        "Provider-published clips available at or before the selected leader-lap cutoff; "
+        "each clip is assigned to the latest leader lap whose cutoff is not after publication"
+    )

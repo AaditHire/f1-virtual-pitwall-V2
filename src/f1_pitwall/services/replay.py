@@ -2,10 +2,16 @@ import asyncio
 from collections import OrderedDict
 
 from f1_pitwall.core.exceptions import NotFound
-from f1_pitwall.domain.replay import AvailableLaps, DriverRaceState, HistoricalRace, RaceState
+from f1_pitwall.domain.replay import (
+    AvailableLaps,
+    DriverRaceState,
+    HistoricalRace,
+    RaceState,
+    RadioFeed,
+)
 from f1_pitwall.providers.fastf1 import FastF1Provider
 from f1_pitwall.providers.jolpica import Jolpica
-from f1_pitwall.services.race_state import RaceStateBuilder
+from f1_pitwall.services.race_state import RaceStateBuilder, cutoff_for
 from f1_pitwall.services.season import SeasonService
 
 
@@ -60,4 +66,37 @@ class ReplayService:
             round=round,
             laps=sorted({r.number for r in race.laps}),
             participants=len(race.participants),
+        )
+
+    async def get_radio(
+        self,
+        year: int,
+        round: int,
+        lap: int,
+        driver_id: str | None = None,
+        limit: int = 50,
+    ) -> RadioFeed:
+        race = await self.load_race(year, round)
+        cutoff = cutoff_for(race, lap)
+        if driver_id is not None and not any(
+            participant.driver.id == driver_id for participant in race.participants
+        ):
+            raise NotFound(f"Driver {driver_id} is not in this race session")
+        messages = [
+            record
+            for record in race.radio
+            if record.available_at <= cutoff
+            and (driver_id is None or record.driver_id == driver_id)
+        ]
+        messages.sort(key=lambda record: (record.available_at, record.driver_id, record.audio_url))
+        return RadioFeed(
+            session_id=f"f1:{year}:{round}:race",
+            year=year,
+            round=round,
+            leader_lap=lap,
+            causal_cutoff=cutoff,
+            driver_id=driver_id,
+            total_available=len(messages),
+            messages=messages[-limit:],
+            source=race.source,
         )

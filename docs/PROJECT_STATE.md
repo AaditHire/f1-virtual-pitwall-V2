@@ -70,7 +70,7 @@ Jolpica / OpenF1 / RSS / FastF1 archives
 | Process | `GET /health` |
 | Hub | `GET /api/v1/home`, `/news`, `/providers/status` |
 | Season/event | `/seasons*`, `/events/current`, `/events/next`, `/sessions/next`, `/events/{year}/{round}/*`, `/results/latest`, `/standings/*` |
-| Replay | `GET /api/v1/replay/{year}/{round}/laps`, `/{lap}`, `/{lap}/drivers/{driver_id}` |
+| Replay | `GET /api/v1/replay/{year}/{round}/laps`, `/{lap}`, `/{lap}/drivers/{driver_id}`, `/{lap}/radio`, `/{lap}/drivers/{driver_id}/radio` |
 | Analysis | `GET /api/v1/analysis/{year}/{round}/{lap}/drivers/{driver_id}` plus `/tyres`, `/traffic`, `/undercut`, `/overcut` |
 | Strategy/simulation | `GET /api/v1/strategy/...`; `POST /api/v1/simulation/short-horizon`, `/transition`, `/rollout` |
 | Historical Pit Wall | `GET /api/v1/pitwall/{year}/{round}/timeline`, `/{lap}`, `/{lap}/drivers/{driver_id}` |
@@ -191,3 +191,23 @@ STATUS: COMPLETE — NO-GO FOR PHASE 11B
 - First-stop uncertainty was too broad to be useful (development-calibrated 80% half-width about 17.7 laps); finishing-rank intervals also under-covered (72.1% holdout coverage for a nominal 80% interval).
 - Phase 11B is not justified by current evidence. No simulator, model artifact, production service, API, frontend integration or tactical-kernel change was added.
 - Full report: `docs/phase11a-pre-race-research.md`; machine-readable metrics: `docs/phase11a-pre-race-research.json`.
+
+## Phase 12A — Radio Intelligence Foundation
+
+STATUS: COMPLETE — CONDITIONAL GO FOR HISTORICAL RESEARCH ONLY
+
+- FastF1 `TeamRadio` metadata is normalized into the existing cached `HistoricalRace`; radio absence
+  remains an empty optional capability and does not destroy Replay RaceState.
+- Each `RadioRecord` uses the archive packet publication time as `available_at`, joins racing number
+  through the session roster, exposes only a sanitized official MP3 reference, and maps to the latest
+  leader-lap cutoff at or before publication. No filename-derived timing or future lap is inferred.
+- Replay radio APIs support full-session and per-driver cutoff-safe feeds with bounded latest-N
+  filtering. No OpenF1 current/live route is exposed because the repository lacks authenticated
+  streaming and trustworthy radio delay/freshness semantics.
+- Real audit: 2021 Bahrain 138 messages/20 drivers; 2024 Bahrain 146/20; 2025 Abu Dhabi 22/6. All 306
+  normalized records had provider timestamps and official audio references; sampled MP3s returned
+  `audio/mpeg` without downloading the archive.
+- Radio metadata contains no transcript or complete-conversation guarantee. Coverage is sharply
+  variable and OpenF1 reports significant reduction from 2026 onward.
+- Full report and mapping rule: `docs/phase12a-radio-foundation.md`; reproducible audit:
+  `scripts/audit_phase12a_radio.py`.

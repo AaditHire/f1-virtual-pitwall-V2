@@ -9,8 +9,11 @@ import logging
 import math
 import re
 import time
+from bisect import bisect_right
+from datetime import datetime
 from pathlib import Path
 from threading import Lock
+from urllib.parse import urljoin, urlsplit
 
 from f1_pitwall.core.config import Settings
 from f1_pitwall.core.exceptions import ProviderError
@@ -23,6 +26,7 @@ from f1_pitwall.domain.replay import (
     LapValidity,
     Participant,
     PitStop,
+    RadioRecord,
     Stint,
     TimingSample,
 )
@@ -316,7 +320,75 @@ def normalize_lap_validity(records, ids, laps):
     return validity
 
 
-def normalize_archive(event: Event, streams: dict) -> HistoricalRace:
+def session_identity(event: Event) -> str:
+    return f"f1:{event.year}:{event.round}:race"
+
+
+def radio_audio_url(api_path: str, path: object) -> str | None:
+    """Resolve an official archive media reference without accepting arbitrary URLs."""
+    if not isinstance(path, str) or not path or "\\" in path:
+        return None
+    parsed = urlsplit(path)
+    if parsed.scheme or parsed.netloc or path.startswith("/") or ".." in path.split("/"):
+        return None
+    if not path.startswith("TeamRadio/") or not path.casefold().endswith(".mp3"):
+        return None
+    base = urljoin("https://livetiming.formula1.com", api_path.rstrip("/") + "/")
+    return urljoin(base, path)
+
+
+def normalize_radio(records, ids, event: Event, api_path: str, started_at: float, laps):
+    """Normalize sparse radio metadata; malformed optional clips are ignored."""
+    cutoffs = sorted(
+        (min(row.available_at for row in laps if row.number == number), number)
+        for number in {row.number for row in laps}
+    )
+    cutoff_times = [cutoff for cutoff, _ in cutoffs]
+    valid_records = []
+    for record in records or []:
+        try:
+            valid_records.append((seconds(record[0]), record[1]))
+        except (IndexError, TypeError, ValueError, AttributeError):
+            continue
+    normalized, seen = [], set()
+    for available_at, update in sorted(valid_records, key=lambda row: row[0]):
+        captures = update.get("Captures", []) if isinstance(update, dict) else []
+        values = captures.values() if isinstance(captures, dict) else captures
+        if not isinstance(values, (list, tuple)) and not hasattr(values, "__iter__"):
+            continue
+        for capture in values:
+            if not isinstance(capture, dict):
+                continue
+            number = str(capture.get("RacingNumber", ""))
+            audio_url = radio_audio_url(api_path, capture.get("Path"))
+            if number not in ids or audio_url is None or audio_url in seen:
+                continue
+            seen.add(audio_url)
+            timestamp = capture.get("Utc")
+            try:
+                provider_timestamp = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
+                if provider_timestamp.tzinfo is None:
+                    provider_timestamp = None
+            except (AttributeError, TypeError, ValueError):
+                provider_timestamp = None
+            index = bisect_right(cutoff_times, available_at) - 1
+            normalized.append(
+                RadioRecord(
+                    session_id=session_identity(event),
+                    driver_id=ids[number],
+                    available_at=available_at,
+                    provider_timestamp=provider_timestamp,
+                    race_elapsed_seconds=(
+                        available_at - started_at if available_at >= started_at else None
+                    ),
+                    leader_lap=cutoffs[index][1] if index >= 0 else None,
+                    audio_url=audio_url,
+                )
+            )
+    return sorted(normalized, key=lambda row: (row.available_at, row.driver_id, row.audio_url))
+
+
+def normalize_archive(event: Event, streams: dict, api_path: str = "/") -> HistoricalRace:
     starts = [seconds(t) for t, r in streams["session_status"] if r.get("Status") == "Started"]
     if not starts:
         raise ValueError("race start is unavailable")
@@ -368,6 +440,7 @@ def normalize_archive(event: Event, streams: dict) -> HistoricalRace:
         pit_stops=pits,
         control=control,
         lap_validity=normalize_lap_validity(streams.get("race_control_messages", []), ids, laps),
+        radio=normalize_radio(streams.get("team_radio", []), ids, event, api_path, started, laps),
     )
 
 
@@ -400,6 +473,19 @@ class FastF1Provider:
                     if data is None:
                         raise ValueError(f"archive stream unavailable: {topic}")
                     streams[topic] = data
+                try:
+                    streams["team_radio"] = (
+                        fetch_stream(session.api_path, "team_radio", self.settings) or []
+                    )
+                except ValueError as exc:
+                    # Radio is optional and sparse; its absence must not destroy replay.
+                    log.warning(
+                        "replay_radio_unavailable year=%s round=%s error=%s",
+                        event.year,
+                        event.round,
+                        exc,
+                    )
+                    streams["team_radio"] = []
                 # Loading a historical archive requires completion, but completion data is
                 # never passed to the builder or used to infer retirements/scheduled laps.
                 if not any(
@@ -407,7 +493,7 @@ class FastF1Provider:
                     for _, r in streams["session_status"]
                 ):
                     raise ValueError("race archive is not completed")
-                result = normalize_archive(event, streams)
+                result = normalize_archive(event, streams, session.api_path)
                 log.info(
                     "replay_loaded year=%s round=%s participants=%s laps=%s",
                     event.year,
