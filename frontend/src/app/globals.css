@@ -340,7 +340,7 @@ tbody tr:hover { background: var(--surface-2); }
 .replay-initial svg, .replay-loading svg { color: var(--red); animation: replay-spin 1s linear infinite; }
 .replay-initial strong { color: var(--text); text-transform: uppercase; font: 650 24px/1 var(--display); }
 .replay-initial span { font: 400 11px/1.4 var(--mono); }
-.replay-workspace { min-height: 670px; position: relative; display: grid; grid-template-columns: minmax(0, 66%) minmax(360px, 34%); border-bottom: 1px solid var(--line-strong); }
+.replay-workspace { min-height: 670px; position: relative; display: grid; grid-template-columns: minmax(0, 61%) minmax(470px, 39%); border-bottom: 1px solid var(--line-strong); }
 .replay-field, .replay-driver-panel { min-width: 0; }
 .replay-field { border-right: 1px solid var(--line-strong); }
 .replay-section-title { min-height: 46px; padding: 0 16px; display: flex; align-items: center; justify-content: space-between; gap: 18px; border-bottom: 1px solid var(--line); }
@@ -376,6 +376,65 @@ tbody tr:hover { background: var(--surface-2); }
 .replay-driver-footer { margin: 5px 22px 20px; padding: 17px 0; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; border-top: 1px solid var(--line-strong); }
 .replay-driver-footer > span { color: var(--muted); text-transform: uppercase; font: 500 9px/1 var(--mono); }
 .replay-driver-footer > small { flex-basis: 100%; color: var(--amber); font: 400 9px/1.4 var(--mono); }
+.replay-engineering { background: #090f13; }
+.analysis-observed, .analysis-derived > section { padding: 14px 18px; border-bottom: 1px solid var(--line-strong); }
+.analysis-heading { min-height: 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.analysis-heading h3 { margin: 0; text-transform: uppercase; font: 650 15px/1 var(--display); letter-spacing: .07em; }
+.analysis-evidence { display: flex; align-items: center; gap: 7px; color: var(--muted); font: 500 8px/1 var(--mono); }
+.analysis-evidence > b { color: #9fb1bd; letter-spacing: .08em; }
+.analysis-confidence, .analysis-low-label { padding: 4px 6px; border: 1px solid var(--line-strong); color: var(--muted); text-transform: uppercase; font: 650 7px/1 var(--mono); letter-spacing: .06em; }
+.confidence-high { border-color: #2b6d49; color: var(--green); }
+.confidence-medium { border-color: #536878; color: #bfd0db; }
+.confidence-low, .analysis-low-label { border-color: #755c20; color: var(--amber); }
+.confidence-insufficient { border-color: #56383b; color: #c88e94; }
+.analysis-observed dl { margin: 12px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); }
+.analysis-observed dl > div { min-width: 0; padding: 9px 10px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.analysis-observed dl > div:nth-child(3n) { border-right: 0; }
+.analysis-observed dl > div:nth-child(n+4) { border-bottom: 0; }
+.analysis-observed dt, .analysis-rows dt, .analysis-pit-grid span { color: var(--muted); text-transform: uppercase; font: 500 8px/1 var(--mono); letter-spacing: .04em; }
+.analysis-observed dd { min-height: 17px; margin: 5px 0 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 550 11px/1 var(--mono); }
+.analysis-state-line { margin-top: 10px; display: flex; align-items: center; gap: 10px; color: var(--muted); text-transform: uppercase; font: 500 8px/1 var(--mono); }
+.analysis-derived { display: grid; grid-template-columns: 1fr 1fr; }
+.analysis-derived > section:nth-child(odd) { border-right: 1px solid var(--line-strong); }
+.analysis-derived > .analysis-pit, .analysis-derived > .analysis-tactical { grid-column: 1/-1; border-right: 0; }
+.analysis-primary { margin-top: 10px; display: flex; align-items: baseline; justify-content: space-between; gap: 15px; }
+.analysis-primary span { color: var(--muted); text-transform: uppercase; font: 500 9px/1 var(--mono); }
+.analysis-primary strong { font: 650 21px/1 var(--mono); }
+.analysis-rows { margin: 10px 0 0; }
+.analysis-rows > div { min-height: 25px; display: grid; grid-template-columns: minmax(100px, .85fr) minmax(0, 1.15fr); align-items: center; gap: 10px; border-top: 1px solid var(--line); }
+.analysis-rows dd { margin: 0; overflow: hidden; text-align: right; text-overflow: ellipsis; white-space: nowrap; font: 500 9px/1 var(--mono); }
+.analysis-note { margin: 9px 0 0; color: var(--muted); font: 400 8px/1.45 var(--mono); }
+.analysis-warning { color: var(--amber); }
+.analysis-pit-grid { margin-top: 11px; display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line-strong); background: #0d151a; }
+.analysis-pit-grid > div { padding: 12px; }
+.analysis-pit-grid > div:first-child { border-right: 1px solid var(--line-strong); }
+.analysis-pit-grid strong { display: block; margin-top: 7px; font: 650 25px/1 var(--mono); }
+.analysis-pit-grid small { display: block; margin-top: 7px; color: var(--muted); text-transform: uppercase; font: 500 7px/1.3 var(--mono); }
+.analysis-traffic { margin-top: 10px; padding: 10px 11px; display: flex; justify-content: space-between; align-items: center; gap: 12px; border-left: 3px solid var(--dim); background: var(--surface-2); }
+.analysis-traffic strong { text-transform: uppercase; font: 650 13px/1 var(--display); }
+.analysis-traffic span { color: var(--muted); text-align: right; font: 400 8px/1.3 var(--mono); }
+.traffic-clear_air { border-left-color: var(--green); }
+.traffic-light_traffic, .traffic-moderate_traffic { border-left-color: var(--amber); }
+.traffic-heavy_traffic { border-left-color: var(--red); }
+.analysis-tactical > label { margin-top: 11px; display: grid; grid-template-columns: auto minmax(130px, 1fr); align-items: center; gap: 12px; }
+.analysis-tactical > label > span { color: var(--muted); text-transform: uppercase; font: 500 8px/1 var(--mono); }
+.analysis-tactical select { min-width: 0; height: 29px; padding: 0 8px; border: 1px solid var(--line-strong); border-radius: 2px; background: #101820; text-transform: uppercase; font: 500 9px/1 var(--mono); }
+.analysis-tactical-row { margin-top: 9px; padding-top: 9px; display: grid; grid-template-columns: minmax(95px, .7fr) auto minmax(175px, 1.3fr); align-items: center; gap: 10px; border-top: 1px solid var(--line); }
+.analysis-tactical-row > div:first-child b, .analysis-tactical-row > div:first-child span { display: block; }
+.analysis-tactical-row > div:first-child b { text-transform: uppercase; font: 650 12px/1 var(--display); }
+.analysis-tactical-row > div:first-child span { margin-top: 4px; color: var(--muted); font: 400 7px/1 var(--mono); }
+.analysis-tactical-row dl { margin: 0; display: grid; grid-template-columns: 1fr 1fr; }
+.analysis-tactical-row dl > div { padding: 0 8px; border-left: 1px solid var(--line); }
+.analysis-tactical-row dt { color: var(--muted); text-transform: uppercase; font: 500 7px/1 var(--mono); }
+.analysis-tactical-row dd { margin: 5px 0 0; font: 550 9px/1 var(--mono); }
+.analysis-tactical-row > small { grid-column: 3; color: var(--muted); font: 400 7px/1.3 var(--mono); }
+.analysis-unavailable, .analysis-pair-loading { color: var(--muted); font: 400 8px/1.3 var(--mono); }
+.analysis-loading, .analysis-error { margin: 14px 18px; padding: 13px; display: flex; align-items: center; gap: 11px; border: 1px solid var(--line-strong); background: #101820; }
+.analysis-loading svg { width: 19px; color: var(--red); animation: replay-spin 1s linear infinite; }
+.analysis-error svg { width: 19px; color: var(--amber); }
+.analysis-loading b, .analysis-loading small, .analysis-error b, .analysis-error small { display: block; }
+.analysis-loading b, .analysis-error b { text-transform: uppercase; font: 650 11px/1 var(--display); }
+.analysis-loading small, .analysis-error small { margin-top: 5px; color: var(--muted); font: 400 8px/1.3 var(--mono); }
 .replay-loading { position: absolute; z-index: 5; right: 16px; top: 55px; min-width: 280px; padding: 12px 15px; display: flex; align-items: center; gap: 12px; border: 1px solid var(--line-strong); background: #101820f2; box-shadow: 0 8px 26px #0008; }
 .replay-loading svg { width: 20px; }
 .replay-loading strong, .replay-loading small { display: block; }
@@ -501,6 +560,10 @@ tbody tr:hover { background: var(--surface-2); }
   .replay-driver-head { padding-inline: 18px; }
   .replay-driver-head b { font-size: 23px; }
   .replay-driver-state { padding-inline: 18px; }
+  .analysis-observed, .analysis-derived > section { padding-inline: 14px; }
+  .analysis-derived { display: block; }
+  .analysis-derived > section { border-right: 0 !important; }
+  .analysis-tactical-row { grid-template-columns: minmax(90px, .7fr) auto minmax(150px, 1.3fr); }
   .replay-loading { position: sticky; top: 68px; right: auto; min-width: 0; margin: 8px; }
   .replay-initial { min-height: 430px; padding: 30px; }
 

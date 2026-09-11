@@ -152,3 +152,15 @@ Use Open Design to redesign the existing frontend using the current VPW UI as th
 - First generate coordinated Open Design concepts for Home desktop, Weekend desktop, Pit Wall desktop, Home mobile, and Pit Wall mobile.
 - Stop for explicit design approval before implementation.
 - Preserve routes, APIs, polling, freshness, real-data behavior, accessibility, and tests. Do not begin Phase 9.
+
+## Phase 9A / 9B — Historical Replay
+
+STATUS: PHASE 9B COMPLETE
+
+- `/replay` provides season, event, leader-lap and full-grid historical navigation with an immutable browser request cache.
+- The selected-driver engineering workspace consumes the existing Phase 3 driver, undercut and overcut analysis routes. It does not calculate engineering metrics in TypeScript.
+- Race state, pace inputs, current tyre/stint state, traffic, pit loss and estimated rejoin geometry are shown with backend confidence and explicit observed/estimated provenance.
+- Undercut/overcut is supporting LOW-confidence context only; no strategy recommendation or simulation is exposed.
+- Predictive tyre degradation, tyre-life, cliff and health values are intentionally absent because prior validation did not support them.
+- Analysis loading/errors are isolated from the RaceState grid. Lap scrubbing remains bounded and superseded analysis results are ignored.
+- Phase 9B validation: 18 frontend tests, 136 backend tests, 23 focused Phase 3 tests, the Bahrain 2024 raw-prefix causal regression, typecheck, ESLint, Ruff and production build pass.

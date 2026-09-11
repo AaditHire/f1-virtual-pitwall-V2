@@ -6,7 +6,8 @@ import { getReplayEvents, getReplayLaps, getReplaySeasons, getReplayState } from
 import type { DriverRaceState, Event, ReplayAvailableLaps, ReplayRaceState, Season } from "@/lib/api/types";
 import { driverCode, fmtNumber } from "@/lib/format";
 import { CompoundBadge } from "./compound-badge";
-import { EmptyRow, Status, SurfaceError } from "./status";
+import { ReplayEngineering, type ReplayAnalysisLoaders } from "./replay-engineering";
+import { EmptyRow, SurfaceError } from "./status";
 
 export interface ReplayLoaders {
   seasons: () => Promise<Season[]>;
@@ -44,7 +45,7 @@ function nearestLap(laps: number[], requested: number) {
   return laps.reduce((closest, lap) => Math.abs(lap - requested) < Math.abs(closest - requested) ? lap : closest, laps[0]);
 }
 
-export function ReplayWorkspace({ loaders = defaultLoaders }: { loaders?: ReplayLoaders }) {
+export function ReplayWorkspace({ loaders = defaultLoaders, analysisLoaders }: { loaders?: ReplayLoaders; analysisLoaders?: ReplayAnalysisLoaders }) {
   const [seasons, setSeasons] = useState<Season[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
@@ -205,12 +206,7 @@ export function ReplayWorkspace({ loaders = defaultLoaders }: { loaders?: Replay
           <div className="replay-timing-list" role="listbox" aria-label="Historical drivers">{raceState.drivers.length ? raceState.drivers.map((driver) => <button role="option" aria-selected={driver.driver.id === selectedDriverId} className="replay-driver-row" key={driver.driver.id} onClick={() => setSelectedDriverId(driver.driver.id)}><span className="position">{driver.position ?? "—"}</span><span className="replay-driver"><b>{driverCode(driver.driver)}</b><small>{driver.driver.full_name}</small></span><span className="replay-gap"><b>{gapText(driver)}</b><small>{intervalText(driver)}</small></span><CompoundBadge compound={driver.compound}/><span>{driver.tyre_age ?? "—"}</span><span>{driver.stint_number ?? "—"}</span><span>{driver.pit_stops_completed}</span><span className="numeric">{formatLapTime(driver.recent_clean_pace ?? driver.last_lap_time)}</span><span className={`replay-status replay-status-${driver.status}`}>{driver.status.replaceAll("_", " ")}</span></button>) : <EmptyRow>No drivers were returned for this replay lap.</EmptyRow>}</div>
         </div>
       </section>
-      <aside className="replay-driver-panel" aria-live="polite">
-        <div className="replay-section-title"><h2>Selected driver</h2><span>{selectedDriver ? `Driver ${raceState.drivers.indexOf(selectedDriver) + 1} of ${raceState.drivers.length}` : "No driver selected"}</span></div>
-        {selectedDriver ? <><div className="replay-driver-head"><strong>{selectedDriver.position ?? "—"}</strong><i/><span><b>{selectedDriver.driver.full_name}</b><small>{selectedDriver.constructor?.name ?? "Constructor unavailable"}</small></span></div>
-          <dl className="replay-driver-state"><div><dt>Position</dt><dd>{selectedDriver.position ?? "—"}</dd></div><div><dt>Gap to leader</dt><dd>{gapText(selectedDriver)}</dd></div><div><dt>Interval ahead</dt><dd>{intervalText(selectedDriver)}</dd></div><div><dt>Completed laps</dt><dd>{selectedDriver.laps_completed ?? "—"}</dd></div><div><dt>Lap deficit</dt><dd>{selectedDriver.laps_behind ?? 0}</dd></div><div><dt>Grid position</dt><dd>{selectedDriver.grid_position ?? "—"}</dd></div><div><dt>Compound</dt><dd><CompoundBadge compound={selectedDriver.compound} full/></dd></div><div><dt>Tyre age</dt><dd>{selectedDriver.tyre_age == null ? "—" : `${selectedDriver.tyre_age} laps`}</dd></div><div><dt>Current stint</dt><dd>{selectedDriver.stint_number ?? "—"}</dd></div><div><dt>Pit stops</dt><dd>{selectedDriver.pit_stops_completed}</dd></div><div><dt>Recent pace</dt><dd>{formatLapTime(selectedDriver.recent_clean_pace)}</dd></div><div><dt>Last lap</dt><dd>{formatLapTime(selectedDriver.last_lap_time)}</dd></div></dl>
-          <div className="replay-driver-footer"><Status value={selectedDriver.status}/><span>State at leader lap {raceState.current_lap}</span>{selectedDriver.quality.warnings.length ? <small>{selectedDriver.quality.warnings.join(" · ")}</small> : null}</div></> : <EmptyRow>{raceState.drivers.length ? "The selected driver is unavailable at this lap." : "No driver state is available."}</EmptyRow>}
-      </aside>
+      {selectedDriver ? <ReplayEngineering key={`${raceState.current_lap}:${selectedDriver.driver.id}`} year={raceState.event.year} round={raceState.event.round} lap={raceState.current_lap} selected={selectedDriver} drivers={raceState.drivers} loaders={analysisLoaders}/> : <aside className="replay-driver-panel"><div className="replay-section-title"><h2>Driver engineering</h2><span>No driver selected</span></div><EmptyRow>{raceState.drivers.length ? "The selected driver is unavailable at this lap." : "No driver state is available."}</EmptyRow></aside>}
     </div> : null}
   </div>;
 }
