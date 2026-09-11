@@ -168,3 +168,14 @@ STATUS: PHASE 9C COMPLETE
 - Historical strategy is explicitly EXPERIMENTAL and limited to the existing +1/+3/+5 tactical horizon. Every lap change re-anchors to its causal RaceState; +5 is not presented as a whole-stint or whole-race optimization.
 - Strategy failure is isolated from both the timing grid and Phase 3 engineering analysis. Exact driver/lap responses share the bounded immutable replay cache, while adjacent laps trigger a fresh backend re-anchor.
 - Phase 9C validation: 22 frontend tests, 136 backend tests, 10 focused Pit Wall tests (including future-mutation causality, normal-stop cooldown and position-only gating), TypeScript, ESLint, Ruff, and production build pass.
+
+## Phase 10A — Live Pit Wall Engineering & Strategy UX
+
+STATUS: COMPLETE
+
+- `/pitwall` now follows the live operational hierarchy Race State → selected-driver engineering → EXPERIMENTAL short-horizon strategy while retaining the dynamic full-grid timing view.
+- The selected driver uses the existing `/live/pitwall/drivers/{driver_id}` response and its embedded Phase 3 analysis. Shared Replay presentation components render pace, tyre/stint, traffic, pit/rejoin, confidence, pit-window, alerts and paired +1/+3/+5 evidence without duplicating model logic in TypeScript.
+- A single non-overlapping polling loop refreshes provider status first, then live RaceState, full-grid Pit Wall, support data and the selected-driver detail. Driver and refresh generations reject superseded responses so an older request cannot replace a newer lap or selection.
+- `LIVE_AVAILABLE`, `DELAYED_AVAILABLE`, `HISTORICAL_ONLY` and `UNAVAILABLE` remain backend-authoritative. Delayed RaceState stays usable with amber freshness context; retained secondary analysis is explicitly marked stale and cannot appear fresher than its RaceState.
+- Timing remains independently available when engineering or strategy fails. Mobile view tabs preserve intentional timing-grid scrolling while avoiding page-level overflow.
+- No backend route, model, threshold, infrastructure or production fixture was added for Phase 10A.

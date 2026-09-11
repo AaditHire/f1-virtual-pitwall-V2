@@ -1,7 +1,7 @@
 "use client";
 
 import { AlertTriangle, FlaskConical, LoaderCircle } from "lucide-react";
-import type { PairedOutcome, PitWallDriver } from "@/lib/api/types";
+import type { Freshness, PairedOutcome, PitWallDriver } from "@/lib/api/types";
 
 function label(value: string) {
   return value.replaceAll("_", " ");
@@ -45,15 +45,23 @@ interface Props {
   loading: boolean;
   error: string | null;
   lap: number;
+  context?: "historical" | "live";
+  freshness?: Freshness | null;
+  outdated?: boolean;
 }
 
-export function ReplayStrategy({ strategy, loading, error, lap }: Props) {
+export function ReplayStrategy({ strategy, loading, error, lap, context = "historical", freshness = null, outdated = false }: Props) {
   const output = strategy ? recommendation(strategy) : "";
   const outcomes = strategy?.paired_comparison?.outcomes ?? [];
+  const contextState = outdated ? "STALE" : freshness?.state;
+  const contextClass = contextState ? ` strategy-context-${contextState.toLowerCase()}` : "";
+  const contextCopy = context === "live"
+    ? `Re-anchored to observed live lap ${lap}. RaceState freshness · ${contextState ?? "UNKNOWN"}${freshness?.data_age_seconds != null ? ` · ${Math.round(freshness.data_age_seconds)}s old` : ""}.`
+    : `Model output anchored only to information available through leader lap ${lap}. Each replay lap re-anchors to observed race state.`;
 
-  return <section className="replay-strategy" aria-label="Experimental historical strategy">
+  return <section className={`replay-strategy${contextClass}`} aria-label={`Experimental ${context} strategy`}>
     <div className="strategy-title"><span><FlaskConical aria-hidden="true"/><b>Experimental strategy</b></span><strong>TACTICAL 1–5 LAP HORIZON</strong></div>
-    <p className="strategy-helper">Model output anchored only to information available through leader lap {lap}. Each replay lap re-anchors to observed race state.</p>
+    <p className="strategy-helper">{contextCopy}</p>
 
     {loading ? <div className="strategy-loading" role="status"><LoaderCircle aria-hidden="true"/><span><b>Evaluating historical strategy</b><small>RaceState and engineering analysis remain available.</small></span></div> : null}
     {error ? <div className="strategy-error" role="alert"><AlertTriangle aria-hidden="true"/><span><b>Strategy evaluation unavailable</b><small>{error}</small></span></div> : null}
