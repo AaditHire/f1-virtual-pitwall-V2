@@ -231,3 +231,21 @@ STATUS: COMPLETE — CONDITIONAL GO; HUMAN TRANSCRIPT BENCHMARK REQUIRED
 - No production API, frontend, radio mapping, analysis, strategy or Pit Wall behavior changed. Full
   report: `docs/phase12b-radio-transcription-research.md`; review artifacts:
   `docs/phase12b-radio-asr.json` and `docs/phase12b-radio-asr-review.csv`.
+
+## Phase 12C — Human Transcript Benchmark
+
+STATUS: AWAITING HUMAN ANNOTATION
+
+- The exact 30 Phase 12B clips are frozen in a versioned manifest with selection SHA-256
+  `111cb5264152d0ba1875363894e9b6c018b4f384cefd75ba03bbca129676c131`; an existing manifest
+  cannot be silently replaced when the Phase 12B artifact changes.
+- A local-only blind annotator exposes neutral clip IDs and on-demand audio, while withholding race
+  context, ASR predictions, confidence, disagreement and flags. Draft/complete saves are resumable.
+- Human references and post-reference human semantic reviews are separate from the unchanged Phase
+  12B predictions. Strict schemas reject ASR fields and require `annotation_source: human`.
+- Deterministic WER, CER, `[inaudible]` handling, human-labelled critical-term recovery and evaluation
+  assembly are implemented, but evaluation is blocked until 30 real human references and 60 human
+  semantic comparisons exist.
+- No reference transcript has been created by Codex, ASR, or an LLM. Current progress is 0/30, so no
+  accuracy metrics or GO/NO-GO claim is available. Guide: `docs/phase12c-annotation-guide.md`; status
+  report: `docs/phase12c-human-benchmark.md`.
