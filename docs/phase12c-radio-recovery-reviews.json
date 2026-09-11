@@ -1,5 +1,39 @@
 {
   "schema_version": "1.0",
   "selection_hash": "111cb5264152d0ba1875363894e9b6c018b4f384cefd75ba03bbca129676c131",
-  "decisions": {}
+  "decisions": {
+    "270e9276bb1642362d98": {
+      "clip_id": "270e9276bb1642362d98",
+      "action": "NEEDS_MANUAL_TRANSCRIPTION",
+      "accepted_transcript": "Careful into the box, it\u2019s bumpy.",
+      "usability": "CLEAR",
+      "speaker_type": "ENGINEER",
+      "critical_terms": [],
+      "notes": "",
+      "reviewer_source": "human",
+      "reviewed_at": "2026-09-11T17:38:56.720942Z"
+    },
+    "58873bfeacf456d1c406": {
+      "clip_id": "58873bfeacf456d1c406",
+      "action": "NEEDS_MANUAL_TRANSCRIPTION",
+      "accepted_transcript": "And Leclerc starting to struggle with graining.",
+      "usability": null,
+      "speaker_type": null,
+      "critical_terms": [],
+      "notes": "",
+      "reviewer_source": "human",
+      "reviewed_at": "2026-09-11T17:41:40.361166Z"
+    },
+    "a10902306b8f99f9c26a": {
+      "clip_id": "a10902306b8f99f9c26a",
+      "action": "NEEDS_MANUAL_TRANSCRIPTION",
+      "accepted_transcript": "Okay, we are now within Piastri\u2019s Safety Car windows, Max.",
+      "usability": null,
+      "speaker_type": null,
+      "critical_terms": [],
+      "notes": "",
+      "reviewer_source": "human",
+      "reviewed_at": "2026-09-11T17:39:42.027451Z"
+    }
+  }
 }

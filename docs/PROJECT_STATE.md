@@ -234,7 +234,7 @@ STATUS: COMPLETE — CONDITIONAL GO; HUMAN TRANSCRIPT BENCHMARK REQUIRED
 
 ## Phase 12C — Human Transcript Benchmark
 
-STATUS: IN PROGRESS — EXTERNAL RECOVERY COMPLETE; HUMAN REFERENCES STILL REQUIRED
+STATUS: PAUSED FOR HUMAN XLSX ANNOTATION
 
 - The exact 30 Phase 12B clips are frozen in a versioned manifest with selection SHA-256
   `111cb5264152d0ba1875363894e9b6c018b4f384cefd75ba03bbca129676c131`; an existing manifest
@@ -254,6 +254,22 @@ STATUS: IN PROGRESS — EXTERNAL RECOVERY COMPLETE; HUMAN REFERENCES STILL REQUI
 - External candidates, review decisions, canonical references, and promotion provenance are separate
   protected artifacts. Likely and strategy-critical candidates cannot auto-promote, and an existing
   canonical reference cannot be silently overwritten.
+- The preferred human-ground-truth workflow is now the blind XLSX annotation pack. The export command
+  creates `outputs/phase12c_annotation_pack/phase12c_manual_annotations.xlsx` plus 30 exact local MP3
+  working files using only the frozen sanitized audio references. All transcript, usability, speaker,
+  critical-term and notes cells start blank; no ASR or recovered transcript text is included.
+- The XLSX importer performs a no-write validation pass by default. It verifies the selection hash,
+  exact clip order, immutable metadata, local audio formulas and human fields, then requires an
+  explicit `--confirm-import` before using the existing protected canonical-reference mechanism.
+  Incomplete workbooks and silent overwrites are refused.
 - Canonical progress remains 0/30, so no accuracy metrics or GO/NO-GO claim is available. Guide:
   `docs/phase12c-annotation-guide.md`; benchmark status: `docs/phase12c-human-benchmark.md`; recovery
   report: `docs/phase12c-transcript-recovery.md`.
+
+Preferred commands:
+
+```powershell
+.venv\Scripts\python -m scripts.export_phase12c_annotation_xlsx
+.venv\Scripts\python -m scripts.import_phase12c_annotation_xlsx outputs\phase12c_annotation_pack\phase12c_manual_annotations.xlsx
+.venv\Scripts\python -m scripts.import_phase12c_annotation_xlsx outputs\phase12c_annotation_pack\phase12c_manual_annotations.xlsx --confirm-import
+```

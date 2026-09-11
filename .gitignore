@@ -6,4 +6,5 @@ __pycache__/
 .env
 acceptance-output.json
 .cache/
+outputs/phase12c_annotation_pack/
 replay-output.json

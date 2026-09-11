@@ -1,6 +1,59 @@
-# Phase 12C blind radio annotation guide
+# Phase 12C manual radio annotation guide
 
-## Start the local tool
+## Preferred workflow: Excel annotation pack
+
+Generate the blind local workbook and its exact frozen audio files from the repository root:
+
+```powershell
+.venv\Scripts\python -m scripts.export_phase12c_annotation_xlsx
+```
+
+Open:
+
+```text
+outputs\phase12c_annotation_pack\phase12c_manual_annotations.xlsx
+```
+
+Use the `Annotations` sheet from row 1 through row 30:
+
+1. Click `Open audio`.
+2. Listen without opening Phase 12B predictions or recovered transcript candidates.
+3. Type exactly what you hear in `Human Transcript`.
+4. Preserve repetitions and spoken shorthand. Do not clean up grammar.
+5. Enter `[inaudible]` for a genuinely unclear span instead of guessing.
+6. Choose `Usability` and `Speaker` from their dropdowns.
+7. Optionally enter audible critical phrases separated by semicolons, for example
+   `BOX; MEDIUM; LAP 24`, and add a brief note if useful.
+8. Save the workbook after all 30 rows are complete.
+
+All human input columns start blank. The workbook contains no `small.en`, `medium.en`, model
+confidence, disagreement, suspicious flags, or external recovered transcript suggestions. The local
+MP3 files and workbook are annotation working files under an ignored `outputs` directory. They do
+not replace the frozen manifest or canonical repository artifacts.
+
+Validate the completed workbook without writing canonical references:
+
+```powershell
+.venv\Scripts\python -m scripts.import_phase12c_annotation_xlsx outputs\phase12c_annotation_pack\phase12c_manual_annotations.xlsx
+```
+
+After the dry run reports 30 completed rows, perform the explicit protected import:
+
+```powershell
+.venv\Scripts\python -m scripts.import_phase12c_annotation_xlsx outputs\phase12c_annotation_pack\phase12c_manual_annotations.xlsx --confirm-import
+```
+
+The importer checks the frozen hash, exact IDs and order, immutable metadata, audio mapping,
+dropdown values, required transcript/usability/speaker fields, and critical-term presence. It refuses
+unknown or duplicate clips, incomplete workbooks, and silent replacement of an existing canonical
+reference. Do not use `--overwrite-empty-workbook` after beginning annotation; that export option is
+only for intentionally regenerating a known-empty workbook.
+
+## Alternate browser workflow
+
+The original browser annotator remains available but is no longer the preferred workflow.
+
+Start it with:
 
 From the repository root:
 
