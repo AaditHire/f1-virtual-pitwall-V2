@@ -234,7 +234,7 @@ STATUS: COMPLETE — CONDITIONAL GO; HUMAN TRANSCRIPT BENCHMARK REQUIRED
 
 ## Phase 12C — Human Transcript Benchmark
 
-STATUS: AWAITING HUMAN ANNOTATION
+STATUS: IN PROGRESS — EXTERNAL RECOVERY COMPLETE; HUMAN REFERENCES STILL REQUIRED
 
 - The exact 30 Phase 12B clips are frozen in a versioned manifest with selection SHA-256
   `111cb5264152d0ba1875363894e9b6c018b4f384cefd75ba03bbca129676c131`; an existing manifest
@@ -246,6 +246,14 @@ STATUS: AWAITING HUMAN ANNOTATION
 - Deterministic WER, CER, `[inaudible]` handling, human-labelled critical-term recovery and evaluation
   assembly are implemented, but evaluation is blocked until 30 real human references and 60 human
   semantic comparisons exist.
-- No reference transcript has been created by Codex, ASR, or an LLM. Current progress is 0/30, so no
-  accuracy metrics or GO/NO-GO claim is available. Guide: `docs/phase12c-annotation-guide.md`; status
-  report: `docs/phase12c-human-benchmark.md`.
+- A metadata-only external-reference recovery pass researched all 30 clips without parsing or using
+  ASR content. RaceFans yielded four `VERIFIED_LIKELY` human-editorial candidates; provider-message
+  identity and full-clip coverage were not strong enough for `VERIFIED_EXACT`. All four are
+  strategy-critical and require listening-based human confirmation. The other 26 clips remain
+  `NO_REFERENCE` and require blind manual transcription.
+- External candidates, review decisions, canonical references, and promotion provenance are separate
+  protected artifacts. Likely and strategy-critical candidates cannot auto-promote, and an existing
+  canonical reference cannot be silently overwritten.
+- Canonical progress remains 0/30, so no accuracy metrics or GO/NO-GO claim is available. Guide:
+  `docs/phase12c-annotation-guide.md`; benchmark status: `docs/phase12c-human-benchmark.md`; recovery
+  report: `docs/phase12c-transcript-recovery.md`.

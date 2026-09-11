@@ -1,0 +1,2520 @@
+{
+  "schema_version": "1.0",
+  "selection_hash": "111cb5264152d0ba1875363894e9b6c018b4f384cefd75ba03bbca129676c131",
+  "manifest_sha256_before_recovery": "b3eccfec45adf50eb763395a1a35ea8aff0d916409fbc590bb13dcb8ef6b4b56",
+  "phase12b_predictions_sha256_before_recovery": "48378031d90efd950a784a8b4373cdecca7e42e7c90312d8e5d123a2114eb6ca",
+  "research_method": "One-time targeted Codex web search using frozen metadata only; repository workflow performs deterministic validation/import and never parses ASR predictions.",
+  "researched_at": "2026-09-11T15:30:00Z",
+  "records": [
+    {
+      "clip_id": "a4b32135bee93aff528d",
+      "season": 2021,
+      "event": "Bahrain Grand Prix",
+      "session": "f1:2021:1:race",
+      "driver_id": "f1:DANRIC01",
+      "driver_display_name": "Daniel Ricciardo",
+      "causal_leader_lap": null,
+      "provider_timestamp": 61.025,
+      "recording_timestamp": "20210328_152259",
+      "audio_identifier": "DANRIC01_3_20210328_152259",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2021 Bahrain Grand Prix Daniel Ricciardo team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2021 Bahrain Grand Prix Daniel Ricciardo team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/latest/article/exclusive-listen-to-the-best-team-radio-moments-from-the-2021-bahrain-grand.4207IFvuYONd9CIrHFUJDX.4207IFvuYONd9CIrHFUJDX",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2021 Bahrain Grand Prix Daniel Ricciardo team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No reputable human-editorial literal transcript was tied to the exact clip."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "e379bf084fef0c643829",
+      "season": 2021,
+      "event": "Bahrain Grand Prix",
+      "session": "f1:2021:1:race",
+      "driver_id": "f1:MICSCH02",
+      "driver_display_name": "Mick Schumacher",
+      "causal_leader_lap": null,
+      "provider_timestamp": 1880.665,
+      "recording_timestamp": "20210328_160015",
+      "audio_identifier": "MICSCH02_47_20210328_160015",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2021 Bahrain Grand Prix Mick Schumacher team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2021 Bahrain Grand Prix Mick Schumacher team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/latest/article/exclusive-listen-to-the-best-team-radio-moments-from-the-2021-bahrain-grand.4207IFvuYONd9CIrHFUJDX.4207IFvuYONd9CIrHFUJDX",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2021 Bahrain Grand Prix Mick Schumacher team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No reputable human-editorial literal transcript was tied to the exact clip."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "1cf6244e289cf4991d69",
+      "season": 2021,
+      "event": "Bahrain Grand Prix",
+      "session": "f1:2021:1:race",
+      "driver_id": "f1:VALBOT01",
+      "driver_display_name": "Valtteri Bottas",
+      "causal_leader_lap": 6,
+      "provider_timestamp": 2976.335,
+      "recording_timestamp": "20210328_161858",
+      "audio_identifier": "VALBOT01_77_20210328_161858",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2021 Bahrain Grand Prix Valtteri Bottas lap 6 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2021 Bahrain Grand Prix Valtteri Bottas lap 6 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/latest/article/exclusive-listen-to-the-best-team-radio-moments-from-the-2021-bahrain-grand.4207IFvuYONd9CIrHFUJDX.4207IFvuYONd9CIrHFUJDX",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2021 Bahrain Grand Prix Valtteri Bottas lap 6 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No reputable human-editorial literal transcript was tied to the exact clip."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "935cfc6715c26d86b3b7",
+      "season": 2021,
+      "event": "Bahrain Grand Prix",
+      "session": "f1:2021:1:race",
+      "driver_id": "f1:CARSAI01",
+      "driver_display_name": "Carlos Sainz",
+      "causal_leader_lap": 13,
+      "provider_timestamp": 3711.677,
+      "recording_timestamp": "20210328_163114",
+      "audio_identifier": "CARSAI01_55_20210328_163114",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2021 Bahrain Grand Prix Carlos Sainz lap 13 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2021 Bahrain Grand Prix Carlos Sainz lap 13 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/latest/article/exclusive-listen-to-the-best-team-radio-moments-from-the-2021-bahrain-grand.4207IFvuYONd9CIrHFUJDX.4207IFvuYONd9CIrHFUJDX",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2021 Bahrain Grand Prix Carlos Sainz lap 13 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No reputable human-editorial literal transcript was tied to the exact clip."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "001f755456fb4a3ffaa1",
+      "season": 2021,
+      "event": "Bahrain Grand Prix",
+      "session": "f1:2021:1:race",
+      "driver_id": "f1:LANNOR01",
+      "driver_display_name": "Lando Norris",
+      "causal_leader_lap": 23,
+      "provider_timestamp": 4625.025,
+      "recording_timestamp": "20210328_164648",
+      "audio_identifier": "LANNOR01_4_20210328_164648",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2021 Bahrain Grand Prix Lando Norris lap 23 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2021 Bahrain Grand Prix Lando Norris lap 23 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/latest/article/exclusive-listen-to-the-best-team-radio-moments-from-the-2021-bahrain-grand.4207IFvuYONd9CIrHFUJDX.4207IFvuYONd9CIrHFUJDX",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2021 Bahrain Grand Prix Lando Norris lap 23 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No reputable human-editorial literal transcript was tied to the exact clip."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "65176951b41734010473",
+      "season": 2021,
+      "event": "Bahrain Grand Prix",
+      "session": "f1:2021:1:race",
+      "driver_id": "f1:FERALO01",
+      "driver_display_name": "Fernando Alonso",
+      "causal_leader_lap": 30,
+      "provider_timestamp": 5359.196,
+      "recording_timestamp": "20210328_165848",
+      "audio_identifier": "FERALO01_14_20210328_165848",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2021 Bahrain Grand Prix Fernando Alonso lap 30 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2021 Bahrain Grand Prix Fernando Alonso lap 30 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/latest/article/exclusive-listen-to-the-best-team-radio-moments-from-the-2021-bahrain-grand.4207IFvuYONd9CIrHFUJDX.4207IFvuYONd9CIrHFUJDX",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2021 Bahrain Grand Prix Fernando Alonso lap 30 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No reputable human-editorial literal transcript was tied to the exact clip."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "b4504c321116794ed3bb",
+      "season": 2021,
+      "event": "Bahrain Grand Prix",
+      "session": "f1:2021:1:race",
+      "driver_id": "f1:MAXVER01",
+      "driver_display_name": "Max Verstappen",
+      "causal_leader_lap": 41,
+      "provider_timestamp": 6335.539,
+      "recording_timestamp": "20210328_171436",
+      "audio_identifier": "MAXVER01_33_20210328_171436",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2021 Bahrain Grand Prix Max Verstappen lap 41 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2021 Bahrain Grand Prix Max Verstappen lap 41 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/latest/article/exclusive-listen-to-the-best-team-radio-moments-from-the-2021-bahrain-grand.4207IFvuYONd9CIrHFUJDX.4207IFvuYONd9CIrHFUJDX",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2021 Bahrain Grand Prix Max Verstappen lap 41 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No reputable human-editorial literal transcript was tied to the exact clip."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "05dd996c421ffc8b7786",
+      "season": 2021,
+      "event": "Bahrain Grand Prix",
+      "session": "f1:2021:1:race",
+      "driver_id": "f1:YUKTSU01",
+      "driver_display_name": "Yuki Tsunoda",
+      "causal_leader_lap": 48,
+      "provider_timestamp": 7067.525,
+      "recording_timestamp": "20210328_172726",
+      "audio_identifier": "YUKTSU01_22_20210328_172726",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2021 Bahrain Grand Prix Yuki Tsunoda lap 48 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2021 Bahrain Grand Prix Yuki Tsunoda lap 48 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/latest/article/exclusive-listen-to-the-best-team-radio-moments-from-the-2021-bahrain-grand.4207IFvuYONd9CIrHFUJDX.4207IFvuYONd9CIrHFUJDX",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2021 Bahrain Grand Prix Yuki Tsunoda lap 48 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No reputable human-editorial literal transcript was tied to the exact clip."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "ec52b364072158e403a3",
+      "season": 2021,
+      "event": "Bahrain Grand Prix",
+      "session": "f1:2021:1:race",
+      "driver_id": "f1:ANTGIO01",
+      "driver_display_name": "Antonio Giovinazzi",
+      "causal_leader_lap": 56,
+      "provider_timestamp": 7985.458,
+      "recording_timestamp": "20210328_175636",
+      "audio_identifier": "ANTGIO01_99_20210328_175636",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2021 Bahrain Grand Prix Antonio Giovinazzi lap 56 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2021 Bahrain Grand Prix Antonio Giovinazzi lap 56 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/latest/article/exclusive-listen-to-the-best-team-radio-moments-from-the-2021-bahrain-grand.4207IFvuYONd9CIrHFUJDX.4207IFvuYONd9CIrHFUJDX",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2021 Bahrain Grand Prix Antonio Giovinazzi lap 56 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No reputable human-editorial literal transcript was tied to the exact clip."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "310beefb2cff2aedd802",
+      "season": 2021,
+      "event": "Bahrain Grand Prix",
+      "session": "f1:2021:1:race",
+      "driver_id": "f1:SERPER01",
+      "driver_display_name": "Sergio Perez",
+      "causal_leader_lap": 56,
+      "provider_timestamp": 7985.458,
+      "recording_timestamp": "20210328_175151",
+      "audio_identifier": "SERPER01_11_20210328_175151",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2021 Bahrain Grand Prix Sergio Perez lap 56 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2021 Bahrain Grand Prix Sergio Perez lap 56 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/latest/article/exclusive-listen-to-the-best-team-radio-moments-from-the-2021-bahrain-grand.4207IFvuYONd9CIrHFUJDX.4207IFvuYONd9CIrHFUJDX",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2021 Bahrain Grand Prix Sergio Perez lap 56 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No reputable human-editorial literal transcript was tied to the exact clip."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "60ff02552550ceacdd14",
+      "season": 2024,
+      "event": "Bahrain Grand Prix",
+      "session": "f1:2024:1:race",
+      "driver_id": "f1:YUKTSU01",
+      "driver_display_name": "Yuki Tsunoda",
+      "causal_leader_lap": null,
+      "provider_timestamp": 606.01,
+      "recording_timestamp": "20240302_141124",
+      "audio_identifier": "YUKTSU01_22_20240302_141124",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2024 Bahrain Grand Prix Yuki Tsunoda team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2024 Bahrain Grand Prix Yuki Tsunoda team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/video/say-what-bahrain-grand-prix-the-best-team-radio.1792526106683763518",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2024 Bahrain Grand Prix Yuki Tsunoda team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No reputable human-editorial literal transcript was tied to the exact clip."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "070ec2cab07ac3b116f2",
+      "season": 2024,
+      "event": "Bahrain Grand Prix",
+      "session": "f1:2024:1:race",
+      "driver_id": "f1:PIEGAS01",
+      "driver_display_name": "Pierre Gasly",
+      "causal_leader_lap": null,
+      "provider_timestamp": 3689.622,
+      "recording_timestamp": "20240302_150446",
+      "audio_identifier": "PIEGAS01_10_20240302_150446",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2024 Bahrain Grand Prix Pierre Gasly team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2024 Bahrain Grand Prix Pierre Gasly team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/video/say-what-bahrain-grand-prix-the-best-team-radio.1792526106683763518",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2024 Bahrain Grand Prix Pierre Gasly team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No reputable human-editorial literal transcript was tied to the exact clip."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "b1c56a1f4f165175213b",
+      "season": 2024,
+      "event": "Bahrain Grand Prix",
+      "session": "f1:2024:1:race",
+      "driver_id": "f1:OSCPIA01",
+      "driver_display_name": "Oscar Piastri",
+      "causal_leader_lap": 8,
+      "provider_timestamp": 4441.266,
+      "recording_timestamp": "20240302_151715",
+      "audio_identifier": "OSCPIA01_81_20240302_151715",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2024 Bahrain Grand Prix Oscar Piastri lap 8 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2024 Bahrain Grand Prix Oscar Piastri lap 8 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/video/say-what-bahrain-grand-prix-the-best-team-radio.1792526106683763518",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2024 Bahrain Grand Prix Oscar Piastri lap 8 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No reputable human-editorial literal transcript was tied to the exact clip."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "4ce87c430c63376d8bb4",
+      "season": 2024,
+      "event": "Bahrain Grand Prix",
+      "session": "f1:2024:1:race",
+      "driver_id": "f1:GEORUS01",
+      "driver_display_name": "George Russell",
+      "causal_leader_lap": 15,
+      "provider_timestamp": 5128.072,
+      "recording_timestamp": "20240302_152906",
+      "audio_identifier": "GEORUS01_63_20240302_152906",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2024 Bahrain Grand Prix George Russell lap 15 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2024 Bahrain Grand Prix George Russell lap 15 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/video/say-what-bahrain-grand-prix-the-best-team-radio.1792526106683763518",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2024 Bahrain Grand Prix George Russell lap 15 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No reputable human-editorial literal transcript was tied to the exact clip."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "202806d2e08329702a94",
+      "season": 2024,
+      "event": "Bahrain Grand Prix",
+      "session": "f1:2024:1:race",
+      "driver_id": "f1:SERPER01",
+      "driver_display_name": "Sergio Perez",
+      "causal_leader_lap": 23,
+      "provider_timestamp": 5880.69,
+      "recording_timestamp": "20240302_154111",
+      "audio_identifier": "SERPER01_11_20240302_154111",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2024 Bahrain Grand Prix Sergio Perez lap 23 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2024 Bahrain Grand Prix Sergio Perez lap 23 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/video/say-what-bahrain-grand-prix-the-best-team-radio.1792526106683763518",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2024 Bahrain Grand Prix Sergio Perez lap 23 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No reputable human-editorial literal transcript was tied to the exact clip."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "bdb53de0cb61662f0801",
+      "season": 2024,
+      "event": "Bahrain Grand Prix",
+      "session": "f1:2024:1:race",
+      "driver_id": "f1:LANNOR01",
+      "driver_display_name": "Lando Norris",
+      "causal_leader_lap": 30,
+      "provider_timestamp": 6533.145,
+      "recording_timestamp": "20240302_155225",
+      "audio_identifier": "LANNOR01_4_20240302_155225",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2024 Bahrain Grand Prix Lando Norris lap 30 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2024 Bahrain Grand Prix Lando Norris lap 30 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/video/say-what-bahrain-grand-prix-the-best-team-radio.1792526106683763518",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2024 Bahrain Grand Prix Lando Norris lap 30 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No reputable human-editorial literal transcript was tied to the exact clip."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "01d1686be3a2f9127bca",
+      "season": 2024,
+      "event": "Bahrain Grand Prix",
+      "session": "f1:2024:1:race",
+      "driver_id": "f1:NICHUL01",
+      "driver_display_name": "Nico Hulkenberg",
+      "causal_leader_lap": 38,
+      "provider_timestamp": 7388.408,
+      "recording_timestamp": "20240302_160615",
+      "audio_identifier": "NICHUL01_27_20240302_160615",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2024 Bahrain Grand Prix Nico Hulkenberg lap 38 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2024 Bahrain Grand Prix Nico Hulkenberg lap 38 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/video/say-what-bahrain-grand-prix-the-best-team-radio.1792526106683763518",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2024 Bahrain Grand Prix Nico Hulkenberg lap 38 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No reputable human-editorial literal transcript was tied to the exact clip."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "3f178622c44fe5af07c2",
+      "season": 2024,
+      "event": "Bahrain Grand Prix",
+      "session": "f1:2024:1:race",
+      "driver_id": "f1:LEWHAM01",
+      "driver_display_name": "Lewis Hamilton",
+      "causal_leader_lap": 49,
+      "provider_timestamp": 8380.774,
+      "recording_timestamp": "20240302_162302",
+      "audio_identifier": "LEWHAM01_44_20240302_162302",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2024 Bahrain Grand Prix Lewis Hamilton lap 49 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2024 Bahrain Grand Prix Lewis Hamilton lap 49 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/video/say-what-bahrain-grand-prix-the-best-team-radio.1792526106683763518",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2024 Bahrain Grand Prix Lewis Hamilton lap 49 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No reputable human-editorial literal transcript was tied to the exact clip."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "627f97ccf0d5a7fb5ac9",
+      "season": 2024,
+      "event": "Bahrain Grand Prix",
+      "session": "f1:2024:1:race",
+      "driver_id": "f1:ALEALB01",
+      "driver_display_name": "Alexander Albon",
+      "causal_leader_lap": 57,
+      "provider_timestamp": 9375.245,
+      "recording_timestamp": "20240302_164056",
+      "audio_identifier": "ALEALB01_23_20240302_164056",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2024 Bahrain Grand Prix Alexander Albon lap 57 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2024 Bahrain Grand Prix Alexander Albon lap 57 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/video/say-what-bahrain-grand-prix-the-best-team-radio.1792526106683763518",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2024 Bahrain Grand Prix Alexander Albon lap 57 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No reputable human-editorial literal transcript was tied to the exact clip."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "db5ddd59bc986b6f80c1",
+      "season": 2024,
+      "event": "Bahrain Grand Prix",
+      "session": "f1:2024:1:race",
+      "driver_id": "f1:VALBOT01",
+      "driver_display_name": "Valtteri Bottas",
+      "causal_leader_lap": 57,
+      "provider_timestamp": 9375.245,
+      "recording_timestamp": "20240302_164213",
+      "audio_identifier": "VALBOT01_77_20240302_164213",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2024 Bahrain Grand Prix Valtteri Bottas lap 57 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2024 Bahrain Grand Prix Valtteri Bottas lap 57 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/video/say-what-bahrain-grand-prix-the-best-team-radio.1792526106683763518",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2024 Bahrain Grand Prix Valtteri Bottas lap 57 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No reputable human-editorial literal transcript was tied to the exact clip."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "8bcc172f800623c510a4",
+      "season": 2025,
+      "event": "Abu Dhabi Grand Prix",
+      "session": "f1:2025:24:race",
+      "driver_id": "f1:GEORUS01",
+      "driver_display_name": "George Russell",
+      "causal_leader_lap": null,
+      "provider_timestamp": 1161.116,
+      "recording_timestamp": "20251207_162402",
+      "audio_identifier": "GEORUS01_63_20251207_162402",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2025 Abu Dhabi Grand Prix George Russell team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2025 Abu Dhabi Grand Prix George Russell team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/latest/article/what-the-teams-said-race-day-in-abu-dhabi-2025.53LuGvgWY8FgAcxWXLZyN9",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2025 Abu Dhabi Grand Prix George Russell team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "DISALLOWED",
+          "candidate_url": "https://www.formuladream.app/f1-interactive/tools/team-radio/2025/abu-dhabi-grand-prix/race",
+          "notes": "A matching archive explicitly described its transcripts as speech-recognition output; rejected."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "1b43ac3bb8e7475fb7c6",
+      "season": 2025,
+      "event": "Abu Dhabi Grand Prix",
+      "session": "f1:2025:24:race",
+      "driver_id": "f1:GABBOR01",
+      "driver_display_name": "Gabriel Bortoleto",
+      "causal_leader_lap": null,
+      "provider_timestamp": 3019.02,
+      "recording_timestamp": "20251207_165505",
+      "audio_identifier": "GABBOR01_5_20251207_165505",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2025 Abu Dhabi Grand Prix Gabriel Bortoleto team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2025 Abu Dhabi Grand Prix Gabriel Bortoleto team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/latest/article/what-the-teams-said-race-day-in-abu-dhabi-2025.53LuGvgWY8FgAcxWXLZyN9",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2025 Abu Dhabi Grand Prix Gabriel Bortoleto team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "DISALLOWED",
+          "candidate_url": "https://www.formuladream.app/f1-interactive/tools/team-radio/2025/abu-dhabi-grand-prix/race",
+          "notes": "A matching archive explicitly described its transcripts as speech-recognition output; rejected."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "5bbfc3b54b34c8ee7635",
+      "season": 2025,
+      "event": "Abu Dhabi Grand Prix",
+      "session": "f1:2025:24:race",
+      "driver_id": "f1:LANNOR01",
+      "driver_display_name": "Lando Norris",
+      "causal_leader_lap": 4,
+      "provider_timestamp": 3871.408,
+      "recording_timestamp": "20251207_170931",
+      "audio_identifier": "LANNOR01_4_20251207_170931",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2025 Abu Dhabi Grand Prix Lando Norris lap 4 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2025 Abu Dhabi Grand Prix Lando Norris lap 4 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/latest/article/what-the-teams-said-race-day-in-abu-dhabi-2025.53LuGvgWY8FgAcxWXLZyN9",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2025 Abu Dhabi Grand Prix Lando Norris lap 4 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "DISALLOWED",
+          "candidate_url": "https://www.formuladream.app/f1-interactive/tools/team-radio/2025/abu-dhabi-grand-prix/race",
+          "notes": "A matching archive explicitly described its transcripts as speech-recognition output; rejected."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "ae858548b54923d2291b",
+      "season": 2025,
+      "event": "Abu Dhabi Grand Prix",
+      "session": "f1:2025:24:race",
+      "driver_id": "f1:OSCPIA01",
+      "driver_display_name": "Oscar Piastri",
+      "causal_leader_lap": 7,
+      "provider_timestamp": 4180.754,
+      "recording_timestamp": "20251207_171436",
+      "audio_identifier": "OSCPIA01_81_20251207_171436",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2025 Abu Dhabi Grand Prix Oscar Piastri lap 7 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2025 Abu Dhabi Grand Prix Oscar Piastri lap 7 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/latest/article/what-the-teams-said-race-day-in-abu-dhabi-2025.53LuGvgWY8FgAcxWXLZyN9",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2025 Abu Dhabi Grand Prix Oscar Piastri lap 7 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "DISALLOWED",
+          "candidate_url": "https://www.formuladream.app/f1-interactive/tools/team-radio/2025/abu-dhabi-grand-prix/race",
+          "notes": "A matching archive explicitly described its transcripts as speech-recognition output; rejected."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "4df79c5f836cfde079a0",
+      "season": 2025,
+      "event": "Abu Dhabi Grand Prix",
+      "session": "f1:2025:24:race",
+      "driver_id": "f1:YUKTSU01",
+      "driver_display_name": "Yuki Tsunoda",
+      "causal_leader_lap": 20,
+      "provider_timestamp": 5370.942,
+      "recording_timestamp": "20251207_173426",
+      "audio_identifier": "YUKTSU01_22_20251207_173426",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2025 Abu Dhabi Grand Prix Yuki Tsunoda lap 20 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2025 Abu Dhabi Grand Prix Yuki Tsunoda lap 20 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/latest/article/what-the-teams-said-race-day-in-abu-dhabi-2025.53LuGvgWY8FgAcxWXLZyN9",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2025 Abu Dhabi Grand Prix Yuki Tsunoda lap 20 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "DISALLOWED",
+          "candidate_url": "https://www.formuladream.app/f1-interactive/tools/team-radio/2025/abu-dhabi-grand-prix/race",
+          "notes": "A matching archive explicitly described its transcripts as speech-recognition output; rejected."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "a10902306b8f99f9c26a",
+      "season": 2025,
+      "event": "Abu Dhabi Grand Prix",
+      "session": "f1:2025:24:race",
+      "driver_id": "f1:MAXVER01",
+      "driver_display_name": "Max Verstappen",
+      "causal_leader_lap": 33,
+      "provider_timestamp": 6530.428,
+      "recording_timestamp": "20251207_175342",
+      "audio_identifier": "MAXVER01_1_20251207_175342",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2025 Abu Dhabi Grand Prix Max Verstappen lap 33 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "CANDIDATE_FOUND",
+          "candidate_url": "https://www.racefans.net/2025/12/08/norris-vs-verstappen-vs-piastri-full-radio-transcript-from-their-championship-showdown/",
+          "notes": "Editorial lap table contains a literal candidate; exact provider-clip association is unresolved."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2025 Abu Dhabi Grand Prix Max Verstappen lap 33 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/latest/article/what-the-teams-said-race-day-in-abu-dhabi-2025.53LuGvgWY8FgAcxWXLZyN9",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2025 Abu Dhabi Grand Prix Max Verstappen lap 33 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "DISALLOWED",
+          "candidate_url": "https://www.formuladream.app/f1-interactive/tools/team-radio/2025/abu-dhabi-grand-prix/race",
+          "notes": "A matching archive explicitly described its transcripts as speech-recognition output; rejected."
+        }
+      ],
+      "source_name": "RaceFans",
+      "source_url": "https://www.racefans.net/2025/12/08/norris-vs-verstappen-vs-piastri-full-radio-transcript-from-their-championship-showdown/",
+      "source_publication_date": "2025-12-08",
+      "source_retrieved_at": "2026-09-11T15:30:00Z",
+      "source_authorship": "HUMAN_EDITORIAL",
+      "quote_kind": "LITERAL",
+      "recovered_transcript": "Okay, we are now within Piastri\u2019s Safety Car windows, Max.",
+      "source_lap_context": "Lap 33/58; one Max-column message appears at the causal lap.",
+      "clip_coverage": "UNKNOWN",
+      "verification_status": "VERIFIED_LIKELY",
+      "matching_evidence": {
+        "event_match": true,
+        "session_match": true,
+        "driver_match": true,
+        "temporal_match": true,
+        "unique_message_match": false,
+        "evidence": [
+          "same event",
+          "race session",
+          "same driver",
+          "same causal/near lap"
+        ]
+      },
+      "verification_reason": "Same event, race session, driver and lap, but no source timestamp links the quote to the archived MP3.",
+      "confidence_notes": "Requires listening to the original frozen audio before acceptance.",
+      "competing_candidate_references": [],
+      "strategy_critical": true,
+      "requires_human_review": true,
+      "review_status": "PENDING"
+    },
+    {
+      "clip_id": "270e9276bb1642362d98",
+      "season": 2025,
+      "event": "Abu Dhabi Grand Prix",
+      "session": "f1:2025:24:race",
+      "driver_id": "f1:OSCPIA01",
+      "driver_display_name": "Oscar Piastri",
+      "causal_leader_lap": 42,
+      "provider_timestamp": 7265.807,
+      "recording_timestamp": "20251207_180601",
+      "audio_identifier": "OSCPIA01_81_20251207_180601",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2025 Abu Dhabi Grand Prix Oscar Piastri lap 42 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "CANDIDATE_FOUND",
+          "candidate_url": "https://www.racefans.net/2025/12/08/norris-vs-verstappen-vs-piastri-full-radio-transcript-from-their-championship-showdown/",
+          "notes": "Editorial lap table contains a literal candidate; exact provider-clip association is unresolved."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2025 Abu Dhabi Grand Prix Oscar Piastri lap 42 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/latest/article/what-the-teams-said-race-day-in-abu-dhabi-2025.53LuGvgWY8FgAcxWXLZyN9",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2025 Abu Dhabi Grand Prix Oscar Piastri lap 42 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "DISALLOWED",
+          "candidate_url": "https://www.formuladream.app/f1-interactive/tools/team-radio/2025/abu-dhabi-grand-prix/race",
+          "notes": "A matching archive explicitly described its transcripts as speech-recognition output; rejected."
+        }
+      ],
+      "source_name": "RaceFans",
+      "source_url": "https://www.racefans.net/2025/12/08/norris-vs-verstappen-vs-piastri-full-radio-transcript-from-their-championship-showdown/",
+      "source_publication_date": "2025-12-08",
+      "source_retrieved_at": "2026-09-11T15:30:00Z",
+      "source_authorship": "HUMAN_EDITORIAL",
+      "quote_kind": "LITERAL",
+      "recovered_transcript": "Careful into the box, it\u2019s bumpy.",
+      "source_lap_context": "Lap 42/58; Piastri pit sequence contains several messages.",
+      "clip_coverage": "UNKNOWN",
+      "verification_status": "VERIFIED_LIKELY",
+      "matching_evidence": {
+        "event_match": true,
+        "session_match": true,
+        "driver_match": true,
+        "temporal_match": true,
+        "unique_message_match": false,
+        "evidence": [
+          "same event",
+          "race session",
+          "same driver",
+          "same causal/near lap"
+        ]
+      },
+      "verification_reason": "Strong temporal context but multiple Piastri-channel messages make full-clip identity and coverage uncertain.",
+      "confidence_notes": "Requires listening to the original frozen audio before acceptance.",
+      "competing_candidate_references": [],
+      "strategy_critical": true,
+      "requires_human_review": true,
+      "review_status": "PENDING"
+    },
+    {
+      "clip_id": "8fb61c40c51e423dae24",
+      "season": 2025,
+      "event": "Abu Dhabi Grand Prix",
+      "session": "f1:2025:24:race",
+      "driver_id": "f1:OSCPIA01",
+      "driver_display_name": "Oscar Piastri",
+      "causal_leader_lap": 44,
+      "provider_timestamp": 7479.293,
+      "recording_timestamp": "20251207_180918",
+      "audio_identifier": "OSCPIA01_81_20251207_180918",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2025 Abu Dhabi Grand Prix Oscar Piastri lap 44 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": null,
+          "notes": "No complete literal quote could be tied to this exact archived clip."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2025 Abu Dhabi Grand Prix Oscar Piastri lap 44 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/latest/article/what-the-teams-said-race-day-in-abu-dhabi-2025.53LuGvgWY8FgAcxWXLZyN9",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2025 Abu Dhabi Grand Prix Oscar Piastri lap 44 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "DISALLOWED",
+          "candidate_url": "https://www.formuladream.app/f1-interactive/tools/team-radio/2025/abu-dhabi-grand-prix/race",
+          "notes": "A matching archive explicitly described its transcripts as speech-recognition output; rejected."
+        }
+      ],
+      "source_name": null,
+      "source_url": null,
+      "source_publication_date": null,
+      "source_retrieved_at": null,
+      "source_authorship": "UNCLEAR",
+      "quote_kind": "NONE",
+      "recovered_transcript": null,
+      "source_lap_context": null,
+      "clip_coverage": "NONE",
+      "verification_status": "NO_REFERENCE",
+      "matching_evidence": {
+        "event_match": false,
+        "session_match": false,
+        "driver_match": false,
+        "temporal_match": false,
+        "unique_message_match": false,
+        "evidence": []
+      },
+      "verification_reason": "Targeted metadata-only searches found no complete human-written transcript that could be associated with the exact archived clip.",
+      "confidence_notes": "Manual blind listening/transcription remains authoritative.",
+      "competing_candidate_references": [],
+      "strategy_critical": false,
+      "requires_human_review": true,
+      "review_status": "NEEDS_MANUAL_TRANSCRIPTION"
+    },
+    {
+      "clip_id": "58873bfeacf456d1c406",
+      "season": 2025,
+      "event": "Abu Dhabi Grand Prix",
+      "session": "f1:2025:24:race",
+      "driver_id": "f1:LANNOR01",
+      "driver_display_name": "Lando Norris",
+      "causal_leader_lap": 54,
+      "provider_timestamp": 8394.718,
+      "recording_timestamp": "20251207_182444",
+      "audio_identifier": "LANNOR01_4_20251207_182444",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2025 Abu Dhabi Grand Prix Lando Norris lap 54 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "CANDIDATE_FOUND",
+          "candidate_url": "https://www.racefans.net/2025/12/08/norris-vs-verstappen-vs-piastri-full-radio-transcript-from-their-championship-showdown/",
+          "notes": "Editorial lap table contains a literal candidate; exact provider-clip association is unresolved."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2025 Abu Dhabi Grand Prix Lando Norris lap 54 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/latest/article/what-the-teams-said-race-day-in-abu-dhabi-2025.53LuGvgWY8FgAcxWXLZyN9",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2025 Abu Dhabi Grand Prix Lando Norris lap 54 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "DISALLOWED",
+          "candidate_url": "https://www.formuladream.app/f1-interactive/tools/team-radio/2025/abu-dhabi-grand-prix/race",
+          "notes": "A matching archive explicitly described its transcripts as speech-recognition output; rejected."
+        }
+      ],
+      "source_name": "RaceFans",
+      "source_url": "https://www.racefans.net/2025/12/08/norris-vs-verstappen-vs-piastri-full-radio-transcript-from-their-championship-showdown/",
+      "source_publication_date": "2025-12-08",
+      "source_retrieved_at": "2026-09-11T15:30:00Z",
+      "source_authorship": "HUMAN_EDITORIAL",
+      "quote_kind": "LITERAL",
+      "recovered_transcript": "And Leclerc starting to struggle with graining.",
+      "source_lap_context": "Lap 54/58; one Norris-column message appears at the causal lap.",
+      "clip_coverage": "UNKNOWN",
+      "verification_status": "VERIFIED_LIKELY",
+      "matching_evidence": {
+        "event_match": true,
+        "session_match": true,
+        "driver_match": true,
+        "temporal_match": true,
+        "unique_message_match": false,
+        "evidence": [
+          "same event",
+          "race session",
+          "same driver",
+          "same causal/near lap"
+        ]
+      },
+      "verification_reason": "Unique lap-table entry is promising, but the article provides no provider timestamp or audio identifier.",
+      "confidence_notes": "Requires listening to the original frozen audio before acceptance.",
+      "competing_candidate_references": [],
+      "strategy_critical": true,
+      "requires_human_review": true,
+      "review_status": "PENDING"
+    },
+    {
+      "clip_id": "dbb3be6dae4048ad9e94",
+      "season": 2025,
+      "event": "Abu Dhabi Grand Prix",
+      "session": "f1:2025:24:race",
+      "driver_id": "f1:MAXVER01",
+      "driver_display_name": "Max Verstappen",
+      "causal_leader_lap": 58,
+      "provider_timestamp": 8886.836,
+      "recording_timestamp": "20251207_183223",
+      "audio_identifier": "MAXVER01_1_20251207_183223",
+      "searches": [
+        {
+          "source_family": "RACEFANS",
+          "query": "site:racefans.net 2025 Abu Dhabi Grand Prix Max Verstappen lap 58 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "CANDIDATE_FOUND",
+          "candidate_url": "https://www.racefans.net/2025/12/08/norris-vs-verstappen-vs-piastri-full-radio-transcript-from-their-championship-showdown/",
+          "notes": "Editorial lap table contains a literal candidate; exact provider-clip association is unresolved."
+        },
+        {
+          "source_family": "OFFICIAL_F1",
+          "query": "site:formula1.com 2025 Abu Dhabi Grand Prix Max Verstappen lap 58 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "NO_MATCH",
+          "candidate_url": "https://www.formula1.com/en/latest/article/what-the-teams-said-race-day-in-abu-dhabi-2025.53LuGvgWY8FgAcxWXLZyN9",
+          "notes": "Official event material was found, but it did not publish a complete human-written literal transcript for this clip."
+        },
+        {
+          "source_family": "OTHER_REPUTABLE",
+          "query": "reputable motorsport source 2025 Abu Dhabi Grand Prix Max Verstappen lap 58 team radio transcript",
+          "metadata_used": [
+            "season",
+            "event",
+            "session",
+            "driver",
+            "causal leader lap",
+            "recording timestamp"
+          ],
+          "outcome": "DISALLOWED",
+          "candidate_url": "https://www.formuladream.app/f1-interactive/tools/team-radio/2025/abu-dhabi-grand-prix/race",
+          "notes": "A matching archive explicitly described its transcripts as speech-recognition output; rejected."
+        }
+      ],
+      "source_name": "RaceFans",
+      "source_url": "https://www.racefans.net/2025/12/08/norris-vs-verstappen-vs-piastri-full-radio-transcript-from-their-championship-showdown/",
+      "source_publication_date": "2025-12-08",
+      "source_retrieved_at": "2026-09-11T15:30:00Z",
+      "source_authorship": "HUMAN_EDITORIAL",
+      "quote_kind": "LITERAL",
+      "recovered_transcript": "Final lap.",
+      "source_lap_context": "Lap 58/58; source also contains a separate chequered-flag exchange.",
+      "clip_coverage": "UNKNOWN",
+      "verification_status": "VERIFIED_LIKELY",
+      "matching_evidence": {
+        "event_match": true,
+        "session_match": true,
+        "driver_match": true,
+        "temporal_match": true,
+        "unique_message_match": false,
+        "evidence": [
+          "same event",
+          "race session",
+          "same driver",
+          "same causal/near lap"
+        ]
+      },
+      "verification_reason": "Same driver and lap, but the provider clip could correspond to the final-lap or subsequent flag exchange.",
+      "confidence_notes": "Requires listening to the original frozen audio before acceptance.",
+      "competing_candidate_references": [],
+      "strategy_critical": true,
+      "requires_human_review": true,
+      "review_status": "PENDING"
+    }
+  ]
+}
