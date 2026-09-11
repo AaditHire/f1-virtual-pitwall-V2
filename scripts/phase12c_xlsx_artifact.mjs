@@ -168,11 +168,134 @@ async function inspect(inputPath, outputPath) {
   await fs.writeFile(outputPath, JSON.stringify(result));
 }
 
+async function buildSemantic(payloadPath, outputPath, previewDir) {
+  const payload = JSON.parse(await fs.readFile(payloadPath, "utf8"));
+  const workbook = Workbook.create();
+  const reviews = workbook.worksheets.add("Semantic Reviews");
+  const instructions = workbook.worksheets.add("Instructions");
+
+  reviews.showGridLines = false;
+  reviews.freezePanes.freezeRows(1);
+  reviews.getRange("A1:H61").values = [payload.headers, ...payload.rows];
+  reviews.getRange("A1:H61").format.font = { name: "Arial", size: 10, color: "#17212B" };
+  reviews.getRange("A1:H1").format = {
+    fill: "#18242E",
+    font: { name: "Arial", size: 10, bold: true, color: "#FFFFFF" },
+    horizontalAlignment: "center",
+    verticalAlignment: "center",
+    wrapText: true,
+    rowHeight: 34,
+  };
+  reviews.getRange("A2:F61").format.fill = "#F2F4F5";
+  reviews.getRange("A2:F61").format.font = { name: "Arial", size: 10, color: "#43515C" };
+  reviews.getRange("G2:H61").format.fill = "#FFF8D8";
+  reviews.getRange("E2:F61").format.wrapText = true;
+  reviews.getRange("H2:H61").format.wrapText = true;
+  reviews.getRange("A2:H61").format.verticalAlignment = "top";
+  reviews.getRange("A2:H61").format.rowHeight = 66;
+  reviews.getRange("A2:D61").format.horizontalAlignment = "center";
+  reviews.getRange("G2:G61").dataValidation = {
+    rule: { type: "list", values: payload.verdicts },
+  };
+  const widths = [84, 78, 180, 92, 360, 360, 145, 250];
+  widths.forEach((width, index) => {
+    reviews.getRangeByIndexes(0, index, 61, 1).format.columnWidthPx = width;
+  });
+  const table = reviews.tables.add("A1:H61", true, "Phase12CSemanticReviews");
+  table.style = "TableStyleLight9";
+  table.showFilterButton = true;
+
+  instructions.showGridLines = false;
+  instructions.getRange("A1:B9").values = [
+    ["Phase 12C semantic review", null],
+    ["Compare each frozen model transcript with the frozen human reference.", null],
+    [null, null],
+    [1, "Choose SAFE_EQUIVALENT, MINOR_ERROR, or MATERIAL_ERROR for every row."],
+    [2, "Do not edit the Human Reference or ASR Prediction columns. Notes are optional."],
+    [null, null],
+    ["Required review rows", 60],
+    ["Frozen selection SHA-256", payload.selection_hash],
+    ["Semantic review schema version", payload.schema_version],
+  ];
+  instructions.getRange("A1:B9").format.font = { name: "Arial", size: 11, color: "#17212B" };
+  instructions.getRange("A1:B1").format.font = { name: "Arial", size: 16, bold: true, color: "#17212B" };
+  instructions.getRange("A2:B2").format.font = { name: "Arial", size: 10, italic: true, color: "#5D6B75" };
+  instructions.getRange("A4:A5").format = {
+    fill: "#E8EEF2",
+    font: { name: "Arial", size: 10, bold: true, color: "#17212B" },
+    horizontalAlignment: "center",
+  };
+  instructions.getRange("B4:B5").format.wrapText = true;
+  instructions.getRange("A7:A9").format = {
+    fill: "#18242E",
+    font: { name: "Arial", size: 10, bold: true, color: "#FFFFFF" },
+  };
+  instructions.getRange("B7:B9").format.fill = "#F2F4F5";
+  instructions.getRange("A1:A9").format.columnWidthPx = 210;
+  instructions.getRange("B1:B9").format.columnWidthPx = 720;
+  instructions.getRange("A4:B5").format.rowHeight = 34;
+  instructions.getRange("A7:B9").format.rowHeight = 26;
+
+  const reviewCheck = await workbook.inspect({
+    kind: "table",
+    sheetId: "Semantic Reviews",
+    range: "A1:H6",
+    include: "values,formulas",
+    tableMaxRows: 6,
+    tableMaxCols: 8,
+    maxChars: 5000,
+  });
+  const instructionCheck = await workbook.inspect({
+    kind: "table",
+    sheetId: "Instructions",
+    range: "A1:B9",
+    include: "values,formulas",
+    tableMaxRows: 9,
+    tableMaxCols: 2,
+    maxChars: 3000,
+  });
+  const errors = await workbook.inspect({
+    kind: "match",
+    searchTerm: "#REF!|#DIV/0!|#VALUE!|#NAME\\?|#N/A|#NUM!|#NULL!|#SPILL!|#CALC!",
+    options: { useRegex: true, maxResults: 100 },
+    summary: "final formula error scan",
+  });
+  console.log(reviewCheck.ndjson);
+  console.log(instructionCheck.ndjson);
+  console.log(errors.ndjson);
+
+  await fs.mkdir(previewDir, { recursive: true });
+  for (const sheetName of ["Semantic Reviews", "Instructions"]) {
+    const preview = await workbook.render({ sheetName, autoCrop: "all", scale: 1, format: "png" });
+    await fs.writeFile(
+      `${previewDir}/${sheetName.toLowerCase().replaceAll(" ", "-")}.png`,
+      new Uint8Array(await preview.arrayBuffer()),
+    );
+  }
+  const output = await SpreadsheetFile.exportXlsx(workbook);
+  await output.save(outputPath);
+}
+
+async function inspectSemantic(inputPath, outputPath) {
+  const workbook = await SpreadsheetFile.importXlsx(await FileBlob.load(inputPath));
+  const reviews = workbook.worksheets.getItem("Semantic Reviews");
+  const instructions = workbook.worksheets.getItem("Instructions");
+  const result = {
+    review_values: reviews.getRange("A1:H62").values,
+    instructions_values: instructions.getRange("A1:B9").values,
+  };
+  await fs.writeFile(outputPath, JSON.stringify(result));
+}
+
 const [command, first, second, third] = process.argv.slice(2);
 if (command === "build") {
   await build(first, second, third);
+} else if (command === "build-semantic") {
+  await buildSemantic(first, second, third);
 } else if (command === "inspect") {
   await inspect(first, second);
+} else if (command === "inspect-semantic") {
+  await inspectSemantic(first, second);
 } else if (command === "render") {
   await render(first, second);
 } else {

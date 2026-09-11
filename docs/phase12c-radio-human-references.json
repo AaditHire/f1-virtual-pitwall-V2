@@ -1,5 +1,336 @@
 {
   "schema_version": "1.0",
   "selection_hash": "111cb5264152d0ba1875363894e9b6c018b4f384cefd75ba03bbca129676c131",
-  "annotations": {}
+  "annotations": {
+    "a4b32135bee93aff528d": {
+      "clip_id": "a4b32135bee93aff528d",
+      "reference_transcript": "And Daniel Wind feedback We've seen 30kph tailwind Braking for turn 13, so strength a little higher than qualifying.",
+      "usability": "CLEAR",
+      "speaker_type": "ENGINEER",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.667570Z"
+    },
+    "e379bf084fef0c643829": {
+      "clip_id": "e379bf084fef0c643829",
+      "reference_transcript": "Okay, make sure pit limiter is on Keep the pit limiter until the line And remember, mode rates start before the start Have fun.",
+      "usability": "CLEAR",
+      "speaker_type": "ENGINEER",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.667570Z"
+    },
+    "1cf6244e289cf4991d69": {
+      "clip_id": "1cf6244e289cf4991d69",
+      "reference_transcript": "So verstappen ahead has got a problem with the diff everything to play with Come on, Valtteri.",
+      "usability": "CLEAR",
+      "speaker_type": "ENGINEER",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.667570Z"
+    },
+    "935cfc6715c26d86b3b7": {
+      "clip_id": "935cfc6715c26d86b3b7",
+      "reference_transcript": "My base Base is still good.",
+      "usability": "CLEAR",
+      "speaker_type": "MIXED",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.667570Z"
+    },
+    "001f755456fb4a3ffaa1": {
+      "clip_id": "001f755456fb4a3ffaa1",
+      "reference_transcript": "How are the tires? How are the tires? Yeah, I can hear you  lando minor Everything is fine from my side understood I guess our rear tires just a general drop up and lap time.",
+      "usability": "CLEAR",
+      "speaker_type": "MIXED",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.667570Z"
+    },
+    "65176951b41734010473": {
+      "clip_id": "65176951b41734010473",
+      "reference_transcript": "The deployment issue seems quite big. Yeah, copy that, Fernando.We are aware. Unfortunately, nothing we can do.Let's keep pushing.",
+      "usability": "CLEAR",
+      "speaker_type": "MIXED",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.667570Z"
+    },
+    "b4504c321116794ed3bb": {
+      "clip_id": "b4504c321116794ed3bb",
+      "reference_transcript": "Okay, Hamilton, last lap. 34 9 34 9",
+      "usability": "CLEAR",
+      "speaker_type": "ENGINEER",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.667570Z"
+    },
+    "05dd996c421ffc8b7786": {
+      "clip_id": "05dd996c421ffc8b7786",
+      "reference_transcript": "yuki stroll 5.6 to the front we are gonna catch him 2 laps to the end so keep pushing we get him",
+      "usability": "CLEAR",
+      "speaker_type": "ENGINEER",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.667570Z"
+    },
+    "ec52b364072158e403a3": {
+      "clip_id": "ec52b364072158e403a3",
+      "reference_transcript": "Good job, Antonio. Especially on the management side. We finished P12. kimi P11,and the top three. Hamilton one verstappen second and bottas pc. Copy.Drive offline, please. Sorry.Drive offline, please.",
+      "usability": "CLEAR",
+      "speaker_type": "MIXED",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.667570Z"
+    },
+    "310beefb2cff2aedd802": {
+      "clip_id": "310beefb2cff2aedd802",
+      "reference_transcript": "Fantastic recovery there, Checo. That's fantastic.Yeah.Considering how we started the race, at least we got some good points there.Great recovery, Checo.Very, very strong drive.Well done.Nice start. I'm sorry max didnt won the race. Good start . And it will get only better from now",
+      "usability": "CLEAR",
+      "speaker_type": "MIXED",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.667570Z"
+    },
+    "60ff02552550ceacdd14": {
+      "clip_id": "60ff02552550ceacdd14",
+      "reference_transcript": "[inaudible just a beep]",
+      "usability": "UNUSABLE",
+      "speaker_type": "UNKNOWN",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.668570Z"
+    },
+    "070ec2cab07ac3b116f2": {
+      "clip_id": "070ec2cab07ac3b116f2",
+      "reference_transcript": "ok Pierre Front wing looks okay from our side.",
+      "usability": "CLEAR",
+      "speaker_type": "ENGINEER",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.668570Z"
+    },
+    "b1c56a1f4f165175213b": {
+      "clip_id": "b1c56a1f4f165175213b",
+      "reference_transcript": "pace is good.You're faster than Lando and the Ferraris ahead.",
+      "usability": "CLEAR",
+      "speaker_type": "ENGINEER",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.668570Z"
+    },
+    "4ce87c430c63376d8bb4": {
+      "clip_id": "4ce87c430c63376d8bb4",
+      "reference_transcript": "Guys.You need to advise me what to do.[gibberish].You ever eaten?",
+      "usability": "CLEAR",
+      "speaker_type": "DRIVER",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.668570Z"
+    },
+    "202806d2e08329702a94": {
+      "clip_id": "202806d2e08329702a94",
+      "reference_transcript": "does it pay for max",
+      "usability": "CLEAR",
+      "speaker_type": "DRIVER",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.668570Z"
+    },
+    "bdb53de0cb61662f0801": {
+      "clip_id": "bdb53de0cb61662f0801",
+      "reference_transcript": "Okay, Lando, suggest then if I get ahead, I'll be able to push a lot more.I just can't interstate yet.Okay, suggest red A11 then.red A11",
+      "usability": "CLEAR",
+      "speaker_type": "MIXED",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.668570Z"
+    },
+    "01d1686be3a2f9127bca": {
+      "clip_id": "01d1686be3a2f9127bca",
+      "reference_transcript": "Can we try and let him through before turn four?And then he's got Tsunoda 1.2 behind.",
+      "usability": "CLEAR",
+      "speaker_type": "ENGINEER",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.668570Z"
+    },
+    "3f178622c44fe5af07c2": {
+      "clip_id": "3f178622c44fe5af07c2",
+      "reference_transcript": "Drop it off.",
+      "usability": "CLEAR",
+      "speaker_type": "MIXED",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.668570Z"
+    },
+    "627f97ccf0d5a7fb5ac9": {
+      "clip_id": "627f97ccf0d5a7fb5ac9",
+      "reference_transcript": "You drove very well today, Alex.We.We didn't give you the car you needed there.Well done for juggling, really.Frankly, a number of issues in the race.We're going to get that right next week, come back, the car isn't bad.We're just going to give you a proper package to work with.",
+      "usability": "CLEAR",
+      "speaker_type": "ENGINEER",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.668570Z"
+    },
+    "db5ddd59bc986b6f80c1": {
+      "clip_id": "db5ddd59bc986b6f80c1",
+      "reference_transcript": "Yeah, tough luck.",
+      "usability": "CLEAR",
+      "speaker_type": "DRIVER",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.668570Z"
+    },
+    "8bcc172f800623c510a4": {
+      "clip_id": "8bcc172f800623c510a4",
+      "reference_transcript": "Sunset, sunspurt bright.It'll be just after 5:30.",
+      "usability": "CLEAR",
+      "speaker_type": "MIXED",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.668570Z"
+    },
+    "1b43ac3bb8e7475fb7c6": {
+      "clip_id": "1b43ac3bb8e7475fb7c6",
+      "reference_transcript": "[nothing]",
+      "usability": "UNUSABLE",
+      "speaker_type": "UNKNOWN",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.668570Z"
+    },
+    "5bbfc3b54b34c8ee7635": {
+      "clip_id": "5bbfc3b54b34c8ee7635",
+      "reference_transcript": "alright lando we are Happy with this as long as you're comfortable.This would be plan a target lap.Plan a target lap.",
+      "usability": "CLEAR",
+      "speaker_type": "ENGINEER",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.668570Z"
+    },
+    "ae858548b54923d2291b": {
+      "clip_id": "ae858548b54923d2291b",
+      "reference_transcript": "See if we can start putting Verstappen under pressure.",
+      "usability": "CLEAR",
+      "speaker_type": "ENGINEER",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.668570Z"
+    },
+    "4df79c5f836cfde079a0": {
+      "clip_id": "4df79c5f836cfde079a0",
+      "reference_transcript": "Okay, we expect Norris to be in your Drs within one lap, or you can when he catches.",
+      "usability": "CLEAR",
+      "speaker_type": "ENGINEER",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.668570Z"
+    },
+    "a10902306b8f99f9c26a": {
+      "clip_id": "a10902306b8f99f9c26a",
+      "reference_transcript": "Basically, we need our fastest stint till the end, Max.\nWe don't want to give away too much race time to Piastri, who will undoubtedly be relatively quick on his medium.",
+      "usability": "CLEAR",
+      "speaker_type": "ENGINEER",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.668570Z"
+    },
+    "270e9276bb1642362d98": {
+      "clip_id": "270e9276bb1642362d98",
+      "reference_transcript": "I don't want to be giving up too much time.\nWe want to see whether we can chase down Verstappen here.",
+      "usability": "CLEAR",
+      "speaker_type": "ENGINEER",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.668570Z"
+    },
+    "8fb61c40c51e423dae24": {
+      "clip_id": "8fb61c40c51e423dae24",
+      "reference_transcript": "What's the picture in front? How do I win this race? So Verstappen is on your pit stop window. He's doing 27 9.",
+      "usability": "CLEAR",
+      "speaker_type": "MIXED",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.668570Z"
+    },
+    "58873bfeacf456d1c406": {
+      "clip_id": "58873bfeacf456d1c406",
+      "reference_transcript": "Is he struggling with graining? \nFor Oscar, it's more the rares.",
+      "usability": "CLEAR",
+      "speaker_type": "MIXED",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.668570Z"
+    },
+    "dbb3be6dae4048ad9e94": {
+      "clip_id": "dbb3be6dae4048ad9e94",
+      "reference_transcript": "Max, you have given everything. You can be proud of that, mate. \nHold your head up high.4\nWe showed that one final time in this class.\nCongratulations, guys.\nWhat  a come back in that second half of this season, we can be really, really proud of that. So don't be too disappointed.\nI'm definitely not disappointed.\nI'm really proud of everyone who never give up.",
+      "usability": "CLEAR",
+      "speaker_type": "MIXED",
+      "critical_terms": [],
+      "notes": "",
+      "complete": true,
+      "annotation_source": "human",
+      "updated_at": "2026-09-11T18:58:08.668570Z"
+    }
+  }
 }

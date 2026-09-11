@@ -8,7 +8,7 @@ from unittest.mock import patch
 import pytest
 
 from scripts.export_phase12c_annotation_xlsx import create_annotation_pack
-from scripts.phase12c_benchmark import IncompleteAnnotations, ReferenceDataset, validate_complete
+from scripts.phase12c_benchmark import ReferenceDataset, validate_complete
 from scripts.phase12c_xlsx import (
     EXPECTED_SELECTION_HASH,
     FORBIDDEN_WORKBOOK_TEXT,
@@ -215,8 +215,8 @@ def test_canonical_overwrite_protection_remains_active(exported_workbook):
                 )
 
 
-def test_existing_evaluator_remains_blocked_before_complete_import():
+def test_existing_evaluator_accepts_complete_human_import_but_semantic_reviews_remain_separate():
     manifest = load_frozen_manifest()
     references = ReferenceDataset.model_validate_json(REFERENCE_PATH.read_text(encoding="utf-8"))
-    with pytest.raises(IncompleteAnnotations, match="30 human reference"):
-        validate_complete(manifest, references)
+    validate_complete(manifest, references)
+    assert len(references.annotations) == 30

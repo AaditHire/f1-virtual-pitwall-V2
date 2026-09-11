@@ -7,4 +7,6 @@ __pycache__/
 acceptance-output.json
 .cache/
 outputs/phase12c_annotation_pack/
+outputs/phase12c_semantic_review/
+docs/phase12c-radio-human-references.json.bak
 replay-output.json
