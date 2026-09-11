@@ -234,7 +234,7 @@ STATUS: COMPLETE — CONDITIONAL GO; HUMAN TRANSCRIPT BENCHMARK REQUIRED
 
 ## Phase 12C — Human Transcript Benchmark
 
-STATUS: HUMAN REFERENCES COMPLETE; PAUSED FOR XLSX SEMANTIC REVIEW
+STATUS: COMPLETE — NO-GO FOR UNGATED AUTOMATED RADIO INTELLIGENCE
 
 - The exact 30 Phase 12B clips are frozen in a versioned manifest with selection SHA-256
   `111cb5264152d0ba1875363894e9b6c018b4f384cefd75ba03bbca129676c131`; an existing manifest
@@ -244,8 +244,8 @@ STATUS: HUMAN REFERENCES COMPLETE; PAUSED FOR XLSX SEMANTIC REVIEW
 - Human references and post-reference human semantic reviews are separate from the unchanged Phase
   12B predictions. Strict schemas reject ASR fields and require `annotation_source: human`.
 - Deterministic WER, CER, `[inaudible]` handling, human-labelled critical-term recovery and evaluation
-  assembly are implemented. All 30 genuine human references were imported through the protected XLSX
-  workflow; evaluation remains blocked until 60 human semantic comparisons exist.
+  assembly are implemented. All 30 genuine human references and all 60 human semantic comparisons
+  were imported through protected XLSX workflows. Repeat imports remain overwrite-protected.
 - A metadata-only external-reference recovery pass researched all 30 clips without parsing or using
   ASR content. RaceFans yielded four `VERIFIED_LIKELY` human-editorial candidates; provider-message
   identity and full-clip coverage were not strong enough for `VERIFIED_EXACT`. All four are
@@ -262,13 +262,17 @@ STATUS: HUMAN REFERENCES COMPLETE; PAUSED FOR XLSX SEMANTIC REVIEW
   exact clip order, immutable metadata, local audio formulas and human fields, then requires an
   explicit `--confirm-import` before using the existing protected canonical-reference mechanism.
   Incomplete workbooks and silent overwrites are refused.
-- Canonical reference progress is 30/30. The preferred next step is the separate 60-row XLSX semantic
-  review workbook, which shows each frozen human reference beside each frozen `small.en` or `medium.en`
-  prediction and accepts only `SAFE_EQUIVALENT`, `MINOR_ERROR`, or `MATERIAL_ERROR`. It protects both
-  source-text columns and requires an explicit confirmed import. No accuracy metrics or GO/NO-GO claim
-  is available until those reviews are complete. Guide:
+- Final corpus WER/CER is 24.37%/15.97% for `small.en` and 21.85%/13.96% for `medium.en`.
+  Human `MATERIAL_ERROR` rates are 70.00% and 43.33%, respectively. Existing confidence flags recall
+  only 14.29% and 30.77% of those material errors. Both models hallucinated speech on both `UNUSABLE`
+  clips. The human workbook contains zero labelled critical terms, so the existing keyword-accuracy
+  denominator is zero and no keyword rate is reported.
+- Phase 12C concludes **NO-GO for automated downstream radio intelligence with the current models and
+  diagnostics**. `medium.en` is the stronger offline research candidate, but neither model is safe
+  without rejection and human-review controls. Phase 12D has not started. Guide:
   `docs/phase12c-annotation-guide.md`; benchmark status: `docs/phase12c-human-benchmark.md`; recovery
-  report: `docs/phase12c-transcript-recovery.md`.
+  report: `docs/phase12c-transcript-recovery.md`; machine-readable evaluation:
+  `docs/phase12c-radio-evaluation.json`; descriptive summary: `docs/phase12c-radio-summary.json`.
 
 Preferred commands:
 

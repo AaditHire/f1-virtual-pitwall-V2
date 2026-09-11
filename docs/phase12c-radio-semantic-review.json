@@ -1,5 +1,486 @@
 {
   "schema_version": "1.0",
   "selection_hash": "111cb5264152d0ba1875363894e9b6c018b4f384cefd75ba03bbca129676c131",
-  "reviews": {}
+  "reviews": {
+    "a4b32135bee93aff528d": {
+      "small.en": {
+        "clip_id": "a4b32135bee93aff528d",
+        "model_id": "small.en",
+        "label": "SAFE_EQUIVALENT",
+        "notes": "",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "a4b32135bee93aff528d",
+        "model_id": "medium.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "Driver name 'Daniel' lost/garbled to 'down your' - loses who is being addressed.",
+        "reviewer_source": "human"
+      }
+    },
+    "e379bf084fef0c643829": {
+      "small.en": {
+        "clip_id": "e379bf084fef0c643829",
+        "model_id": "small.en",
+        "label": "MINOR_ERROR",
+        "notes": "",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "e379bf084fef0c643829",
+        "model_id": "medium.en",
+        "label": "MINOR_ERROR",
+        "notes": "",
+        "reviewer_source": "human"
+      }
+    },
+    "1cf6244e289cf4991d69": {
+      "small.en": {
+        "clip_id": "1cf6244e289cf4991d69",
+        "model_id": "small.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "'Verstappen' replaced by unrelated 'the stopping' - driver identity lost.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "1cf6244e289cf4991d69",
+        "model_id": "medium.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "'Verstappen' replaced by unrelated 'the snapping' - driver identity lost.",
+        "reviewer_source": "human"
+      }
+    },
+    "935cfc6715c26d86b3b7": {
+      "small.en": {
+        "clip_id": "935cfc6715c26d86b3b7",
+        "model_id": "small.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "'base' -> 'face' is a different word, not a homophone.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "935cfc6715c26d86b3b7",
+        "model_id": "medium.en",
+        "label": "SAFE_EQUIVALENT",
+        "notes": "'base' -> 'bass' - homophone, same sound/meaning as reference.",
+        "reviewer_source": "human"
+      }
+    },
+    "001f755456fb4a3ffaa1": {
+      "small.en": {
+        "clip_id": "001f755456fb4a3ffaa1",
+        "model_id": "small.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "Negation flip: 'I can hear you' -> 'I can't hear you'.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "001f755456fb4a3ffaa1",
+        "model_id": "medium.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "Negation flip: 'I can hear you' -> 'I can't hear you'.",
+        "reviewer_source": "human"
+      }
+    },
+    "65176951b41734010473": {
+      "small.en": {
+        "clip_id": "65176951b41734010473",
+        "model_id": "small.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "Driver name 'Fernando' dropped and replaced with 'for now'.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "65176951b41734010473",
+        "model_id": "medium.en",
+        "label": "SAFE_EQUIVALENT",
+        "notes": "",
+        "reviewer_source": "human"
+      }
+    },
+    "b4504c321116794ed3bb": {
+      "small.en": {
+        "clip_id": "b4504c321116794ed3bb",
+        "model_id": "small.en",
+        "label": "SAFE_EQUIVALENT",
+        "notes": "",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "b4504c321116794ed3bb",
+        "model_id": "medium.en",
+        "label": "SAFE_EQUIVALENT",
+        "notes": "",
+        "reviewer_source": "human"
+      }
+    },
+    "05dd996c421ffc8b7786": {
+      "small.en": {
+        "clip_id": "05dd996c421ffc8b7786",
+        "model_id": "small.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "Driver name 'Yuki' lost, replaced with 'You can'.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "05dd996c421ffc8b7786",
+        "model_id": "medium.en",
+        "label": "MINOR_ERROR",
+        "notes": "'Yuki' -> 'Joki' is a recognizable mispronunciation, no ambiguity given 'Stroll' follows.",
+        "reviewer_source": "human"
+      }
+    },
+    "ec52b364072158e403a3": {
+      "small.en": {
+        "clip_id": "ec52b364072158e403a3",
+        "model_id": "small.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "Driver names 'Hamilton'/'Verstappen' and finishing order garbled.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "ec52b364072158e403a3",
+        "model_id": "medium.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "Driver names 'Hamilton'/'Verstappen' and finishing order garbled.",
+        "reviewer_source": "human"
+      }
+    },
+    "310beefb2cff2aedd802": {
+      "small.en": {
+        "clip_id": "310beefb2cff2aedd802",
+        "model_id": "small.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "'didn't win the race' -> 'didn't want the race' changes the factual claim; also adds unhallucinated line.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "310beefb2cff2aedd802",
+        "model_id": "medium.en",
+        "label": "MINOR_ERROR",
+        "notes": "Core facts (Checo recovery, Max didn't win) preserved; one extra unhallucinated-feeling filler line added.",
+        "reviewer_source": "human"
+      }
+    },
+    "60ff02552550ceacdd14": {
+      "small.en": {
+        "clip_id": "60ff02552550ceacdd14",
+        "model_id": "small.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "Hallucinated 'You' where clip is inaudible/just a beep.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "60ff02552550ceacdd14",
+        "model_id": "medium.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "Hallucinated 'You' where clip is inaudible/just a beep.",
+        "reviewer_source": "human"
+      }
+    },
+    "070ec2cab07ac3b116f2": {
+      "small.en": {
+        "clip_id": "070ec2cab07ac3b116f2",
+        "model_id": "small.en",
+        "label": "SAFE_EQUIVALENT",
+        "notes": "",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "070ec2cab07ac3b116f2",
+        "model_id": "medium.en",
+        "label": "SAFE_EQUIVALENT",
+        "notes": "",
+        "reviewer_source": "human"
+      }
+    },
+    "b1c56a1f4f165175213b": {
+      "small.en": {
+        "clip_id": "b1c56a1f4f165175213b",
+        "model_id": "small.en",
+        "label": "MINOR_ERROR",
+        "notes": "Adds name 'Oscar' not in reference; plausible given context, non-contradictory.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "b1c56a1f4f165175213b",
+        "model_id": "medium.en",
+        "label": "MINOR_ERROR",
+        "notes": "Adds name 'Oscar' not in reference; plausible given context, non-contradictory.",
+        "reviewer_source": "human"
+      }
+    },
+    "4ce87c430c63376d8bb4": {
+      "small.en": {
+        "clip_id": "4ce87c430c63376d8bb4",
+        "model_id": "small.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "Reference marks this segment '[gibberish]' (unclear); ASR fabricated coherent-sounding content.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "4ce87c430c63376d8bb4",
+        "model_id": "medium.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "Reference marks this segment '[gibberish]' (unclear); ASR fabricated coherent-sounding content.",
+        "reviewer_source": "human"
+      }
+    },
+    "202806d2e08329702a94": {
+      "small.en": {
+        "clip_id": "202806d2e08329702a94",
+        "model_id": "small.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "Completely different sentence content from reference.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "202806d2e08329702a94",
+        "model_id": "medium.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "Changes from a question about payoff to a statement of obligation - different meaning.",
+        "reviewer_source": "human"
+      }
+    },
+    "bdb53de0cb61662f0801": {
+      "small.en": {
+        "clip_id": "bdb53de0cb61662f0801",
+        "model_id": "small.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "Negation flip: 'I'll be able to push more' -> 'I won't be able to pitch more'.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "bdb53de0cb61662f0801",
+        "model_id": "medium.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "Strategy code 'red A11' rendered as 'Red Air 11' - a different-looking instruction code.",
+        "reviewer_source": "human"
+      }
+    },
+    "01d1686be3a2f9127bca": {
+      "small.en": {
+        "clip_id": "01d1686be3a2f9127bca",
+        "model_id": "small.en",
+        "label": "MINOR_ERROR",
+        "notes": "'Tsunoda' -> 'Sonoda' recognizable, unambiguous mispronunciation.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "01d1686be3a2f9127bca",
+        "model_id": "medium.en",
+        "label": "MINOR_ERROR",
+        "notes": "'Tsunoda' -> 'Sonoda' recognizable, unambiguous mispronunciation.",
+        "reviewer_source": "human"
+      }
+    },
+    "3f178622c44fe5af07c2": {
+      "small.en": {
+        "clip_id": "3f178622c44fe5af07c2",
+        "model_id": "small.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "'Drop it off' vs 'Jumping off' are different instructions/actions.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "3f178622c44fe5af07c2",
+        "model_id": "medium.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "'Drop it off' vs 'Jumping off' are different instructions/actions.",
+        "reviewer_source": "human"
+      }
+    },
+    "627f97ccf0d5a7fb5ac9": {
+      "small.en": {
+        "clip_id": "627f97ccf0d5a7fb5ac9",
+        "model_id": "small.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "Driver name 'Alex' misidentified as 'Joe'.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "627f97ccf0d5a7fb5ac9",
+        "model_id": "medium.en",
+        "label": "MINOR_ERROR",
+        "notes": "Driver name 'Alex' dropped and replaced with pronoun 'He' - no false name given, rest of message intact.",
+        "reviewer_source": "human"
+      }
+    },
+    "db5ddd59bc986b6f80c1": {
+      "small.en": {
+        "clip_id": "db5ddd59bc986b6f80c1",
+        "model_id": "small.en",
+        "label": "SAFE_EQUIVALENT",
+        "notes": "",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "db5ddd59bc986b6f80c1",
+        "model_id": "medium.en",
+        "label": "SAFE_EQUIVALENT",
+        "notes": "",
+        "reviewer_source": "human"
+      }
+    },
+    "8bcc172f800623c510a4": {
+      "small.en": {
+        "clip_id": "8bcc172f800623c510a4",
+        "model_id": "small.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "Drops 'Sunset, sunspurt bright' entirely and changes subject 'It'll' -> 'We'll'.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "8bcc172f800623c510a4",
+        "model_id": "medium.en",
+        "label": "MINOR_ERROR",
+        "notes": "Garbled preamble, but the operative fact (time, 5:30) is preserved correctly.",
+        "reviewer_source": "human"
+      }
+    },
+    "1b43ac3bb8e7475fb7c6": {
+      "small.en": {
+        "clip_id": "1b43ac3bb8e7475fb7c6",
+        "model_id": "small.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "Hallucinated 'You' where reference is '[nothing]'.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "1b43ac3bb8e7475fb7c6",
+        "model_id": "medium.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "Hallucinated 'Thank you' where reference is '[nothing]'.",
+        "reviewer_source": "human"
+      }
+    },
+    "5bbfc3b54b34c8ee7635": {
+      "small.en": {
+        "clip_id": "5bbfc3b54b34c8ee7635",
+        "model_id": "small.en",
+        "label": "MINOR_ERROR",
+        "notes": "Driver name 'Lando' dropped; rest of instruction (plan A target lap) preserved correctly.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "5bbfc3b54b34c8ee7635",
+        "model_id": "medium.en",
+        "label": "MINOR_ERROR",
+        "notes": "Driver name 'Lando' dropped; rest of instruction (plan A target lap) preserved correctly.",
+        "reviewer_source": "human"
+      }
+    },
+    "ae858548b54923d2291b": {
+      "small.en": {
+        "clip_id": "ae858548b54923d2291b",
+        "model_id": "small.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "'Verstappen' replaced by garbled 'this dappen'.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "ae858548b54923d2291b",
+        "model_id": "medium.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "'Verstappen' replaced by garbled 'this up and'.",
+        "reviewer_source": "human"
+      }
+    },
+    "4df79c5f836cfde079a0": {
+      "small.en": {
+        "clip_id": "4df79c5f836cfde079a0",
+        "model_id": "small.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "'Norris'/'DRS' -> 'Norse'/'dearest' - classic ambiguous-sounding material error.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "4df79c5f836cfde079a0",
+        "model_id": "medium.en",
+        "label": "MINOR_ERROR",
+        "notes": "'Norris' and 'DRS' both correctly transcribed here; only a small connective word changes ('or'->'All').",
+        "reviewer_source": "human"
+      }
+    },
+    "a10902306b8f99f9c26a": {
+      "small.en": {
+        "clip_id": "a10902306b8f99f9c26a",
+        "model_id": "small.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "'fastest stint' -> 'fast system' changes a specific strategy term.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "a10902306b8f99f9c26a",
+        "model_id": "medium.en",
+        "label": "SAFE_EQUIVALENT",
+        "notes": "",
+        "reviewer_source": "human"
+      }
+    },
+    "270e9276bb1642362d98": {
+      "small.en": {
+        "clip_id": "270e9276bb1642362d98",
+        "model_id": "small.en",
+        "label": "SAFE_EQUIVALENT",
+        "notes": "",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "270e9276bb1642362d98",
+        "model_id": "medium.en",
+        "label": "SAFE_EQUIVALENT",
+        "notes": "",
+        "reviewer_source": "human"
+      }
+    },
+    "8fb61c40c51e423dae24": {
+      "small.en": {
+        "clip_id": "8fb61c40c51e423dae24",
+        "model_id": "small.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "'Verstappen' replaced by 'The staff'.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "8fb61c40c51e423dae24",
+        "model_id": "medium.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "'Verstappen' replaced by 'Stefan' - a different, specific wrong name.",
+        "reviewer_source": "human"
+      }
+    },
+    "58873bfeacf456d1c406": {
+      "small.en": {
+        "clip_id": "58873bfeacf456d1c406",
+        "model_id": "small.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "'graining' (tyre term) -> 'grading' changes a specific technical term.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "58873bfeacf456d1c406",
+        "model_id": "medium.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "'graining' (tyre term) -> 'Brady' (a name) - technical term lost entirely.",
+        "reviewer_source": "human"
+      }
+    },
+    "dbb3be6dae4048ad9e94": {
+      "small.en": {
+        "clip_id": "dbb3be6dae4048ad9e94",
+        "model_id": "small.en",
+        "label": "MATERIAL_ERROR",
+        "notes": "Negation flip: 'don't be too disappointed' -> 'I'm being disappointed', which even contradicts the next sentence.",
+        "reviewer_source": "human"
+      },
+      "medium.en": {
+        "clip_id": "dbb3be6dae4048ad9e94",
+        "model_id": "medium.en",
+        "label": "MINOR_ERROR",
+        "notes": "Negation correctly preserved ('don't be disappointed'); middle section loosely paraphrased but no operational facts, names, or numbers change.",
+        "reviewer_source": "human"
+      }
+    }
+  }
 }
