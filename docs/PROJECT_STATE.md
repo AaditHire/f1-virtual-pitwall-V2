@@ -179,3 +179,15 @@ STATUS: COMPLETE
 - `LIVE_AVAILABLE`, `DELAYED_AVAILABLE`, `HISTORICAL_ONLY` and `UNAVAILABLE` remain backend-authoritative. Delayed RaceState stays usable with amber freshness context; retained secondary analysis is explicitly marked stale and cannot appear fresher than its RaceState.
 - Timing remains independently available when engineering or strategy fails. Mobile view tabs preserve intentional timing-grid scrolling while avoiding page-level overflow.
 - No backend route, model, threshold, infrastructure or production fixture was added for Phase 10A.
+
+## Phase 11A — Pre-Race Simulation Research
+
+STATUS: COMPLETE — NO-GO FOR PHASE 11B
+
+- The isolated study uses 35 cached FastF1 race archives plus Jolpica grid/qualifying/results metadata: 17 races / 339 driver rows for 2021–2023 training, 7 / 140 for 2024 development, and 11 / 219 for the untouched 2025 holdout.
+- The pre-race boundary permits grid, qualifying, identity/circuit and strictly-prior event aggregates. Target-race laps, pace, stints, stops, weather, incidents and results are labels only. Focused tests verify target and same-event labels cannot enter features.
+- Starting grid beat every finishing-rank candidate on development (2.214 vs best-model 2.371 position MAE). The selected Ridge model narrowly improved holdout MAE (3.425 to 3.342) but failed the required cross-period generalization gate.
+- Circuit-history baselines beat the tested models for finishing bands, first-stop timing, strategy family and incident/survival. Pit-stop count improved only on holdout, not development. No target beat its baseline on both splits.
+- First-stop uncertainty was too broad to be useful (development-calibrated 80% half-width about 17.7 laps); finishing-rank intervals also under-covered (72.1% holdout coverage for a nominal 80% interval).
+- Phase 11B is not justified by current evidence. No simulator, model artifact, production service, API, frontend integration or tactical-kernel change was added.
+- Full report: `docs/phase11a-pre-race-research.md`; machine-readable metrics: `docs/phase11a-pre-race-research.json`.

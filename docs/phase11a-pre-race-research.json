@@ -1,0 +1,547 @@
+{
+  "phase": "11A",
+  "status": "RESEARCH_ONLY",
+  "architecture_constraint": "No target-race laps and no Phase 5 tactical-kernel rollout",
+  "dataset": {
+    "events": {
+      "train": 17,
+      "development": 7,
+      "holdout": 11,
+      "total": 35
+    },
+    "driver_rows": {
+      "train": 339,
+      "development": 140,
+      "holdout": 219,
+      "total": 698
+    },
+    "years": {
+      "train": "2021-2023",
+      "development": "2024",
+      "holdout": "2025"
+    },
+    "holdout_policy": "Model/parameter choice used development only; 2025 was not used in selection and was evaluated after choices were frozen.",
+    "feature_coverage": {
+      "grid": 1.0,
+      "qualifying_position": 0.998567335243553,
+      "qualifying_gap_seconds": 0.9928366762177651,
+      "grid_penalty_delta": 1.0
+    },
+    "target_coverage": {
+      "finishing_rank_and_band": {
+        "train": 1.0,
+        "development": 1.0,
+        "holdout": 1.0
+      },
+      "incident_survival": {
+        "train": 1.0,
+        "development": 1.0,
+        "holdout": 1.0
+      },
+      "classified_pit_targets": {
+        "train": 0.8584070796460177,
+        "development": 0.9214285714285714,
+        "holdout": 0.8721461187214612
+      }
+    }
+  },
+  "features": {
+    "numeric": [
+      "grid",
+      "qualifying_position",
+      "qualifying_gap_seconds",
+      "qualifying_phase",
+      "grid_penalty_delta",
+      "season_starts",
+      "season_mean_finish",
+      "season_points_per_start",
+      "driver_prior_starts",
+      "driver_prior_mean_finish",
+      "driver_recent3_finish",
+      "driver_prior_mean_net_gain",
+      "driver_prior_dnf_rate",
+      "driver_prior_stop_mean",
+      "driver_prior_first_stop_ratio",
+      "team_prior_starts",
+      "team_prior_mean_finish",
+      "team_prior_mean_net_gain",
+      "team_prior_dnf_rate",
+      "team_prior_stop_mean",
+      "circuit_prior_races",
+      "circuit_prior_stop_mean",
+      "circuit_prior_first_stop_ratio"
+    ],
+    "categorical": [
+      "driver_id",
+      "constructor_id",
+      "circuit_id"
+    ]
+  },
+  "leakage_audit": {
+    "passed": true,
+    "forbidden_model_features": [],
+    "missing_model_features": [],
+    "chronological_violations": 0,
+    "boundary": "target-race information available before scheduled race start"
+  },
+  "targets": {
+    "finishing_rank": {
+      "selected": "ridge_100",
+      "development_candidates": {
+        "ridge_0.1": 3.1857142857142855,
+        "ridge_1": 2.9857142857142858,
+        "ridge_10": 2.757142857142857,
+        "ridge_100": 2.3714285714285714,
+        "gbr_depth_2": 2.6714285714285713,
+        "gbr_depth_3": 2.914285714285714
+      },
+      "sample_count": {
+        "train": 339,
+        "development": 140,
+        "holdout": 219
+      },
+      "development": {
+        "starting_grid_baseline": {
+          "mae_positions": 2.2142857142857144,
+          "median_absolute_error_positions": 2.0,
+          "mean_event_rank_correlation": 0.8519871106337271,
+          "pairwise_accuracy": 0.8511278195488722
+        },
+        "recent_three_race_baseline": {
+          "mae_positions": 3.4857142857142858,
+          "median_absolute_error_positions": 3.0,
+          "mean_event_rank_correlation": 0.677765843179377,
+          "pairwise_accuracy": 0.7541353383458647
+        },
+        "season_form_baseline": {
+          "mae_positions": 3.2714285714285714,
+          "median_absolute_error_positions": 2.5,
+          "mean_event_rank_correlation": 0.7194414607948442,
+          "pairwise_accuracy": 0.7736842105263158
+        },
+        "model": {
+          "mae_positions": 2.3714285714285714,
+          "median_absolute_error_positions": 2.0,
+          "mean_event_rank_correlation": 0.8515574650912996,
+          "pairwise_accuracy": 0.8421052631578947
+        }
+      },
+      "holdout": {
+        "starting_grid_baseline": {
+          "mae_positions": 3.4246575342465753,
+          "median_absolute_error_positions": 2.0,
+          "mean_event_rank_correlation": 0.6497379813169286,
+          "pairwise_accuracy": 0.7518107194591984
+        },
+        "recent_three_race_baseline": {
+          "mae_positions": 4.812785388127854,
+          "median_absolute_error_positions": 4.0,
+          "mean_event_rank_correlation": 0.44935064935064933,
+          "pairwise_accuracy": 0.6542732979237084
+        },
+        "season_form_baseline": {
+          "mae_positions": 4.438356164383562,
+          "median_absolute_error_positions": 3.0,
+          "mean_event_rank_correlation": 0.4943495101389838,
+          "pairwise_accuracy": 0.6779333655239015
+        },
+        "model": {
+          "mae_positions": 3.3424657534246576,
+          "median_absolute_error_positions": 2.0,
+          "mean_event_rank_correlation": 0.6691957165641376,
+          "pairwise_accuracy": 0.766779333655239
+        }
+      },
+      "uncertainty": {
+        "development_calibrated_80pct_half_width_positions": 4.0,
+        "holdout_coverage": 0.7214611872146118
+      }
+    },
+    "finishing_band": {
+      "selected": "logistic_c_0.1",
+      "development_candidates": {
+        "logistic_c_0.1": 0.7895321397016468,
+        "logistic_c_1": 0.9316599119503521,
+        "logistic_c_10": 1.3517769497982008
+      },
+      "sample_count": {
+        "train": 339,
+        "development": 140,
+        "holdout": 219
+      },
+      "class_counts": {
+        "train": {
+          "TOP_5": 85,
+          "MIDFIELD_6_15": 170,
+          "BACK_16_PLUS": 84
+        },
+        "development": {
+          "TOP_5": 35,
+          "MIDFIELD_6_15": 70,
+          "BACK_16_PLUS": 35
+        },
+        "holdout": {
+          "TOP_5": 55,
+          "MIDFIELD_6_15": 110,
+          "BACK_16_PLUS": 54
+        }
+      },
+      "development": {
+        "baseline": {
+          "log_loss": 0.6244092587146873,
+          "multiclass_brier": 0.3585993729458796,
+          "accuracy": 0.7071428571428572,
+          "top_label_ece_5_bin": 0.16095753769355806
+        },
+        "model": {
+          "log_loss": 0.7895321397016468,
+          "multiclass_brier": 0.48927815993541635,
+          "accuracy": 0.5928571428571429,
+          "top_label_ece_5_bin": 0.029179028893418994
+        }
+      },
+      "holdout": {
+        "baseline": {
+          "log_loss": 0.8378370666893241,
+          "multiclass_brier": 0.5108303401627154,
+          "accuracy": 0.5981735159817352,
+          "top_label_ece_5_bin": 0.09150927487260657
+        },
+        "model": {
+          "log_loss": 0.8572482250990138,
+          "multiclass_brier": 0.5360644207819181,
+          "accuracy": 0.5799086757990868,
+          "top_label_ece_5_bin": 0.09014266390956623
+        }
+      }
+    },
+    "pit_stop_count_classified_finishers": {
+      "selected": "logistic_c_0.1",
+      "development_candidates": {
+        "logistic_c_0.1": 1.1631676924073775,
+        "logistic_c_1": 1.5061324231720226,
+        "logistic_c_10": 2.679259562440832
+      },
+      "sample_count": {
+        "train": 291,
+        "development": 129,
+        "holdout": 191
+      },
+      "class_counts": {
+        "train": {
+          "2": 150,
+          "3_PLUS": 73,
+          "1": 68
+        },
+        "development": {
+          "2": 55,
+          "3_PLUS": 23,
+          "1": 51
+        },
+        "holdout": {
+          "3_PLUS": 32,
+          "2": 71,
+          "1": 88
+        }
+      },
+      "development": {
+        "baseline": {
+          "log_loss": 1.107472382954029,
+          "multiclass_brier": 0.671163715131966,
+          "accuracy": 0.4883720930232558,
+          "top_label_ece_5_bin": 0.17689583343378856
+        },
+        "model": {
+          "log_loss": 1.1631676924073775,
+          "multiclass_brier": 0.7217863585305737,
+          "accuracy": 0.4418604651162791,
+          "top_label_ece_5_bin": 0.18376622767995038
+        }
+      },
+      "holdout": {
+        "baseline": {
+          "log_loss": 0.9958861873128246,
+          "multiclass_brier": 0.6385735476581498,
+          "accuracy": 0.45549738219895286,
+          "top_label_ece_5_bin": 0.11510244275297747
+        },
+        "model": {
+          "log_loss": 0.991819306084982,
+          "multiclass_brier": 0.6025013262991509,
+          "accuracy": 0.6020942408376964,
+          "top_label_ece_5_bin": 0.13853237232082882
+        }
+      }
+    },
+    "first_stop_lap_classified_finishers": {
+      "selected": "ridge_10",
+      "development_candidates": {
+        "ridge_0.1": 10.755467004908164,
+        "ridge_1": 10.289581279641478,
+        "ridge_10": 10.060257618268619,
+        "ridge_100": 10.11748423097201,
+        "gbr_depth_2": 10.541191076507765,
+        "gbr_depth_3": 10.637836341824537
+      },
+      "sample_count": {
+        "train": 291,
+        "development": 129,
+        "holdout": 191
+      },
+      "coverage_of_all_classified_rows": {
+        "train": 1.0,
+        "development": 1.0,
+        "holdout": 1.0
+      },
+      "development": {
+        "circuit_median_baseline": {
+          "mae_laps": 9.271317829457365,
+          "median_absolute_error_laps": 6.0,
+          "within_3_laps": 0.40310077519379844,
+          "within_5_laps": 0.4728682170542636
+        },
+        "model": {
+          "mae_laps": 10.060257618268619,
+          "median_absolute_error_laps": 9.33728652613541,
+          "within_3_laps": 0.2713178294573643,
+          "within_5_laps": 0.3643410852713178
+        }
+      },
+      "holdout": {
+        "circuit_median_baseline": {
+          "mae_laps": 10.638743455497382,
+          "median_absolute_error_laps": 8.5,
+          "within_3_laps": 0.24607329842931938,
+          "within_5_laps": 0.3193717277486911
+        },
+        "model": {
+          "mae_laps": 10.536294523889815,
+          "median_absolute_error_laps": 8.676689350382608,
+          "within_3_laps": 0.16230366492146597,
+          "within_5_laps": 0.2774869109947644
+        }
+      },
+      "uncertainty": {
+        "development_calibrated_80pct_half_width_laps": 17.745896113950824,
+        "holdout_coverage": 0.8324607329842932
+      }
+    },
+    "strategy_family_classified_finishers": {
+      "selected": "logistic_c_0.1",
+      "development_candidates": {
+        "logistic_c_0.1": 1.4619463164809288,
+        "logistic_c_1": 1.9461792054236433,
+        "logistic_c_10": 3.5190262418739855
+      },
+      "sample_count": {
+        "train": 291,
+        "development": 129,
+        "holdout": 191
+      },
+      "class_counts": {
+        "train": {
+          "MULTI_STOP_SHORT": 164,
+          "MULTI_STOP_OTHER": 59,
+          "ONE_STOP_LONG": 44,
+          "ONE_STOP_OTHER": 24
+        },
+        "development": {
+          "MULTI_STOP_SHORT": 69,
+          "ONE_STOP_OTHER": 23,
+          "MULTI_STOP_OTHER": 9,
+          "ONE_STOP_LONG": 28
+        },
+        "holdout": {
+          "MULTI_STOP_SHORT": 82,
+          "MULTI_STOP_OTHER": 21,
+          "ONE_STOP_LONG": 61,
+          "ONE_STOP_OTHER": 27
+        }
+      },
+      "development": {
+        "baseline": {
+          "log_loss": 1.3019588561940236,
+          "multiclass_brier": 0.6135518029923505,
+          "accuracy": 0.5116279069767442,
+          "top_label_ece_5_bin": 0.1743583722942723
+        },
+        "model": {
+          "log_loss": 1.4619463164809288,
+          "multiclass_brier": 0.7310680958975635,
+          "accuracy": 0.3875968992248062,
+          "top_label_ece_5_bin": 0.15449842701161462
+        }
+      },
+      "holdout": {
+        "baseline": {
+          "log_loss": 1.1372269522280365,
+          "multiclass_brier": 0.6160669940819056,
+          "accuracy": 0.5549738219895288,
+          "top_label_ece_5_bin": 0.16188859773516215
+        },
+        "model": {
+          "log_loss": 1.3799863130648349,
+          "multiclass_brier": 0.738012880597547,
+          "accuracy": 0.43455497382198954,
+          "top_label_ece_5_bin": 0.15318500282329708
+        }
+      }
+    },
+    "incident_survival": {
+      "selected": "logistic_c_0.1",
+      "development_candidates": {
+        "logistic_c_0.1": 0.6559513105930738,
+        "logistic_c_1": 0.7674188904845144,
+        "logistic_c_10": 1.15043039155894
+      },
+      "sample_count": {
+        "train": 339,
+        "development": 140,
+        "holdout": 219
+      },
+      "class_counts": {
+        "train": {
+          "CLASSIFIED": 291,
+          "DNF": 48
+        },
+        "development": {
+          "CLASSIFIED": 129,
+          "DNF": 11
+        },
+        "holdout": {
+          "CLASSIFIED": 191,
+          "DNF": 28
+        }
+      },
+      "development": {
+        "baseline": {
+          "log_loss": 0.3095313764722691,
+          "multiclass_brier": 0.16389854367031048,
+          "accuracy": 0.9214285714285714,
+          "top_label_ece_5_bin": 0.08321762722684371
+        },
+        "model": {
+          "log_loss": 0.6559513105930738,
+          "multiclass_brier": 0.4638821057111184,
+          "accuracy": 0.6071428571428571,
+          "top_label_ece_5_bin": 0.021017099339754257
+        }
+      },
+      "holdout": {
+        "baseline": {
+          "log_loss": 0.39356243659249485,
+          "multiclass_brier": 0.22803073245004138,
+          "accuracy": 0.8721461187214612,
+          "top_label_ece_5_bin": 0.0035008922412865795
+        },
+        "model": {
+          "log_loss": 0.6585406454793975,
+          "multiclass_brier": 0.46792292091267995,
+          "accuracy": 0.6073059360730594,
+          "top_label_ece_5_bin": 0.04298662434817543
+        }
+      }
+    }
+  },
+  "holdout_failure_slices": {
+    "dnf": {
+      "count": 28,
+      "mae": 7.071428571428571
+    },
+    "classified": {
+      "count": 191,
+      "mae": 2.7958115183246073
+    },
+    "front_grid_1_5": {
+      "count": 55,
+      "mae": 1.6363636363636365
+    },
+    "back_grid_16_plus": {
+      "count": 54,
+      "mae": 4
+    },
+    "grid_penalty_or_gain": {
+      "count": 47,
+      "mae": 3.595744680851064
+    },
+    "circuit_prior_available": {
+      "count": 119,
+      "mae": 2.8403361344537816
+    },
+    "circuit_prior_unavailable": {
+      "count": 100,
+      "mae": 3.94
+    },
+    "by_event": {
+      "2025-1": {
+        "circuit_id": "albert_park",
+        "drivers": 20,
+        "mae": 4.5,
+        "circuit_prior_races": 0
+      },
+      "2025-16": {
+        "circuit_id": "monza",
+        "drivers": 20,
+        "mae": 2.5,
+        "circuit_prior_races": 4
+      },
+      "2025-18": {
+        "circuit_id": "marina_bay",
+        "drivers": 20,
+        "mae": 2.5,
+        "circuit_prior_races": 2
+      },
+      "2025-19": {
+        "circuit_id": "americas",
+        "drivers": 20,
+        "mae": 2.9,
+        "circuit_prior_races": 4
+      },
+      "2025-20": {
+        "circuit_id": "rodriguez",
+        "drivers": 20,
+        "mae": 3.6,
+        "circuit_prior_races": 0
+      },
+      "2025-22": {
+        "circuit_id": "vegas",
+        "drivers": 20,
+        "mae": 5.4,
+        "circuit_prior_races": 0
+      },
+      "2025-23": {
+        "circuit_id": "losail",
+        "drivers": 20,
+        "mae": 3.4,
+        "circuit_prior_races": 0
+      },
+      "2025-24": {
+        "circuit_id": "yas_marina",
+        "drivers": 20,
+        "mae": 2.8,
+        "circuit_prior_races": 0
+      },
+      "2025-4": {
+        "circuit_id": "bahrain",
+        "drivers": 20,
+        "mae": 3,
+        "circuit_prior_races": 4
+      },
+      "2025-8": {
+        "circuit_id": "monaco",
+        "drivers": 20,
+        "mae": 3.3,
+        "circuit_prior_races": 4
+      },
+      "2025-9": {
+        "circuit_id": "catalunya",
+        "drivers": 19,
+        "mae": 2.8421052631578947,
+        "circuit_prior_races": 4
+      }
+    }
+  },
+  "runtime_seconds": 4.540647799996805,
+  "recommendation": "NO_GO",
+  "components_beating_baseline": []
+}
