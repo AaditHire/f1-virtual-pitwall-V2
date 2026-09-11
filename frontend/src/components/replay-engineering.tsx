@@ -2,20 +2,23 @@
 
 import { AlertTriangle, LoaderCircle } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { getReplayDriverAnalysis, getReplayOvercut, getReplayUndercut } from "@/lib/api/replay";
-import type { AnalysisConfidence, DriverAnalysis, DriverRaceState, PairAnalysis } from "@/lib/api/types";
+import { getReplayDriverAnalysis, getReplayOvercut, getReplayStrategy, getReplayUndercut } from "@/lib/api/replay";
+import type { AnalysisConfidence, DriverAnalysis, DriverRaceState, PairAnalysis, PitWallDriver } from "@/lib/api/types";
 import { driverCode, fmtNumber } from "@/lib/format";
 import { CompoundBadge } from "./compound-badge";
+import { ReplayStrategy } from "./replay-strategy";
 import { Status } from "./status";
 
 export interface ReplayAnalysisLoaders {
   driver: (year: number, round: number, lap: number, driverId: string) => Promise<DriverAnalysis>;
+  strategy: (year: number, round: number, lap: number, driverId: string) => Promise<PitWallDriver>;
   undercut: (year: number, round: number, lap: number, driverId: string, targetId: string) => Promise<PairAnalysis>;
   overcut: (year: number, round: number, lap: number, driverId: string, targetId: string) => Promise<PairAnalysis>;
 }
 
 export const defaultReplayAnalysisLoaders: ReplayAnalysisLoaders = {
   driver: getReplayDriverAnalysis,
+  strategy: getReplayStrategy,
   undercut: getReplayUndercut,
   overcut: getReplayOvercut,
 };
@@ -84,21 +87,45 @@ export function ReplayEngineering({ year, round, lap, selected, drivers, loaders
   const defaultTarget = drivers.find((driver) => driver.driver.id !== selected.driver.id)?.driver.id ?? "";
   const [targetId, setTargetId] = useState(defaultTarget);
   const [analysis, setAnalysis] = useState<DriverAnalysis | null>(null);
+  const [strategy, setStrategy] = useState<PitWallDriver | null>(null);
   const [undercut, setUndercut] = useState<PairAnalysis | null>(null);
   const [overcut, setOvercut] = useState<PairAnalysis | null>(null);
   const [loading, setLoading] = useState(true);
+  const [strategyLoading, setStrategyLoading] = useState(true);
   const [pairLoading, setPairLoading] = useState(Boolean(defaultTarget));
   const [error, setError] = useState<string | null>(null);
+  const [strategyError, setStrategyError] = useState<string | null>(null);
   const [pairError, setPairError] = useState<string | null>(null);
   const pairRequest = useRef(0);
   const byId = useMemo(() => new Map(drivers.map((driver) => [driver.driver.id, driver])), [drivers]);
 
   useEffect(() => {
     let active = true;
-    loaders.driver(year, round, lap, selected.driver.id)
-      .then((value) => { if (active) setAnalysis(value); })
-      .catch((caught) => { if (active) setError(caught instanceof Error ? caught.message : "Engineering analysis unavailable"); })
-      .finally(() => { if (active) setLoading(false); });
+    const load = async () => {
+      let embedded: DriverAnalysis | null = null;
+      try {
+        const value = await loaders.strategy(year, round, lap, selected.driver.id);
+        embedded = value.engineering_analysis ?? null;
+        if (active) setStrategy(value);
+      } catch (caught) {
+        if (active) setStrategyError(caught instanceof Error ? caught.message : "Historical strategy unavailable");
+      } finally {
+        if (active) setStrategyLoading(false);
+      }
+      if (embedded) {
+        if (active) { setAnalysis(embedded); setLoading(false); }
+        return;
+      }
+      try {
+        const value = await loaders.driver(year, round, lap, selected.driver.id);
+        if (active) setAnalysis(value);
+      } catch (caught) {
+        if (active) setError(caught instanceof Error ? caught.message : "Engineering analysis unavailable");
+      } finally {
+        if (active) setLoading(false);
+      }
+    };
+    void load();
     return () => { active = false; };
   }, [lap, loaders, round, selected.driver.id, year]);
 
@@ -177,5 +204,6 @@ export function ReplayEngineering({ year, round, lap, selected, drivers, loaders
         <p className="analysis-note">Sparse historical coverage and material margin error. Context, not a recommendation.</p>
       </section>
     </div> : null}
+    <ReplayStrategy strategy={strategy} loading={strategyLoading} error={strategyError} lap={lap}/>
   </aside>;
 }

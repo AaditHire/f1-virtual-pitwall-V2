@@ -1,5 +1,5 @@
 import { apiGet } from "./client";
-import type { DriverAnalysis, Event, PairAnalysis, ReplayAvailableLaps, ReplayRaceState, Season } from "./types";
+import type { DriverAnalysis, Event, PairAnalysis, PitWallDriver, ReplayAvailableLaps, ReplayRaceState, Season } from "./types";
 
 const immutableReplayCache = new Map<string, Promise<unknown>>();
 const MAX_REPLAY_CACHE_ENTRIES = 256;
@@ -32,3 +32,4 @@ export const getReplayOvercut = (year: number, round: number, lap: number, drive
   const query = new URLSearchParams({ driver: driverId, target: targetId });
   return immutableGet<PairAnalysis>(`/api/v1/analysis/${year}/${round}/${lap}/overcut?${query}`);
 };
+export const getReplayStrategy = (year: number, round: number, lap: number, driverId: string) => immutableGet<PitWallDriver>(`/api/v1/pitwall/${year}/${round}/${lap}/drivers/${encodeURIComponent(driverId)}?trajectory_count=100`);

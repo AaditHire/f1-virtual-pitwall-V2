@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor, within } from "@testing-library/rea
 import { describe, expect, it, vi } from "vitest";
 import { ReplayWorkspace, type ReplayLoaders } from "./replay-workspace";
 import type { ReplayAnalysisLoaders } from "./replay-engineering";
-import type { DriverAnalysis, DriverRaceState, Event, PairAnalysis, ReplayRaceState } from "@/lib/api/types";
+import type { DriverAnalysis, DriverRaceState, Event, PairAnalysis, PitWallDriver, ReplayRaceState } from "@/lib/api/types";
 
 const event = (year: number, round: number, name: string): Event => ({
   year, round, name, race_date: `${year}-03-01`, warnings: [], sessions: [],
@@ -53,9 +53,29 @@ function pair(kind: "undercut" | "overcut", driverId: string, targetId: string):
   return { ...evidence("LOW"), kind, driver_id: driverId, target_id: targetId, current_gap: 1.2, required_gain: 2.4, estimated_fresh_tyre_gain: .8, traffic_penalty: .3, estimated_margin: -.7, opportunity: "MARGINAL", conditions_required: ["One clean lap required"] };
 }
 
+function strategy(driverId: string, lap: number, overrides: Partial<PitWallDriver> = {}): PitWallDriver {
+  const chosen = driver(driverId, driverId === "ver" ? 1 : 2);
+  return {
+    driver: chosen.driver, status: chosen.status, current_position: chosen.position, gap_kind: "TIME", gap_to_leader_seconds: chosen.gap_to_leader,
+    compound: chosen.compound, tyre_age: chosen.tyre_age, traffic: "LIGHT_TRAFFIC", pit_cycle_position: chosen.position,
+    recommendation: "HOLD_NO_CLEAR_ADVANTAGE", alternative: "PIT_NOW", decision_state: "CAUTION", operating_envelope: "SHORT_HORIZON_ONLY", horizons_laps: [1, 3, 5],
+    policy_recommendation: "EXTEND_1", model_disagreement: true, best_pit_compound: "SOFT", evaluated_action_count: 3, decision_margin_seconds: .3, uncertainty_overlap: true,
+    paired_comparison: {
+      pit_action: "PIT_NOW_SOFT", extend_action: "EXTEND_5", decision_horizon_laps: 5, pit_window_state: "PIT_WINDOW_OPEN",
+      outcomes: ([1, 3, 5] as const).map((horizon_laps) => ({ horizon_laps, trajectory_count: 100, median_time_delta_seconds: -.2 * horizon_laps, interval_80: [-1.2, .8], pit_net_position_range_80: [2, 5], extend_net_position_range_80: [1, 4], applicability: "USABLE" })),
+    },
+    pit_window: { state: "PIT_WINDOW_OPEN", best_compound: "SOFT", paired_advantage_seconds: .4, pit_cycle_position_advantage: 1, traffic: "LIGHT_TRAFFIC", rejoin: "MODERATE_TRAFFIC", uncertainty: "CAUTION", reason: "Paired evidence favors PIT but does not clear the strong-window gate." },
+    main_risk: "Rejoin traffic remains uncertain.", main_opportunity: "A short-horizon tyre offset is available.",
+    relevant_rivals: [], alerts: [{ kind: "PIT_WINDOW_OPEN", driver_id: driverId, detail: "Paired counterfactual state is PIT_WINDOW_OPEN." }, { kind: "STRATEGY_MODEL_UNCERTAIN", driver_id: driverId, detail: "Recommendation state is CAUTION." }],
+    data_quality: { maximum_horizon_laps: 5 }, actions: [], engineering_analysis: analysis(driverId, lap),
+    ...overrides,
+  };
+}
+
 function analysisLoaders(overrides: Partial<ReplayAnalysisLoaders> = {}): ReplayAnalysisLoaders {
   return {
     driver: vi.fn((_year, _round, lap, driverId) => Promise.resolve(analysis(driverId, lap))),
+    strategy: vi.fn((_year, _round, lap, driverId) => Promise.resolve(strategy(driverId, lap))),
     undercut: vi.fn((_year, _round, _lap, driverId, targetId) => Promise.resolve(pair("undercut", driverId, targetId))),
     overcut: vi.fn((_year, _round, _lap, driverId, targetId) => Promise.resolve(pair("overcut", driverId, targetId))),
     ...overrides,
@@ -135,15 +155,15 @@ describe("ReplayWorkspace", () => {
     render(<ReplayWorkspace loaders={loaders()} analysisLoaders={engineering} />);
     await screen.findByText("1:30.300");
     fireEvent.click(within(screen.getByRole("listbox", { name: "Historical drivers" })).getByRole("option", { name: /NOR/ }));
-    await waitFor(() => expect(engineering.driver).toHaveBeenCalledWith(2024, 1, 3, "nor"));
+    await waitFor(() => expect(engineering.strategy).toHaveBeenCalledWith(2024, 1, 3, "nor"));
     expect((await screen.findAllByText("nor Driver")).length).toBeGreaterThan(0);
     fireEvent.click(screen.getByRole("button", { name: "Previous lap" }));
-    await waitFor(() => expect(engineering.driver).toHaveBeenCalledWith(2024, 1, 2, "nor"));
+    await waitFor(() => expect(engineering.strategy).toHaveBeenCalledWith(2024, 1, 2, "nor"));
     expect(await screen.findByText("1:30.200")).toBeInTheDocument();
   });
 
   it("renders insufficient and unavailable analysis fields without invented values", async () => {
-    const engineering = analysisLoaders({ driver: vi.fn((_year, _round, lap, driverId) => Promise.resolve(analysis(driverId, lap, true))) });
+    const engineering = analysisLoaders({ strategy: vi.fn((_year, _round, lap, driverId) => Promise.resolve(strategy(driverId, lap, { engineering_analysis: analysis(driverId, lap, true) }))) });
     render(<ReplayWorkspace loaders={loaders()} analysisLoaders={engineering} />);
     expect(await screen.findByText("Insufficient clean laps are available at this cutoff.")).toBeInTheDocument();
     expect(screen.getAllByText("INSUFFICIENT DATA").length).toBeGreaterThan(0);
@@ -152,7 +172,7 @@ describe("ReplayWorkspace", () => {
   });
 
   it("keeps RaceState usable when engineering analysis fails", async () => {
-    const engineering = analysisLoaders({ driver: vi.fn().mockRejectedValue(new Error("analysis service offline")), undercut: vi.fn().mockRejectedValue(new Error("pair offline")) });
+    const engineering = analysisLoaders({ strategy: vi.fn((_year, _round, lap, driverId) => Promise.resolve(strategy(driverId, lap, { engineering_analysis: null }))), driver: vi.fn().mockRejectedValue(new Error("analysis service offline")), undercut: vi.fn().mockRejectedValue(new Error("pair offline")) });
     render(<ReplayWorkspace loaders={loaders()} analysisLoaders={engineering} />);
     expect(await screen.findByText("analysis service offline")).toBeInTheDocument();
     expect(within(screen.getByRole("listbox", { name: "Historical drivers" })).getAllByRole("option")).toHaveLength(2);
@@ -169,5 +189,51 @@ describe("ReplayWorkspace", () => {
     await waitFor(() => expect(engineering.undercut).toHaveBeenCalledWith(2024, 1, 3, "ver", "ham"));
     expect(screen.getAllByText("Supporting context only")).toHaveLength(2);
     expect(screen.getByText("Sparse historical coverage and material margin error. Context, not a recommendation.")).toBeInTheDocument();
+  });
+
+  it("renders experimental HOLD strategy, confidence, window, alerts and paired horizons", async () => {
+    render(<ReplayWorkspace loaders={loaders()} analysisLoaders={analysisLoaders()} />);
+    expect(await screen.findByText(/experimental strategy/i)).toBeInTheDocument();
+    expect(await screen.findByText("HOLD NO CLEAR ADVANTAGE")).toBeInTheDocument();
+    expect(screen.getByText("CAUTION")).toBeInTheDocument();
+    expect(screen.getAllByText("PIT WINDOW OPEN").length).toBeGreaterThan(0);
+    expect(screen.getByRole("region", { name: "Paired PIT versus EXTEND evaluation" })).toBeInTheDocument();
+    expect(screen.getByText("OVERLAPPING OUTCOMES")).toBeInTheDocument();
+    expect(screen.getByText(/negative favors PIT/)).toBeInTheDocument();
+    expect(screen.getByText("+1")).toBeInTheDocument();
+    expect(screen.getByText("+3")).toBeInTheDocument();
+    expect(screen.getByText("+5")).toBeInTheDocument();
+    expect(screen.getByText("STRATEGY MODEL UNCERTAIN")).toBeInTheDocument();
+  });
+
+  it("renders backend PIT_NOW and closed-window EXTEND states without reinterpretation", async () => {
+    const pit = analysisLoaders({ strategy: vi.fn((_year, _round, lap, driverId) => Promise.resolve(strategy(driverId, lap, { recommendation: "PIT_NOW", decision_state: "ACTIONABLE", model_disagreement: false, uncertainty_overlap: false, pit_window: { state: "PIT_WINDOW_STRONG", best_compound: "SOFT", traffic: "CLEAR_AIR", uncertainty: "ACTIONABLE", reason: "PIT clears the paired decision band." } }))) });
+    const first = render(<ReplayWorkspace loaders={loaders()} analysisLoaders={pit} />);
+    expect((await screen.findAllByText("PIT NOW")).length).toBeGreaterThan(0);
+    expect(screen.getByText("ACTIONABLE")).toBeInTheDocument();
+    expect(screen.getByText("PIT WINDOW STRONG")).toBeInTheDocument();
+    first.unmount();
+    const extend = analysisLoaders({ strategy: vi.fn((_year, _round, lap, driverId) => Promise.resolve(strategy(driverId, lap, { recommendation: "EXTEND", decision_state: "ACTIONABLE", alternative: null, model_disagreement: false, pit_window: { state: "PIT_WINDOW_CLOSED", traffic: "UNKNOWN", uncertainty: "ACTIONABLE", reason: "Normal-stop cooldown remains active." }, paired_comparison: null }))) });
+    render(<ReplayWorkspace loaders={loaders()} analysisLoaders={extend} />);
+    expect(await screen.findByText("EXTEND")).toBeInTheDocument();
+    expect(screen.getByText("PIT WINDOW CLOSED")).toBeInTheDocument();
+    expect(screen.getByText("Normal-stop cooldown remains active.")).toBeInTheDocument();
+  });
+
+  it("renders insufficient strategy without fabricating a recommendation", async () => {
+    const engineering = analysisLoaders({ strategy: vi.fn((_year, _round, lap, driverId) => Promise.resolve(strategy(driverId, lap, { recommendation: null, alternative: null, decision_state: "INSUFFICIENT_DATA", paired_comparison: null, pit_window: null, alerts: [], main_opportunity: null, main_risk: "Driver status is retired; no strategy action is generated." }))) });
+    render(<ReplayWorkspace loaders={loaders()} analysisLoaders={engineering} />);
+    expect((await screen.findAllByText("INSUFFICIENT DATA")).length).toBeGreaterThan(0);
+    expect(screen.getByText("Paired simulation is unavailable for this driver and lap.")).toBeInTheDocument();
+    expect(screen.getByText("No strategy alerts were returned.")).toBeInTheDocument();
+  });
+
+  it("keeps RaceState and Phase 9B analysis when strategy evaluation fails", async () => {
+    const engineering = analysisLoaders({ strategy: vi.fn().mockRejectedValue(new Error("strategy service offline")) });
+    render(<ReplayWorkspace loaders={loaders()} analysisLoaders={engineering} />);
+    expect(await screen.findByText("strategy service offline")).toBeInTheDocument();
+    expect(await screen.findByText("1:30.300")).toBeInTheDocument();
+    expect(screen.getByText("Lap 3 / 3 · 2 participants")).toBeInTheDocument();
+    expect(within(screen.getByRole("listbox", { name: "Historical drivers" })).getAllByRole("option")).toHaveLength(2);
   });
 });

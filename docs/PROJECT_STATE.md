@@ -153,14 +153,18 @@ Use Open Design to redesign the existing frontend using the current VPW UI as th
 - Stop for explicit design approval before implementation.
 - Preserve routes, APIs, polling, freshness, real-data behavior, accessibility, and tests. Do not begin Phase 9.
 
-## Phase 9A / 9B — Historical Replay
+## Phase 9A / 9B / 9C — Historical Replay
 
-STATUS: PHASE 9B COMPLETE
+STATUS: PHASE 9C COMPLETE
 
 - `/replay` provides season, event, leader-lap and full-grid historical navigation with an immutable browser request cache.
 - The selected-driver engineering workspace consumes the existing Phase 3 driver, undercut and overcut analysis routes. It does not calculate engineering metrics in TypeScript.
 - Race state, pace inputs, current tyre/stint state, traffic, pit loss and estimated rejoin geometry are shown with backend confidence and explicit observed/estimated provenance.
-- Undercut/overcut is supporting LOW-confidence context only; no strategy recommendation or simulation is exposed.
+- Undercut/overcut remains supporting LOW-confidence context only.
 - Predictive tyre degradation, tyre-life, cliff and health values are intentionally absent because prior validation did not support them.
 - Analysis loading/errors are isolated from the RaceState grid. Lap scrubbing remains bounded and superseded analysis results are ignored.
 - Phase 9B validation: 18 frontend tests, 136 backend tests, 23 focused Phase 3 tests, the Bahrain 2024 raw-prefix causal regression, typecheck, ESLint, Ruff and production build pass.
+- Phase 9C exposes the existing historical Pit Wall driver detail in the selected-driver workspace. It reuses the backend recommendation, confidence state, pit-window gate, paired PIT-versus-EXTEND outcomes, alerts, and embedded Phase 3 analysis; no strategy logic is duplicated in TypeScript.
+- Historical strategy is explicitly EXPERIMENTAL and limited to the existing +1/+3/+5 tactical horizon. Every lap change re-anchors to its causal RaceState; +5 is not presented as a whole-stint or whole-race optimization.
+- Strategy failure is isolated from both the timing grid and Phase 3 engineering analysis. Exact driver/lap responses share the bounded immutable replay cache, while adjacent laps trigger a fresh backend re-anchor.
+- Phase 9C validation: 22 frontend tests, 136 backend tests, 10 focused Pit Wall tests (including future-mutation causality, normal-stop cooldown and position-only gating), TypeScript, ESLint, Ruff, and production build pass.
