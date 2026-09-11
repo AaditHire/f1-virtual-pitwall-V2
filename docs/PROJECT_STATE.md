@@ -211,3 +211,23 @@ STATUS: COMPLETE — CONDITIONAL GO FOR HISTORICAL RESEARCH ONLY
   variable and OpenF1 reports significant reduction from 2026 onward.
 - Full report and mapping rule: `docs/phase12a-radio-foundation.md`; reproducible audit:
   `scripts/audit_phase12a_radio.py`.
+
+## Phase 12B — Historical Radio Transcription Research
+
+STATUS: COMPLETE — CONDITIONAL GO; HUMAN TRANSCRIPT BENCHMARK REQUIRED
+
+- An isolated `faster-whisper` experiment compared `small.en` and `medium.en` on the same 30
+  deterministic Phase 12A clips: ten each from 2021 Bahrain, 2024 Bahrain and 2025 Abu Dhabi,
+  representing 17 drivers and 306.384 seconds of audio.
+- Actual CUDA inference failed because `cublas64_12.dll` was unavailable, so both models ran on CPU
+  INT8. `small.en` median/P90 latency was 2.037/2.810 seconds versus 5.745/9.129 for `medium.en`;
+  observed process RSS peaked at 734.8 MB and 1,257.9 MB respectively.
+- Both models decoded all 30 clips with no empty transcript, but 11/30 (36.7%) had greater than 25%
+  token disagreement. Low-confidence indicators affected 10.0% / 16.7%, and simple rules missed
+  some fluent but suspect text. Cross-model agreement remains diagnostic, not accuracy.
+- No human reference transcripts exist, so WER, CER and motorsport-keyword accuracy were not
+  calculated. Names and technical phrases showed material instability. VAD provided no evidence of
+  improvement on a six-clip comparison and remains off.
+- No production API, frontend, radio mapping, analysis, strategy or Pit Wall behavior changed. Full
+  report: `docs/phase12b-radio-transcription-research.md`; review artifacts:
+  `docs/phase12b-radio-asr.json` and `docs/phase12b-radio-asr-review.csv`.
