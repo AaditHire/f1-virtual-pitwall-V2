@@ -2,17 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Activity, CalendarDays, Flag, Gauge, Home, Menu, Newspaper, Trophy, X } from "lucide-react";
+import { Activity, CalendarDays, Flag, Gauge, History, Home, Menu, Newspaper, Trophy, X } from "lucide-react";
 import { useState } from "react";
 import { ConnectionIndicator } from "./connection-indicator";
 
 const links = [
   ["Home", "/"], ["Weekend", "/weekend"], ["Live Pit Wall", "/pitwall"],
-  ["Standings", "/standings"], ["News", "/news"],
+  ["Replay", "/replay"], ["Standings", "/standings"], ["News", "/news"],
 ] as const;
 
 const mobileLinks = [
-  ["Home", "/", Home], ["Weekend", "/weekend", CalendarDays], ["Timing", "/pitwall", Gauge],
+  ["Home", "/", Home], ["Weekend", "/weekend", CalendarDays], ["Timing", "/pitwall", Gauge], ["Replay", "/replay", History],
   ["Standings", "/standings", Trophy], ["News", "/news", Newspaper],
 ] as const;
 
@@ -25,7 +25,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <button className="menu-button" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Toggle navigation">{open ? <X /> : <Menu />}</button>
       <nav className={open ? "main-nav is-open" : "main-nav"} aria-label="Primary navigation">
         {links.map(([label, href]) => <Link key={href} href={href} className={pathname === href ? "active" : ""} onClick={() => setOpen(false)}>{label}</Link>)}
-        <span className="nav-later" aria-disabled="true">Replay · later</span>
       </nav>
       <ConnectionIndicator />
       <div className="topbar-clock"><Activity size={14}/><span>All times IST</span></div>

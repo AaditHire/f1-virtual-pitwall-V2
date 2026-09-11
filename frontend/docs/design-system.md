@@ -34,3 +34,9 @@ The desktop grid uses fluid 20–38 px gutters and open horizontal bands. Corner
 ## States and behavior
 
 Loading, empty, error, partial, stale, offline, and live states retain explicit text and semantic color. Controls expose visible keyboard focus. Mobile Pit Wall provides Overview, Timing, Strategy, and Feed views without removing any live data. The session rail is the only intentional horizontal scrolling region on the Home page. Motion is limited to loading feedback and respects `prefers-reduced-motion`.
+
+## Historical replay
+
+Historical replay uses the engineering mode rather than the editorial card language. The archive header always identifies the selected event, leader lap, and the historical-data boundary with an explicit `NO FUTURE DATA` label. Season, event, step, direct-lap, and scrubber controls occupy one continuous instrument rail.
+
+The replay workspace pairs a complete dynamic timing field with a selected-driver state surface. Adjacent-lap requests retain the current causal snapshot under a compact loading notice; changing race clears the previous field to avoid presenting it under the wrong event. On narrow screens the surfaces stack, while the timing table remains deliberately horizontally scrollable so no backend field or participant is removed.
