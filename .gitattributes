@@ -1,2 +1,7 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Byte-hashed Phase 13D Experiment A protocol and execution logic.
+docs/phase13d-grounded-answer-reliability-protocol.md text eol=lf
+scripts/run_phase13d_experiment_a.py text eol=lf
+src/f1_pitwall/knowledge/paired_reliability.py text eol=lf

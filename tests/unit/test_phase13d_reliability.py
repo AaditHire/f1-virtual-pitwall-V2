@@ -14,6 +14,10 @@ from f1_pitwall.knowledge.generation import (
 )
 from f1_pitwall.knowledge.hardening import RouteType, classify_hardening_route
 from f1_pitwall.knowledge.models import KnowledgeDocument
+from f1_pitwall.knowledge.paired_reliability import (
+    exact_mcnemar_p,
+    paired_failure_analysis,
+)
 from f1_pitwall.knowledge.reliability import (
     PHASE13C_BENCHMARK_SHA256,
     PHASE13C_EVALUATION_SHA256,
@@ -33,6 +37,16 @@ from f1_pitwall.knowledge.reliability import (
     write_outputs_once,
 )
 from f1_pitwall.knowledge.retrieval import BM25Retriever
+from scripts.prepare_phase13d_experiment_a import (
+    ARMS,
+    BOOTSTRAP_SEED,
+    HUMAN_SAMPLE_SEED,
+    SCHEDULE_SEED,
+    build_additional_review_candidate_order,
+    build_inputs,
+    build_schedule,
+    validate_schedule,
+)
 from scripts.research_phase13d import BENCHMARK_PATH, build_benchmark
 
 DOCS = Path(__file__).resolve().parents[2] / "docs"
@@ -269,3 +283,107 @@ def test_prospective_manifest_is_not_run_and_changes_only_output_allowance():
     )
     assert manifest["experiment_a"]["new_schema_or_truncation_retries"] == 0
     assert manifest["production_decision"] == "NO_GO_UNCHANGED"
+
+
+def test_paired_experiment_a_schedule_is_exact_balanced_and_consecutive(questions):
+    schedule = build_schedule(questions)
+    validate_schedule(schedule, questions)
+    calls = schedule["calls"]
+    assert schedule["seed"] == SCHEDULE_SEED
+    assert len(calls) == 200
+    assert [row["call_order"] for row in calls] == list(range(1, 201))
+    assert sum(row["within_pair"] == 1 and row["arm"] == "CONTROL_320" for row in calls) == 50
+    assert sum(row["within_pair"] == 1 and row["arm"] == "TREATMENT_640" for row in calls) == 50
+    by_question = {
+        question_id: [row for row in calls if row["question_id"] == question_id]
+        for question_id in {row["question_id"] for row in calls}
+    }
+    assert all(
+        {row["max_output_tokens"] for row in pair} == set(ARMS.values())
+        for pair in by_question.values()
+    )
+    assert all(pair[1]["call_order"] == pair[0]["call_order"] + 1 for pair in by_question.values())
+
+
+def test_paired_inputs_are_complete_and_arm_independent(questions):
+    inputs = build_inputs(questions)
+    assert len(inputs) == 100
+    assert len({row["question_id"] for row in inputs}) == 100
+    assert all(row["bundle_sha256"] and row["messages_sha256"] for row in inputs)
+    assert all(row["messages"][0]["role"] == "system" for row in inputs)
+    assert not any("arm" in row or "max_output_tokens" in row for row in inputs)
+
+
+def test_human_review_candidate_order_is_frozen_and_excludes_mandatory(questions):
+    first = build_additional_review_candidate_order(questions)
+    second = build_additional_review_candidate_order(questions)
+    assert first == second
+    assert len(first) >= 10
+    assert len(first) == len(set(first))
+    by_id = {row.question_id: row for row in questions}
+    assert all(by_id[row].route_type == RouteType.RAG_ONLY for row in first)
+    assert all(not by_id[row].expected_refusal for row in first)
+    assert all(by_id[row].adversarial_kind == "NONE" for row in first)
+    assert HUMAN_SAMPLE_SEED == 131313
+
+
+def test_exact_paired_statistics_are_deterministic():
+    assert exact_mcnemar_p(6, 0) == pytest.approx(0.03125)
+    result = paired_failure_analysis(
+        [(True, False)] * 6 + [(False, True)] * 1 + [(False, False)] * 93,
+        bootstrap_seed=BOOTSTRAP_SEED,
+        resamples=2_000,
+    )
+    assert result["pairs"] == 100
+    assert result["control_failures"] == 6
+    assert result["treatment_failures"] == 1
+    assert result["control_fails_treatment_succeeds"] == 6
+    assert result["control_succeeds_treatment_fails"] == 1
+    assert result["exact_mcnemar_two_sided_p"] == pytest.approx(0.125)
+    assert result == paired_failure_analysis(
+        [(True, False)] * 6 + [(False, True)] * 1 + [(False, False)] * 93,
+        bootstrap_seed=BOOTSTRAP_SEED,
+        resamples=2_000,
+    )
+
+
+def test_experiment_a_result_pairs_are_complete_and_zero_retry():
+    raw = [
+        json.loads(line)
+        for line in (DOCS / "phase13d-experiment-a-raw.jsonl")
+        .read_text(encoding="utf-8")
+        .splitlines()
+    ]
+    assert len(raw) == 200
+    assert [row["call_order"] for row in raw] == list(range(1, 201))
+    assert sum(row["request_count"] for row in raw) == 200
+    assert sum(row["retry_count"] for row in raw) == 0
+    by_question = {
+        question_id: [row for row in raw if row["question_id"] == question_id]
+        for question_id in {row["question_id"] for row in raw}
+    }
+    assert len(by_question) == 100
+    assert all({row["arm"] for row in pair} == set(ARMS) for pair in by_question.values())
+    assert all(pair[1]["call_order"] == pair[0]["call_order"] + 1 for pair in by_question.values())
+
+
+def test_experiment_a_evaluation_and_blank_review_artifacts_are_valid():
+    evaluation = json.loads(
+        (DOCS / "phase13d-experiment-a-evaluation-corrected.json").read_text(encoding="utf-8")
+    )
+    assert evaluation["paired_primary"]["pairs"] == 100
+    assert evaluation["paired_primary"]["control_failures"] == 79
+    assert evaluation["paired_primary"]["treatment_failures"] == 30
+    assert evaluation["h1_status"] == "NOT_SUPPORTED"
+    assert evaluation["production_decision"] == "NO_GO_UNCHANGED"
+    assert evaluation["arm_metrics"]["CONTROL_320"]["structured_only_correct"] == 30
+    assert evaluation["arm_metrics"]["TREATMENT_640"]["structured_only_correct"] == 30
+    review = json.loads(
+        (DOCS / "phase13d-experiment-a-human-review-template.json").read_text(encoding="utf-8")
+    )
+    assert review["metadata"]["status"] == "PENDING_GENUINE_HUMAN_REVIEW"
+    assert review["metadata"]["available_additional_valid_pairs"] == 8
+    assert len(review["rows"]) == 169
+    assert all(
+        row["grounding"] == row["usefulness"] == row["misleading"] == "" for row in review["rows"]
+    )

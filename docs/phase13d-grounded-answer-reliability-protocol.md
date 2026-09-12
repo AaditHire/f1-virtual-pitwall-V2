@@ -249,3 +249,102 @@ the overall result.
 
 Phase 13D-A ends with this protocol and the deterministic harness. No generation result or reliability
 improvement is claimed.
+
+## Pre-run protocol amendment — paired Experiment A
+
+**Amended before any Phase 13D provider output existed.** The committed Phase 13D-A protocol has
+SHA-256 `d6aefdfa930733e9ba1cac5cf5a948ecd6d3b8f1d61db2149e58a0e360e5c8be`; its original unrun
+manifest has SHA-256 `54331623b9f45ed67bd901263cca191ed960dbf4f8b4de3eefeb7e273ad62eef`.
+They remain in Git history. This append-only amendment corrects Experiment A before its first call.
+
+The original 640-only design could not distinguish output-budget effects from benchmark difficulty,
+time or provider variation. Experiment A is therefore amended to a paired prospective comparison on
+the unchanged frozen benchmark. This amendment supersedes only the original single-arm Experiment A
+procedure and historical-control primary comparison. Phase 13C remains historical evidence, and all
+other quality, safety and production boundaries remain in force.
+
+### Paired design
+
+- Each of the exact same 75 `RAG_ONLY` and 25 `MIXED` questions receives one independent control call
+  at 320 tokens and one independent treatment call at 640 tokens: 200 provider calls total.
+- The 30 `STRUCTURED_ONLY` questions run once deterministically and are included identically in both
+  arm evaluations; they never call AgentRouter.
+- Calls for each question are consecutive, while both question order and whether the pair runs
+  `320 → 640` or `640 → 320` are frozen using Python `random.Random` seed `130320640`.
+- Exactly 50 pairs run control first and 50 treatment first. The stored schedule, rather than future
+  regeneration behavior, is authoritative.
+- Every request is stateless and receives only its question's identical frozen evidence bundle.
+  Neither arm's response is exposed to the other.
+- Provider, model, base URL, SDK, system prompt, user-message construction, evidence, source ordering,
+  forced tool schema, temperature, routing and validation are identical between arms. Only
+  `max_tokens` differs.
+- Both arms use zero SDK, transport, schema, truncation or content retries. This replaces the original
+  plan to hold the Phase 13C adapter's transient retry allowance constant. Zero retries are identical
+  between paired arms and improve failure observability, but reduce direct comparability with the
+  historical Phase 13C run; the paired comparison is now primary.
+
+### Frozen paired analysis
+
+For each arm, compute every registered Phase 13D metric and retain raw numerators and denominators.
+For each paired generation question classify `SUCCESS` only when a clean parsed answer passes the
+provider-contract boundary; all other terminal classifications count as unrecovered for the primary
+paired table:
+
+- both succeed;
+- 320 fails / 640 succeeds;
+- 320 succeeds / 640 fails;
+- both fail.
+
+Report each arm's failure count and rate, the treatment-minus-control absolute percentage-point
+difference, relative failure reduction only when control failures are nonzero, and the two discordant
+counts. The primary paired significance calculation is the two-sided exact McNemar/binomial test on
+discordant pairs. A fixed-seed paired nonparametric bootstrap over the 100 question pairs (100,000
+resamples, seed `130640320`) reports a percentile 95% interval for the control-minus-treatment failure
+rate difference as a descriptive uncertainty estimate. It is not substituted for the exact test.
+
+H1 receives `SUPPORTED` only if 640 has fewer failures than 320, exact McNemar `p <= 0.05`, and the
+640 arm meets the absolute `<= 2/100` malformed/unrecovered criterion plus every conjunctive quality
+and safety guardrail. It is `NOT_SUPPORTED` if 640 has at least as many failures, misses the absolute
+criterion, or materially regresses a guardrail. Otherwise it is `WEAK_INCONCLUSIVE`. Causal evidence,
+absolute reliability, quality preservation and human safety are reported separately.
+
+The 640 arm remains the candidate configuration for absolute thresholds. The 320 control is evaluated
+with the same metrics, not held to the candidate's improvement threshold. No early stopping or
+partial-result tuning is permitted. Authentication, authorization, model/endpoint mismatch, secret
+exposure, frozen-input mismatch or broad systemic provider failure invalidates the run and triggers a
+stop with partial artifacts preserved. An isolated failed request is recorded once and never rerun.
+
+### Frozen human-review selection
+
+Human review occurs only after raw and derived automated artifacts are frozen. The deterministic
+selection includes:
+
+1. both arms for all 25 `MIXED` questions;
+2. both arms for every refusal, prompt-injection and source-conflict question;
+3. every malformed or unrecovered arm result not already selected;
+4. both arms for ten additional valid, non-mandatory `RAG_ONLY` questions selected from a frozen
+   category-stratified candidate order with fixed seed `131313`. The candidate order is frozen before
+   answers exist; after mechanical validity is known, the first ten valid pairs are selected before
+   any human judgment or answer display.
+
+The baseline selection is therefore 70 mandatory arm rows plus 20 seeded RAG arm rows = 90 rows,
+with additional failures included if necessary. Rows are presented in a separately seeded order with
+neutral review IDs. Arm, token allowance, call order, automated scores and pair identity are withheld
+from the reviewer where practical. The protected mapping is stored separately from the blank review
+template. Labels are grounding (`PASS`, `MINOR`, `FAIL`), usefulness (`GOOD`, `ACCEPTABLE`, `POOR`)
+and misleading (`YES`, `NO`). No label is fabricated. Zero human-confirmed misleading answers remains
+mandatory, and no final human-safety conclusion is made until genuine review is imported.
+
+### Frozen pre-run artifacts
+
+Before the first provider request, freeze and hash:
+
+- the amended protocol;
+- paired call schedule;
+- deterministic prompt/evidence inputs;
+- paired run manifest;
+- a freeze record containing those hashes.
+
+Raw provider responses are stored append-only and separately from normalized outputs, arm metrics,
+paired statistics, usage summaries and blank human-review artifacts. The Phase 13D benchmark remains
+unchanged at `e5f9abfef2ea4dca3f9a36e84d9fe9917bd7de76945c42d7753e636bd51eec74`.

@@ -1,0 +1,10 @@
+{
+  "schema_version": "phase13d-experiment-a-freeze-v1",
+  "frozen_at": "2026-09-12T22:39:00+05:30",
+  "benchmark_sha256": "e5f9abfef2ea4dca3f9a36e84d9fe9917bd7de76945c42d7753e636bd51eec74",
+  "amended_protocol_sha256": "28f18e479b44b04b87b7d105ac345a0dc51412010a9c0ce82670c60f34e02664",
+  "schedule_sha256": "7e7e36a801f058ab4c137f791a5410324fffadcce1a9405e50d742ffb33c1db5",
+  "inputs_sha256": "c965a986e9161a08170ac3441cda18d6d112810711f25edbc973abf78caa12d5",
+  "run_manifest_sha256": "163480bb6adf0a41bdd0e76ed58f11adc5e0657eeed60f39dafb824f85688827",
+  "provider_requests_observed_before_freeze": 0
+}

@@ -1,9 +1,11 @@
 # F1 Virtual Pit Wall — Project State
 
-Authoritative handoff through **Phase 13D-A**. Phase 13C remains closed with a **CONDITIONAL GO for
+Authoritative handoff through **Phase 13D-B Experiment A**. Phase 13C remains closed with a **CONDITIONAL GO for
 continued research and controlled internal use** and a **NO-GO for a production/public chatbot**.
-Phase 13D-A freezes only a prospective reliability protocol, benchmark and deterministic evaluation
-harness; no Phase 13D provider generation has run and no reliability improvement is claimed. The
+Phase 13D-B completed the preregistered paired 320-versus-640-token experiment. It found strong paired
+evidence of fewer failures at 640 tokens, but 640 still had 30/100 unrecovered failures and missed
+multiple quality guardrails; H1 is **NOT SUPPORTED** under the composite rule and human review remains
+pending. The production/public chatbot remains **NO-GO**. The
 Phase 13C handoff cleanup is committed separately at `5006974`. The repository, checked-in reports,
 frozen JSON artifacts, and tests remain the ultimate source of truth.
 
@@ -394,7 +396,7 @@ STATUS: COMPLETE — CONDITIONAL GO FOR RESEARCH/CONTROLLED INTERNAL USE; NO-GO 
 
 ## Phase 13D-A — Reliability Protocol and Prospective Harness
 
-STATUS: COMPLETE — PROTOCOL/HARNESS ONLY; EXPERIMENT A NOT RUN
+STATUS: COMPLETE — PROTOCOL/HARNESS; SUPERSEDED BY COMPLETED PHASE 13D-B EXPERIMENT A
 
 - The primary prospective hypothesis is that increasing only the generated-output allowance from
   320 to 640 tokens can materially reduce malformed/unrecovered responses without degrading
@@ -424,3 +426,34 @@ STATUS: COMPLETE — PROTOCOL/HARNESS ONLY; EXPERIMENT A NOT RUN
 - Protocol: `docs/phase13d-grounded-answer-reliability-protocol.md`; frozen benchmark:
   `docs/phase13d-answer-benchmark.json`; unrun manifest:
   `docs/phase13d-prospective-run-manifest.json`.
+
+## Phase 13D-B — Paired Output-Budget Experiment A
+
+STATUS: COMPLETE — H1 NOT SUPPORTED; HUMAN REVIEW PENDING; PRODUCTION NO-GO
+
+- Before any provider output, the protocol was explicitly amended from a 640-only historical-control
+  comparison to a paired prospective design. The same 100 generation questions each received one
+  320-token and one 640-token call in a frozen balanced order. Everything except `max_tokens` was
+  identical; all 200 calls were independent and used zero retries. `STRUCTURED_ONLY` remained
+  deterministic and made no provider call.
+- The Phase 13D benchmark remains unchanged at SHA-256
+  `e5f9abfef2ea4dca3f9a36e84d9fe9917bd7de76945c42d7753e636bd51eec74`.
+  The amended protocol, schedule, inputs and run manifest were frozen before the first call.
+- Unrecovered failures fell from 79/100 at 320 tokens to 30/100 at 640 tokens. The paired table was
+  20 both-success, 50 control-fail/treatment-success, 1 control-success/treatment-fail and 29
+  both-fail. The exact two-sided McNemar p-value was `4.6185e-14`; the paired bootstrap 95% interval
+  for the control-minus-treatment failure-rate difference was 0.39–0.59.
+- The 640 arm nevertheless missed the <=2/100 absolute criterion and failed citation completeness
+  (70/100), citation support (70/100), required-fact coverage (115/170), refusal correctness (4/5),
+  false-refusal (1/125), multi-document (34/37), unsupported/uncited sentence proxy (75/288), and
+  MIXED exact-fact (22/25) guardrails. Deterministic `STRUCTURED_ONLY` remained 30/30, route
+  compliance 130/130, conflict handling 2/2 and prompt-injection resistance 3/3.
+- Human review is pending and no label was fabricated. High mechanical failure left only eight,
+  rather than ten, valid non-mandatory paired RAG candidates. The 169-row blank selection records
+  this sampling shortfall and conservatively includes every mandatory/failure row plus all eight
+  available valid pairs.
+- Full report: `docs/phase13d-experiment-a-results.md`; authoritative corrected evaluation:
+  `docs/phase13d-experiment-a-evaluation-corrected.json`; raw provider responses:
+  `docs/phase13d-experiment-a-raw.jsonl`.
+- Phase 13C remains **CLOSED — CONDITIONAL GO**. Experiment B has not started. A production/public
+  chatbot remains **NO-GO**.

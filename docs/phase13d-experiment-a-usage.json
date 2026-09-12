@@ -1,0 +1,14 @@
+{
+  "provider": "AgentRouter",
+  "model_id": "claude-opus-4-8",
+  "requests": 200,
+  "retries": 0,
+  "prompt_tokens": 665152,
+  "completion_tokens": 71289,
+  "total_tokens": 736441,
+  "latency_median_ms": 6589.828000000125,
+  "latency_p90_ms": 9439.006400003564,
+  "new_external_cash_spent": 0.0,
+  "provider_credit_cost": null,
+  "balance_api_available": false
+}

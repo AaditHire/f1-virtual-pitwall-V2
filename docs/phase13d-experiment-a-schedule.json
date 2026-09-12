@@ -1,0 +1,1607 @@
+{
+  "schema_version": "phase13d-paired-schedule-v1",
+  "seed": 130320640,
+  "algorithm": "Python random.Random; shuffle question IDs; shuffle 50/50 first-arm labels; consecutive pairs",
+  "calls": [
+    {
+      "call_order": 1,
+      "pair_index": 1,
+      "within_pair": 1,
+      "question_id": "q13d_c24bc14709b66e393904",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 2,
+      "pair_index": 1,
+      "within_pair": 2,
+      "question_id": "q13d_c24bc14709b66e393904",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 3,
+      "pair_index": 2,
+      "within_pair": 1,
+      "question_id": "q13d_5d069051c25f5b93fb43",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 4,
+      "pair_index": 2,
+      "within_pair": 2,
+      "question_id": "q13d_5d069051c25f5b93fb43",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 5,
+      "pair_index": 3,
+      "within_pair": 1,
+      "question_id": "q13d_5b42222131e90bf5dacf",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 6,
+      "pair_index": 3,
+      "within_pair": 2,
+      "question_id": "q13d_5b42222131e90bf5dacf",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 7,
+      "pair_index": 4,
+      "within_pair": 1,
+      "question_id": "q13d_15d1299e4c2ae767fdbe",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 8,
+      "pair_index": 4,
+      "within_pair": 2,
+      "question_id": "q13d_15d1299e4c2ae767fdbe",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 9,
+      "pair_index": 5,
+      "within_pair": 1,
+      "question_id": "q13d_36e8977ce4e0cbf2a156",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 10,
+      "pair_index": 5,
+      "within_pair": 2,
+      "question_id": "q13d_36e8977ce4e0cbf2a156",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 11,
+      "pair_index": 6,
+      "within_pair": 1,
+      "question_id": "q13d_10963bf2c605e48be9f6",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 12,
+      "pair_index": 6,
+      "within_pair": 2,
+      "question_id": "q13d_10963bf2c605e48be9f6",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 13,
+      "pair_index": 7,
+      "within_pair": 1,
+      "question_id": "q13d_26dcb03a012e771c5904",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 14,
+      "pair_index": 7,
+      "within_pair": 2,
+      "question_id": "q13d_26dcb03a012e771c5904",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 15,
+      "pair_index": 8,
+      "within_pair": 1,
+      "question_id": "q13d_f7e48d0256748256bbe1",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 16,
+      "pair_index": 8,
+      "within_pair": 2,
+      "question_id": "q13d_f7e48d0256748256bbe1",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 17,
+      "pair_index": 9,
+      "within_pair": 1,
+      "question_id": "q13d_8fd5589debc7a772c1ed",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 18,
+      "pair_index": 9,
+      "within_pair": 2,
+      "question_id": "q13d_8fd5589debc7a772c1ed",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 19,
+      "pair_index": 10,
+      "within_pair": 1,
+      "question_id": "q13d_8e57ca1755314752533c",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 20,
+      "pair_index": 10,
+      "within_pair": 2,
+      "question_id": "q13d_8e57ca1755314752533c",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 21,
+      "pair_index": 11,
+      "within_pair": 1,
+      "question_id": "q13d_06a444971fcd84ec5056",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 22,
+      "pair_index": 11,
+      "within_pair": 2,
+      "question_id": "q13d_06a444971fcd84ec5056",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 23,
+      "pair_index": 12,
+      "within_pair": 1,
+      "question_id": "q13d_9e4fe2f1242d9379130c",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 24,
+      "pair_index": 12,
+      "within_pair": 2,
+      "question_id": "q13d_9e4fe2f1242d9379130c",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 25,
+      "pair_index": 13,
+      "within_pair": 1,
+      "question_id": "q13d_511b36fda177a33c8ad5",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 26,
+      "pair_index": 13,
+      "within_pair": 2,
+      "question_id": "q13d_511b36fda177a33c8ad5",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 27,
+      "pair_index": 14,
+      "within_pair": 1,
+      "question_id": "q13d_eaba2614293d0cb9d3e2",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 28,
+      "pair_index": 14,
+      "within_pair": 2,
+      "question_id": "q13d_eaba2614293d0cb9d3e2",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 29,
+      "pair_index": 15,
+      "within_pair": 1,
+      "question_id": "q13d_2cf8bc909c059b5cca4f",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 30,
+      "pair_index": 15,
+      "within_pair": 2,
+      "question_id": "q13d_2cf8bc909c059b5cca4f",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 31,
+      "pair_index": 16,
+      "within_pair": 1,
+      "question_id": "q13d_06ee85f215dd8eb67f7f",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 32,
+      "pair_index": 16,
+      "within_pair": 2,
+      "question_id": "q13d_06ee85f215dd8eb67f7f",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 33,
+      "pair_index": 17,
+      "within_pair": 1,
+      "question_id": "q13d_bf4c747740def5a9c01f",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 34,
+      "pair_index": 17,
+      "within_pair": 2,
+      "question_id": "q13d_bf4c747740def5a9c01f",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 35,
+      "pair_index": 18,
+      "within_pair": 1,
+      "question_id": "q13d_f5d058442ae24723b194",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 36,
+      "pair_index": 18,
+      "within_pair": 2,
+      "question_id": "q13d_f5d058442ae24723b194",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 37,
+      "pair_index": 19,
+      "within_pair": 1,
+      "question_id": "q13d_622964954dafd6aa5d39",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 38,
+      "pair_index": 19,
+      "within_pair": 2,
+      "question_id": "q13d_622964954dafd6aa5d39",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 39,
+      "pair_index": 20,
+      "within_pair": 1,
+      "question_id": "q13d_6e0fc99ed402dd96f394",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 40,
+      "pair_index": 20,
+      "within_pair": 2,
+      "question_id": "q13d_6e0fc99ed402dd96f394",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 41,
+      "pair_index": 21,
+      "within_pair": 1,
+      "question_id": "q13d_c276ea6776f63463d336",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 42,
+      "pair_index": 21,
+      "within_pair": 2,
+      "question_id": "q13d_c276ea6776f63463d336",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 43,
+      "pair_index": 22,
+      "within_pair": 1,
+      "question_id": "q13d_6e4ffabdaad1aec260a2",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 44,
+      "pair_index": 22,
+      "within_pair": 2,
+      "question_id": "q13d_6e4ffabdaad1aec260a2",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 45,
+      "pair_index": 23,
+      "within_pair": 1,
+      "question_id": "q13d_1022d4890aa1ddd0aeb3",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 46,
+      "pair_index": 23,
+      "within_pair": 2,
+      "question_id": "q13d_1022d4890aa1ddd0aeb3",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 47,
+      "pair_index": 24,
+      "within_pair": 1,
+      "question_id": "q13d_49111645381d24fcfcae",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 48,
+      "pair_index": 24,
+      "within_pair": 2,
+      "question_id": "q13d_49111645381d24fcfcae",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 49,
+      "pair_index": 25,
+      "within_pair": 1,
+      "question_id": "q13d_9fc89943c700b8089194",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 50,
+      "pair_index": 25,
+      "within_pair": 2,
+      "question_id": "q13d_9fc89943c700b8089194",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 51,
+      "pair_index": 26,
+      "within_pair": 1,
+      "question_id": "q13d_6443174f99f39c319829",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 52,
+      "pair_index": 26,
+      "within_pair": 2,
+      "question_id": "q13d_6443174f99f39c319829",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 53,
+      "pair_index": 27,
+      "within_pair": 1,
+      "question_id": "q13d_d1ff5265c97949a034b9",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 54,
+      "pair_index": 27,
+      "within_pair": 2,
+      "question_id": "q13d_d1ff5265c97949a034b9",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 55,
+      "pair_index": 28,
+      "within_pair": 1,
+      "question_id": "q13d_50729da78eda7868f0db",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 56,
+      "pair_index": 28,
+      "within_pair": 2,
+      "question_id": "q13d_50729da78eda7868f0db",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 57,
+      "pair_index": 29,
+      "within_pair": 1,
+      "question_id": "q13d_644930d60482ee6c738d",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 58,
+      "pair_index": 29,
+      "within_pair": 2,
+      "question_id": "q13d_644930d60482ee6c738d",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 59,
+      "pair_index": 30,
+      "within_pair": 1,
+      "question_id": "q13d_a8c96532556518015cd4",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 60,
+      "pair_index": 30,
+      "within_pair": 2,
+      "question_id": "q13d_a8c96532556518015cd4",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 61,
+      "pair_index": 31,
+      "within_pair": 1,
+      "question_id": "q13d_639c6ebc88f518c65b91",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 62,
+      "pair_index": 31,
+      "within_pair": 2,
+      "question_id": "q13d_639c6ebc88f518c65b91",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 63,
+      "pair_index": 32,
+      "within_pair": 1,
+      "question_id": "q13d_140e41c8f331c7b99ca4",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 64,
+      "pair_index": 32,
+      "within_pair": 2,
+      "question_id": "q13d_140e41c8f331c7b99ca4",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 65,
+      "pair_index": 33,
+      "within_pair": 1,
+      "question_id": "q13d_dd78a393deca47353ced",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 66,
+      "pair_index": 33,
+      "within_pair": 2,
+      "question_id": "q13d_dd78a393deca47353ced",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 67,
+      "pair_index": 34,
+      "within_pair": 1,
+      "question_id": "q13d_1971466edb1634ea9b6e",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 68,
+      "pair_index": 34,
+      "within_pair": 2,
+      "question_id": "q13d_1971466edb1634ea9b6e",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 69,
+      "pair_index": 35,
+      "within_pair": 1,
+      "question_id": "q13d_11475dbd32043d67dd5e",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 70,
+      "pair_index": 35,
+      "within_pair": 2,
+      "question_id": "q13d_11475dbd32043d67dd5e",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 71,
+      "pair_index": 36,
+      "within_pair": 1,
+      "question_id": "q13d_b1ec61fd31efeb1f5039",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 72,
+      "pair_index": 36,
+      "within_pair": 2,
+      "question_id": "q13d_b1ec61fd31efeb1f5039",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 73,
+      "pair_index": 37,
+      "within_pair": 1,
+      "question_id": "q13d_188d6aaccc2bf5674f69",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 74,
+      "pair_index": 37,
+      "within_pair": 2,
+      "question_id": "q13d_188d6aaccc2bf5674f69",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 75,
+      "pair_index": 38,
+      "within_pair": 1,
+      "question_id": "q13d_d70b1f889ba01400e557",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 76,
+      "pair_index": 38,
+      "within_pair": 2,
+      "question_id": "q13d_d70b1f889ba01400e557",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 77,
+      "pair_index": 39,
+      "within_pair": 1,
+      "question_id": "q13d_09c1a35cf9a209c42363",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 78,
+      "pair_index": 39,
+      "within_pair": 2,
+      "question_id": "q13d_09c1a35cf9a209c42363",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 79,
+      "pair_index": 40,
+      "within_pair": 1,
+      "question_id": "q13d_f7ad5e2d299b153de56f",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 80,
+      "pair_index": 40,
+      "within_pair": 2,
+      "question_id": "q13d_f7ad5e2d299b153de56f",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 81,
+      "pair_index": 41,
+      "within_pair": 1,
+      "question_id": "q13d_c763d70bd86de971858e",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 82,
+      "pair_index": 41,
+      "within_pair": 2,
+      "question_id": "q13d_c763d70bd86de971858e",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 83,
+      "pair_index": 42,
+      "within_pair": 1,
+      "question_id": "q13d_adbc043a105d36966a8b",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 84,
+      "pair_index": 42,
+      "within_pair": 2,
+      "question_id": "q13d_adbc043a105d36966a8b",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 85,
+      "pair_index": 43,
+      "within_pair": 1,
+      "question_id": "q13d_9ca21c79894485697903",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 86,
+      "pair_index": 43,
+      "within_pair": 2,
+      "question_id": "q13d_9ca21c79894485697903",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 87,
+      "pair_index": 44,
+      "within_pair": 1,
+      "question_id": "q13d_654634b3a7b82d31c1a8",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 88,
+      "pair_index": 44,
+      "within_pair": 2,
+      "question_id": "q13d_654634b3a7b82d31c1a8",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 89,
+      "pair_index": 45,
+      "within_pair": 1,
+      "question_id": "q13d_e9a80bc75ac79f0acca0",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 90,
+      "pair_index": 45,
+      "within_pair": 2,
+      "question_id": "q13d_e9a80bc75ac79f0acca0",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 91,
+      "pair_index": 46,
+      "within_pair": 1,
+      "question_id": "q13d_050ebbd36cb46e081636",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 92,
+      "pair_index": 46,
+      "within_pair": 2,
+      "question_id": "q13d_050ebbd36cb46e081636",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 93,
+      "pair_index": 47,
+      "within_pair": 1,
+      "question_id": "q13d_f52d4a050fbad355ba44",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 94,
+      "pair_index": 47,
+      "within_pair": 2,
+      "question_id": "q13d_f52d4a050fbad355ba44",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 95,
+      "pair_index": 48,
+      "within_pair": 1,
+      "question_id": "q13d_3ac8e5db88c5dfc5733f",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 96,
+      "pair_index": 48,
+      "within_pair": 2,
+      "question_id": "q13d_3ac8e5db88c5dfc5733f",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 97,
+      "pair_index": 49,
+      "within_pair": 1,
+      "question_id": "q13d_0a1e2a1025eac2c41720",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 98,
+      "pair_index": 49,
+      "within_pair": 2,
+      "question_id": "q13d_0a1e2a1025eac2c41720",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 99,
+      "pair_index": 50,
+      "within_pair": 1,
+      "question_id": "q13d_036b8fe9314086f34630",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 100,
+      "pair_index": 50,
+      "within_pair": 2,
+      "question_id": "q13d_036b8fe9314086f34630",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 101,
+      "pair_index": 51,
+      "within_pair": 1,
+      "question_id": "q13d_a540f043e61c3ad656bf",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 102,
+      "pair_index": 51,
+      "within_pair": 2,
+      "question_id": "q13d_a540f043e61c3ad656bf",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 103,
+      "pair_index": 52,
+      "within_pair": 1,
+      "question_id": "q13d_fe4acbbe13550c295703",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 104,
+      "pair_index": 52,
+      "within_pair": 2,
+      "question_id": "q13d_fe4acbbe13550c295703",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 105,
+      "pair_index": 53,
+      "within_pair": 1,
+      "question_id": "q13d_3c0d14c3d12d8cf598c0",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 106,
+      "pair_index": 53,
+      "within_pair": 2,
+      "question_id": "q13d_3c0d14c3d12d8cf598c0",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 107,
+      "pair_index": 54,
+      "within_pair": 1,
+      "question_id": "q13d_afc15b941acaeabcca22",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 108,
+      "pair_index": 54,
+      "within_pair": 2,
+      "question_id": "q13d_afc15b941acaeabcca22",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 109,
+      "pair_index": 55,
+      "within_pair": 1,
+      "question_id": "q13d_e3efde6f51279a5b5d74",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 110,
+      "pair_index": 55,
+      "within_pair": 2,
+      "question_id": "q13d_e3efde6f51279a5b5d74",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 111,
+      "pair_index": 56,
+      "within_pair": 1,
+      "question_id": "q13d_15eb5b3174f22d34b45d",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 112,
+      "pair_index": 56,
+      "within_pair": 2,
+      "question_id": "q13d_15eb5b3174f22d34b45d",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 113,
+      "pair_index": 57,
+      "within_pair": 1,
+      "question_id": "q13d_c746a307982d25c25f5e",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 114,
+      "pair_index": 57,
+      "within_pair": 2,
+      "question_id": "q13d_c746a307982d25c25f5e",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 115,
+      "pair_index": 58,
+      "within_pair": 1,
+      "question_id": "q13d_60ef265e17758ff48c30",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 116,
+      "pair_index": 58,
+      "within_pair": 2,
+      "question_id": "q13d_60ef265e17758ff48c30",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 117,
+      "pair_index": 59,
+      "within_pair": 1,
+      "question_id": "q13d_bcef1fced38bd839fe3e",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 118,
+      "pair_index": 59,
+      "within_pair": 2,
+      "question_id": "q13d_bcef1fced38bd839fe3e",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 119,
+      "pair_index": 60,
+      "within_pair": 1,
+      "question_id": "q13d_e5460106ade097e6159c",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 120,
+      "pair_index": 60,
+      "within_pair": 2,
+      "question_id": "q13d_e5460106ade097e6159c",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 121,
+      "pair_index": 61,
+      "within_pair": 1,
+      "question_id": "q13d_8d6b9c3c84448a399d56",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 122,
+      "pair_index": 61,
+      "within_pair": 2,
+      "question_id": "q13d_8d6b9c3c84448a399d56",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 123,
+      "pair_index": 62,
+      "within_pair": 1,
+      "question_id": "q13d_79784e500315717f42ab",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 124,
+      "pair_index": 62,
+      "within_pair": 2,
+      "question_id": "q13d_79784e500315717f42ab",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 125,
+      "pair_index": 63,
+      "within_pair": 1,
+      "question_id": "q13d_a24f1b8435ec597ad196",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 126,
+      "pair_index": 63,
+      "within_pair": 2,
+      "question_id": "q13d_a24f1b8435ec597ad196",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 127,
+      "pair_index": 64,
+      "within_pair": 1,
+      "question_id": "q13d_fd58cc807956e9279c23",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 128,
+      "pair_index": 64,
+      "within_pair": 2,
+      "question_id": "q13d_fd58cc807956e9279c23",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 129,
+      "pair_index": 65,
+      "within_pair": 1,
+      "question_id": "q13d_2a0fa8310a46eac3a711",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 130,
+      "pair_index": 65,
+      "within_pair": 2,
+      "question_id": "q13d_2a0fa8310a46eac3a711",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 131,
+      "pair_index": 66,
+      "within_pair": 1,
+      "question_id": "q13d_47e67270f21eac606271",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 132,
+      "pair_index": 66,
+      "within_pair": 2,
+      "question_id": "q13d_47e67270f21eac606271",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 133,
+      "pair_index": 67,
+      "within_pair": 1,
+      "question_id": "q13d_0c025455909eb7c3bc33",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 134,
+      "pair_index": 67,
+      "within_pair": 2,
+      "question_id": "q13d_0c025455909eb7c3bc33",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 135,
+      "pair_index": 68,
+      "within_pair": 1,
+      "question_id": "q13d_681df80845056325729f",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 136,
+      "pair_index": 68,
+      "within_pair": 2,
+      "question_id": "q13d_681df80845056325729f",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 137,
+      "pair_index": 69,
+      "within_pair": 1,
+      "question_id": "q13d_1f1b988af1950fe070e4",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 138,
+      "pair_index": 69,
+      "within_pair": 2,
+      "question_id": "q13d_1f1b988af1950fe070e4",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 139,
+      "pair_index": 70,
+      "within_pair": 1,
+      "question_id": "q13d_a1374f53d95b4e6e6359",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 140,
+      "pair_index": 70,
+      "within_pair": 2,
+      "question_id": "q13d_a1374f53d95b4e6e6359",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 141,
+      "pair_index": 71,
+      "within_pair": 1,
+      "question_id": "q13d_ff9652a47b4edc1f6caa",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 142,
+      "pair_index": 71,
+      "within_pair": 2,
+      "question_id": "q13d_ff9652a47b4edc1f6caa",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 143,
+      "pair_index": 72,
+      "within_pair": 1,
+      "question_id": "q13d_9425cc620df963b17579",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 144,
+      "pair_index": 72,
+      "within_pair": 2,
+      "question_id": "q13d_9425cc620df963b17579",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 145,
+      "pair_index": 73,
+      "within_pair": 1,
+      "question_id": "q13d_97c32e311a17b531926e",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 146,
+      "pair_index": 73,
+      "within_pair": 2,
+      "question_id": "q13d_97c32e311a17b531926e",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 147,
+      "pair_index": 74,
+      "within_pair": 1,
+      "question_id": "q13d_bbf500c2a14de617099a",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 148,
+      "pair_index": 74,
+      "within_pair": 2,
+      "question_id": "q13d_bbf500c2a14de617099a",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 149,
+      "pair_index": 75,
+      "within_pair": 1,
+      "question_id": "q13d_f3058f03994a49e9acf2",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 150,
+      "pair_index": 75,
+      "within_pair": 2,
+      "question_id": "q13d_f3058f03994a49e9acf2",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 151,
+      "pair_index": 76,
+      "within_pair": 1,
+      "question_id": "q13d_76f80bf579dfaa891513",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 152,
+      "pair_index": 76,
+      "within_pair": 2,
+      "question_id": "q13d_76f80bf579dfaa891513",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 153,
+      "pair_index": 77,
+      "within_pair": 1,
+      "question_id": "q13d_a6391c96343137cece31",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 154,
+      "pair_index": 77,
+      "within_pair": 2,
+      "question_id": "q13d_a6391c96343137cece31",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 155,
+      "pair_index": 78,
+      "within_pair": 1,
+      "question_id": "q13d_f3476f41b7bc05b3c18d",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 156,
+      "pair_index": 78,
+      "within_pair": 2,
+      "question_id": "q13d_f3476f41b7bc05b3c18d",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 157,
+      "pair_index": 79,
+      "within_pair": 1,
+      "question_id": "q13d_6bfd27380eecc30ed56a",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 158,
+      "pair_index": 79,
+      "within_pair": 2,
+      "question_id": "q13d_6bfd27380eecc30ed56a",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 159,
+      "pair_index": 80,
+      "within_pair": 1,
+      "question_id": "q13d_d715620484e59f9ea59a",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 160,
+      "pair_index": 80,
+      "within_pair": 2,
+      "question_id": "q13d_d715620484e59f9ea59a",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 161,
+      "pair_index": 81,
+      "within_pair": 1,
+      "question_id": "q13d_d8042e3297ecf73e55b9",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 162,
+      "pair_index": 81,
+      "within_pair": 2,
+      "question_id": "q13d_d8042e3297ecf73e55b9",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 163,
+      "pair_index": 82,
+      "within_pair": 1,
+      "question_id": "q13d_490cd26f30398f9bf162",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 164,
+      "pair_index": 82,
+      "within_pair": 2,
+      "question_id": "q13d_490cd26f30398f9bf162",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 165,
+      "pair_index": 83,
+      "within_pair": 1,
+      "question_id": "q13d_7556f413bdeb1b90dbd7",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 166,
+      "pair_index": 83,
+      "within_pair": 2,
+      "question_id": "q13d_7556f413bdeb1b90dbd7",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 167,
+      "pair_index": 84,
+      "within_pair": 1,
+      "question_id": "q13d_7240911c449579e28e2f",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 168,
+      "pair_index": 84,
+      "within_pair": 2,
+      "question_id": "q13d_7240911c449579e28e2f",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 169,
+      "pair_index": 85,
+      "within_pair": 1,
+      "question_id": "q13d_97c058cfc5df1744cb1d",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 170,
+      "pair_index": 85,
+      "within_pair": 2,
+      "question_id": "q13d_97c058cfc5df1744cb1d",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 171,
+      "pair_index": 86,
+      "within_pair": 1,
+      "question_id": "q13d_958e912b37be323b80a8",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 172,
+      "pair_index": 86,
+      "within_pair": 2,
+      "question_id": "q13d_958e912b37be323b80a8",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 173,
+      "pair_index": 87,
+      "within_pair": 1,
+      "question_id": "q13d_ae300bfa36b7f4001df2",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 174,
+      "pair_index": 87,
+      "within_pair": 2,
+      "question_id": "q13d_ae300bfa36b7f4001df2",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 175,
+      "pair_index": 88,
+      "within_pair": 1,
+      "question_id": "q13d_7818bc2801560f7d4456",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 176,
+      "pair_index": 88,
+      "within_pair": 2,
+      "question_id": "q13d_7818bc2801560f7d4456",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 177,
+      "pair_index": 89,
+      "within_pair": 1,
+      "question_id": "q13d_0139a994633619a58614",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 178,
+      "pair_index": 89,
+      "within_pair": 2,
+      "question_id": "q13d_0139a994633619a58614",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 179,
+      "pair_index": 90,
+      "within_pair": 1,
+      "question_id": "q13d_2462eb008f8c80938b22",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 180,
+      "pair_index": 90,
+      "within_pair": 2,
+      "question_id": "q13d_2462eb008f8c80938b22",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 181,
+      "pair_index": 91,
+      "within_pair": 1,
+      "question_id": "q13d_00d2f800c2804d6b8334",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 182,
+      "pair_index": 91,
+      "within_pair": 2,
+      "question_id": "q13d_00d2f800c2804d6b8334",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 183,
+      "pair_index": 92,
+      "within_pair": 1,
+      "question_id": "q13d_e075a632800be00fb0d2",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 184,
+      "pair_index": 92,
+      "within_pair": 2,
+      "question_id": "q13d_e075a632800be00fb0d2",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 185,
+      "pair_index": 93,
+      "within_pair": 1,
+      "question_id": "q13d_935b313a5b462921ee2c",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 186,
+      "pair_index": 93,
+      "within_pair": 2,
+      "question_id": "q13d_935b313a5b462921ee2c",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 187,
+      "pair_index": 94,
+      "within_pair": 1,
+      "question_id": "q13d_c3a4291e7030f9e4b8ca",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 188,
+      "pair_index": 94,
+      "within_pair": 2,
+      "question_id": "q13d_c3a4291e7030f9e4b8ca",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 189,
+      "pair_index": 95,
+      "within_pair": 1,
+      "question_id": "q13d_7cbbb54f7b8feb99f418",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 190,
+      "pair_index": 95,
+      "within_pair": 2,
+      "question_id": "q13d_7cbbb54f7b8feb99f418",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 191,
+      "pair_index": 96,
+      "within_pair": 1,
+      "question_id": "q13d_972d84b48e5131ce0053",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 192,
+      "pair_index": 96,
+      "within_pair": 2,
+      "question_id": "q13d_972d84b48e5131ce0053",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 193,
+      "pair_index": 97,
+      "within_pair": 1,
+      "question_id": "q13d_60d52a65f16ebde884e3",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 194,
+      "pair_index": 97,
+      "within_pair": 2,
+      "question_id": "q13d_60d52a65f16ebde884e3",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 195,
+      "pair_index": 98,
+      "within_pair": 1,
+      "question_id": "q13d_3d047bb6f09c49355b01",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 196,
+      "pair_index": 98,
+      "within_pair": 2,
+      "question_id": "q13d_3d047bb6f09c49355b01",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 197,
+      "pair_index": 99,
+      "within_pair": 1,
+      "question_id": "q13d_ef6885af9ddb46390aab",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 198,
+      "pair_index": 99,
+      "within_pair": 2,
+      "question_id": "q13d_ef6885af9ddb46390aab",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    },
+    {
+      "call_order": 199,
+      "pair_index": 100,
+      "within_pair": 1,
+      "question_id": "q13d_6db38e6dd84333bfe455",
+      "arm": "TREATMENT_640",
+      "max_output_tokens": 640
+    },
+    {
+      "call_order": 200,
+      "pair_index": 100,
+      "within_pair": 2,
+      "question_id": "q13d_6db38e6dd84333bfe455",
+      "arm": "CONTROL_320",
+      "max_output_tokens": 320
+    }
+  ]
+}
