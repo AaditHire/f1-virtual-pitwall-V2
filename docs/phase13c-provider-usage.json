@@ -1,0 +1,17 @@
+{
+  "provider": "AgentRouter",
+  "model_id": "claude-opus-4-8",
+  "benchmark_questions": 60,
+  "agentrouter_generation_requests": 30,
+  "retries": 0,
+  "failed_requests": 6,
+  "prompt_tokens": 73124,
+  "completion_tokens": 7629,
+  "total_tokens": 80753,
+  "new_external_cash_spent": 0.0,
+  "agentrouter_credit_cost": null,
+  "reasoning_tokens": 0,
+  "cached_tokens": 0,
+  "balance_api_available": false,
+  "balance_note": "No documented AgentRouter credit-balance endpoint was used; inspect the AgentRouter dashboard manually."
+}

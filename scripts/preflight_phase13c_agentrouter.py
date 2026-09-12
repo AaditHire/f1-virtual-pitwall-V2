@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 from dataclasses import replace
 from time import perf_counter
@@ -16,11 +17,14 @@ from f1_pitwall.knowledge.agentrouter import (
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.parse_args()
     started = perf_counter()
     generator = None
     report = {
         "provider": "AgentRouter",
         "protocol": "Anthropic-compatible Messages",
+        "sdk_package": "anthropic",
         "base_url": AGENTROUTER_BASE_URL,
         "model": AGENTROUTER_MODEL,
         "api_key_configured": False,
@@ -33,6 +37,8 @@ def main() -> None:
     try:
         config = AgentRouterConfig.from_env()
         config = replace(config, max_retries=0, max_output_tokens=8)
+        report["sdk_version"] = config.safe_metadata()["sdk_version"]
+        report["authentication_mode"] = "auth_token / Bearer"
         report["api_key_configured"] = True
         generator = AgentRouterGroundedAnswerGenerator(config)
         result = generator.smoke()

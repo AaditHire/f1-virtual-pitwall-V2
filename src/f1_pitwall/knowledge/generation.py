@@ -123,8 +123,12 @@ def build_generation_messages(bundle: GroundedEvidenceBundle) -> list[dict[str, 
 
 
 def parse_generated_answer(text: str) -> GeneratedAnswer:
+    normalized = text.strip()
+    fenced = re.fullmatch(r"```(?:json)?\s*([\s\S]*?)\s*```", normalized, re.IGNORECASE)
+    if fenced:
+        normalized = fenced.group(1).strip()
     try:
-        payload = json.loads(text)
+        payload = json.loads(normalized)
     except json.JSONDecodeError as exc:
         raise ValueError("provider returned malformed answer JSON") from exc
     return GeneratedAnswer.model_validate(payload)

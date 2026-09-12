@@ -43,8 +43,9 @@ BENCHMARK_PATH = DOCS / "phase13c-answer-benchmark.json"
 CONFIG_PATH = DOCS / "phase13c-generation-config.json"
 OUTPUTS_PATH = DOCS / "phase13c-generation-outputs.json"
 EVALUATION_PATH = DOCS / "phase13c-answer-evaluation.json"
-REVIEW_PATH = DOCS / "phase13c-human-review.json"
+REVIEW_PATH = DOCS / "phase13c-human-review-sample.json"
 USAGE_PATH = DOCS / "phase13c-provider-usage.json"
+FAILURE_PATH = DOCS / "phase13c-generation-failure.json"
 PHASE13B_HASHES = {
     "corpus": "b0338546c795bc71344f1d29343335acea0086025d78f1fb03f65724f35880db",
     "benchmark": "f12ad25afa06439a4630f1b9c2fc779723c3498f3738b365db914d8b7ffb72ad",
@@ -289,6 +290,23 @@ def percentile(values: list[float], proportion: float) -> float | None:
     return ordered[max(0, min(len(ordered) - 1, int(len(ordered) * proportion) - 1))]
 
 
+def failure_record(question_id: str, exc: AgentRouterError) -> dict:
+    """Retain safe provider telemetry even when response parsing fails."""
+    return {
+        "question_id": question_id,
+        "provider": "AgentRouter",
+        "model_id": AGENTROUTER_MODEL,
+        "failure_category": exc.category,
+        "http_status": exc.status_code,
+        "failure": str(exc),
+        "generation_latency_ms": exc.latency_ms,
+        "usage": exc.usage.__dict__,
+        "request_count": exc.request_count,
+        "retry_count": exc.retry_count,
+        "request_id": exc.request_id,
+    }
+
+
 def evaluate_outputs(records: list[dict], outputs: list[dict]) -> dict:
     failures = Counter()
     structured_total = structured_correct = required_total = required_found = 0
@@ -298,9 +316,24 @@ def evaluate_outputs(records: list[dict], outputs: list[dict]) -> dict:
         conflict_pass
     ) = 0
     unsupported_sentences = substantive_sentences = 0
+    route_total = route_correct = 0
     for record, output in zip(records, outputs, strict=True):
         answer = output["answer"]
-        lowered = answer["answer"].casefold()
+        answer_text = answer["answer"] if answer else ""
+        lowered = answer_text.casefold()
+        route_total += 1
+        expected_provider = None if record["route_type"] == "STRUCTURED_ONLY" else "AgentRouter"
+        route_matches = output.get("provider") == expected_provider
+        route_correct += route_matches
+        if not route_matches:
+            failures["ROUTE_COMPLIANCE_FAILURE"] += 1
+        if output.get("provider_error"):
+            category = output["provider_error"]["category"]
+            failures[
+                category
+                if category in {"MALFORMED_RESPONSE", "INVALID_CITATION"}
+                else "PROVIDER_API_FAILURE"
+            ] += 1
         if record["route_type"] in {"STRUCTURED_ONLY", "MIXED"}:
             structured_total += len(output["bundle"]["structured_facts"])
             for fact in output["bundle"]["structured_facts"]:
@@ -336,7 +369,7 @@ def evaluate_outputs(records: list[dict], outputs: list[dict]) -> dict:
             failures[
                 "MULTI_DOCUMENT_OMISSION" if record["requires_all_evidence"] else "MISSING_CITATION"
             ] += 1
-        is_refusal = answer["status"] == "INSUFFICIENT_EVIDENCE"
+        is_refusal = bool(answer) and answer["status"] == "INSUFFICIENT_EVIDENCE"
         if record["expected_refusal"]:
             refusal_total += 1
             refusal_correct += is_refusal
@@ -350,7 +383,7 @@ def evaluate_outputs(records: list[dict], outputs: list[dict]) -> dict:
         for forbidden in record["forbidden_claims"]:
             if forbidden.casefold() in lowered:
                 failures["UNSUPPORTED_CLAIM"] += 1
-        for sentence in filter(None, (part.strip() for part in answer["answer"].split("."))):
+        for sentence in filter(None, (part.strip() for part in answer_text.split("."))):
             substantive_sentences += 1
             if (
                 record["route_type"] != "STRUCTURED_ONLY"
@@ -374,23 +407,48 @@ def evaluate_outputs(records: list[dict], outputs: list[dict]) -> dict:
             if not passed:
                 failures["SOURCE_CONFLICT_MISHANDLED"] += 1
     return {
+        "structured_fact_correct": structured_correct,
+        "structured_fact_total": structured_total,
         "structured_fact_correctness": structured_correct / structured_total
         if structured_total
         else None,
+        "required_facts_found": required_found,
+        "required_facts_total": required_total,
         "required_fact_coverage": required_found / required_total,
+        "unsupported_claims": unsupported_sentences,
+        "substantive_claims": substantive_sentences,
         "unsupported_claim_rate": unsupported_sentences / substantive_sentences
         if substantive_sentences
         else 0,
+        "valid_citations": citations_valid,
+        "emitted_citations": citations_total,
         "citation_validity": citations_valid / citations_total if citations_total else None,
+        "citation_complete_answers": citation_complete,
+        "citation_complete_total": len(outputs),
         "citation_completeness": citation_complete / len(outputs),
+        "citation_supported_answers": citation_supported,
+        "citation_supported_total": len(outputs),
         "citation_support": citation_supported / len(outputs),
+        "correct_refusals": refusal_correct,
+        "expected_refusals": refusal_total,
         "refusal_accuracy": refusal_correct / refusal_total if refusal_total else None,
+        "false_refusals": false_refusals,
+        "answerable_questions": answerable,
         "false_refusal_rate": false_refusals / answerable if answerable else None,
+        "multi_document_complete": multi_complete,
+        "multi_document_total": multi_total,
         "multi_document_synthesis": multi_complete / multi_total if multi_total else None,
+        "prompt_injection_passes": injection_pass,
+        "prompt_injection_total": injection_total,
         "prompt_injection_resistance": injection_pass / injection_total
         if injection_total
         else None,
+        "conflict_handling_passes": conflict_pass,
+        "conflict_handling_total": conflict_total,
         "conflict_handling": conflict_pass / conflict_total if conflict_total else None,
+        "route_compliant": route_correct,
+        "route_total": route_total,
+        "route_compliance": route_correct / route_total if route_total else None,
         "failure_categories": dict(sorted(failures.items())),
     }
 
@@ -415,13 +473,14 @@ def main() -> None:
         "protocol": "Anthropic-compatible Messages",
         "base_url": config.base_url,
         "authentication": "Bearer via AGENTROUTER_API_KEY",
-        "temperature": config.temperature,
+        "temperature": "SDK default (not overridden)",
         "max_output_tokens": config.max_output_tokens,
         "system_prompt": SYSTEM_PROMPT,
         "system_prompt_sha256": hashlib.sha256(SYSTEM_PROMPT.encode()).hexdigest(),
         "evidence_bundle_format": "GroundedEvidenceBundle JSON, schema version phase13c-v1",
         "user_prompt_format": "EVIDENCE_BUNDLE_JSON newline + canonical sorted JSON",
         "citation_format": "controlled inline source IDs [S1], [S2], ...",
+        "output_contract": "forced grounded_answer tool using GeneratedAnswer JSON schema",
         "refusal_states": ["PARTIAL", "INSUFFICIENT"],
         "benchmark_sha256": sha256(BENCHMARK_PATH),
         "frozen_at": datetime.now(UTC).isoformat(),
@@ -443,27 +502,59 @@ def main() -> None:
         if record["route_type"] == "STRUCTURED_ONLY":
             answer = deterministic_structured_answer(bundle)
             provider = None
+            provider_error = None
             generation_ms = 0.0
             usage = {}
             requests = retries = 0
         else:
-            result = generator.generate(bundle)
-            answer = result.answer
-            provider = "AgentRouter"
-            generation_ms = result.latency_ms
-            usage = result.usage.__dict__
-            requests, retries = result.request_count, result.retry_count
+            try:
+                result = generator.generate(bundle)
+            except AgentRouterError as exc:
+                if exc.category not in {"MALFORMED_RESPONSE", "INVALID_CITATION"}:
+                    FAILURE_PATH.write_text(
+                        json.dumps(failure_record(record["question_id"], exc), indent=2),
+                        encoding="utf-8",
+                    )
+                    raise
+                answer = exc.generated_answer
+                provider = "AgentRouter"
+                generation_ms = exc.latency_ms or 0.0
+                usage = exc.usage.__dict__
+                requests, retries = exc.request_count, exc.retry_count
+                provider_error = {
+                    "category": exc.category,
+                    "message": str(exc),
+                    "http_status": exc.status_code,
+                }
+            else:
+                answer = result.answer
+                provider = "AgentRouter"
+                generation_ms = result.latency_ms
+                usage = result.usage.__dict__
+                requests, retries = result.request_count, result.retry_count
+                provider_error = None
         validation_started = perf_counter()
-        validation = validate_citations(answer, bundle)
+        validation = validate_citations(answer, bundle) if answer else None
         validation_ms = (perf_counter() - validation_started) * 1000
         outputs.append(
             {
                 "question_id": record["question_id"],
+                "route_type": record["route_type"],
+                "expected_facts": record["required_facts"],
                 "provider": provider,
                 "model_id": AGENTROUTER_MODEL if provider else None,
-                "answer": answer.model_dump(mode="json"),
+                "answer": answer.model_dump(mode="json") if answer else None,
                 "bundle": bundle.model_dump(mode="json"),
-                "citation_validation": validation.__dict__,
+                "citation_validation": validation.__dict__
+                if validation
+                else {
+                    "valid": False,
+                    "emitted": [],
+                    "unknown": [],
+                    "malformed": [],
+                    "missing_required": True,
+                },
+                "provider_error": provider_error if provider else None,
                 "generation_latency_ms": generation_ms,
                 "routing_latency_ms": routing_ms,
                 "retrieval_latency_ms": retrieval_ms,
@@ -475,6 +566,7 @@ def main() -> None:
                 "retry_count": retries,
             }
         )
+        OUTPUTS_PATH.write_text(json.dumps(outputs, indent=2), encoding="utf-8")
     OUTPUTS_PATH.write_text(json.dumps(outputs, indent=2), encoding="utf-8")
     metrics = evaluate_outputs(records, outputs)
     agent_outputs = [row for row in outputs if row["provider"]]
@@ -483,8 +575,13 @@ def main() -> None:
             "provider": "AgentRouter",
             "model_id": AGENTROUTER_MODEL,
             "benchmark_questions": len(records),
+            "route_distribution": dict(Counter(row["route_type"] for row in records)),
+            "deterministic_structured_only_answers": sum(
+                row["route_type"] == "STRUCTURED_ONLY" for row in records
+            ),
             "agentrouter_generation_requests": sum(row["request_count"] for row in outputs),
             "retries": sum(row["retry_count"] for row in outputs),
+            "failed_requests": sum(bool(row.get("provider_error")) for row in outputs),
             "prompt_tokens": sum((row["usage"].get("prompt_tokens") or 0) for row in agent_outputs),
             "completion_tokens": sum(
                 (row["usage"].get("completion_tokens") or 0) for row in agent_outputs
@@ -527,6 +624,7 @@ def main() -> None:
             "benchmark_questions",
             "agentrouter_generation_requests",
             "retries",
+            "failed_requests",
             "prompt_tokens",
             "completion_tokens",
             "total_tokens",

@@ -1,4 +1,4 @@
-"""Secret-safe AgentRouter Anthropic-compatible provider adapter."""
+"""Secret-safe AgentRouter provider backed by the official Anthropic SDK."""
 
 from __future__ import annotations
 
@@ -9,36 +9,61 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
 from time import perf_counter
+from typing import Any
 
-import httpx
+import anthropic
 from dotenv import load_dotenv
 
 from f1_pitwall.knowledge.generation import (
+    GeneratedAnswer,
     GenerationResult,
     GroundedAnswerGenerator,
     GroundedEvidenceBundle,
     TokenUsage,
     build_generation_messages,
-    parse_generated_answer,
+    validate_citations,
 )
 
 AGENTROUTER_BASE_URL = "https://agentrouter.org"
 AGENTROUTER_MODEL = "claude-opus-4-8"
-ANTHROPIC_VERSION = "2023-06-01"
 ENV_NAME = "AGENTROUTER_API_KEY"
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
+GROUNDED_ANSWER_TOOL_NAME = "grounded_answer"
+GROUNDED_ANSWER_TOOL = {
+    "name": GROUNDED_ANSWER_TOOL_NAME,
+    "description": "Return the grounded answer payload. This does not execute an action.",
+    "input_schema": GeneratedAnswer.model_json_schema(),
+}
 
 
 def load_project_environment() -> bool:
     """Load the ignored project-root .env without overriding the process environment."""
-    return load_dotenv(PROJECT_ROOT / ".env", override=False)
+    return load_dotenv(PROJECT_ROOT / ".env", override=False, encoding="utf-8-sig")
 
 
 class AgentRouterError(RuntimeError):
-    def __init__(self, category: str, message: str, status_code: int | None = None):
+    def __init__(
+        self,
+        category: str,
+        message: str,
+        status_code: int | None = None,
+        *,
+        usage: TokenUsage | None = None,
+        latency_ms: float | None = None,
+        request_count: int = 0,
+        retry_count: int = 0,
+        request_id: str | None = None,
+        generated_answer: GeneratedAnswer | None = None,
+    ):
         super().__init__(f"AgentRouter {category}: {message}")
         self.category = category
         self.status_code = status_code
+        self.usage = usage or TokenUsage()
+        self.latency_ms = latency_ms
+        self.request_count = request_count
+        self.retry_count = retry_count
+        self.request_id = request_id
+        self.generated_answer = generated_answer
 
 
 @dataclass(frozen=True)
@@ -46,7 +71,6 @@ class AgentRouterConfig:
     api_key: str = field(repr=False)
     model_id: str = AGENTROUTER_MODEL
     base_url: str = AGENTROUTER_BASE_URL
-    temperature: float = 0.0
     max_output_tokens: int = 320
     timeout_seconds: float = 45.0
     max_retries: int = 2
@@ -68,11 +92,13 @@ class AgentRouterConfig:
     def safe_metadata(self) -> dict:
         return {
             "provider": "AgentRouter",
-            "protocol": "Anthropic-compatible Messages",
+            "protocol": "Anthropic-compatible Messages via official Anthropic SDK",
+            "sdk_package": "anthropic",
+            "sdk_version": anthropic.__version__,
+            "authentication_mode": "auth_token / Bearer",
             "base_url": self.base_url,
             "model_id": self.model_id,
-            "anthropic_version": ANTHROPIC_VERSION,
-            "temperature": self.temperature,
+            "temperature": "SDK default (not overridden)",
             "max_output_tokens": self.max_output_tokens,
             "timeout_seconds": self.timeout_seconds,
             "max_retries": self.max_retries,
@@ -80,31 +106,42 @@ class AgentRouterConfig:
         }
 
 
-def _usage(payload: dict) -> TokenUsage:
-    usage = payload.get("usage") or {}
-    prompt = usage.get("input_tokens")
-    completion = usage.get("output_tokens")
+def _usage(message: Any) -> TokenUsage:
+    usage = getattr(message, "usage", None)
+    prompt = getattr(usage, "input_tokens", None)
+    completion = getattr(usage, "output_tokens", None)
     total = prompt + completion if isinstance(prompt, int) and isinstance(completion, int) else None
     return TokenUsage(
         prompt_tokens=prompt,
         completion_tokens=completion,
         total_tokens=total,
-        cached_tokens=usage.get("cache_read_input_tokens"),
+        cached_tokens=getattr(usage, "cache_read_input_tokens", None),
     )
 
 
-def _final_text(payload: dict) -> str:
-    content = payload.get("content")
+def _final_text(message: Any) -> str:
+    content = getattr(message, "content", None)
     if not isinstance(content, list):
         raise AgentRouterError("MALFORMED_RESPONSE", "generation response has no content array")
     text = "".join(
-        block.get("text", "")
-        for block in content
-        if isinstance(block, dict) and block.get("type") == "text"
+        getattr(block, "text", "") for block in content if getattr(block, "type", None) == "text"
     ).strip()
     if not text:
         raise AgentRouterError("MALFORMED_RESPONSE", "generation response has no final text")
     return text
+
+
+def _structured_tool_answer(message: Any) -> GeneratedAnswer:
+    content = getattr(message, "content", None)
+    if not isinstance(content, list):
+        raise ValueError("generation response has no content array")
+    tool_blocks = [block for block in content if getattr(block, "type", None) == "tool_use"]
+    if len(tool_blocks) != 1:
+        raise ValueError("generation response must contain exactly one tool-use block")
+    block = tool_blocks[0]
+    if getattr(block, "name", None) != GROUNDED_ANSWER_TOOL_NAME:
+        raise ValueError("generation response used an unexpected tool name")
+    return GeneratedAnswer.model_validate(getattr(block, "input", None))
 
 
 @dataclass(frozen=True)
@@ -121,94 +158,90 @@ class AgentRouterGroundedAnswerGenerator(GroundedAnswerGenerator):
     def __init__(
         self,
         config: AgentRouterConfig,
-        client: httpx.Client | None = None,
+        client: Any | None = None,
         sleep: Callable[[float], None] = time.sleep,
     ):
         self.config = config
-        self.client = client or httpx.Client(timeout=config.timeout_seconds)
+        self.client = client or anthropic.Anthropic(
+            auth_token=config.api_key,
+            base_url=config.base_url,
+            timeout=config.timeout_seconds,
+            max_retries=0,
+        )
         self.sleep = sleep
         self.last_request_count = 0
         self.last_retry_count = 0
 
-    @property
-    def headers(self) -> dict[str, str]:
-        return {
-            "Authorization": f"Bearer {self.config.api_key}",
-            "anthropic-version": ANTHROPIC_VERSION,
-            "Content-Type": "application/json",
-        }
-
     def smoke(self) -> SmokeResult:
         started = perf_counter()
-        response, requests, retries = self._message_request(
+        message, requests, retries = self._create_message(
             system="Reply exactly as requested.",
             messages=[{"role": "user", "content": "Reply only with OK."}],
             max_tokens=8,
         )
-        payload = self._json(response, "smoke generation")
         return SmokeResult(
-            text=_final_text(payload),
+            text=_final_text(message),
             latency_ms=(perf_counter() - started) * 1000,
-            usage=_usage(payload),
+            usage=_usage(message),
             request_count=requests,
             retry_count=retries,
-            request_id=response.headers.get("request-id") or response.headers.get("x-request-id"),
+            request_id=getattr(message, "_request_id", None),
         )
 
     def generate(self, bundle: GroundedEvidenceBundle) -> GenerationResult:
         started = perf_counter()
-        messages = build_generation_messages(bundle)
-        response, requests, retries = self._message_request(
-            system=messages[0]["content"],
-            messages=messages[1:],
+        prompt = build_generation_messages(bundle)
+        message, requests, retries = self._create_message(
+            system=prompt[0]["content"],
+            messages=prompt[1:],
             max_tokens=self.config.max_output_tokens,
+            structured=True,
         )
-        payload = self._json(response, "generation")
+        latency_ms = (perf_counter() - started) * 1000
+        usage = _usage(message)
+        request_id = getattr(message, "_request_id", None)
         try:
-            answer = parse_generated_answer(_final_text(payload))
+            answer = _structured_tool_answer(message)
         except (ValueError, TypeError) as exc:
             raise AgentRouterError(
-                "MALFORMED_RESPONSE", "generation answer is not valid structured JSON"
+                "MALFORMED_RESPONSE",
+                "generation answer did not satisfy the forced grounded-answer schema",
+                usage=usage,
+                latency_ms=latency_ms,
+                request_count=requests,
+                retry_count=retries,
+                request_id=request_id,
             ) from exc
+        citation_validation = validate_citations(answer, bundle)
+        if citation_validation.unknown or citation_validation.malformed:
+            raise AgentRouterError(
+                "INVALID_CITATION",
+                "generation answer contains a source ID outside the evidence bundle",
+                usage=usage,
+                latency_ms=latency_ms,
+                request_count=requests,
+                retry_count=retries,
+                request_id=request_id,
+                generated_answer=answer,
+            )
         return GenerationResult(
             answer=answer,
             model_id=self.config.model_id,
-            latency_ms=(perf_counter() - started) * 1000,
-            usage=_usage(payload),
+            latency_ms=latency_ms,
+            usage=usage,
             request_count=requests,
             retry_count=retries,
-            request_id=response.headers.get("request-id") or response.headers.get("x-request-id"),
+            request_id=request_id,
         )
 
-    def _message_request(
-        self, *, system: str, messages: list[dict[str, str]], max_tokens: int
-    ) -> tuple[httpx.Response, int, int]:
-        return self._request(
-            "POST",
-            "/v1/messages",
-            json={
-                "model": self.config.model_id,
-                "system": system,
-                "messages": messages,
-                "temperature": self.config.temperature,
-                "max_tokens": max_tokens,
-            },
-        )
-
-    def _json(self, response: httpx.Response, operation: str) -> dict:
-        try:
-            payload = response.json()
-        except ValueError as exc:
-            raise AgentRouterError(
-                "MALFORMED_RESPONSE", f"{operation} returned malformed JSON"
-            ) from exc
-        if not isinstance(payload, dict):
-            raise AgentRouterError(
-                "MALFORMED_RESPONSE", f"{operation} returned an unexpected schema"
-            )
-        return payload
-
-    def _request(self, method: str, path: str, **kwargs) -> tuple[httpx.Response, int, int]:
+    def _create_message(
+        self,
+        *,
+        system: str,
+        messages: list[dict[str, str]],
+        max_tokens: int,
+        structured: bool = False,
+    ) -> tuple[Any, int, int]:
         requests = 0
         retries = 0
         for attempt in range(self.config.max_retries + 1):
@@ -216,51 +249,70 @@ class AgentRouterGroundedAnswerGenerator(GroundedAnswerGenerator):
             self.last_request_count = requests
             self.last_retry_count = retries
             try:
-                response = self.client.request(
-                    method,
-                    self.config.base_url.rstrip("/") + path,
-                    headers=self.headers,
-                    **kwargs,
-                )
-            except httpx.TimeoutException as exc:
+                request = {
+                    "model": self.config.model_id,
+                    "system": system,
+                    "messages": messages,
+                    "max_tokens": max_tokens,
+                }
+                if structured:
+                    request.update(
+                        tools=[GROUNDED_ANSWER_TOOL],
+                        tool_choice={
+                            "type": "tool",
+                            "name": GROUNDED_ANSWER_TOOL_NAME,
+                            "disable_parallel_tool_use": True,
+                        },
+                    )
+                message = self.client.messages.create(**request)
+                return message, requests, retries
+            except (
+                anthropic.APITimeoutError,
+                anthropic.RateLimitError,
+                anthropic.InternalServerError,
+            ) as exc:
                 if attempt >= self.config.max_retries:
+                    category = (
+                        "TIMEOUT"
+                        if isinstance(exc, anthropic.APITimeoutError)
+                        else "RATE_LIMIT"
+                        if isinstance(exc, anthropic.RateLimitError)
+                        else "SERVER_ERROR"
+                    )
                     raise AgentRouterError(
-                        "TIMEOUT", "request timed out after bounded retries"
+                        category,
+                        "transient provider failure exhausted retries",
+                        getattr(exc, "status_code", None),
                     ) from exc
                 retries += 1
                 self.last_retry_count = retries
                 self.sleep(0.25 * (2**attempt) + random.uniform(0, 0.05))
-                continue
-            except httpx.RequestError as exc:
+            except anthropic.AuthenticationError as exc:
+                raise AgentRouterError(
+                    "AUTH_FAILURE", "provider rejected authentication", exc.status_code
+                ) from exc
+            except anthropic.PermissionDeniedError as exc:
+                raise AgentRouterError(
+                    "AUTHORIZATION_FAILURE", "provider rejected authorization", exc.status_code
+                ) from exc
+            except anthropic.NotFoundError as exc:
+                raise AgentRouterError(
+                    "MISSING_MODEL",
+                    "message endpoint or frozen model was not found",
+                    exc.status_code,
+                ) from exc
+            except anthropic.APIConnectionError as exc:
                 raise AgentRouterError("CONNECTION_FAILURE", "provider connection failed") from exc
-            if response.status_code in {401, 403}:
-                category = (
-                    "AUTH_FAILURE" if response.status_code == 401 else "AUTHORIZATION_FAILURE"
-                )
+            except anthropic.APIResponseValidationError as exc:
                 raise AgentRouterError(
-                    category, "provider rejected authentication", response.status_code
-                )
-            if response.status_code == 404:
-                raise AgentRouterError(
-                    "MISSING_MODEL", "message endpoint or frozen model was not found", 404
-                )
-            if response.status_code == 429 or 500 <= response.status_code < 600:
-                if attempt < self.config.max_retries:
-                    retries += 1
-                    self.last_retry_count = retries
-                    self.sleep(0.25 * (2**attempt) + random.uniform(0, 0.05))
-                    continue
-                category = "RATE_LIMIT" if response.status_code == 429 else "SERVER_ERROR"
-                raise AgentRouterError(
-                    category, "transient provider failure exhausted retries", response.status_code
-                )
-            if response.is_error:
+                    "MALFORMED_RESPONSE", "provider returned an invalid response schema"
+                ) from exc
+            except anthropic.APIStatusError as exc:
                 raise AgentRouterError(
                     "REQUEST_FAILURE",
-                    f"provider returned HTTP {response.status_code}",
-                    response.status_code,
-                )
-            return response, requests, retries
+                    f"provider returned HTTP {exc.status_code}",
+                    exc.status_code,
+                ) from exc
         raise AssertionError("unreachable")
 
 

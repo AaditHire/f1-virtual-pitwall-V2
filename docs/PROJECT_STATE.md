@@ -342,3 +342,28 @@ STATUS: COMPLETE — GO FOR A NARROW GROUNDED-ANSWER EXPERIMENT ONLY
 - Full report: `docs/phase13b-historical-rag-hardening.md`; artifacts:
   `docs/phase13b-knowledge-corpus.json`, `docs/phase13b-retrieval-benchmark.json`, and
   `docs/phase13b-retrieval-results.json`.
+
+## Phase 13C — Grounded Historical Answer Generation
+
+STATUS: IN PROGRESS — LIVE BENCHMARK COMPLETE; HUMAN REVIEW PENDING
+
+- The frozen 60-question benchmark retains SHA-256
+  `969ff9d522a4f047493c1c1fc2ba9eaeddeb80f10988bd271f87078c7112809e`. Its route distribution is
+  30 `STRUCTURED_ONLY`, 25 `RAG_ONLY` and five `MIXED` questions.
+- Exact structured questions remain deterministic and consumed no provider requests. The other 30
+  questions used AgentRouter's Anthropic-compatible Messages interface through the official
+  `anthropic` SDK, fixed model `claude-opus-4-8`, and a forced non-executing `grounded_answer` tool.
+- The one primary run completed all 60 rows using 30 AgentRouter requests, no retries and 80,753
+  tokens. AgentRouter returned no cost or balance field. Six responses failed the frozen 320-token
+  output contract; telemetry was retained and no answer was repaired or rerun.
+- Deterministic results include 54/55 structured facts, 70/79 required facts, 79/79 valid emitted
+  citations, 54/60 citation-complete answers, 55/60 citation-supported answers, 4/5 correct refusals,
+  0/55 false refusals, 22/22 complete multi-document results, 2/2 conflict cases and 2/3 strict
+  prompt-injection fixtures. Route compliance was 60/60.
+- A deterministic 25-row review sample includes every route, malformed outputs, refusals, all
+  conflict/prompt-injection fixtures and both passes and failures. Human judgments remain blank in
+  `outputs/phase13c_human_review/phase13c_human_review.xlsx`; the protected importer verifies all
+  question, evidence, answer and evaluation cells before accepting verdicts.
+- No final GO / CONDITIONAL GO / NO-GO decision is recorded until the bounded human review is
+  completed. No production API, frontend, agent, MCP, radio context or deterministic race system was
+  changed. Full interim report: `docs/phase13c-grounded-answer-research.md`.
