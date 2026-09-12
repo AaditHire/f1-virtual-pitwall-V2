@@ -2,8 +2,9 @@
 
 ## Status
 
-The frozen live benchmark is complete. The final Phase 13C decision remains pending the bounded
-human review. Phase 13D has not started.
+The frozen live benchmark and bounded human review are complete. Phase 13C concludes
+**CONDITIONAL GO for continued research and controlled internal experimentation, but NO-GO for a
+production/public chatbot**. Phase 13D has not started.
 
 ## Frozen experiment
 
@@ -89,9 +90,47 @@ a valid answer.
 
 ## Human review
 
-The review workbook contains 25 deterministic rows. Selection prioritizes all malformed responses,
-all prompt-injection and conflict fixtures, expected-refusal questions, all MIXED questions, and a
-deterministic sample of STRUCTURED_ONLY passes. Verdict fields start blank.
+The protected importer accepted all 25 deterministic rows without any changed question, structured
+fact, retrieved evidence, generated answer, citation or deterministic summary. The imported review
+contains every malformed response, every prompt-injection and conflict fixture, every expected
+refusal, all MIXED questions, and a deterministic sample of STRUCTURED_ONLY answers.
+
+The tracked XLSX is the original blank review template, not the canonical completed-review artifact.
+Completed judgments are versioned in `docs/phase13c-human-review-results.json`; running the importer
+against the blank template correctly rejects its empty verdict cells.
+
+| Human measure | Result |
+| --- | ---: |
+| Grounding PASS | 19 |
+| Grounding MINOR_ISSUE | 0 |
+| Grounding FAIL | 6 |
+| Grounding PASS rate | 19 / 25 = 76.00% |
+| PASS rate excluding malformed/no-answer rows | 19 / 19 = 100.00% |
+| Usefulness GOOD | 14 |
+| Usefulness ACCEPTABLE | 5 |
+| Usefulness POOR | 6 |
+| Misleading YES | 0 |
+| Misleading NO | 25 |
+| Misleading-answer rate | 0 / 25 = 0.00% |
+
+| Review slice | PASS | MINOR | FAIL | GOOD | ACCEPTABLE | POOR | Misleading YES |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| STRUCTURED_ONLY | 5 | 0 | 0 | 0 | 5 | 0 | 0 |
+| RAG_ONLY | 9 | 0 | 6 | 9 | 0 | 6 | 0 |
+| MIXED | 5 | 0 | 0 | 5 | 0 | 0 | 0 |
+| Malformed / no answer | 0 | 0 | 6 | 0 | 0 | 6 | 0 |
+| Expected refusal | 4 | 0 | 1 | 4 | 0 | 1 | 0 |
+| Source conflict | 2 | 0 | 0 | 2 | 0 | 0 | 0 |
+| Prompt injection | 3 | 0 | 0 | 3 | 0 | 0 | 0 |
+
+The six FAIL/POOR judgments are exactly the six malformed/no-answer responses. They did not mislead
+because no valid answer was returned, but they remain genuine reliability failures: 6/30 (20.00%)
+of all AgentRouter-generated benchmark questions, and 6/25 (24.00%) of RAG_ONLY questions. All six
+hit the frozen 320-token limit. They were not repaired, rerun or excluded.
+
+The bounded review found no human-confirmed unsupported or misleading claim. This does not turn the
+25/99 uncited substantive-sentence proxy into a hallucination rate: the proxy remains a conservative
+automated citation heuristic, and the human finding applies only to the 25 reviewed rows.
 
 Export:
 
@@ -113,9 +152,39 @@ Import after validation:
 
 The importer rejects missing/invalid judgments and any change to the frozen question, structured
 facts, retrieved evidence, generated answer, citations or deterministic summary. Replacing an existing
-review artifact requires a separate explicit `--allow-overwrite` flag.
+review artifact requires a separate explicit `--allow-overwrite` flag. The accepted judgments are
+stored separately in `docs/phase13c-human-review-results.json`; the automated evaluation artifact was
+not modified.
+
+## Automated and human reconciliation
+
+- The frozen prompt-injection score remains 2/3. Human review judged all 3/3 outputs grounded,
+  useful and non-misleading. The strict matcher treated the words `Ferrari won` as a failure even
+  when the answer quoted those words solely to explain that it ignored the injected instruction.
+  This is an `EVALUATOR_FALSE_POSITIVE`; the frozen automated score remains unchanged.
+- For `q13c_11676f13a20efc42d3ea`, the frozen required-fact matcher recorded 1/2 because the label
+  `yas_marina` did not literally match the natural-language phrase `Yas Marina Circuit`. The answer
+  contains and cites both required evidence scopes, so this is an automated string-matching
+  limitation. The frozen 70/79 coverage result remains unchanged.
+- The human review does not dismiss the six malformed outputs. It clarifies that they are
+  availability/usability failures rather than misleading factual answers.
 
 ## Decision
 
-No final Phase 13C GO / CONDITIONAL GO / NO-GO decision is made before the human review is returned
-and imported.
+- **STRUCTURED_ONLY: GO for continued research and controlled internal use.** It should remain the
+  deterministic path for exact race facts. Public presentation still needs the lone structured-fact
+  failure resolved and human-readable templates in place of raw `authoritative_fact_1` fragments.
+- **RAG_ONLY: CONDITIONAL GO for continued research and controlled internal experiments.** Every
+  valid RAG_ONLY answer in the bounded review passed, including refusals, conflicts and injection
+  fixtures, but a 24% RAG_ONLY malformed/no-answer rate prevents production use.
+- **MIXED: CONDITIONAL GO for continued research and controlled internal experiments.** All five
+  MIXED answers passed human review and the frozen multi-document result was 22/22, but this route
+  inherits the same provider output-contract risk and requires stronger deterministic fact checking.
+- **Overall: CONDITIONAL GO.** The evidence-only architecture, controlled citations, deterministic
+  routing and valid-answer behavior are promising enough for further research and guarded internal
+  evaluation. It is **not suitable for a production/public chatbot** until output truncation is
+  materially reduced on a new prospective benchmark, exact-fact validation is hardened, refusal
+  accuracy improves, citation completeness/support improve, and source/licensing review is complete.
+
+The 60-question benchmark was not rerun, its outputs were not modified, and its SHA-256 remains
+`969ff9d522a4f047493c1c1fc2ba9eaeddeb80f10988bd271f87078c7112809e`.

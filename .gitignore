@@ -11,3 +11,6 @@ outputs/phase12c_semantic_review/
 docs/phase12c-radio-human-references.json.bak
 docs/phase12c-radio-semantic-review.json.bak
 replay-output.json
+
+# Microsoft Office temporary owner/lock files
+~$*.xlsx

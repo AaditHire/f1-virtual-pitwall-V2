@@ -1,6 +1,11 @@
 # F1 Virtual Pit Wall — Project State
 
-Authoritative handoff through **Phase 8**. Current baseline: `main` at `0e6b0d9` (`build production F1 command-center frontend`). The repository, checked-in reports, JSON artifacts, and tests remain the ultimate source of truth.
+Authoritative handoff through **Phase 13C**. Phase 13C is complete with a **CONDITIONAL GO for
+continued research and controlled internal use** and a **NO-GO for a production/public chatbot**;
+Phase 13D has not started. The latest functional Phase 13C commit is `d75f876`; the subsequent
+`0e2df14` commit added only an accidental Excel temporary lock file, which this handoff cleanup
+removes. The repository, checked-in reports, frozen JSON artifacts, and tests remain the ultimate
+source of truth.
 
 ## Architecture
 
@@ -93,7 +98,7 @@ FastF1 timing archive ────┘
 - `/live/pitwall` requires an active Race plus drivers, positions, laps, stints, track evidence, and at least three reported laps. Otherwise it returns partial state and `missing_requirements` without inventing a recommendation.
 - Endpoints fetch on request; there is no backend polling loop. Provider reads use bounded in-process TTL caching.
 
-## Frontend through Phase 8
+## Frontend Phase 8 baseline
 
 - Location: `frontend/`; Next.js 16 App Router, React 19, TypeScript, Tailwind CSS.
 - Routes: `/`, `/weekend`, `/pitwall`, `/standings`, `/news`. Replay is visible as “later” and has no fake implementation.
@@ -111,7 +116,7 @@ FastF1 timing archive ────┘
 - Accent/status: motorsport red `#ef3340`, live green `#46d47b`, caution amber `#ffb82e`.
 - Typography: Barlow Condensed for display, IBM Plex Sans for UI, IBM Plex Mono only for time/numeric data.
 - Open horizontal bands, dense tables, restrained 3–4 px radii, visible focus, text labels alongside color, and reduced-motion support.
-- Phase 8B is expected to evolve the editorial surfaces substantially while preserving the denser Pit Wall architecture and all working data behavior.
+- Phase 8B subsequently evolved the editorial surfaces while preserving the denser Pit Wall architecture and working data behavior; later Phase 9 and 10 sections describe further frontend additions.
 
 ## Run and verify
 
@@ -143,16 +148,20 @@ Phase 8 recorded 8 passing Vitest tests plus successful typecheck, ESLint, and p
 
 ## Phase 8B — UI/UX Redesign
 
-STATUS: NOT STARTED
+STATUS: IMPLEMENTED; ORIGINAL APPROVAL CHECKPOINT NOT RECORDED
 
-Phase 8B goal:  
-Use Open Design to redesign the existing frontend using the current VPW UI as the structural reference and Formula1.com only as visual inspiration.
+Git history shows that Phase 8B was implemented in `e0263d4` (`added proper front end UI`) and
+refined in `abae9c8` (`refined front end`) before Phase 9 began. The implementation commit added the
+five coordinated Phase 8B concept images under `frontend/docs/concepts/phase8b/`, updated the design
+system, introduced the editorial assets/components, and redesigned Home, Weekend and Pit Wall
+surfaces. Phase 9 and Phase 10 then extended that redesigned frontend with Replay and live
+engineering/strategy workspaces.
 
-- Screenshots 1–3 are the existing VPW frontend.
-- Screenshot 4 is Formula1.com inspiration only.
-- First generate coordinated Open Design concepts for Home desktop, Weekend desktop, Pit Wall desktop, Home mobile, and Pit Wall mobile.
-- Stop for explicit design approval before implementation.
-- Preserve routes, APIs, polling, freshness, real-data behavior, accessibility, and tests. Do not begin Phase 9.
+The repository does not contain a commit message or report proving that the originally specified
+explicit design-approval checkpoint occurred, so this handoff does not claim that process step. It
+records only the verifiable concepts and implementation. The former `NOT STARTED` label was stale;
+Phase 8B is not an outstanding future phase and was superseded chronologically by completed Phase 9
+and Phase 10 frontend work.
 
 ## Phase 9A / 9B / 9C — Historical Replay
 
@@ -345,7 +354,7 @@ STATUS: COMPLETE — GO FOR A NARROW GROUNDED-ANSWER EXPERIMENT ONLY
 
 ## Phase 13C — Grounded Historical Answer Generation
 
-STATUS: IN PROGRESS — LIVE BENCHMARK COMPLETE; HUMAN REVIEW PENDING
+STATUS: COMPLETE — CONDITIONAL GO FOR RESEARCH/CONTROLLED INTERNAL USE; NO-GO FOR PUBLIC PRODUCTION
 
 - The frozen 60-question benchmark retains SHA-256
   `969ff9d522a4f047493c1c1fc2ba9eaeddeb80f10988bd271f87078c7112809e`. Its route distribution is
@@ -360,10 +369,25 @@ STATUS: IN PROGRESS — LIVE BENCHMARK COMPLETE; HUMAN REVIEW PENDING
   citations, 54/60 citation-complete answers, 55/60 citation-supported answers, 4/5 correct refusals,
   0/55 false refusals, 22/22 complete multi-document results, 2/2 conflict cases and 2/3 strict
   prompt-injection fixtures. Route compliance was 60/60.
-- A deterministic 25-row review sample includes every route, malformed outputs, refusals, all
-  conflict/prompt-injection fixtures and both passes and failures. Human judgments remain blank in
-  `outputs/phase13c_human_review/phase13c_human_review.xlsx`; the protected importer verifies all
-  question, evidence, answer and evaluation cells before accepting verdicts.
-- No final GO / CONDITIONAL GO / NO-GO decision is recorded until the bounded human review is
-  completed. No production API, frontend, agent, MCP, radio context or deterministic race system was
-  changed. Full interim report: `docs/phase13c-grounded-answer-research.md`.
+- The protected 25-row human review imported without changes to questions, evidence, generated
+  answers, citations or deterministic summaries. Grounding was 19 PASS, 0 MINOR_ISSUE and 6 FAIL;
+  usefulness was 14 GOOD, 5 ACCEPTABLE and 6 POOR; all 25 were judged non-misleading. Excluding the
+  six malformed/no-answer rows, grounding was 19/19 PASS.
+- The tracked XLSX remains the original blank review template. The completed canonical judgments are
+  versioned separately in `docs/phase13c-human-review-results.json`; validating the blank template as
+  though it were a completed workbook correctly rejects its empty verdict cells.
+- All six human failures were genuine malformed/no-answer reliability failures at the frozen
+  320-token limit: 6/30 (20%) AgentRouter generations and 6/25 (24%) RAG_ONLY questions. They were
+  not repaired or rerun. Human review judged prompt-injection handling 3/3, while the frozen strict
+  matcher remains 2/3 because it flagged an injected phrase quoted only as rejected data. One MIXED
+  required-fact miss was likewise a literal `yas_marina` string-matching limitation; frozen automated
+  metrics remain unchanged.
+- Phase 13C is a **CONDITIONAL GO** for continued research and controlled internal experimentation.
+  `STRUCTURED_ONLY` should remain deterministic. RAG_ONLY and MIXED valid-answer behavior is
+  promising, but the malformed rate, refusal/citation gaps, exact-fact guardrails and unresolved
+  source/licensing review make this a **NO-GO for a production/public chatbot**.
+- The frozen benchmark was not rerun and still has SHA-256
+  `969ff9d522a4f047493c1c1fc2ba9eaeddeb80f10988bd271f87078c7112809e`. No production API,
+  frontend, agent, MCP, radio context or deterministic race system changed. Full report:
+  `docs/phase13c-grounded-answer-research.md`; human review:
+  `docs/phase13c-human-review-results.json`.
