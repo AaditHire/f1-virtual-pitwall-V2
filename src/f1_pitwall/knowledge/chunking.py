@@ -19,6 +19,8 @@ def _chunk(document: KnowledgeDocument, text: str, ordinal: int, heading: str | 
         source_url=document.source_url,
         source_type=document.source_type,
         authority_tier=document.authority_tier,
+        license_classification=document.license_classification,
+        license_notes=document.license_notes,
         title=document.title,
         heading=heading,
         text=text,

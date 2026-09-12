@@ -312,3 +312,33 @@ STATUS: COMPLETE — CONDITIONAL GO FOR RETRIEVAL HARDENING ONLY
 - Full report: `docs/phase13a-historical-rag-research.md`; frozen corpus/benchmark and machine-readable
   results: `docs/phase13a-knowledge-corpus.json`, `docs/phase13a-retrieval-benchmark.json`, and
   `docs/phase13a-retrieval-results.json`.
+
+## Phase 13B — Historical F1 Retrieval Hardening
+
+STATUS: COMPLETE — GO FOR A NARROW GROUNDED-ANSWER EXPERIMENT ONLY
+
+- The Phase 13A corpus, benchmark and results remain frozen and hash-verified. Phase 13B adds separate
+  artifacts covering all 114 Grands Prix from 2021–2025: 309 provenance-first documents and 317
+  section-aware chunks across 35 drivers, 12 season-specific constructors and 28 circuits.
+- The new sealed benchmark has 125 questions, including 20 that require all evidence from two
+  documents and five explicit corpus-coverage failures. It distinguishes `STRUCTURED_ONLY`,
+  `RAG_ONLY` and `MIXED` evidence needs and scores Evidence Coverage and Complete Evidence Success.
+- Metadata-filtered BM25 generalized to 87.50% Recall@5. Explicit deterministic decomposition raised
+  Recall@3/5 and multi-document Evidence Coverage/Complete Evidence Success@3/5 to 100%. It preserves
+  named years/events/entities, rejects invented scopes, merges results round-robin and deduplicates by
+  source. No LLM performs parsing, retrieval, ranking or answer generation.
+- Route classification matched all 125 labels. Five unsupported private-retirement-cause questions
+  remain `CORPUS_COVERAGE_FAILURE`; the selected method has no supported retrieval, routing,
+  ambiguity, multi-document or source-conflict failure on this benchmark.
+- Event metadata was the decisive ablation: removing it reduced applicable top-one accuracy from 100%
+  to 4%. Season, driver and circuit removals did not affect the templated queries because their names
+  remained strong lexical signals; those filters remain explicit guardrails.
+- Constructor IDs remain season-specific. Renault/Alpine, Racing Point/Aston Martin and the Faenza
+  lineage are documented as lineage relationships but never silently merged. Ambiguous aliases fail
+  closed.
+- Every Jolpica and official document is marked `PRODUCTION_REVIEW_REQUIRED`; this research makes no
+  legal conclusion. No secondary journalism, full article, radio/ASR data, API, UI, agent, MCP,
+  database or answer-generation dependency was added.
+- Full report: `docs/phase13b-historical-rag-hardening.md`; artifacts:
+  `docs/phase13b-knowledge-corpus.json`, `docs/phase13b-retrieval-benchmark.json`, and
+  `docs/phase13b-retrieval-results.json`.

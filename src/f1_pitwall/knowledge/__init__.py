@@ -2,6 +2,7 @@
 
 from f1_pitwall.knowledge.chunking import chunk_documents
 from f1_pitwall.knowledge.evaluation import evaluate_retriever
+from f1_pitwall.knowledge.hardening import EvidenceBundle, RouteType, retrieve_evidence
 from f1_pitwall.knowledge.models import BenchmarkQuestion, KnowledgeChunk, KnowledgeDocument
 from f1_pitwall.knowledge.retrieval import BM25Retriever, DenseLSARetriever, HybridRetriever
 from f1_pitwall.knowledge.routing import QueryRoute, classify_query_boundary
@@ -13,8 +14,11 @@ __all__ = [
     "HybridRetriever",
     "KnowledgeChunk",
     "KnowledgeDocument",
+    "EvidenceBundle",
+    "RouteType",
     "QueryRoute",
     "chunk_documents",
     "classify_query_boundary",
     "evaluate_retriever",
+    "retrieve_evidence",
 ]
