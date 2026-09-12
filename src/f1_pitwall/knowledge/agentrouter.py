@@ -1,4 +1,4 @@
-"""Secret-safe AgentRouter OpenAI-compatible provider adapter."""
+"""Secret-safe AgentRouter Anthropic-compatible provider adapter."""
 
 from __future__ import annotations
 
@@ -7,9 +7,11 @@ import random
 import time
 from collections.abc import Callable
 from dataclasses import dataclass, field
+from pathlib import Path
 from time import perf_counter
 
 import httpx
+from dotenv import load_dotenv
 
 from f1_pitwall.knowledge.generation import (
     GenerationResult,
@@ -20,8 +22,16 @@ from f1_pitwall.knowledge.generation import (
     parse_generated_answer,
 )
 
-AGENTROUTER_BASE_URL = "https://co.agentrouter.org/v1"
+AGENTROUTER_BASE_URL = "https://agentrouter.org"
+AGENTROUTER_MODEL = "claude-opus-4-8"
+ANTHROPIC_VERSION = "2023-06-01"
 ENV_NAME = "AGENTROUTER_API_KEY"
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+
+
+def load_project_environment() -> bool:
+    """Load the ignored project-root .env without overriding the process environment."""
+    return load_dotenv(PROJECT_ROOT / ".env", override=False)
 
 
 class AgentRouterError(RuntimeError):
@@ -34,25 +44,34 @@ class AgentRouterError(RuntimeError):
 @dataclass(frozen=True)
 class AgentRouterConfig:
     api_key: str = field(repr=False)
-    model_id: str | None = None
+    model_id: str = AGENTROUTER_MODEL
     base_url: str = AGENTROUTER_BASE_URL
     temperature: float = 0.0
     max_output_tokens: int = 320
     timeout_seconds: float = 45.0
     max_retries: int = 2
 
+    def __post_init__(self) -> None:
+        if self.model_id != AGENTROUTER_MODEL:
+            raise AgentRouterError("MISSING_MODEL", "Phase 13C permits only the frozen model")
+        if self.base_url != AGENTROUTER_BASE_URL:
+            raise AgentRouterError("INVALID_ENDPOINT", "Phase 13C permits only the frozen base URL")
+
     @classmethod
-    def from_env(cls, model_id: str | None = None) -> AgentRouterConfig:
+    def from_env(cls, model_id: str = AGENTROUTER_MODEL) -> AgentRouterConfig:
+        load_project_environment()
         key = os.environ.get(ENV_NAME, "").strip()
         if not key:
             raise AgentRouterError("MISSING_KEY", f"{ENV_NAME} is not configured")
-        return cls(api_key=key, model_id=model_id or os.environ.get("AGENTROUTER_MODEL") or None)
+        return cls(api_key=key, model_id=model_id)
 
     def safe_metadata(self) -> dict:
         return {
             "provider": "AgentRouter",
+            "protocol": "Anthropic-compatible Messages",
             "base_url": self.base_url,
             "model_id": self.model_id,
+            "anthropic_version": ANTHROPIC_VERSION,
             "temperature": self.temperature,
             "max_output_tokens": self.max_output_tokens,
             "timeout_seconds": self.timeout_seconds,
@@ -61,54 +80,41 @@ class AgentRouterConfig:
         }
 
 
-def parse_model_ids(payload: dict) -> list[str]:
-    rows = payload.get("data")
-    if not isinstance(rows, list):
-        raise AgentRouterError("MALFORMED_RESPONSE", "model listing has no data array")
-    model_ids = sorted(
-        {
-            row.get("id")
-            for row in rows
-            if isinstance(row, dict) and isinstance(row.get("id"), str) and row["id"].strip()
-        }
-    )
-    if not model_ids:
-        raise AgentRouterError("MISSING_MODEL", "model listing returned no model IDs")
-    return model_ids
-
-
-def select_model(model_ids: list[str]) -> tuple[str, list[str]]:
-    non_claude = [value for value in model_ids if "claude" not in value.casefold()]
-    general = [value for value in non_claude if "code" not in value.casefold()]
-    candidates = general or non_claude
-    if not candidates:
-        raise AgentRouterError(
-            "PROTOCOL_REQUIRED",
-            "only Claude-family models are available; the required Anthropic protocol "
-            "was not enabled",
-        )
-    preferences = ("gpt-5.5", "gpt-5", "kimi-k2.6", "glm-5.2", "glm-5.1")
-    ranked = sorted(
-        candidates,
-        key=lambda value: next(
-            (index for index, token in enumerate(preferences) if token in value.casefold()),
-            len(preferences),
-        ),
-    )
-    return ranked[0], ranked[:5]
-
-
 def _usage(payload: dict) -> TokenUsage:
     usage = payload.get("usage") or {}
-    details = usage.get("completion_tokens_details") or {}
-    prompt_details = usage.get("prompt_tokens_details") or {}
+    prompt = usage.get("input_tokens")
+    completion = usage.get("output_tokens")
+    total = prompt + completion if isinstance(prompt, int) and isinstance(completion, int) else None
     return TokenUsage(
-        prompt_tokens=usage.get("prompt_tokens"),
-        completion_tokens=usage.get("completion_tokens"),
-        total_tokens=usage.get("total_tokens"),
-        reasoning_tokens=details.get("reasoning_tokens"),
-        cached_tokens=prompt_details.get("cached_tokens"),
+        prompt_tokens=prompt,
+        completion_tokens=completion,
+        total_tokens=total,
+        cached_tokens=usage.get("cache_read_input_tokens"),
     )
+
+
+def _final_text(payload: dict) -> str:
+    content = payload.get("content")
+    if not isinstance(content, list):
+        raise AgentRouterError("MALFORMED_RESPONSE", "generation response has no content array")
+    text = "".join(
+        block.get("text", "")
+        for block in content
+        if isinstance(block, dict) and block.get("type") == "text"
+    ).strip()
+    if not text:
+        raise AgentRouterError("MALFORMED_RESPONSE", "generation response has no final text")
+    return text
+
+
+@dataclass(frozen=True)
+class SmokeResult:
+    text: str
+    latency_ms: float
+    usage: TokenUsage = field(default_factory=TokenUsage)
+    request_count: int = 1
+    retry_count: int = 0
+    request_id: str | None = None
 
 
 class AgentRouterGroundedAnswerGenerator(GroundedAnswerGenerator):
@@ -121,44 +127,45 @@ class AgentRouterGroundedAnswerGenerator(GroundedAnswerGenerator):
         self.config = config
         self.client = client or httpx.Client(timeout=config.timeout_seconds)
         self.sleep = sleep
+        self.last_request_count = 0
+        self.last_retry_count = 0
 
     @property
     def headers(self) -> dict[str, str]:
         return {
             "Authorization": f"Bearer {self.config.api_key}",
+            "anthropic-version": ANTHROPIC_VERSION,
             "Content-Type": "application/json",
         }
 
-    def list_models(self) -> list[str]:
-        response = self._request("GET", "/models")
-        return parse_model_ids(self._json(response, "model listing"))
+    def smoke(self) -> SmokeResult:
+        started = perf_counter()
+        response, requests, retries = self._message_request(
+            system="Reply exactly as requested.",
+            messages=[{"role": "user", "content": "Reply only with OK."}],
+            max_tokens=8,
+        )
+        payload = self._json(response, "smoke generation")
+        return SmokeResult(
+            text=_final_text(payload),
+            latency_ms=(perf_counter() - started) * 1000,
+            usage=_usage(payload),
+            request_count=requests,
+            retry_count=retries,
+            request_id=response.headers.get("request-id") or response.headers.get("x-request-id"),
+        )
 
     def generate(self, bundle: GroundedEvidenceBundle) -> GenerationResult:
-        if not self.config.model_id:
-            raise AgentRouterError("MISSING_MODEL", "no exact AgentRouter model ID is configured")
         started = perf_counter()
-        response, requests, retries = self._request(
-            "POST",
-            "/chat/completions",
-            json={
-                "model": self.config.model_id,
-                "messages": build_generation_messages(bundle),
-                "temperature": self.config.temperature,
-                "max_tokens": self.config.max_output_tokens,
-            },
-            with_counts=True,
+        messages = build_generation_messages(bundle)
+        response, requests, retries = self._message_request(
+            system=messages[0]["content"],
+            messages=messages[1:],
+            max_tokens=self.config.max_output_tokens,
         )
         payload = self._json(response, "generation")
         try:
-            text = payload["choices"][0]["message"]["content"]
-        except (KeyError, IndexError, TypeError) as exc:
-            raise AgentRouterError(
-                "MALFORMED_RESPONSE", "generation response has no message text"
-            ) from exc
-        if not isinstance(text, str) or not text.strip():
-            raise AgentRouterError("MALFORMED_RESPONSE", "generation response text is empty")
-        try:
-            answer = parse_generated_answer(text)
+            answer = parse_generated_answer(_final_text(payload))
         except (ValueError, TypeError) as exc:
             raise AgentRouterError(
                 "MALFORMED_RESPONSE", "generation answer is not valid structured JSON"
@@ -170,7 +177,22 @@ class AgentRouterGroundedAnswerGenerator(GroundedAnswerGenerator):
             usage=_usage(payload),
             request_count=requests,
             retry_count=retries,
-            request_id=response.headers.get("x-request-id"),
+            request_id=response.headers.get("request-id") or response.headers.get("x-request-id"),
+        )
+
+    def _message_request(
+        self, *, system: str, messages: list[dict[str, str]], max_tokens: int
+    ) -> tuple[httpx.Response, int, int]:
+        return self._request(
+            "POST",
+            "/v1/messages",
+            json={
+                "model": self.config.model_id,
+                "system": system,
+                "messages": messages,
+                "temperature": self.config.temperature,
+                "max_tokens": max_tokens,
+            },
         )
 
     def _json(self, response: httpx.Response, operation: str) -> dict:
@@ -186,11 +208,13 @@ class AgentRouterGroundedAnswerGenerator(GroundedAnswerGenerator):
             )
         return payload
 
-    def _request(self, method: str, path: str, *, with_counts: bool = False, **kwargs):
+    def _request(self, method: str, path: str, **kwargs) -> tuple[httpx.Response, int, int]:
         requests = 0
         retries = 0
         for attempt in range(self.config.max_retries + 1):
             requests += 1
+            self.last_request_count = requests
+            self.last_retry_count = retries
             try:
                 response = self.client.request(
                     method,
@@ -204,6 +228,7 @@ class AgentRouterGroundedAnswerGenerator(GroundedAnswerGenerator):
                         "TIMEOUT", "request timed out after bounded retries"
                     ) from exc
                 retries += 1
+                self.last_retry_count = retries
                 self.sleep(0.25 * (2**attempt) + random.uniform(0, 0.05))
                 continue
             except httpx.RequestError as exc:
@@ -217,11 +242,12 @@ class AgentRouterGroundedAnswerGenerator(GroundedAnswerGenerator):
                 )
             if response.status_code == 404:
                 raise AgentRouterError(
-                    "MISSING_MODEL", "endpoint or selected model was not found", 404
+                    "MISSING_MODEL", "message endpoint or frozen model was not found", 404
                 )
             if response.status_code == 429 or 500 <= response.status_code < 600:
                 if attempt < self.config.max_retries:
                     retries += 1
+                    self.last_retry_count = retries
                     self.sleep(0.25 * (2**attempt) + random.uniform(0, 0.05))
                     continue
                 category = "RATE_LIMIT" if response.status_code == 429 else "SERVER_ERROR"
@@ -234,7 +260,7 @@ class AgentRouterGroundedAnswerGenerator(GroundedAnswerGenerator):
                     f"provider returned HTTP {response.status_code}",
                     response.status_code,
                 )
-            return (response, requests, retries) if with_counts else response
+            return response, requests, retries
         raise AssertionError("unreachable")
 
 

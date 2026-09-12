@@ -13,6 +13,7 @@ from pathlib import Path
 from time import perf_counter
 
 from f1_pitwall.knowledge.agentrouter import (
+    AGENTROUTER_MODEL,
     AgentRouterConfig,
     AgentRouterError,
     AgentRouterGroundedAnswerGenerator,
@@ -399,7 +400,6 @@ def main() -> None:
     parser.add_argument(
         "--live", action="store_true", help="consume AgentRouter credit for the frozen run"
     )
-    parser.add_argument("--model", help="exact model ID confirmed by preflight")
     args = parser.parse_args()
     verify_frozen()
     records = build_benchmark()
@@ -407,17 +407,12 @@ def main() -> None:
     print(f"Prepared 60-question benchmark: {sha256(BENCHMARK_PATH)}")
     if not args.live:
         return
-    if not args.model:
-        raise SystemExit("--model is required for the frozen live run")
-    config = AgentRouterConfig.from_env(args.model)
+    config = AgentRouterConfig.from_env()
     generator = AgentRouterGroundedAnswerGenerator(config)
-    models = generator.list_models()
-    if args.model not in models:
-        raise SystemExit("selected model is not present in the key-specific model list")
     config_artifact = {
         "provider": "AgentRouter",
-        "model_id": args.model,
-        "protocol": "OpenAI-compatible chat completions",
+        "model_id": AGENTROUTER_MODEL,
+        "protocol": "Anthropic-compatible Messages",
         "base_url": config.base_url,
         "authentication": "Bearer via AGENTROUTER_API_KEY",
         "temperature": config.temperature,
@@ -429,7 +424,6 @@ def main() -> None:
         "citation_format": "controlled inline source IDs [S1], [S2], ...",
         "refusal_states": ["PARTIAL", "INSUFFICIENT"],
         "benchmark_sha256": sha256(BENCHMARK_PATH),
-        "available_model_count": len(models),
         "frozen_at": datetime.now(UTC).isoformat(),
     }
     CONFIG_PATH.write_text(json.dumps(config_artifact, indent=2), encoding="utf-8")
@@ -466,7 +460,7 @@ def main() -> None:
             {
                 "question_id": record["question_id"],
                 "provider": provider,
-                "model_id": args.model if provider else None,
+                "model_id": AGENTROUTER_MODEL if provider else None,
                 "answer": answer.model_dump(mode="json"),
                 "bundle": bundle.model_dump(mode="json"),
                 "citation_validation": validation.__dict__,
@@ -487,7 +481,7 @@ def main() -> None:
     metrics.update(
         {
             "provider": "AgentRouter",
-            "model_id": args.model,
+            "model_id": AGENTROUTER_MODEL,
             "benchmark_questions": len(records),
             "agentrouter_generation_requests": sum(row["request_count"] for row in outputs),
             "retries": sum(row["retry_count"] for row in outputs),

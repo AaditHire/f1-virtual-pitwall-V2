@@ -8,12 +8,12 @@ import pytest
 
 from f1_pitwall.knowledge.agentrouter import (
     AGENTROUTER_BASE_URL,
+    AGENTROUTER_MODEL,
+    ANTHROPIC_VERSION,
     AgentRouterConfig,
     AgentRouterError,
     AgentRouterGroundedAnswerGenerator,
-    parse_model_ids,
     redact_secret,
-    select_model,
 )
 from f1_pitwall.knowledge.generation import (
     SYSTEM_PROMPT,
@@ -82,16 +82,18 @@ def generation_response(
     return httpx.Response(
         200,
         json={
-            "choices": [{"message": {"content": content}}],
+            "id": "msg_safe_fixture",
+            "type": "message",
+            "role": "assistant",
+            "model": AGENTROUTER_MODEL,
+            "content": [{"type": "text", "text": content}],
             "usage": {
-                "prompt_tokens": 41,
-                "completion_tokens": 12,
-                "total_tokens": 53,
-                "completion_tokens_details": {"reasoning_tokens": 2},
-                "prompt_tokens_details": {"cached_tokens": 3},
+                "input_tokens": 41,
+                "output_tokens": 12,
+                "cache_read_input_tokens": 3,
             },
         },
-        headers={"x-request-id": "safe-request-id"},
+        headers={"request-id": "safe-request-id"},
     )
 
 
@@ -104,16 +106,35 @@ def test_provider_contract_is_abstract_and_agentrouter_implements_it():
 
 def test_config_loads_exact_secret_and_model_without_exposing_secret(monkeypatch):
     monkeypatch.setenv("AGENTROUTER_API_KEY", SECRET)
-    monkeypatch.setenv("AGENTROUTER_MODEL", "account/gpt-5.5-suffix")
     config = AgentRouterConfig.from_env()
     assert config.api_key == SECRET
-    assert config.model_id == "account/gpt-5.5-suffix"
+    assert config.model_id == AGENTROUTER_MODEL
     assert config.base_url == AGENTROUTER_BASE_URL
     assert SECRET not in repr(config)
     assert SECRET not in json.dumps(config.safe_metadata())
+    assert config.base_url == "https://agentrouter.org"
+    assert config.safe_metadata()["protocol"] == "Anthropic-compatible Messages"
+
+
+def test_project_dotenv_loads_key_and_os_environment_takes_precedence(monkeypatch):
+    def fake_dotenv_loader():
+        monkeypatch.setenv(
+            "AGENTROUTER_API_KEY",
+            __import__("os").environ.get("AGENTROUTER_API_KEY", "dotenv-secret"),
+        )
+        return True
+
+    monkeypatch.setattr(
+        "f1_pitwall.knowledge.agentrouter.load_project_environment", fake_dotenv_loader
+    )
+    monkeypatch.delenv("AGENTROUTER_API_KEY", raising=False)
+    assert AgentRouterConfig.from_env().api_key == "dotenv-secret"
+    monkeypatch.setenv("AGENTROUTER_API_KEY", "process-secret")
+    assert AgentRouterConfig.from_env().api_key == "process-secret"
 
 
 def test_missing_key_fails_closed(monkeypatch):
+    monkeypatch.setattr("f1_pitwall.knowledge.agentrouter.load_project_environment", lambda: False)
     monkeypatch.delenv("AGENTROUTER_API_KEY", raising=False)
     with pytest.raises(AgentRouterError, match="MISSING_KEY"):
         AgentRouterConfig.from_env()
@@ -126,29 +147,11 @@ def test_secret_redaction_and_provider_exception_diagnostics_are_safe():
     assert "Authorization" not in str(error)
 
 
-def test_model_listing_parser_and_exact_preference():
-    payload = {
-        "data": [
-            {"id": "account/glm-5.2"},
-            {"id": "account/gpt-5.5-primary"},
-            {"id": "account/code-model"},
-        ]
-    }
-    models = parse_model_ids(payload)
-    selected, considered = select_model(models)
-    assert selected == "account/gpt-5.5-primary"
-    assert selected in considered
-
-
-@pytest.mark.parametrize("payload", [{}, {"data": []}, {"data": "wrong"}])
-def test_malformed_or_empty_model_listing_is_rejected(payload):
-    with pytest.raises(AgentRouterError):
-        parse_model_ids(payload)
-
-
-def test_claude_only_pool_fails_closed_for_unimplemented_protocol():
-    with pytest.raises(AgentRouterError, match="PROTOCOL_REQUIRED"):
-        select_model(["account/claude-opus-4-8"])
+def test_only_frozen_model_and_base_url_are_accepted():
+    with pytest.raises(AgentRouterError, match="MISSING_MODEL"):
+        AgentRouterConfig(api_key=SECRET, model_id="another-model")
+    with pytest.raises(AgentRouterError, match="INVALID_ENDPOINT"):
+        AgentRouterConfig(api_key=SECRET, base_url="https://example.test")
 
 
 def test_successful_generation_uses_fixed_settings_and_evidence_only():
@@ -161,53 +164,76 @@ def test_successful_generation_uses_fixed_settings_and_evidence_only():
 
     config = AgentRouterConfig(
         api_key=SECRET,
-        model_id="account/gpt-5.5-primary",
         temperature=0,
         max_output_tokens=123,
     )
     result = AgentRouterGroundedAnswerGenerator(config, client(handler)).generate(bundle())
     payload = seen["payload"]
-    assert str(seen["request"].url) == f"{AGENTROUTER_BASE_URL}/chat/completions"
+    assert str(seen["request"].url) == f"{AGENTROUTER_BASE_URL}/v1/messages"
     assert seen["request"].headers["authorization"] == f"Bearer {SECRET}"
+    assert seen["request"].headers["anthropic-version"] == ANTHROPIC_VERSION
     assert payload["model"] == config.model_id
     assert payload["temperature"] == 0
     assert payload["max_tokens"] == 123
-    assert payload["messages"][0]["content"] == SYSTEM_PROMPT
-    assert "McLaren won the isolated test event" in payload["messages"][1]["content"]
+    assert payload["system"] == SYSTEM_PROMPT
+    assert "McLaren won the isolated test event" in payload["messages"][0]["content"]
     assert "tools" not in payload
     assert result.answer.status == AnswerStatus.SUPPORTED
     assert result.usage.total_tokens == 53
-    assert result.usage.reasoning_tokens == 2
+    assert result.usage.reasoning_tokens is None
     assert result.usage.cached_tokens == 3
     assert result.request_count == 1
     assert result.retry_count == 0
 
 
-def test_model_listing_uses_documented_endpoint_and_parses_exact_ids():
+def test_minimal_smoke_request_uses_anthropic_messages_without_evidence_bundle():
+    seen = {}
+
     def handler(request: httpx.Request):
-        assert request.url.path == "/v1/models"
-        return httpx.Response(200, json={"data": [{"id": "pool/model-suffix"}]})
+        seen["request"] = request
+        seen["payload"] = json.loads(request.content)
+        return httpx.Response(
+            200,
+            json={
+                "content": [
+                    {"type": "thinking", "thinking": "hidden"},
+                    {"type": "text", "text": "OK"},
+                ],
+                "usage": {"input_tokens": 7, "output_tokens": 1},
+            },
+        )
 
     generator = AgentRouterGroundedAnswerGenerator(
         AgentRouterConfig(api_key=SECRET), client(handler)
     )
-    assert generator.list_models() == ["pool/model-suffix"]
+    result = generator.smoke()
+    assert result.text == "OK"
+    assert str(seen["request"].url) == "https://agentrouter.org/v1/messages"
+    assert seen["payload"] == {
+        "model": AGENTROUTER_MODEL,
+        "system": "Reply exactly as requested.",
+        "messages": [{"role": "user", "content": "Reply only with OK."}],
+        "temperature": 0.0,
+        "max_tokens": 8,
+    }
+    assert "thinking" not in result.text
+    assert result.usage.total_tokens == 8
 
 
 @pytest.mark.parametrize(
     ("response", "category"),
     [
         (httpx.Response(200, content=b"not-json"), "MALFORMED_RESPONSE"),
-        (httpx.Response(200, json={"choices": []}), "MALFORMED_RESPONSE"),
+        (httpx.Response(200, json={"content": []}), "MALFORMED_RESPONSE"),
         (
-            httpx.Response(200, json={"choices": [{"message": {"content": "not-json"}}]}),
+            httpx.Response(200, json={"content": [{"type": "text", "text": "not-json"}]}),
             "MALFORMED_RESPONSE",
         ),
     ],
 )
 def test_malformed_success_responses_fail_safely(response, category):
     generator = AgentRouterGroundedAnswerGenerator(
-        AgentRouterConfig(api_key=SECRET, model_id="exact-model"),
+        AgentRouterConfig(api_key=SECRET),
         client(lambda request: response),
     )
     with pytest.raises(AgentRouterError, match=category):
@@ -223,7 +249,7 @@ def test_timeout_retries_are_bounded():
         raise httpx.ReadTimeout("safe timeout", request=request)
 
     generator = AgentRouterGroundedAnswerGenerator(
-        AgentRouterConfig(api_key=SECRET, model_id="exact", max_retries=2),
+        AgentRouterConfig(api_key=SECRET, max_retries=2),
         client(handler),
         sleep=lambda _: None,
     )
@@ -242,7 +268,7 @@ def test_transient_http_failures_retry_only_to_bound(status, category):
         return httpx.Response(status)
 
     generator = AgentRouterGroundedAnswerGenerator(
-        AgentRouterConfig(api_key=SECRET, model_id="exact", max_retries=2),
+        AgentRouterConfig(api_key=SECRET, max_retries=2),
         client(handler),
         sleep=lambda _: None,
     )
@@ -264,21 +290,13 @@ def test_deterministic_http_failures_never_retry(status, category):
         return httpx.Response(status)
 
     generator = AgentRouterGroundedAnswerGenerator(
-        AgentRouterConfig(api_key=SECRET, model_id="exact", max_retries=2),
+        AgentRouterConfig(api_key=SECRET, max_retries=2),
         client(handler),
         sleep=lambda _: None,
     )
     with pytest.raises(AgentRouterError, match=category):
         generator.generate(bundle())
     assert attempts == 1
-
-
-def test_missing_configured_model_is_rejected_before_http():
-    generator = AgentRouterGroundedAnswerGenerator(
-        AgentRouterConfig(api_key=SECRET), client(lambda request: pytest.fail("HTTP called"))
-    )
-    with pytest.raises(AgentRouterError, match="MISSING_MODEL"):
-        generator.generate(bundle())
 
 
 def test_structured_only_bypass_preserves_authoritative_value():

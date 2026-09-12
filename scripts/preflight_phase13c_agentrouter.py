@@ -1,85 +1,67 @@
-"""Paid-network AgentRouter preflight; never prints or persists the API key."""
+"""One-request paid AgentRouter Anthropic-compatible preflight."""
 
 from __future__ import annotations
 
-import argparse
 import json
+from dataclasses import replace
+from time import perf_counter
 
 from f1_pitwall.knowledge.agentrouter import (
+    AGENTROUTER_BASE_URL,
+    AGENTROUTER_MODEL,
     AgentRouterConfig,
     AgentRouterError,
     AgentRouterGroundedAnswerGenerator,
-    select_model,
 )
-from f1_pitwall.knowledge.generation import EvidenceState, GroundedEvidenceBundle
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--model", help="exact ID returned by this key's /v1/models response")
-    args = parser.parse_args()
+    started = perf_counter()
+    generator = None
     report = {
         "provider": "AgentRouter",
-        "base_url": "https://co.agentrouter.org/v1",
-        "protocol": "OpenAI-compatible chat completions",
+        "protocol": "Anthropic-compatible Messages",
+        "base_url": AGENTROUTER_BASE_URL,
+        "model": AGENTROUTER_MODEL,
         "api_key_configured": False,
         "reachable": False,
-        "authentication_valid": False,
-        "models_retrieved": 0,
-        "selected_model_available": False,
+        "authentication": "NOT_TESTED",
         "minimal_generation": "NOT_RUN",
+        "request_count": 0,
+        "retry_count": 0,
     }
     try:
-        initial = AgentRouterConfig.from_env()
+        config = AgentRouterConfig.from_env()
+        config = replace(config, max_retries=0, max_output_tokens=8)
         report["api_key_configured"] = True
-        discovery = AgentRouterGroundedAnswerGenerator(initial)
-        models = discovery.list_models()
-        report.update(reachable=True, authentication_valid=True, models_retrieved=len(models))
-        selected, candidates = (args.model, [args.model]) if args.model else select_model(models)
-        if selected not in models:
-            raise AgentRouterError(
-                "MISSING_MODEL", "configured model is absent from key-specific list"
-            )
+        generator = AgentRouterGroundedAnswerGenerator(config)
+        result = generator.smoke()
         report.update(
-            selected_model_available=True,
-            selected_model=selected,
-            candidate_models_considered=candidates,
-            selection_note=(
-                "Selected strongest mature non-coding general model available through "
-                "the documented OpenAI-compatible protocol."
-            ),
-        )
-        generator = AgentRouterGroundedAnswerGenerator(
-            AgentRouterConfig(api_key=initial.api_key, model_id=selected, max_output_tokens=80)
-        )
-        smoke_bundle = GroundedEvidenceBundle(
-            question="Confirm that the supplied evidence says the connectivity check passed.",
-            route_type="RAG_ONLY",
-            evidence_state=EvidenceState.COMPLETE,
-            sources=[
-                {
-                    "source_id": "S1",
-                    "source_key": "preflight",
-                    "source_name": "Local preflight fixture",
-                    "source_url": "local:phase13c-preflight",
-                    "authority_tier": "SYNTHETIC_TEST",
-                    "provenance": "Local provider-connectivity fixture.",
-                    "text": "The connectivity check passed.",
-                }
-            ],
-        )
-        result = generator.generate(smoke_bundle)
-        report.update(
-            minimal_generation="PASS",
-            generation_latency_ms=result.latency_ms,
+            reachable=True,
+            authentication="PASS",
+            minimal_generation="PASS" if result.text.strip() == "OK" else "FAIL",
+            latency_ms=result.latency_ms,
             request_count=result.request_count,
             retry_count=result.retry_count,
             usage=result.usage.__dict__,
         )
+        if result.text.strip() != "OK":
+            report["failure_category"] = "MODEL_CAPABILITY_FAILURE"
+            report["failure"] = "minimal response did not exactly match the requested token"
+            print(json.dumps(report, indent=2))
+            raise SystemExit(1)
         print(json.dumps(report, indent=2))
     except AgentRouterError as exc:
+        report["reachable"] = exc.status_code is not None
+        report["authentication"] = (
+            "FAIL" if exc.category in {"AUTH_FAILURE", "AUTHORIZATION_FAILURE"} else "UNKNOWN"
+        )
+        report["http_status"] = exc.status_code
         report["failure_category"] = exc.category
         report["failure"] = str(exc)
+        report["latency_ms"] = (perf_counter() - started) * 1000
+        report["request_count"] = generator.last_request_count if generator else 0
+        report["retry_count"] = generator.last_retry_count if generator else 0
         print(json.dumps(report, indent=2))
         raise SystemExit(1) from None
 
