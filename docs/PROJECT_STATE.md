@@ -1,11 +1,11 @@
 # F1 Virtual Pit Wall — Project State
 
-Authoritative handoff through **Phase 13C**. Phase 13C is complete with a **CONDITIONAL GO for
-continued research and controlled internal use** and a **NO-GO for a production/public chatbot**;
-Phase 13D has not started. The latest functional Phase 13C commit is `d75f876`; the subsequent
-`0e2df14` commit added only an accidental Excel temporary lock file, which this handoff cleanup
-removes. The repository, checked-in reports, frozen JSON artifacts, and tests remain the ultimate
-source of truth.
+Authoritative handoff through **Phase 13D-A**. Phase 13C remains closed with a **CONDITIONAL GO for
+continued research and controlled internal use** and a **NO-GO for a production/public chatbot**.
+Phase 13D-A freezes only a prospective reliability protocol, benchmark and deterministic evaluation
+harness; no Phase 13D provider generation has run and no reliability improvement is claimed. The
+Phase 13C handoff cleanup is committed separately at `5006974`. The repository, checked-in reports,
+frozen JSON artifacts, and tests remain the ultimate source of truth.
 
 ## Architecture
 
@@ -391,3 +391,36 @@ STATUS: COMPLETE — CONDITIONAL GO FOR RESEARCH/CONTROLLED INTERNAL USE; NO-GO 
   frontend, agent, MCP, radio context or deterministic race system changed. Full report:
   `docs/phase13c-grounded-answer-research.md`; human review:
   `docs/phase13c-human-review-results.json`.
+
+## Phase 13D-A — Reliability Protocol and Prospective Harness
+
+STATUS: COMPLETE — PROTOCOL/HARNESS ONLY; EXPERIMENT A NOT RUN
+
+- The primary prospective hypothesis is that increasing only the generated-output allowance from
+  320 to 640 tokens can materially reduce malformed/unrecovered responses without degrading
+  grounding, citations, refusals, exact facts, route separation or adversarial handling. The frozen
+  Phase 13C 6/30 malformed result is a historical comparator, not a concurrent control or new
+  prospective validation.
+- A new frozen benchmark contains 130 questions: 30 `STRUCTURED_ONLY`, 75 `RAG_ONLY` and 25 `MIXED`.
+  Exactly 100 questions require later provider generation. It includes single- and multi-source
+  history, five insufficient-evidence cases, five official citation-sensitive cases, 25 MIXED
+  event/circuit cases, three prompt-injection fixtures and two source conflicts.
+- The Phase 13D benchmark SHA-256 is
+  `e5f9abfef2ea4dca3f9a36e84d9fe9917bd7de76945c42d7753e636bd51eec74`.
+  It is distinct from Phase 13C, uses the unchanged Phase 13B corpus, and records provenance for every
+  expected fact. All 125 answerable cases assemble complete required evidence deterministically; the
+  five unsupported private-information cases fail closed.
+- The provider-independent harness validates benchmark identity, route composition, provenance,
+  evidence assembly, exact structured facts, citations, refusals, multi-document synthesis,
+  conflicts, injection resistance, malformed/truncation/retry categories, token/cost fields and
+  prospective result ordering. It performs no provider call.
+- Experiment A is preregistered at 640 output tokens with no new schema/truncation/content retry and
+  all other generation boundaries held as close as practical to Phase 13C. The strict primary
+  reliability target is no more than 2/100 malformed or unrecovered generations, with 0/100
+  preferred, plus conjunctive quality and safety thresholds.
+- Even a perfect prospective result does not change the production decision. A public-production
+  chatbot remains **NO-GO** until broader production blockers are resolved and an explicit later
+  readiness decision is made.
+- Protocol: `docs/phase13d-grounded-answer-reliability-protocol.md`; frozen benchmark:
+  `docs/phase13d-answer-benchmark.json`; unrun manifest:
+  `docs/phase13d-prospective-run-manifest.json`.
