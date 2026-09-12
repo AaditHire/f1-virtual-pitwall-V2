@@ -1,0 +1,836 @@
+[
+  {
+    "question_id": "q_af0a642d8857c88df840",
+    "query": "Who won the 2021 Bahrain Grand Prix?",
+    "category": "EVENT_HISTORY",
+    "expected_route": "STRUCTURED_FACT",
+    "relevant_source_keys": [
+      "event:2021:1"
+    ],
+    "key_facts": [
+      "Lewis Hamilton"
+    ],
+    "metadata_filter": {
+      "season": 2021,
+      "event": "Bahrain Grand Prix",
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_6dfe927dfd233447b7c2",
+    "query": "Who won the 2021 Monaco Grand Prix?",
+    "category": "EVENT_HISTORY",
+    "expected_route": "STRUCTURED_FACT",
+    "relevant_source_keys": [
+      "event:2021:5"
+    ],
+    "key_facts": [
+      "Max Verstappen"
+    ],
+    "metadata_filter": {
+      "season": 2021,
+      "event": "Monaco Grand Prix",
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_954f8869c00f77157eff",
+    "query": "Who won the 2021 Italian Grand Prix?",
+    "category": "EVENT_HISTORY",
+    "expected_route": "STRUCTURED_FACT",
+    "relevant_source_keys": [
+      "event:2021:14"
+    ],
+    "key_facts": [
+      "Daniel Ricciardo"
+    ],
+    "metadata_filter": {
+      "season": 2021,
+      "event": "Italian Grand Prix",
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_8cc2303fe31d7e7f7ca1",
+    "query": "Who won the 2021 Abu Dhabi Grand Prix?",
+    "category": "EVENT_HISTORY",
+    "expected_route": "STRUCTURED_FACT",
+    "relevant_source_keys": [
+      "event:2021:22"
+    ],
+    "key_facts": [
+      "Max Verstappen"
+    ],
+    "metadata_filter": {
+      "season": 2021,
+      "event": "Abu Dhabi Grand Prix",
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_435d599c0e88126290bd",
+    "query": "Who won the 2022 Bahrain Grand Prix?",
+    "category": "EVENT_HISTORY",
+    "expected_route": "STRUCTURED_FACT",
+    "relevant_source_keys": [
+      "event:2022:1"
+    ],
+    "key_facts": [
+      "Charles Leclerc"
+    ],
+    "metadata_filter": {
+      "season": 2022,
+      "event": "Bahrain Grand Prix",
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_2df772f1f4df236c48e7",
+    "query": "Who won the 2022 Monaco Grand Prix?",
+    "category": "EVENT_HISTORY",
+    "expected_route": "STRUCTURED_FACT",
+    "relevant_source_keys": [
+      "event:2022:7"
+    ],
+    "key_facts": [
+      "Sergio P\u00e9rez"
+    ],
+    "metadata_filter": {
+      "season": 2022,
+      "event": "Monaco Grand Prix",
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_825b1114cf7c8b2617ba",
+    "query": "Who won the 2022 Italian Grand Prix?",
+    "category": "EVENT_HISTORY",
+    "expected_route": "STRUCTURED_FACT",
+    "relevant_source_keys": [
+      "event:2022:16"
+    ],
+    "key_facts": [
+      "Max Verstappen"
+    ],
+    "metadata_filter": {
+      "season": 2022,
+      "event": "Italian Grand Prix",
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_c7e4fd18f95b1d4fdfb9",
+    "query": "Who won the 2022 Abu Dhabi Grand Prix?",
+    "category": "EVENT_HISTORY",
+    "expected_route": "STRUCTURED_FACT",
+    "relevant_source_keys": [
+      "event:2022:22"
+    ],
+    "key_facts": [
+      "Max Verstappen"
+    ],
+    "metadata_filter": {
+      "season": 2022,
+      "event": "Abu Dhabi Grand Prix",
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_56a67981295f383c1ca2",
+    "query": "What was the podium and notable non-finish context at the 2023 Bahrain Grand Prix?",
+    "category": "EVENT_HISTORY",
+    "expected_route": "STRUCTURED_FACT",
+    "relevant_source_keys": [
+      "event:2023:1"
+    ],
+    "key_facts": [
+      "Max Verstappen",
+      "Sergio P\u00e9rez",
+      "Fernando Alonso"
+    ],
+    "metadata_filter": {
+      "season": 2023,
+      "event": "Bahrain Grand Prix",
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_36c15eaa58c7ab14be57",
+    "query": "What was the podium and notable non-finish context at the 2023 Monaco Grand Prix?",
+    "category": "EVENT_HISTORY",
+    "expected_route": "STRUCTURED_FACT",
+    "relevant_source_keys": [
+      "event:2023:6"
+    ],
+    "key_facts": [
+      "Max Verstappen",
+      "Fernando Alonso",
+      "Esteban Ocon"
+    ],
+    "metadata_filter": {
+      "season": 2023,
+      "event": "Monaco Grand Prix",
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_51f06a74d1d134f77e6f",
+    "query": "What was the podium and notable non-finish context at the 2023 Italian Grand Prix?",
+    "category": "EVENT_HISTORY",
+    "expected_route": "STRUCTURED_FACT",
+    "relevant_source_keys": [
+      "event:2023:14"
+    ],
+    "key_facts": [
+      "Max Verstappen",
+      "Sergio P\u00e9rez",
+      "Carlos Sainz"
+    ],
+    "metadata_filter": {
+      "season": 2023,
+      "event": "Italian Grand Prix",
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_e34ff4946878d96f80eb",
+    "query": "What was the podium and notable non-finish context at the 2023 Abu Dhabi Grand Prix?",
+    "category": "EVENT_HISTORY",
+    "expected_route": "STRUCTURED_FACT",
+    "relevant_source_keys": [
+      "event:2023:22"
+    ],
+    "key_facts": [
+      "Max Verstappen",
+      "Charles Leclerc",
+      "George Russell"
+    ],
+    "metadata_filter": {
+      "season": 2023,
+      "event": "Abu Dhabi Grand Prix",
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_cee04859ded4ebf40008",
+    "query": "What was the podium and notable non-finish context at the 2024 Bahrain Grand Prix?",
+    "category": "EVENT_HISTORY",
+    "expected_route": "STRUCTURED_FACT",
+    "relevant_source_keys": [
+      "event:2024:1"
+    ],
+    "key_facts": [
+      "Max Verstappen",
+      "Sergio P\u00e9rez",
+      "Carlos Sainz"
+    ],
+    "metadata_filter": {
+      "season": 2024,
+      "event": "Bahrain Grand Prix",
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_3ebc049c8f57baba8f00",
+    "query": "What was the podium and notable non-finish context at the 2024 Monaco Grand Prix?",
+    "category": "EVENT_HISTORY",
+    "expected_route": "STRUCTURED_FACT",
+    "relevant_source_keys": [
+      "event:2024:8"
+    ],
+    "key_facts": [
+      "Charles Leclerc",
+      "Oscar Piastri",
+      "Carlos Sainz"
+    ],
+    "metadata_filter": {
+      "season": 2024,
+      "event": "Monaco Grand Prix",
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_17e38a3278d18e264a95",
+    "query": "What was the podium and notable non-finish context at the 2024 Italian Grand Prix?",
+    "category": "EVENT_HISTORY",
+    "expected_route": "STRUCTURED_FACT",
+    "relevant_source_keys": [
+      "event:2024:16"
+    ],
+    "key_facts": [
+      "Charles Leclerc",
+      "Oscar Piastri",
+      "Lando Norris"
+    ],
+    "metadata_filter": {
+      "season": 2024,
+      "event": "Italian Grand Prix",
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_eb93f9f94b25ec20c608",
+    "query": "What was the podium and notable non-finish context at the 2024 Abu Dhabi Grand Prix?",
+    "category": "EVENT_HISTORY",
+    "expected_route": "STRUCTURED_FACT",
+    "relevant_source_keys": [
+      "event:2024:24"
+    ],
+    "key_facts": [
+      "Lando Norris",
+      "Carlos Sainz",
+      "Charles Leclerc"
+    ],
+    "metadata_filter": {
+      "season": 2024,
+      "event": "Abu Dhabi Grand Prix",
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_b8899dc9a8d6f23b0658",
+    "query": "What was the podium and notable non-finish context at the 2025 Bahrain Grand Prix?",
+    "category": "EVENT_HISTORY",
+    "expected_route": "STRUCTURED_FACT",
+    "relevant_source_keys": [
+      "event:2025:4"
+    ],
+    "key_facts": [
+      "Oscar Piastri",
+      "George Russell",
+      "Lando Norris"
+    ],
+    "metadata_filter": {
+      "season": 2025,
+      "event": "Bahrain Grand Prix",
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_b0b769808ebbf9a9a082",
+    "query": "What was the podium and notable non-finish context at the 2025 Monaco Grand Prix?",
+    "category": "EVENT_HISTORY",
+    "expected_route": "STRUCTURED_FACT",
+    "relevant_source_keys": [
+      "event:2025:8"
+    ],
+    "key_facts": [
+      "Lando Norris",
+      "Charles Leclerc",
+      "Oscar Piastri"
+    ],
+    "metadata_filter": {
+      "season": 2025,
+      "event": "Monaco Grand Prix",
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_501ef285ffffc5d2d5fa",
+    "query": "What was the podium and notable non-finish context at the 2025 Italian Grand Prix?",
+    "category": "EVENT_HISTORY",
+    "expected_route": "STRUCTURED_FACT",
+    "relevant_source_keys": [
+      "event:2025:16"
+    ],
+    "key_facts": [
+      "Max Verstappen",
+      "Lando Norris",
+      "Oscar Piastri"
+    ],
+    "metadata_filter": {
+      "season": 2025,
+      "event": "Italian Grand Prix",
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_56d32d2b36bb90a7e103",
+    "query": "What was the podium and notable non-finish context at the 2025 Abu Dhabi Grand Prix?",
+    "category": "EVENT_HISTORY",
+    "expected_route": "STRUCTURED_FACT",
+    "relevant_source_keys": [
+      "event:2025:24"
+    ],
+    "key_facts": [
+      "Max Verstappen",
+      "Oscar Piastri",
+      "Lando Norris"
+    ],
+    "metadata_filter": {
+      "season": 2025,
+      "event": "Abu Dhabi Grand Prix",
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_749c21b65607cfe115ce",
+    "query": "Which team did Fernando Alonso represent in the selected 2021 historical sample, and how did the sampled races go?",
+    "category": "DRIVER_TEAM",
+    "expected_route": "KNOWLEDGE_RETRIEVAL",
+    "relevant_source_keys": [
+      "driver-season:2021:alonso"
+    ],
+    "key_facts": [
+      "Alpine F1 Team"
+    ],
+    "metadata_filter": {
+      "season": 2021,
+      "event": null,
+      "driver": "Fernando Alonso",
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_61e14d2938781a4eb8ac",
+    "query": "Which team did Lewis Hamilton represent in the selected 2021 historical sample, and how did the sampled races go?",
+    "category": "DRIVER_TEAM",
+    "expected_route": "KNOWLEDGE_RETRIEVAL",
+    "relevant_source_keys": [
+      "driver-season:2021:hamilton"
+    ],
+    "key_facts": [
+      "Mercedes"
+    ],
+    "metadata_filter": {
+      "season": 2021,
+      "event": null,
+      "driver": "Lewis Hamilton",
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_92c2b521df458bf7f14d",
+    "query": "Which team did Max Verstappen represent in the selected 2021 historical sample, and how did the sampled races go?",
+    "category": "DRIVER_TEAM",
+    "expected_route": "KNOWLEDGE_RETRIEVAL",
+    "relevant_source_keys": [
+      "driver-season:2021:max_verstappen"
+    ],
+    "key_facts": [
+      "Red Bull"
+    ],
+    "metadata_filter": {
+      "season": 2021,
+      "event": null,
+      "driver": "Max Verstappen",
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_f81919fe0560670c1bbf",
+    "query": "Which team did Sebastian Vettel represent in the selected 2021 historical sample, and how did the sampled races go?",
+    "category": "DRIVER_TEAM",
+    "expected_route": "KNOWLEDGE_RETRIEVAL",
+    "relevant_source_keys": [
+      "driver-season:2021:vettel"
+    ],
+    "key_facts": [
+      "Aston Martin"
+    ],
+    "metadata_filter": {
+      "season": 2021,
+      "event": null,
+      "driver": "Sebastian Vettel",
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_eb39a399e1d543e2c1e1",
+    "query": "Which team did Sebastian Vettel represent in the selected 2022 historical sample, and how did the sampled races go?",
+    "category": "DRIVER_TEAM",
+    "expected_route": "KNOWLEDGE_RETRIEVAL",
+    "relevant_source_keys": [
+      "driver-season:2022:vettel"
+    ],
+    "key_facts": [
+      "Aston Martin"
+    ],
+    "metadata_filter": {
+      "season": 2022,
+      "event": null,
+      "driver": "Sebastian Vettel",
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_6ff4b463dfde579f92ac",
+    "query": "Which team did Fernando Alonso represent in the selected 2023 historical sample, and how did the sampled races go?",
+    "category": "DRIVER_TEAM",
+    "expected_route": "KNOWLEDGE_RETRIEVAL",
+    "relevant_source_keys": [
+      "driver-season:2023:alonso"
+    ],
+    "key_facts": [
+      "Aston Martin"
+    ],
+    "metadata_filter": {
+      "season": 2023,
+      "event": null,
+      "driver": "Fernando Alonso",
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_4e2b2af591f3019b3807",
+    "query": "Who were the recorded winners at Bahrain International Circuit across the 2021 to 2025 corpus?",
+    "category": "CIRCUIT_HISTORY",
+    "expected_route": "KNOWLEDGE_RETRIEVAL",
+    "relevant_source_keys": [
+      "circuit-history:bahrain"
+    ],
+    "key_facts": [
+      "2021",
+      "2025"
+    ],
+    "metadata_filter": {
+      "season": null,
+      "event": null,
+      "driver": null,
+      "constructor": null,
+      "circuit": "bahrain",
+      "topic": "circuit history"
+    }
+  },
+  {
+    "question_id": "q_3405dcfe6aa62917da85",
+    "query": "Who were the recorded winners at Circuit de Monaco across the 2021 to 2025 corpus?",
+    "category": "CIRCUIT_HISTORY",
+    "expected_route": "KNOWLEDGE_RETRIEVAL",
+    "relevant_source_keys": [
+      "circuit-history:monaco"
+    ],
+    "key_facts": [
+      "2021",
+      "2025"
+    ],
+    "metadata_filter": {
+      "season": null,
+      "event": null,
+      "driver": null,
+      "constructor": null,
+      "circuit": "monaco",
+      "topic": "circuit history"
+    }
+  },
+  {
+    "question_id": "q_fd60fee4ae492b4d9645",
+    "query": "Who were the recorded winners at Autodromo Nazionale di Monza across the 2021 to 2025 corpus?",
+    "category": "CIRCUIT_HISTORY",
+    "expected_route": "KNOWLEDGE_RETRIEVAL",
+    "relevant_source_keys": [
+      "circuit-history:monza"
+    ],
+    "key_facts": [
+      "2021",
+      "2025"
+    ],
+    "metadata_filter": {
+      "season": null,
+      "event": null,
+      "driver": null,
+      "constructor": null,
+      "circuit": "monza",
+      "topic": "circuit history"
+    }
+  },
+  {
+    "question_id": "q_2ce4c4f77d5eedba9462",
+    "query": "Who were the recorded winners at Yas Marina Circuit across the 2021 to 2025 corpus?",
+    "category": "CIRCUIT_HISTORY",
+    "expected_route": "KNOWLEDGE_RETRIEVAL",
+    "relevant_source_keys": [
+      "circuit-history:yas_marina"
+    ],
+    "key_facts": [
+      "2021",
+      "2025"
+    ],
+    "metadata_filter": {
+      "season": null,
+      "event": null,
+      "driver": null,
+      "constructor": null,
+      "circuit": "yas_marina",
+      "topic": "circuit history"
+    }
+  },
+  {
+    "question_id": "q_4271618a377c2bd60e29",
+    "query": "What does parc ferme mean in Formula One?",
+    "category": "REGULATION_TERMINOLOGY",
+    "expected_route": "KNOWLEDGE_RETRIEVAL",
+    "relevant_source_keys": [
+      "official:f1-glossary"
+    ],
+    "key_facts": [
+      "parc ferme"
+    ],
+    "metadata_filter": {
+      "season": null,
+      "event": null,
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": "parc ferme"
+    }
+  },
+  {
+    "question_id": "q_66b94eec2079eb9ef114",
+    "query": "What is the difference between an undercut and an overcut?",
+    "category": "REGULATION_TERMINOLOGY",
+    "expected_route": "KNOWLEDGE_RETRIEVAL",
+    "relevant_source_keys": [
+      "official:f1-glossary"
+    ],
+    "key_facts": [
+      "undercut"
+    ],
+    "metadata_filter": {
+      "season": null,
+      "event": null,
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": "undercut"
+    }
+  },
+  {
+    "question_id": "q_9da2b13ec0b35e76239b",
+    "query": "How did the 2021 Safety Car and Virtual Safety Car procedures neutralise a race?",
+    "category": "REGULATION_TERMINOLOGY",
+    "expected_route": "KNOWLEDGE_RETRIEVAL",
+    "relevant_source_keys": [
+      "official:fia-2021-sporting-safety-car"
+    ],
+    "key_facts": [
+      "safety car"
+    ],
+    "metadata_filter": {
+      "season": null,
+      "event": null,
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": "safety car"
+    }
+  },
+  {
+    "question_id": "q_341b5c9ad01851d43b9a",
+    "query": "What major aerodynamic concept changed under the 2022 Formula One technical rules?",
+    "category": "REGULATION_TERMINOLOGY",
+    "expected_route": "KNOWLEDGE_RETRIEVAL",
+    "relevant_source_keys": [
+      "official:fia-2022-technical-ground-effect"
+    ],
+    "key_facts": [
+      "ground effect"
+    ],
+    "metadata_filter": {
+      "season": null,
+      "event": null,
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": "ground effect"
+    }
+  },
+  {
+    "question_id": "q_9c5419a3fb60950df93e",
+    "query": "Why did the FIA intervene over porpoising in 2022?",
+    "category": "REGULATION_TERMINOLOGY",
+    "expected_route": "KNOWLEDGE_RETRIEVAL",
+    "relevant_source_keys": [
+      "official:fia-porpoising-response-2022"
+    ],
+    "key_facts": [
+      "porpoising"
+    ],
+    "metadata_filter": {
+      "season": null,
+      "event": null,
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": "porpoising"
+    }
+  },
+  {
+    "question_id": "q_6d96313eadf241d9d9e4",
+    "query": "Why is overtaking particularly difficult at Monaco?",
+    "category": "CIRCUIT_HISTORY",
+    "expected_route": "KNOWLEDGE_RETRIEVAL",
+    "relevant_source_keys": [
+      "official:f1-monaco-circuit"
+    ],
+    "key_facts": [
+      "overtaking"
+    ],
+    "metadata_filter": {
+      "season": null,
+      "event": null,
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": "overtaking"
+    }
+  },
+  {
+    "question_id": "q_42a0b63d3bdf07becd3b",
+    "query": "Why do Formula One teams use low-downforce configurations at Monza?",
+    "category": "CIRCUIT_HISTORY",
+    "expected_route": "KNOWLEDGE_RETRIEVAL",
+    "relevant_source_keys": [
+      "official:f1-monza-circuit"
+    ],
+    "key_facts": [
+      "low downforce"
+    ],
+    "metadata_filter": {
+      "season": null,
+      "event": null,
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": "low downforce"
+    }
+  },
+  {
+    "question_id": "q_f4b64c7526fb8b9ef0e0",
+    "query": "Compare the complete Bahrain Grand Prix podiums in 2021 and 2024.",
+    "category": "MULTI_DOCUMENT",
+    "expected_route": "KNOWLEDGE_RETRIEVAL",
+    "relevant_source_keys": [
+      "event:2021:1",
+      "event:2024:1"
+    ],
+    "key_facts": [
+      "2021",
+      "2024"
+    ],
+    "metadata_filter": {
+      "season": null,
+      "event": null,
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_e2d5b33bb4f62d62280f",
+    "query": "How did the Monaco non-finish context differ between 2021 and 2023?",
+    "category": "MULTI_DOCUMENT",
+    "expected_route": "KNOWLEDGE_RETRIEVAL",
+    "relevant_source_keys": [
+      "event:2021:5",
+      "event:2023:6"
+    ],
+    "key_facts": [
+      "2021",
+      "2023"
+    ],
+    "metadata_filter": {
+      "season": null,
+      "event": null,
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  },
+  {
+    "question_id": "q_d1cdb4c12483d6e4e8f6",
+    "query": "Connect the 2022 ground-effect rules with the FIA's porpoising safety response.",
+    "category": "MULTI_DOCUMENT",
+    "expected_route": "KNOWLEDGE_RETRIEVAL",
+    "relevant_source_keys": [
+      "official:fia-2022-technical-ground-effect",
+      "official:fia-porpoising-response-2022"
+    ],
+    "key_facts": [
+      "ground effect",
+      "safety"
+    ],
+    "metadata_filter": {
+      "season": null,
+      "event": null,
+      "driver": null,
+      "constructor": null,
+      "circuit": null,
+      "topic": null
+    }
+  }
+]

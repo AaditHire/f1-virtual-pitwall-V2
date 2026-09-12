@@ -1,0 +1,1970 @@
+[
+  {
+    "document_id": "doc_ec71921eab9a2d3fce93",
+    "source_key": "event:2021:1",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2021/1/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "2021 Bahrain Grand Prix classified results",
+    "text": "Bahrain Grand Prix was held on 2021-03-28 at Bahrain International Circuit. The winner was Lewis Hamilton for Mercedes. The podium was P1 Lewis Hamilton for Mercedes, P2 Max Verstappen for Red Bull, P3 Valtteri Bottas for Mercedes. Classified result and status: P1 Lewis Hamilton (Mercedes), status Finished; P2 Max Verstappen (Red Bull), status Finished; P3 Valtteri Bottas (Mercedes), status Finished; P4 Lando Norris (McLaren), status Finished; P5 Sergio P\u00e9rez (Red Bull), status Finished; P6 Charles Leclerc (Ferrari), status Finished; P7 Daniel Ricciardo (McLaren), status Finished; P8 Carlos Sainz (Ferrari), status Finished; P9 Yuki Tsunoda (AlphaTauri), status Finished; P10 Lance Stroll (Aston Martin), status Finished; P11 Kimi R\u00e4ikk\u00f6nen (Alfa Romeo), status Finished; P12 Antonio Giovinazzi (Alfa Romeo), status +1 Lap; P13 Esteban Ocon (Alpine F1 Team), status +1 Lap; P14 George Russell (Williams), status +1 Lap; P15 Sebastian Vettel (Aston Martin), status +1 Lap; P16 Mick Schumacher (Haas F1 Team), status +1 Lap; P17 Pierre Gasly (AlphaTauri), status Retired; P18 Nicholas Latifi (Williams), status Retired; P19 Fernando Alonso (Alpine F1 Team), status Brakes; P20 Nikita Mazepin (Haas F1 Team), status Accident.",
+    "publication_date": null,
+    "event_date": "2021-03-28",
+    "season": 2021,
+    "event": "Bahrain Grand Prix",
+    "driver_tags": [
+      "Lewis Hamilton",
+      "Max Verstappen",
+      "Valtteri Bottas",
+      "Lando Norris",
+      "Sergio P\u00e9rez",
+      "Charles Leclerc",
+      "Daniel Ricciardo",
+      "Carlos Sainz",
+      "Yuki Tsunoda",
+      "Lance Stroll",
+      "Kimi R\u00e4ikk\u00f6nen",
+      "Antonio Giovinazzi",
+      "Esteban Ocon",
+      "George Russell",
+      "Sebastian Vettel",
+      "Mick Schumacher",
+      "Pierre Gasly",
+      "Nicholas Latifi",
+      "Fernando Alonso",
+      "Nikita Mazepin"
+    ],
+    "constructor_tags": [
+      "Alfa Romeo",
+      "AlphaTauri",
+      "Alpine F1 Team",
+      "Aston Martin",
+      "Ferrari",
+      "Haas F1 Team",
+      "McLaren",
+      "Mercedes",
+      "Red Bull",
+      "Williams"
+    ],
+    "circuit_tags": [
+      "bahrain",
+      "Bahrain International Circuit"
+    ],
+    "topic_tags": [
+      "race result",
+      "podium",
+      "retirement"
+    ],
+    "provenance": "Jolpica/Ergast-compatible structured race classification; normalized without inferred facts.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_4b25b41f48b562dab2d2",
+    "source_key": "event:2021:5",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2021/5/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "2021 Monaco Grand Prix classified results",
+    "text": "Monaco Grand Prix was held on 2021-05-23 at Circuit de Monaco. The winner was Max Verstappen for Red Bull. The podium was P1 Max Verstappen for Red Bull, P2 Carlos Sainz for Ferrari, P3 Lando Norris for McLaren. Classified result and status: P1 Max Verstappen (Red Bull), status Finished; P2 Carlos Sainz (Ferrari), status Finished; P3 Lando Norris (McLaren), status Finished; P4 Sergio P\u00e9rez (Red Bull), status Finished; P5 Sebastian Vettel (Aston Martin), status Finished; P6 Pierre Gasly (AlphaTauri), status Finished; P7 Lewis Hamilton (Mercedes), status Finished; P8 Lance Stroll (Aston Martin), status +1 Lap; P9 Esteban Ocon (Alpine F1 Team), status +1 Lap; P10 Antonio Giovinazzi (Alfa Romeo), status +1 Lap; P11 Kimi R\u00e4ikk\u00f6nen (Alfa Romeo), status +1 Lap; P12 Daniel Ricciardo (McLaren), status +1 Lap; P13 Fernando Alonso (Alpine F1 Team), status +1 Lap; P14 George Russell (Williams), status +1 Lap; P15 Nicholas Latifi (Williams), status +1 Lap; P16 Yuki Tsunoda (AlphaTauri), status +1 Lap; P17 Nikita Mazepin (Haas F1 Team), status +3 Laps; P18 Mick Schumacher (Haas F1 Team), status +3 Laps; P19 Valtteri Bottas (Mercedes), status Wheel nut; P20 Charles Leclerc (Ferrari), status Driveshaft.",
+    "publication_date": null,
+    "event_date": "2021-05-23",
+    "season": 2021,
+    "event": "Monaco Grand Prix",
+    "driver_tags": [
+      "Max Verstappen",
+      "Carlos Sainz",
+      "Lando Norris",
+      "Sergio P\u00e9rez",
+      "Sebastian Vettel",
+      "Pierre Gasly",
+      "Lewis Hamilton",
+      "Lance Stroll",
+      "Esteban Ocon",
+      "Antonio Giovinazzi",
+      "Kimi R\u00e4ikk\u00f6nen",
+      "Daniel Ricciardo",
+      "Fernando Alonso",
+      "George Russell",
+      "Nicholas Latifi",
+      "Yuki Tsunoda",
+      "Nikita Mazepin",
+      "Mick Schumacher",
+      "Valtteri Bottas",
+      "Charles Leclerc"
+    ],
+    "constructor_tags": [
+      "Alfa Romeo",
+      "AlphaTauri",
+      "Alpine F1 Team",
+      "Aston Martin",
+      "Ferrari",
+      "Haas F1 Team",
+      "McLaren",
+      "Mercedes",
+      "Red Bull",
+      "Williams"
+    ],
+    "circuit_tags": [
+      "monaco",
+      "Circuit de Monaco"
+    ],
+    "topic_tags": [
+      "race result",
+      "podium",
+      "retirement"
+    ],
+    "provenance": "Jolpica/Ergast-compatible structured race classification; normalized without inferred facts.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_cb6f0a4ede2b6d02ba1d",
+    "source_key": "event:2021:14",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2021/14/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "2021 Italian Grand Prix classified results",
+    "text": "Italian Grand Prix was held on 2021-09-12 at Autodromo Nazionale di Monza. The winner was Daniel Ricciardo for McLaren. The podium was P1 Daniel Ricciardo for McLaren, P2 Lando Norris for McLaren, P3 Valtteri Bottas for Mercedes. Classified result and status: P1 Daniel Ricciardo (McLaren), status Finished; P2 Lando Norris (McLaren), status Finished; P3 Valtteri Bottas (Mercedes), status Finished; P4 Charles Leclerc (Ferrari), status Finished; P5 Sergio P\u00e9rez (Red Bull), status Finished; P6 Carlos Sainz (Ferrari), status Finished; P7 Lance Stroll (Aston Martin), status Finished; P8 Fernando Alonso (Alpine F1 Team), status Finished; P9 George Russell (Williams), status Finished; P10 Esteban Ocon (Alpine F1 Team), status Finished; P11 Nicholas Latifi (Williams), status Finished; P12 Sebastian Vettel (Aston Martin), status Finished; P13 Antonio Giovinazzi (Alfa Romeo), status Finished; P14 Robert Kubica (Alfa Romeo), status Finished; P15 Mick Schumacher (Haas F1 Team), status Finished; P16 Nikita Mazepin (Haas F1 Team), status Power Unit; P17 Lewis Hamilton (Mercedes), status Collision; P18 Max Verstappen (Red Bull), status Collision; P19 Pierre Gasly (AlphaTauri), status Suspension; P20 Yuki Tsunoda (AlphaTauri), status Brakes.",
+    "publication_date": null,
+    "event_date": "2021-09-12",
+    "season": 2021,
+    "event": "Italian Grand Prix",
+    "driver_tags": [
+      "Daniel Ricciardo",
+      "Lando Norris",
+      "Valtteri Bottas",
+      "Charles Leclerc",
+      "Sergio P\u00e9rez",
+      "Carlos Sainz",
+      "Lance Stroll",
+      "Fernando Alonso",
+      "George Russell",
+      "Esteban Ocon",
+      "Nicholas Latifi",
+      "Sebastian Vettel",
+      "Antonio Giovinazzi",
+      "Robert Kubica",
+      "Mick Schumacher",
+      "Nikita Mazepin",
+      "Lewis Hamilton",
+      "Max Verstappen",
+      "Pierre Gasly",
+      "Yuki Tsunoda"
+    ],
+    "constructor_tags": [
+      "Alfa Romeo",
+      "AlphaTauri",
+      "Alpine F1 Team",
+      "Aston Martin",
+      "Ferrari",
+      "Haas F1 Team",
+      "McLaren",
+      "Mercedes",
+      "Red Bull",
+      "Williams"
+    ],
+    "circuit_tags": [
+      "monza",
+      "Autodromo Nazionale di Monza"
+    ],
+    "topic_tags": [
+      "race result",
+      "podium",
+      "retirement"
+    ],
+    "provenance": "Jolpica/Ergast-compatible structured race classification; normalized without inferred facts.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_7e509293bec35a33384e",
+    "source_key": "event:2021:22",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2021/22/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "2021 Abu Dhabi Grand Prix classified results",
+    "text": "Abu Dhabi Grand Prix was held on 2021-12-12 at Yas Marina Circuit. The winner was Max Verstappen for Red Bull. The podium was P1 Max Verstappen for Red Bull, P2 Lewis Hamilton for Mercedes, P3 Carlos Sainz for Ferrari. Classified result and status: P1 Max Verstappen (Red Bull), status Finished; P2 Lewis Hamilton (Mercedes), status Finished; P3 Carlos Sainz (Ferrari), status Finished; P4 Yuki Tsunoda (AlphaTauri), status Finished; P5 Pierre Gasly (AlphaTauri), status Finished; P6 Valtteri Bottas (Mercedes), status Finished; P7 Lando Norris (McLaren), status Finished; P8 Fernando Alonso (Alpine F1 Team), status Finished; P9 Esteban Ocon (Alpine F1 Team), status Finished; P10 Charles Leclerc (Ferrari), status Finished; P11 Sebastian Vettel (Aston Martin), status Finished; P12 Daniel Ricciardo (McLaren), status +1 Lap; P13 Lance Stroll (Aston Martin), status +1 Lap; P14 Mick Schumacher (Haas F1 Team), status +1 Lap; P15 Sergio P\u00e9rez (Red Bull), status Engine; P16 Nicholas Latifi (Williams), status Accident; P17 Antonio Giovinazzi (Alfa Romeo), status Gearbox; P18 George Russell (Williams), status Gearbox; P19 Kimi R\u00e4ikk\u00f6nen (Alfa Romeo), status Brakes; P20 Nikita Mazepin (Haas F1 Team), status Illness.",
+    "publication_date": null,
+    "event_date": "2021-12-12",
+    "season": 2021,
+    "event": "Abu Dhabi Grand Prix",
+    "driver_tags": [
+      "Max Verstappen",
+      "Lewis Hamilton",
+      "Carlos Sainz",
+      "Yuki Tsunoda",
+      "Pierre Gasly",
+      "Valtteri Bottas",
+      "Lando Norris",
+      "Fernando Alonso",
+      "Esteban Ocon",
+      "Charles Leclerc",
+      "Sebastian Vettel",
+      "Daniel Ricciardo",
+      "Lance Stroll",
+      "Mick Schumacher",
+      "Sergio P\u00e9rez",
+      "Nicholas Latifi",
+      "Antonio Giovinazzi",
+      "George Russell",
+      "Kimi R\u00e4ikk\u00f6nen",
+      "Nikita Mazepin"
+    ],
+    "constructor_tags": [
+      "Alfa Romeo",
+      "AlphaTauri",
+      "Alpine F1 Team",
+      "Aston Martin",
+      "Ferrari",
+      "Haas F1 Team",
+      "McLaren",
+      "Mercedes",
+      "Red Bull",
+      "Williams"
+    ],
+    "circuit_tags": [
+      "yas_marina",
+      "Yas Marina Circuit"
+    ],
+    "topic_tags": [
+      "race result",
+      "podium",
+      "retirement"
+    ],
+    "provenance": "Jolpica/Ergast-compatible structured race classification; normalized without inferred facts.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_7a633150a185da7df977",
+    "source_key": "event:2022:1",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2022/1/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "2022 Bahrain Grand Prix classified results",
+    "text": "Bahrain Grand Prix was held on 2022-03-20 at Bahrain International Circuit. The winner was Charles Leclerc for Ferrari. The podium was P1 Charles Leclerc for Ferrari, P2 Carlos Sainz for Ferrari, P3 Lewis Hamilton for Mercedes. Classified result and status: P1 Charles Leclerc (Ferrari), status Finished; P2 Carlos Sainz (Ferrari), status Finished; P3 Lewis Hamilton (Mercedes), status Finished; P4 George Russell (Mercedes), status Finished; P5 Kevin Magnussen (Haas F1 Team), status Finished; P6 Valtteri Bottas (Alfa Romeo), status Finished; P7 Esteban Ocon (Alpine F1 Team), status Finished; P8 Yuki Tsunoda (AlphaTauri), status Finished; P9 Fernando Alonso (Alpine F1 Team), status Finished; P10 Guanyu Zhou (Alfa Romeo), status Finished; P11 Mick Schumacher (Haas F1 Team), status Finished; P12 Lance Stroll (Aston Martin), status Finished; P13 Alexander Albon (Williams), status Finished; P14 Daniel Ricciardo (McLaren), status Finished; P15 Lando Norris (McLaren), status Finished; P16 Nicholas Latifi (Williams), status Finished; P17 Nico H\u00fclkenberg (Aston Martin), status Finished; P18 Sergio P\u00e9rez (Red Bull), status Fuel pressure; P19 Max Verstappen (Red Bull), status Fuel pressure; P20 Pierre Gasly (AlphaTauri), status Power Unit.",
+    "publication_date": null,
+    "event_date": "2022-03-20",
+    "season": 2022,
+    "event": "Bahrain Grand Prix",
+    "driver_tags": [
+      "Charles Leclerc",
+      "Carlos Sainz",
+      "Lewis Hamilton",
+      "George Russell",
+      "Kevin Magnussen",
+      "Valtteri Bottas",
+      "Esteban Ocon",
+      "Yuki Tsunoda",
+      "Fernando Alonso",
+      "Guanyu Zhou",
+      "Mick Schumacher",
+      "Lance Stroll",
+      "Alexander Albon",
+      "Daniel Ricciardo",
+      "Lando Norris",
+      "Nicholas Latifi",
+      "Nico H\u00fclkenberg",
+      "Sergio P\u00e9rez",
+      "Max Verstappen",
+      "Pierre Gasly"
+    ],
+    "constructor_tags": [
+      "Alfa Romeo",
+      "AlphaTauri",
+      "Alpine F1 Team",
+      "Aston Martin",
+      "Ferrari",
+      "Haas F1 Team",
+      "McLaren",
+      "Mercedes",
+      "Red Bull",
+      "Williams"
+    ],
+    "circuit_tags": [
+      "bahrain",
+      "Bahrain International Circuit"
+    ],
+    "topic_tags": [
+      "race result",
+      "podium",
+      "retirement"
+    ],
+    "provenance": "Jolpica/Ergast-compatible structured race classification; normalized without inferred facts.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_88c48514b23a4a49186e",
+    "source_key": "event:2022:7",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2022/7/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "2022 Monaco Grand Prix classified results",
+    "text": "Monaco Grand Prix was held on 2022-05-29 at Circuit de Monaco. The winner was Sergio P\u00e9rez for Red Bull. The podium was P1 Sergio P\u00e9rez for Red Bull, P2 Carlos Sainz for Ferrari, P3 Max Verstappen for Red Bull. Classified result and status: P1 Sergio P\u00e9rez (Red Bull), status Finished; P2 Carlos Sainz (Ferrari), status Finished; P3 Max Verstappen (Red Bull), status Finished; P4 Charles Leclerc (Ferrari), status Finished; P5 George Russell (Mercedes), status Finished; P6 Lando Norris (McLaren), status Finished; P7 Fernando Alonso (Alpine F1 Team), status Finished; P8 Lewis Hamilton (Mercedes), status Finished; P9 Valtteri Bottas (Alfa Romeo), status Finished; P10 Sebastian Vettel (Aston Martin), status Finished; P11 Pierre Gasly (AlphaTauri), status Finished; P12 Esteban Ocon (Alpine F1 Team), status Finished; P13 Daniel Ricciardo (McLaren), status Finished; P14 Lance Stroll (Aston Martin), status Finished; P15 Nicholas Latifi (Williams), status +1 Lap; P16 Guanyu Zhou (Alfa Romeo), status +1 Lap; P17 Yuki Tsunoda (AlphaTauri), status +1 Lap; P18 Alexander Albon (Williams), status Mechanical; P19 Mick Schumacher (Haas F1 Team), status Accident; P20 Kevin Magnussen (Haas F1 Team), status Water pressure.",
+    "publication_date": null,
+    "event_date": "2022-05-29",
+    "season": 2022,
+    "event": "Monaco Grand Prix",
+    "driver_tags": [
+      "Sergio P\u00e9rez",
+      "Carlos Sainz",
+      "Max Verstappen",
+      "Charles Leclerc",
+      "George Russell",
+      "Lando Norris",
+      "Fernando Alonso",
+      "Lewis Hamilton",
+      "Valtteri Bottas",
+      "Sebastian Vettel",
+      "Pierre Gasly",
+      "Esteban Ocon",
+      "Daniel Ricciardo",
+      "Lance Stroll",
+      "Nicholas Latifi",
+      "Guanyu Zhou",
+      "Yuki Tsunoda",
+      "Alexander Albon",
+      "Mick Schumacher",
+      "Kevin Magnussen"
+    ],
+    "constructor_tags": [
+      "Alfa Romeo",
+      "AlphaTauri",
+      "Alpine F1 Team",
+      "Aston Martin",
+      "Ferrari",
+      "Haas F1 Team",
+      "McLaren",
+      "Mercedes",
+      "Red Bull",
+      "Williams"
+    ],
+    "circuit_tags": [
+      "monaco",
+      "Circuit de Monaco"
+    ],
+    "topic_tags": [
+      "race result",
+      "podium",
+      "retirement"
+    ],
+    "provenance": "Jolpica/Ergast-compatible structured race classification; normalized without inferred facts.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_ed382a40a5ee89a001a5",
+    "source_key": "event:2022:16",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2022/16/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "2022 Italian Grand Prix classified results",
+    "text": "Italian Grand Prix was held on 2022-09-11 at Autodromo Nazionale di Monza. The winner was Max Verstappen for Red Bull. The podium was P1 Max Verstappen for Red Bull, P2 Charles Leclerc for Ferrari, P3 George Russell for Mercedes. Classified result and status: P1 Max Verstappen (Red Bull), status Finished; P2 Charles Leclerc (Ferrari), status Finished; P3 George Russell (Mercedes), status Finished; P4 Carlos Sainz (Ferrari), status Finished; P5 Lewis Hamilton (Mercedes), status Finished; P6 Sergio P\u00e9rez (Red Bull), status Finished; P7 Lando Norris (McLaren), status Finished; P8 Pierre Gasly (AlphaTauri), status Finished; P9 Nyck de Vries (Williams), status Finished; P10 Guanyu Zhou (Alfa Romeo), status Finished; P11 Esteban Ocon (Alpine F1 Team), status Finished; P12 Mick Schumacher (Haas F1 Team), status Finished; P13 Valtteri Bottas (Alfa Romeo), status +1 Lap; P14 Yuki Tsunoda (AlphaTauri), status +1 Lap; P15 Nicholas Latifi (Williams), status +1 Lap; P16 Kevin Magnussen (Haas F1 Team), status +1 Lap; P17 Daniel Ricciardo (McLaren), status Oil leak; P18 Lance Stroll (Aston Martin), status Engine; P19 Fernando Alonso (Alpine F1 Team), status Water pressure; P20 Sebastian Vettel (Aston Martin), status Engine.",
+    "publication_date": null,
+    "event_date": "2022-09-11",
+    "season": 2022,
+    "event": "Italian Grand Prix",
+    "driver_tags": [
+      "Max Verstappen",
+      "Charles Leclerc",
+      "George Russell",
+      "Carlos Sainz",
+      "Lewis Hamilton",
+      "Sergio P\u00e9rez",
+      "Lando Norris",
+      "Pierre Gasly",
+      "Nyck de Vries",
+      "Guanyu Zhou",
+      "Esteban Ocon",
+      "Mick Schumacher",
+      "Valtteri Bottas",
+      "Yuki Tsunoda",
+      "Nicholas Latifi",
+      "Kevin Magnussen",
+      "Daniel Ricciardo",
+      "Lance Stroll",
+      "Fernando Alonso",
+      "Sebastian Vettel"
+    ],
+    "constructor_tags": [
+      "Alfa Romeo",
+      "AlphaTauri",
+      "Alpine F1 Team",
+      "Aston Martin",
+      "Ferrari",
+      "Haas F1 Team",
+      "McLaren",
+      "Mercedes",
+      "Red Bull",
+      "Williams"
+    ],
+    "circuit_tags": [
+      "monza",
+      "Autodromo Nazionale di Monza"
+    ],
+    "topic_tags": [
+      "race result",
+      "podium",
+      "retirement"
+    ],
+    "provenance": "Jolpica/Ergast-compatible structured race classification; normalized without inferred facts.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_3094ec8ed6dfec4778ef",
+    "source_key": "event:2022:22",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2022/22/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "2022 Abu Dhabi Grand Prix classified results",
+    "text": "Abu Dhabi Grand Prix was held on 2022-11-20 at Yas Marina Circuit. The winner was Max Verstappen for Red Bull. The podium was P1 Max Verstappen for Red Bull, P2 Charles Leclerc for Ferrari, P3 Sergio P\u00e9rez for Red Bull. Classified result and status: P1 Max Verstappen (Red Bull), status Finished; P2 Charles Leclerc (Ferrari), status Finished; P3 Sergio P\u00e9rez (Red Bull), status Finished; P4 Carlos Sainz (Ferrari), status Finished; P5 George Russell (Mercedes), status Finished; P6 Lando Norris (McLaren), status Finished; P7 Esteban Ocon (Alpine F1 Team), status Finished; P8 Lance Stroll (Aston Martin), status Finished; P9 Daniel Ricciardo (McLaren), status Finished; P10 Sebastian Vettel (Aston Martin), status Finished; P11 Yuki Tsunoda (AlphaTauri), status Finished; P12 Guanyu Zhou (Alfa Romeo), status +1 Lap; P13 Alexander Albon (Williams), status +1 Lap; P14 Pierre Gasly (AlphaTauri), status +1 Lap; P15 Valtteri Bottas (Alfa Romeo), status +1 Lap; P16 Mick Schumacher (Haas F1 Team), status +1 Lap; P17 Kevin Magnussen (Haas F1 Team), status +1 Lap; P18 Lewis Hamilton (Mercedes), status Hydraulics; P19 Nicholas Latifi (Williams), status Collision damage; P20 Fernando Alonso (Alpine F1 Team), status Water leak.",
+    "publication_date": null,
+    "event_date": "2022-11-20",
+    "season": 2022,
+    "event": "Abu Dhabi Grand Prix",
+    "driver_tags": [
+      "Max Verstappen",
+      "Charles Leclerc",
+      "Sergio P\u00e9rez",
+      "Carlos Sainz",
+      "George Russell",
+      "Lando Norris",
+      "Esteban Ocon",
+      "Lance Stroll",
+      "Daniel Ricciardo",
+      "Sebastian Vettel",
+      "Yuki Tsunoda",
+      "Guanyu Zhou",
+      "Alexander Albon",
+      "Pierre Gasly",
+      "Valtteri Bottas",
+      "Mick Schumacher",
+      "Kevin Magnussen",
+      "Lewis Hamilton",
+      "Nicholas Latifi",
+      "Fernando Alonso"
+    ],
+    "constructor_tags": [
+      "Alfa Romeo",
+      "AlphaTauri",
+      "Alpine F1 Team",
+      "Aston Martin",
+      "Ferrari",
+      "Haas F1 Team",
+      "McLaren",
+      "Mercedes",
+      "Red Bull",
+      "Williams"
+    ],
+    "circuit_tags": [
+      "yas_marina",
+      "Yas Marina Circuit"
+    ],
+    "topic_tags": [
+      "race result",
+      "podium",
+      "retirement"
+    ],
+    "provenance": "Jolpica/Ergast-compatible structured race classification; normalized without inferred facts.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_128b6204d4b5b82b14a2",
+    "source_key": "event:2023:1",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2023/1/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "2023 Bahrain Grand Prix classified results",
+    "text": "Bahrain Grand Prix was held on 2023-03-05 at Bahrain International Circuit. The winner was Max Verstappen for Red Bull. The podium was P1 Max Verstappen for Red Bull, P2 Sergio P\u00e9rez for Red Bull, P3 Fernando Alonso for Aston Martin. Classified result and status: P1 Max Verstappen (Red Bull), status Finished; P2 Sergio P\u00e9rez (Red Bull), status Finished; P3 Fernando Alonso (Aston Martin), status Finished; P4 Carlos Sainz (Ferrari), status Finished; P5 Lewis Hamilton (Mercedes), status Finished; P6 Lance Stroll (Aston Martin), status Finished; P7 George Russell (Mercedes), status Finished; P8 Valtteri Bottas (Alfa Romeo), status Finished; P9 Pierre Gasly (Alpine F1 Team), status Finished; P10 Alexander Albon (Williams), status Finished; P11 Yuki Tsunoda (AlphaTauri), status Finished; P12 Logan Sargeant (Williams), status Lapped; P13 Kevin Magnussen (Haas F1 Team), status Lapped; P14 Nyck de Vries (AlphaTauri), status Lapped; P15 Nico H\u00fclkenberg (Haas F1 Team), status Lapped; P16 Guanyu Zhou (Alfa Romeo), status Lapped; P17 Lando Norris (McLaren), status Lapped; P18 Esteban Ocon (Alpine F1 Team), status Retired; P19 Charles Leclerc (Ferrari), status Retired; P20 Oscar Piastri (McLaren), status Retired.",
+    "publication_date": null,
+    "event_date": "2023-03-05",
+    "season": 2023,
+    "event": "Bahrain Grand Prix",
+    "driver_tags": [
+      "Max Verstappen",
+      "Sergio P\u00e9rez",
+      "Fernando Alonso",
+      "Carlos Sainz",
+      "Lewis Hamilton",
+      "Lance Stroll",
+      "George Russell",
+      "Valtteri Bottas",
+      "Pierre Gasly",
+      "Alexander Albon",
+      "Yuki Tsunoda",
+      "Logan Sargeant",
+      "Kevin Magnussen",
+      "Nyck de Vries",
+      "Nico H\u00fclkenberg",
+      "Guanyu Zhou",
+      "Lando Norris",
+      "Esteban Ocon",
+      "Charles Leclerc",
+      "Oscar Piastri"
+    ],
+    "constructor_tags": [
+      "Alfa Romeo",
+      "AlphaTauri",
+      "Alpine F1 Team",
+      "Aston Martin",
+      "Ferrari",
+      "Haas F1 Team",
+      "McLaren",
+      "Mercedes",
+      "Red Bull",
+      "Williams"
+    ],
+    "circuit_tags": [
+      "bahrain",
+      "Bahrain International Circuit"
+    ],
+    "topic_tags": [
+      "race result",
+      "podium",
+      "retirement"
+    ],
+    "provenance": "Jolpica/Ergast-compatible structured race classification; normalized without inferred facts.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_ff3c0338ba82280babb8",
+    "source_key": "event:2023:6",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2023/6/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "2023 Monaco Grand Prix classified results",
+    "text": "Monaco Grand Prix was held on 2023-05-28 at Circuit de Monaco. The winner was Max Verstappen for Red Bull. The podium was P1 Max Verstappen for Red Bull, P2 Fernando Alonso for Aston Martin, P3 Esteban Ocon for Alpine F1 Team. Classified result and status: P1 Max Verstappen (Red Bull), status Finished; P2 Fernando Alonso (Aston Martin), status Finished; P3 Esteban Ocon (Alpine F1 Team), status Finished; P4 Lewis Hamilton (Mercedes), status Finished; P5 George Russell (Mercedes), status Finished; P6 Charles Leclerc (Ferrari), status Finished; P7 Pierre Gasly (Alpine F1 Team), status Finished; P8 Carlos Sainz (Ferrari), status Finished; P9 Lando Norris (McLaren), status Lapped; P10 Oscar Piastri (McLaren), status Lapped; P11 Valtteri Bottas (Alfa Romeo), status Lapped; P12 Nyck de Vries (AlphaTauri), status Lapped; P13 Guanyu Zhou (Alfa Romeo), status Lapped; P14 Alexander Albon (Williams), status Lapped; P15 Yuki Tsunoda (AlphaTauri), status Lapped; P16 Sergio P\u00e9rez (Red Bull), status Lapped; P17 Nico H\u00fclkenberg (Haas F1 Team), status Lapped; P18 Logan Sargeant (Williams), status Lapped; P19 Kevin Magnussen (Haas F1 Team), status Retired; P20 Lance Stroll (Aston Martin), status Retired.",
+    "publication_date": null,
+    "event_date": "2023-05-28",
+    "season": 2023,
+    "event": "Monaco Grand Prix",
+    "driver_tags": [
+      "Max Verstappen",
+      "Fernando Alonso",
+      "Esteban Ocon",
+      "Lewis Hamilton",
+      "George Russell",
+      "Charles Leclerc",
+      "Pierre Gasly",
+      "Carlos Sainz",
+      "Lando Norris",
+      "Oscar Piastri",
+      "Valtteri Bottas",
+      "Nyck de Vries",
+      "Guanyu Zhou",
+      "Alexander Albon",
+      "Yuki Tsunoda",
+      "Sergio P\u00e9rez",
+      "Nico H\u00fclkenberg",
+      "Logan Sargeant",
+      "Kevin Magnussen",
+      "Lance Stroll"
+    ],
+    "constructor_tags": [
+      "Alfa Romeo",
+      "AlphaTauri",
+      "Alpine F1 Team",
+      "Aston Martin",
+      "Ferrari",
+      "Haas F1 Team",
+      "McLaren",
+      "Mercedes",
+      "Red Bull",
+      "Williams"
+    ],
+    "circuit_tags": [
+      "monaco",
+      "Circuit de Monaco"
+    ],
+    "topic_tags": [
+      "race result",
+      "podium",
+      "retirement"
+    ],
+    "provenance": "Jolpica/Ergast-compatible structured race classification; normalized without inferred facts.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_d783556c920be55c1dd6",
+    "source_key": "event:2023:14",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2023/14/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "2023 Italian Grand Prix classified results",
+    "text": "Italian Grand Prix was held on 2023-09-03 at Autodromo Nazionale di Monza. The winner was Max Verstappen for Red Bull. The podium was P1 Max Verstappen for Red Bull, P2 Sergio P\u00e9rez for Red Bull, P3 Carlos Sainz for Ferrari. Classified result and status: P1 Max Verstappen (Red Bull), status Finished; P2 Sergio P\u00e9rez (Red Bull), status Finished; P3 Carlos Sainz (Ferrari), status Finished; P4 Charles Leclerc (Ferrari), status Finished; P5 George Russell (Mercedes), status Finished; P6 Lewis Hamilton (Mercedes), status Finished; P7 Alexander Albon (Williams), status Finished; P8 Lando Norris (McLaren), status Finished; P9 Fernando Alonso (Aston Martin), status Finished; P10 Valtteri Bottas (Alfa Romeo), status Finished; P11 Liam Lawson (AlphaTauri), status Finished; P12 Oscar Piastri (McLaren), status Finished; P13 Logan Sargeant (Williams), status Finished; P14 Guanyu Zhou (Alfa Romeo), status Finished; P15 Pierre Gasly (Alpine F1 Team), status Finished; P16 Lance Stroll (Aston Martin), status Finished; P17 Nico H\u00fclkenberg (Haas F1 Team), status Lapped; P18 Kevin Magnussen (Haas F1 Team), status Lapped; P19 Esteban Ocon (Alpine F1 Team), status Retired; P20 Yuki Tsunoda (AlphaTauri), status Did not start.",
+    "publication_date": null,
+    "event_date": "2023-09-03",
+    "season": 2023,
+    "event": "Italian Grand Prix",
+    "driver_tags": [
+      "Max Verstappen",
+      "Sergio P\u00e9rez",
+      "Carlos Sainz",
+      "Charles Leclerc",
+      "George Russell",
+      "Lewis Hamilton",
+      "Alexander Albon",
+      "Lando Norris",
+      "Fernando Alonso",
+      "Valtteri Bottas",
+      "Liam Lawson",
+      "Oscar Piastri",
+      "Logan Sargeant",
+      "Guanyu Zhou",
+      "Pierre Gasly",
+      "Lance Stroll",
+      "Nico H\u00fclkenberg",
+      "Kevin Magnussen",
+      "Esteban Ocon",
+      "Yuki Tsunoda"
+    ],
+    "constructor_tags": [
+      "Alfa Romeo",
+      "AlphaTauri",
+      "Alpine F1 Team",
+      "Aston Martin",
+      "Ferrari",
+      "Haas F1 Team",
+      "McLaren",
+      "Mercedes",
+      "Red Bull",
+      "Williams"
+    ],
+    "circuit_tags": [
+      "monza",
+      "Autodromo Nazionale di Monza"
+    ],
+    "topic_tags": [
+      "race result",
+      "podium",
+      "retirement"
+    ],
+    "provenance": "Jolpica/Ergast-compatible structured race classification; normalized without inferred facts.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_2e840f7d3af2aaf6229d",
+    "source_key": "event:2023:22",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2023/22/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "2023 Abu Dhabi Grand Prix classified results",
+    "text": "Abu Dhabi Grand Prix was held on 2023-11-26 at Yas Marina Circuit. The winner was Max Verstappen for Red Bull. The podium was P1 Max Verstappen for Red Bull, P2 Charles Leclerc for Ferrari, P3 George Russell for Mercedes. Classified result and status: P1 Max Verstappen (Red Bull), status Finished; P2 Charles Leclerc (Ferrari), status Finished; P3 George Russell (Mercedes), status Finished; P4 Sergio P\u00e9rez (Red Bull), status Finished; P5 Lando Norris (McLaren), status Finished; P6 Oscar Piastri (McLaren), status Finished; P7 Fernando Alonso (Aston Martin), status Finished; P8 Yuki Tsunoda (AlphaTauri), status Finished; P9 Lewis Hamilton (Mercedes), status Finished; P10 Lance Stroll (Aston Martin), status Finished; P11 Daniel Ricciardo (AlphaTauri), status Finished; P12 Esteban Ocon (Alpine F1 Team), status Finished; P13 Pierre Gasly (Alpine F1 Team), status Finished; P14 Alexander Albon (Williams), status Finished; P15 Nico H\u00fclkenberg (Haas F1 Team), status Finished; P16 Logan Sargeant (Williams), status Finished; P17 Guanyu Zhou (Alfa Romeo), status Finished; P18 Carlos Sainz (Ferrari), status Retired; P19 Valtteri Bottas (Alfa Romeo), status Lapped; P20 Kevin Magnussen (Haas F1 Team), status Lapped.",
+    "publication_date": null,
+    "event_date": "2023-11-26",
+    "season": 2023,
+    "event": "Abu Dhabi Grand Prix",
+    "driver_tags": [
+      "Max Verstappen",
+      "Charles Leclerc",
+      "George Russell",
+      "Sergio P\u00e9rez",
+      "Lando Norris",
+      "Oscar Piastri",
+      "Fernando Alonso",
+      "Yuki Tsunoda",
+      "Lewis Hamilton",
+      "Lance Stroll",
+      "Daniel Ricciardo",
+      "Esteban Ocon",
+      "Pierre Gasly",
+      "Alexander Albon",
+      "Nico H\u00fclkenberg",
+      "Logan Sargeant",
+      "Guanyu Zhou",
+      "Carlos Sainz",
+      "Valtteri Bottas",
+      "Kevin Magnussen"
+    ],
+    "constructor_tags": [
+      "Alfa Romeo",
+      "AlphaTauri",
+      "Alpine F1 Team",
+      "Aston Martin",
+      "Ferrari",
+      "Haas F1 Team",
+      "McLaren",
+      "Mercedes",
+      "Red Bull",
+      "Williams"
+    ],
+    "circuit_tags": [
+      "yas_marina",
+      "Yas Marina Circuit"
+    ],
+    "topic_tags": [
+      "race result",
+      "podium",
+      "retirement"
+    ],
+    "provenance": "Jolpica/Ergast-compatible structured race classification; normalized without inferred facts.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_79718ba2395543dc8b40",
+    "source_key": "event:2024:1",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2024/1/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "2024 Bahrain Grand Prix classified results",
+    "text": "Bahrain Grand Prix was held on 2024-03-02 at Bahrain International Circuit. The winner was Max Verstappen for Red Bull. The podium was P1 Max Verstappen for Red Bull, P2 Sergio P\u00e9rez for Red Bull, P3 Carlos Sainz for Ferrari. Classified result and status: P1 Max Verstappen (Red Bull), status Finished; P2 Sergio P\u00e9rez (Red Bull), status Finished; P3 Carlos Sainz (Ferrari), status Finished; P4 Charles Leclerc (Ferrari), status Finished; P5 George Russell (Mercedes), status Finished; P6 Lando Norris (McLaren), status Finished; P7 Lewis Hamilton (Mercedes), status Finished; P8 Oscar Piastri (McLaren), status Finished; P9 Fernando Alonso (Aston Martin), status Finished; P10 Lance Stroll (Aston Martin), status Finished; P11 Guanyu Zhou (Sauber), status Lapped; P12 Kevin Magnussen (Haas F1 Team), status Lapped; P13 Daniel Ricciardo (RB F1 Team), status Lapped; P14 Yuki Tsunoda (RB F1 Team), status Lapped; P15 Alexander Albon (Williams), status Lapped; P16 Nico H\u00fclkenberg (Haas F1 Team), status Lapped; P17 Esteban Ocon (Alpine F1 Team), status Lapped; P18 Pierre Gasly (Alpine F1 Team), status Lapped; P19 Valtteri Bottas (Sauber), status Lapped; P20 Logan Sargeant (Williams), status Lapped.",
+    "publication_date": null,
+    "event_date": "2024-03-02",
+    "season": 2024,
+    "event": "Bahrain Grand Prix",
+    "driver_tags": [
+      "Max Verstappen",
+      "Sergio P\u00e9rez",
+      "Carlos Sainz",
+      "Charles Leclerc",
+      "George Russell",
+      "Lando Norris",
+      "Lewis Hamilton",
+      "Oscar Piastri",
+      "Fernando Alonso",
+      "Lance Stroll",
+      "Guanyu Zhou",
+      "Kevin Magnussen",
+      "Daniel Ricciardo",
+      "Yuki Tsunoda",
+      "Alexander Albon",
+      "Nico H\u00fclkenberg",
+      "Esteban Ocon",
+      "Pierre Gasly",
+      "Valtteri Bottas",
+      "Logan Sargeant"
+    ],
+    "constructor_tags": [
+      "Alpine F1 Team",
+      "Aston Martin",
+      "Ferrari",
+      "Haas F1 Team",
+      "McLaren",
+      "Mercedes",
+      "RB F1 Team",
+      "Red Bull",
+      "Sauber",
+      "Williams"
+    ],
+    "circuit_tags": [
+      "bahrain",
+      "Bahrain International Circuit"
+    ],
+    "topic_tags": [
+      "race result",
+      "podium",
+      "retirement"
+    ],
+    "provenance": "Jolpica/Ergast-compatible structured race classification; normalized without inferred facts.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_26a5a1fe5d2802214ad9",
+    "source_key": "event:2024:8",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2024/8/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "2024 Monaco Grand Prix classified results",
+    "text": "Monaco Grand Prix was held on 2024-05-26 at Circuit de Monaco. The winner was Charles Leclerc for Ferrari. The podium was P1 Charles Leclerc for Ferrari, P2 Oscar Piastri for McLaren, P3 Carlos Sainz for Ferrari. Classified result and status: P1 Charles Leclerc (Ferrari), status Finished; P2 Oscar Piastri (McLaren), status Finished; P3 Carlos Sainz (Ferrari), status Finished; P4 Lando Norris (McLaren), status Finished; P5 George Russell (Mercedes), status Finished; P6 Max Verstappen (Red Bull), status Finished; P7 Lewis Hamilton (Mercedes), status Finished; P8 Yuki Tsunoda (RB F1 Team), status Lapped; P9 Alexander Albon (Williams), status Lapped; P10 Pierre Gasly (Alpine F1 Team), status Lapped; P11 Fernando Alonso (Aston Martin), status Lapped; P12 Daniel Ricciardo (RB F1 Team), status Lapped; P13 Valtteri Bottas (Sauber), status Lapped; P14 Lance Stroll (Aston Martin), status Lapped; P15 Logan Sargeant (Williams), status Lapped; P16 Guanyu Zhou (Sauber), status Lapped; P17 Esteban Ocon (Alpine F1 Team), status Retired; P18 Sergio P\u00e9rez (Red Bull), status Retired; P19 Nico H\u00fclkenberg (Haas F1 Team), status Retired; P20 Kevin Magnussen (Haas F1 Team), status Retired.",
+    "publication_date": null,
+    "event_date": "2024-05-26",
+    "season": 2024,
+    "event": "Monaco Grand Prix",
+    "driver_tags": [
+      "Charles Leclerc",
+      "Oscar Piastri",
+      "Carlos Sainz",
+      "Lando Norris",
+      "George Russell",
+      "Max Verstappen",
+      "Lewis Hamilton",
+      "Yuki Tsunoda",
+      "Alexander Albon",
+      "Pierre Gasly",
+      "Fernando Alonso",
+      "Daniel Ricciardo",
+      "Valtteri Bottas",
+      "Lance Stroll",
+      "Logan Sargeant",
+      "Guanyu Zhou",
+      "Esteban Ocon",
+      "Sergio P\u00e9rez",
+      "Nico H\u00fclkenberg",
+      "Kevin Magnussen"
+    ],
+    "constructor_tags": [
+      "Alpine F1 Team",
+      "Aston Martin",
+      "Ferrari",
+      "Haas F1 Team",
+      "McLaren",
+      "Mercedes",
+      "RB F1 Team",
+      "Red Bull",
+      "Sauber",
+      "Williams"
+    ],
+    "circuit_tags": [
+      "monaco",
+      "Circuit de Monaco"
+    ],
+    "topic_tags": [
+      "race result",
+      "podium",
+      "retirement"
+    ],
+    "provenance": "Jolpica/Ergast-compatible structured race classification; normalized without inferred facts.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_8f3ac9172b874cdb64ac",
+    "source_key": "event:2024:16",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2024/16/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "2024 Italian Grand Prix classified results",
+    "text": "Italian Grand Prix was held on 2024-09-01 at Autodromo Nazionale di Monza. The winner was Charles Leclerc for Ferrari. The podium was P1 Charles Leclerc for Ferrari, P2 Oscar Piastri for McLaren, P3 Lando Norris for McLaren. Classified result and status: P1 Charles Leclerc (Ferrari), status Finished; P2 Oscar Piastri (McLaren), status Finished; P3 Lando Norris (McLaren), status Finished; P4 Carlos Sainz (Ferrari), status Finished; P5 Lewis Hamilton (Mercedes), status Finished; P6 Max Verstappen (Red Bull), status Finished; P7 George Russell (Mercedes), status Finished; P8 Sergio P\u00e9rez (Red Bull), status Finished; P9 Alexander Albon (Williams), status Finished; P10 Kevin Magnussen (Haas F1 Team), status Finished; P11 Fernando Alonso (Aston Martin), status Finished; P12 Franco Colapinto (Williams), status Finished; P13 Daniel Ricciardo (RB F1 Team), status Finished; P14 Esteban Ocon (Alpine F1 Team), status Lapped; P15 Pierre Gasly (Alpine F1 Team), status Lapped; P16 Valtteri Bottas (Sauber), status Lapped; P17 Nico H\u00fclkenberg (Haas F1 Team), status Lapped; P18 Guanyu Zhou (Sauber), status Lapped; P19 Lance Stroll (Aston Martin), status Lapped; P20 Yuki Tsunoda (RB F1 Team), status Retired.",
+    "publication_date": null,
+    "event_date": "2024-09-01",
+    "season": 2024,
+    "event": "Italian Grand Prix",
+    "driver_tags": [
+      "Charles Leclerc",
+      "Oscar Piastri",
+      "Lando Norris",
+      "Carlos Sainz",
+      "Lewis Hamilton",
+      "Max Verstappen",
+      "George Russell",
+      "Sergio P\u00e9rez",
+      "Alexander Albon",
+      "Kevin Magnussen",
+      "Fernando Alonso",
+      "Franco Colapinto",
+      "Daniel Ricciardo",
+      "Esteban Ocon",
+      "Pierre Gasly",
+      "Valtteri Bottas",
+      "Nico H\u00fclkenberg",
+      "Guanyu Zhou",
+      "Lance Stroll",
+      "Yuki Tsunoda"
+    ],
+    "constructor_tags": [
+      "Alpine F1 Team",
+      "Aston Martin",
+      "Ferrari",
+      "Haas F1 Team",
+      "McLaren",
+      "Mercedes",
+      "RB F1 Team",
+      "Red Bull",
+      "Sauber",
+      "Williams"
+    ],
+    "circuit_tags": [
+      "monza",
+      "Autodromo Nazionale di Monza"
+    ],
+    "topic_tags": [
+      "race result",
+      "podium",
+      "retirement"
+    ],
+    "provenance": "Jolpica/Ergast-compatible structured race classification; normalized without inferred facts.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_d6bfb3ca6e6bed75e5f0",
+    "source_key": "event:2024:24",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2024/24/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "2024 Abu Dhabi Grand Prix classified results",
+    "text": "Abu Dhabi Grand Prix was held on 2024-12-08 at Yas Marina Circuit. The winner was Lando Norris for McLaren. The podium was P1 Lando Norris for McLaren, P2 Carlos Sainz for Ferrari, P3 Charles Leclerc for Ferrari. Classified result and status: P1 Lando Norris (McLaren), status Finished; P2 Carlos Sainz (Ferrari), status Finished; P3 Charles Leclerc (Ferrari), status Finished; P4 Lewis Hamilton (Mercedes), status Finished; P5 George Russell (Mercedes), status Finished; P6 Max Verstappen (Red Bull), status Finished; P7 Pierre Gasly (Alpine F1 Team), status Finished; P8 Nico H\u00fclkenberg (Haas F1 Team), status Finished; P9 Fernando Alonso (Aston Martin), status Finished; P10 Oscar Piastri (McLaren), status Finished; P11 Alexander Albon (Williams), status Lapped; P12 Yuki Tsunoda (RB F1 Team), status Lapped; P13 Guanyu Zhou (Sauber), status Lapped; P14 Lance Stroll (Aston Martin), status Lapped; P15 Jack Doohan (Alpine F1 Team), status Lapped; P16 Kevin Magnussen (Haas F1 Team), status Lapped; P17 Liam Lawson (RB F1 Team), status Retired; P18 Valtteri Bottas (Sauber), status Retired; P19 Franco Colapinto (Williams), status Retired; P20 Sergio P\u00e9rez (Red Bull), status Retired.",
+    "publication_date": null,
+    "event_date": "2024-12-08",
+    "season": 2024,
+    "event": "Abu Dhabi Grand Prix",
+    "driver_tags": [
+      "Lando Norris",
+      "Carlos Sainz",
+      "Charles Leclerc",
+      "Lewis Hamilton",
+      "George Russell",
+      "Max Verstappen",
+      "Pierre Gasly",
+      "Nico H\u00fclkenberg",
+      "Fernando Alonso",
+      "Oscar Piastri",
+      "Alexander Albon",
+      "Yuki Tsunoda",
+      "Guanyu Zhou",
+      "Lance Stroll",
+      "Jack Doohan",
+      "Kevin Magnussen",
+      "Liam Lawson",
+      "Valtteri Bottas",
+      "Franco Colapinto",
+      "Sergio P\u00e9rez"
+    ],
+    "constructor_tags": [
+      "Alpine F1 Team",
+      "Aston Martin",
+      "Ferrari",
+      "Haas F1 Team",
+      "McLaren",
+      "Mercedes",
+      "RB F1 Team",
+      "Red Bull",
+      "Sauber",
+      "Williams"
+    ],
+    "circuit_tags": [
+      "yas_marina",
+      "Yas Marina Circuit"
+    ],
+    "topic_tags": [
+      "race result",
+      "podium",
+      "retirement"
+    ],
+    "provenance": "Jolpica/Ergast-compatible structured race classification; normalized without inferred facts.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_68f14366d29fd1702bc4",
+    "source_key": "event:2025:4",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2025/4/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "2025 Bahrain Grand Prix classified results",
+    "text": "Bahrain Grand Prix was held on 2025-04-13 at Bahrain International Circuit. The winner was Oscar Piastri for McLaren. The podium was P1 Oscar Piastri for McLaren, P2 George Russell for Mercedes, P3 Lando Norris for McLaren. Classified result and status: P1 Oscar Piastri (McLaren), status Finished; P2 George Russell (Mercedes), status Finished; P3 Lando Norris (McLaren), status Finished; P4 Charles Leclerc (Ferrari), status Finished; P5 Lewis Hamilton (Ferrari), status Finished; P6 Max Verstappen (Red Bull), status Finished; P7 Pierre Gasly (Alpine F1 Team), status Finished; P8 Esteban Ocon (Haas F1 Team), status Finished; P9 Yuki Tsunoda (Red Bull), status Finished; P10 Oliver Bearman (Haas F1 Team), status Finished; P11 Andrea Kimi Antonelli (Mercedes), status Finished; P12 Alexander Albon (Williams), status Finished; P13 Isack Hadjar (RB F1 Team), status Finished; P14 Jack Doohan (Alpine F1 Team), status Finished; P15 Fernando Alonso (Aston Martin), status Finished; P16 Liam Lawson (RB F1 Team), status Finished; P17 Lance Stroll (Aston Martin), status Finished; P18 Gabriel Bortoleto (Sauber), status Finished; P19 Carlos Sainz (Williams), status Retired; P20 Nico H\u00fclkenberg (Sauber), status Disqualified.",
+    "publication_date": null,
+    "event_date": "2025-04-13",
+    "season": 2025,
+    "event": "Bahrain Grand Prix",
+    "driver_tags": [
+      "Oscar Piastri",
+      "George Russell",
+      "Lando Norris",
+      "Charles Leclerc",
+      "Lewis Hamilton",
+      "Max Verstappen",
+      "Pierre Gasly",
+      "Esteban Ocon",
+      "Yuki Tsunoda",
+      "Oliver Bearman",
+      "Andrea Kimi Antonelli",
+      "Alexander Albon",
+      "Isack Hadjar",
+      "Jack Doohan",
+      "Fernando Alonso",
+      "Liam Lawson",
+      "Lance Stroll",
+      "Gabriel Bortoleto",
+      "Carlos Sainz",
+      "Nico H\u00fclkenberg"
+    ],
+    "constructor_tags": [
+      "Alpine F1 Team",
+      "Aston Martin",
+      "Ferrari",
+      "Haas F1 Team",
+      "McLaren",
+      "Mercedes",
+      "RB F1 Team",
+      "Red Bull",
+      "Sauber",
+      "Williams"
+    ],
+    "circuit_tags": [
+      "bahrain",
+      "Bahrain International Circuit"
+    ],
+    "topic_tags": [
+      "race result",
+      "podium",
+      "retirement"
+    ],
+    "provenance": "Jolpica/Ergast-compatible structured race classification; normalized without inferred facts.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_5d606eec8b5d3b33fb94",
+    "source_key": "event:2025:8",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2025/8/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "2025 Monaco Grand Prix classified results",
+    "text": "Monaco Grand Prix was held on 2025-05-25 at Circuit de Monaco. The winner was Lando Norris for McLaren. The podium was P1 Lando Norris for McLaren, P2 Charles Leclerc for Ferrari, P3 Oscar Piastri for McLaren. Classified result and status: P1 Lando Norris (McLaren), status Finished; P2 Charles Leclerc (Ferrari), status Finished; P3 Oscar Piastri (McLaren), status Finished; P4 Max Verstappen (Red Bull), status Finished; P5 Lewis Hamilton (Ferrari), status Finished; P6 Isack Hadjar (RB F1 Team), status Lapped; P7 Esteban Ocon (Haas F1 Team), status Lapped; P8 Liam Lawson (RB F1 Team), status Lapped; P9 Alexander Albon (Williams), status Lapped; P10 Carlos Sainz (Williams), status Lapped; P11 George Russell (Mercedes), status Lapped; P12 Oliver Bearman (Haas F1 Team), status Lapped; P13 Franco Colapinto (Alpine F1 Team), status Lapped; P14 Gabriel Bortoleto (Sauber), status Lapped; P15 Lance Stroll (Aston Martin), status Lapped; P16 Nico H\u00fclkenberg (Sauber), status Lapped; P17 Yuki Tsunoda (Red Bull), status Lapped; P18 Andrea Kimi Antonelli (Mercedes), status Lapped; P19 Fernando Alonso (Aston Martin), status Retired; P20 Pierre Gasly (Alpine F1 Team), status Retired.",
+    "publication_date": null,
+    "event_date": "2025-05-25",
+    "season": 2025,
+    "event": "Monaco Grand Prix",
+    "driver_tags": [
+      "Lando Norris",
+      "Charles Leclerc",
+      "Oscar Piastri",
+      "Max Verstappen",
+      "Lewis Hamilton",
+      "Isack Hadjar",
+      "Esteban Ocon",
+      "Liam Lawson",
+      "Alexander Albon",
+      "Carlos Sainz",
+      "George Russell",
+      "Oliver Bearman",
+      "Franco Colapinto",
+      "Gabriel Bortoleto",
+      "Lance Stroll",
+      "Nico H\u00fclkenberg",
+      "Yuki Tsunoda",
+      "Andrea Kimi Antonelli",
+      "Fernando Alonso",
+      "Pierre Gasly"
+    ],
+    "constructor_tags": [
+      "Alpine F1 Team",
+      "Aston Martin",
+      "Ferrari",
+      "Haas F1 Team",
+      "McLaren",
+      "Mercedes",
+      "RB F1 Team",
+      "Red Bull",
+      "Sauber",
+      "Williams"
+    ],
+    "circuit_tags": [
+      "monaco",
+      "Circuit de Monaco"
+    ],
+    "topic_tags": [
+      "race result",
+      "podium",
+      "retirement"
+    ],
+    "provenance": "Jolpica/Ergast-compatible structured race classification; normalized without inferred facts.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_d0d29c20951265b02ac8",
+    "source_key": "event:2025:16",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2025/16/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "2025 Italian Grand Prix classified results",
+    "text": "Italian Grand Prix was held on 2025-09-07 at Autodromo Nazionale di Monza. The winner was Max Verstappen for Red Bull. The podium was P1 Max Verstappen for Red Bull, P2 Lando Norris for McLaren, P3 Oscar Piastri for McLaren. Classified result and status: P1 Max Verstappen (Red Bull), status Finished; P2 Lando Norris (McLaren), status Finished; P3 Oscar Piastri (McLaren), status Finished; P4 Charles Leclerc (Ferrari), status Finished; P5 George Russell (Mercedes), status Finished; P6 Lewis Hamilton (Ferrari), status Finished; P7 Alexander Albon (Williams), status Finished; P8 Gabriel Bortoleto (Sauber), status Finished; P9 Andrea Kimi Antonelli (Mercedes), status Finished; P10 Isack Hadjar (RB F1 Team), status Finished; P11 Carlos Sainz (Williams), status Finished; P12 Oliver Bearman (Haas F1 Team), status Finished; P13 Yuki Tsunoda (Red Bull), status Finished; P14 Liam Lawson (RB F1 Team), status Finished; P15 Esteban Ocon (Haas F1 Team), status Lapped; P16 Pierre Gasly (Alpine F1 Team), status Lapped; P17 Franco Colapinto (Alpine F1 Team), status Lapped; P18 Lance Stroll (Aston Martin), status Lapped; P19 Fernando Alonso (Aston Martin), status Retired; P20 Nico H\u00fclkenberg (Sauber), status Did not start.",
+    "publication_date": null,
+    "event_date": "2025-09-07",
+    "season": 2025,
+    "event": "Italian Grand Prix",
+    "driver_tags": [
+      "Max Verstappen",
+      "Lando Norris",
+      "Oscar Piastri",
+      "Charles Leclerc",
+      "George Russell",
+      "Lewis Hamilton",
+      "Alexander Albon",
+      "Gabriel Bortoleto",
+      "Andrea Kimi Antonelli",
+      "Isack Hadjar",
+      "Carlos Sainz",
+      "Oliver Bearman",
+      "Yuki Tsunoda",
+      "Liam Lawson",
+      "Esteban Ocon",
+      "Pierre Gasly",
+      "Franco Colapinto",
+      "Lance Stroll",
+      "Fernando Alonso",
+      "Nico H\u00fclkenberg"
+    ],
+    "constructor_tags": [
+      "Alpine F1 Team",
+      "Aston Martin",
+      "Ferrari",
+      "Haas F1 Team",
+      "McLaren",
+      "Mercedes",
+      "RB F1 Team",
+      "Red Bull",
+      "Sauber",
+      "Williams"
+    ],
+    "circuit_tags": [
+      "monza",
+      "Autodromo Nazionale di Monza"
+    ],
+    "topic_tags": [
+      "race result",
+      "podium",
+      "retirement"
+    ],
+    "provenance": "Jolpica/Ergast-compatible structured race classification; normalized without inferred facts.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_d7c691fad1179582503a",
+    "source_key": "event:2025:24",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2025/24/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "2025 Abu Dhabi Grand Prix classified results",
+    "text": "Abu Dhabi Grand Prix was held on 2025-12-07 at Yas Marina Circuit. The winner was Max Verstappen for Red Bull. The podium was P1 Max Verstappen for Red Bull, P2 Oscar Piastri for McLaren, P3 Lando Norris for McLaren. Classified result and status: P1 Max Verstappen (Red Bull), status Finished; P2 Oscar Piastri (McLaren), status Finished; P3 Lando Norris (McLaren), status Finished; P4 Charles Leclerc (Ferrari), status Finished; P5 George Russell (Mercedes), status Finished; P6 Fernando Alonso (Aston Martin), status Finished; P7 Esteban Ocon (Haas F1 Team), status Finished; P8 Lewis Hamilton (Ferrari), status Finished; P9 Nico H\u00fclkenberg (Sauber), status Finished; P10 Lance Stroll (Aston Martin), status Finished; P11 Gabriel Bortoleto (Sauber), status Finished; P12 Oliver Bearman (Haas F1 Team), status Finished; P13 Carlos Sainz (Williams), status Finished; P14 Yuki Tsunoda (Red Bull), status Finished; P15 Andrea Kimi Antonelli (Mercedes), status Finished; P16 Alexander Albon (Williams), status Finished; P17 Isack Hadjar (RB F1 Team), status Lapped; P18 Liam Lawson (RB F1 Team), status Lapped; P19 Pierre Gasly (Alpine F1 Team), status Lapped; P20 Franco Colapinto (Alpine F1 Team), status Lapped.",
+    "publication_date": null,
+    "event_date": "2025-12-07",
+    "season": 2025,
+    "event": "Abu Dhabi Grand Prix",
+    "driver_tags": [
+      "Max Verstappen",
+      "Oscar Piastri",
+      "Lando Norris",
+      "Charles Leclerc",
+      "George Russell",
+      "Fernando Alonso",
+      "Esteban Ocon",
+      "Lewis Hamilton",
+      "Nico H\u00fclkenberg",
+      "Lance Stroll",
+      "Gabriel Bortoleto",
+      "Oliver Bearman",
+      "Carlos Sainz",
+      "Yuki Tsunoda",
+      "Andrea Kimi Antonelli",
+      "Alexander Albon",
+      "Isack Hadjar",
+      "Liam Lawson",
+      "Pierre Gasly",
+      "Franco Colapinto"
+    ],
+    "constructor_tags": [
+      "Alpine F1 Team",
+      "Aston Martin",
+      "Ferrari",
+      "Haas F1 Team",
+      "McLaren",
+      "Mercedes",
+      "RB F1 Team",
+      "Red Bull",
+      "Sauber",
+      "Williams"
+    ],
+    "circuit_tags": [
+      "yas_marina",
+      "Yas Marina Circuit"
+    ],
+    "topic_tags": [
+      "race result",
+      "podium",
+      "retirement"
+    ],
+    "provenance": "Jolpica/Ergast-compatible structured race classification; normalized without inferred facts.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_70095ecc7ccf0858cd3d",
+    "source_key": "driver-season:2021:hamilton",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2021/drivers/hamilton/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "Lewis Hamilton in the selected 2021 event sample",
+    "text": "In the bounded 2021 sample, Lewis Hamilton drove for Mercedes. Results: Bahrain Grand Prix: P1 for Mercedes (Finished); Monaco Grand Prix: P7 for Mercedes (Finished); Italian Grand Prix: P17 for Mercedes (Collision); Abu Dhabi Grand Prix: P2 for Mercedes (Finished).",
+    "publication_date": null,
+    "event_date": null,
+    "season": 2021,
+    "event": null,
+    "driver_tags": [
+      "Lewis Hamilton",
+      "hamilton"
+    ],
+    "constructor_tags": [
+      "Mercedes"
+    ],
+    "circuit_tags": [
+      "bahrain",
+      "monaco",
+      "monza",
+      "yas_marina"
+    ],
+    "topic_tags": [
+      "driver history",
+      "team history"
+    ],
+    "provenance": "Derived only from the cited Jolpica structured classifications in the bounded corpus.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_62f3d488b7391fc38e52",
+    "source_key": "driver-season:2024:hamilton",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2024/drivers/hamilton/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "Lewis Hamilton in the selected 2024 event sample",
+    "text": "In the bounded 2024 sample, Lewis Hamilton drove for Mercedes. Results: Bahrain Grand Prix: P7 for Mercedes (Finished); Monaco Grand Prix: P7 for Mercedes (Finished); Italian Grand Prix: P5 for Mercedes (Finished); Abu Dhabi Grand Prix: P4 for Mercedes (Finished).",
+    "publication_date": null,
+    "event_date": null,
+    "season": 2024,
+    "event": null,
+    "driver_tags": [
+      "Lewis Hamilton",
+      "hamilton"
+    ],
+    "constructor_tags": [
+      "Mercedes"
+    ],
+    "circuit_tags": [
+      "bahrain",
+      "monaco",
+      "monza",
+      "yas_marina"
+    ],
+    "topic_tags": [
+      "driver history",
+      "team history"
+    ],
+    "provenance": "Derived only from the cited Jolpica structured classifications in the bounded corpus.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_29431cd102113990e8aa",
+    "source_key": "driver-season:2025:hamilton",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2025/drivers/hamilton/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "Lewis Hamilton in the selected 2025 event sample",
+    "text": "In the bounded 2025 sample, Lewis Hamilton drove for Ferrari. Results: Bahrain Grand Prix: P5 for Ferrari (Finished); Monaco Grand Prix: P5 for Ferrari (Finished); Italian Grand Prix: P6 for Ferrari (Finished); Abu Dhabi Grand Prix: P8 for Ferrari (Finished).",
+    "publication_date": null,
+    "event_date": null,
+    "season": 2025,
+    "event": null,
+    "driver_tags": [
+      "Lewis Hamilton",
+      "hamilton"
+    ],
+    "constructor_tags": [
+      "Ferrari"
+    ],
+    "circuit_tags": [
+      "bahrain",
+      "monaco",
+      "monza",
+      "yas_marina"
+    ],
+    "topic_tags": [
+      "driver history",
+      "team history"
+    ],
+    "provenance": "Derived only from the cited Jolpica structured classifications in the bounded corpus.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_d5a9c2a616cbd541dd17",
+    "source_key": "driver-season:2021:max_verstappen",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2021/drivers/max_verstappen/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "Max Verstappen in the selected 2021 event sample",
+    "text": "In the bounded 2021 sample, Max Verstappen drove for Red Bull. Results: Bahrain Grand Prix: P2 for Red Bull (Finished); Monaco Grand Prix: P1 for Red Bull (Finished); Italian Grand Prix: P18 for Red Bull (Collision); Abu Dhabi Grand Prix: P1 for Red Bull (Finished).",
+    "publication_date": null,
+    "event_date": null,
+    "season": 2021,
+    "event": null,
+    "driver_tags": [
+      "Max Verstappen",
+      "max_verstappen"
+    ],
+    "constructor_tags": [
+      "Red Bull"
+    ],
+    "circuit_tags": [
+      "bahrain",
+      "monaco",
+      "monza",
+      "yas_marina"
+    ],
+    "topic_tags": [
+      "driver history",
+      "team history"
+    ],
+    "provenance": "Derived only from the cited Jolpica structured classifications in the bounded corpus.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_e45bfeaf2bba2caa49a9",
+    "source_key": "driver-season:2024:max_verstappen",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2024/drivers/max_verstappen/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "Max Verstappen in the selected 2024 event sample",
+    "text": "In the bounded 2024 sample, Max Verstappen drove for Red Bull. Results: Bahrain Grand Prix: P1 for Red Bull (Finished); Monaco Grand Prix: P6 for Red Bull (Finished); Italian Grand Prix: P6 for Red Bull (Finished); Abu Dhabi Grand Prix: P6 for Red Bull (Finished).",
+    "publication_date": null,
+    "event_date": null,
+    "season": 2024,
+    "event": null,
+    "driver_tags": [
+      "Max Verstappen",
+      "max_verstappen"
+    ],
+    "constructor_tags": [
+      "Red Bull"
+    ],
+    "circuit_tags": [
+      "bahrain",
+      "monaco",
+      "monza",
+      "yas_marina"
+    ],
+    "topic_tags": [
+      "driver history",
+      "team history"
+    ],
+    "provenance": "Derived only from the cited Jolpica structured classifications in the bounded corpus.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_ef3c4402e18e589fe9b8",
+    "source_key": "driver-season:2025:max_verstappen",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2025/drivers/max_verstappen/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "Max Verstappen in the selected 2025 event sample",
+    "text": "In the bounded 2025 sample, Max Verstappen drove for Red Bull. Results: Bahrain Grand Prix: P6 for Red Bull (Finished); Monaco Grand Prix: P4 for Red Bull (Finished); Italian Grand Prix: P1 for Red Bull (Finished); Abu Dhabi Grand Prix: P1 for Red Bull (Finished).",
+    "publication_date": null,
+    "event_date": null,
+    "season": 2025,
+    "event": null,
+    "driver_tags": [
+      "Max Verstappen",
+      "max_verstappen"
+    ],
+    "constructor_tags": [
+      "Red Bull"
+    ],
+    "circuit_tags": [
+      "bahrain",
+      "monaco",
+      "monza",
+      "yas_marina"
+    ],
+    "topic_tags": [
+      "driver history",
+      "team history"
+    ],
+    "provenance": "Derived only from the cited Jolpica structured classifications in the bounded corpus.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_e65ffb3e523c1efa94a0",
+    "source_key": "driver-season:2021:vettel",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2021/drivers/vettel/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "Sebastian Vettel in the selected 2021 event sample",
+    "text": "In the bounded 2021 sample, Sebastian Vettel drove for Aston Martin. Results: Bahrain Grand Prix: P15 for Aston Martin (+1 Lap); Monaco Grand Prix: P5 for Aston Martin (Finished); Italian Grand Prix: P12 for Aston Martin (Finished); Abu Dhabi Grand Prix: P11 for Aston Martin (Finished).",
+    "publication_date": null,
+    "event_date": null,
+    "season": 2021,
+    "event": null,
+    "driver_tags": [
+      "Sebastian Vettel",
+      "vettel"
+    ],
+    "constructor_tags": [
+      "Aston Martin"
+    ],
+    "circuit_tags": [
+      "bahrain",
+      "monaco",
+      "monza",
+      "yas_marina"
+    ],
+    "topic_tags": [
+      "driver history",
+      "team history"
+    ],
+    "provenance": "Derived only from the cited Jolpica structured classifications in the bounded corpus.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_dea4fe6f49aae7f8f822",
+    "source_key": "driver-season:2022:vettel",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2022/drivers/vettel/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "Sebastian Vettel in the selected 2022 event sample",
+    "text": "In the bounded 2022 sample, Sebastian Vettel drove for Aston Martin. Results: Monaco Grand Prix: P10 for Aston Martin (Finished); Italian Grand Prix: P20 for Aston Martin (Engine); Abu Dhabi Grand Prix: P10 for Aston Martin (Finished).",
+    "publication_date": null,
+    "event_date": null,
+    "season": 2022,
+    "event": null,
+    "driver_tags": [
+      "Sebastian Vettel",
+      "vettel"
+    ],
+    "constructor_tags": [
+      "Aston Martin"
+    ],
+    "circuit_tags": [
+      "monaco",
+      "monza",
+      "yas_marina"
+    ],
+    "topic_tags": [
+      "driver history",
+      "team history"
+    ],
+    "provenance": "Derived only from the cited Jolpica structured classifications in the bounded corpus.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_19a0b35782c280970ccb",
+    "source_key": "driver-season:2021:alonso",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2021/drivers/alonso/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "Fernando Alonso in the selected 2021 event sample",
+    "text": "In the bounded 2021 sample, Fernando Alonso drove for Alpine F1 Team. Results: Bahrain Grand Prix: P19 for Alpine F1 Team (Brakes); Monaco Grand Prix: P13 for Alpine F1 Team (+1 Lap); Italian Grand Prix: P8 for Alpine F1 Team (Finished); Abu Dhabi Grand Prix: P8 for Alpine F1 Team (Finished).",
+    "publication_date": null,
+    "event_date": null,
+    "season": 2021,
+    "event": null,
+    "driver_tags": [
+      "Fernando Alonso",
+      "alonso"
+    ],
+    "constructor_tags": [
+      "Alpine F1 Team"
+    ],
+    "circuit_tags": [
+      "bahrain",
+      "monaco",
+      "monza",
+      "yas_marina"
+    ],
+    "topic_tags": [
+      "driver history",
+      "team history"
+    ],
+    "provenance": "Derived only from the cited Jolpica structured classifications in the bounded corpus.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_0b6bd641a50bb30aedc6",
+    "source_key": "driver-season:2023:alonso",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2023/drivers/alonso/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "Fernando Alonso in the selected 2023 event sample",
+    "text": "In the bounded 2023 sample, Fernando Alonso drove for Aston Martin. Results: Bahrain Grand Prix: P3 for Aston Martin (Finished); Monaco Grand Prix: P2 for Aston Martin (Finished); Italian Grand Prix: P9 for Aston Martin (Finished); Abu Dhabi Grand Prix: P7 for Aston Martin (Finished).",
+    "publication_date": null,
+    "event_date": null,
+    "season": 2023,
+    "event": null,
+    "driver_tags": [
+      "Fernando Alonso",
+      "alonso"
+    ],
+    "constructor_tags": [
+      "Aston Martin"
+    ],
+    "circuit_tags": [
+      "bahrain",
+      "monaco",
+      "monza",
+      "yas_marina"
+    ],
+    "topic_tags": [
+      "driver history",
+      "team history"
+    ],
+    "provenance": "Derived only from the cited Jolpica structured classifications in the bounded corpus.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_93a8ace87818a54d16ca",
+    "source_key": "driver-season:2023:piastri",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2023/drivers/piastri/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "Oscar Piastri in the selected 2023 event sample",
+    "text": "In the bounded 2023 sample, Oscar Piastri drove for McLaren. Results: Bahrain Grand Prix: P20 for McLaren (Retired); Monaco Grand Prix: P10 for McLaren (Lapped); Italian Grand Prix: P12 for McLaren (Finished); Abu Dhabi Grand Prix: P6 for McLaren (Finished).",
+    "publication_date": null,
+    "event_date": null,
+    "season": 2023,
+    "event": null,
+    "driver_tags": [
+      "Oscar Piastri",
+      "piastri"
+    ],
+    "constructor_tags": [
+      "McLaren"
+    ],
+    "circuit_tags": [
+      "bahrain",
+      "monaco",
+      "monza",
+      "yas_marina"
+    ],
+    "topic_tags": [
+      "driver history",
+      "team history"
+    ],
+    "provenance": "Derived only from the cited Jolpica structured classifications in the bounded corpus.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_4c9b81d8ebbf328e6091",
+    "source_key": "driver-season:2025:piastri",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2025/drivers/piastri/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "Oscar Piastri in the selected 2025 event sample",
+    "text": "In the bounded 2025 sample, Oscar Piastri drove for McLaren. Results: Bahrain Grand Prix: P1 for McLaren (Finished); Monaco Grand Prix: P3 for McLaren (Finished); Italian Grand Prix: P3 for McLaren (Finished); Abu Dhabi Grand Prix: P2 for McLaren (Finished).",
+    "publication_date": null,
+    "event_date": null,
+    "season": 2025,
+    "event": null,
+    "driver_tags": [
+      "Oscar Piastri",
+      "piastri"
+    ],
+    "constructor_tags": [
+      "McLaren"
+    ],
+    "circuit_tags": [
+      "bahrain",
+      "monaco",
+      "monza",
+      "yas_marina"
+    ],
+    "topic_tags": [
+      "driver history",
+      "team history"
+    ],
+    "provenance": "Derived only from the cited Jolpica structured classifications in the bounded corpus.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_a155f8293f7d1ab83f80",
+    "source_key": "driver-season:2024:sainz",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2024/drivers/sainz/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "Carlos Sainz in the selected 2024 event sample",
+    "text": "In the bounded 2024 sample, Carlos Sainz drove for Ferrari. Results: Bahrain Grand Prix: P3 for Ferrari (Finished); Monaco Grand Prix: P3 for Ferrari (Finished); Italian Grand Prix: P4 for Ferrari (Finished); Abu Dhabi Grand Prix: P2 for Ferrari (Finished).",
+    "publication_date": null,
+    "event_date": null,
+    "season": 2024,
+    "event": null,
+    "driver_tags": [
+      "Carlos Sainz",
+      "sainz"
+    ],
+    "constructor_tags": [
+      "Ferrari"
+    ],
+    "circuit_tags": [
+      "bahrain",
+      "monaco",
+      "monza",
+      "yas_marina"
+    ],
+    "topic_tags": [
+      "driver history",
+      "team history"
+    ],
+    "provenance": "Derived only from the cited Jolpica structured classifications in the bounded corpus.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_bb47159404f23e8c10e6",
+    "source_key": "driver-season:2025:sainz",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/2025/drivers/sainz/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "Carlos Sainz in the selected 2025 event sample",
+    "text": "In the bounded 2025 sample, Carlos Sainz drove for Williams. Results: Bahrain Grand Prix: P19 for Williams (Retired); Monaco Grand Prix: P10 for Williams (Lapped); Italian Grand Prix: P11 for Williams (Finished); Abu Dhabi Grand Prix: P13 for Williams (Finished).",
+    "publication_date": null,
+    "event_date": null,
+    "season": 2025,
+    "event": null,
+    "driver_tags": [
+      "Carlos Sainz",
+      "sainz"
+    ],
+    "constructor_tags": [
+      "Williams"
+    ],
+    "circuit_tags": [
+      "bahrain",
+      "monaco",
+      "monza",
+      "yas_marina"
+    ],
+    "topic_tags": [
+      "driver history",
+      "team history"
+    ],
+    "provenance": "Derived only from the cited Jolpica structured classifications in the bounded corpus.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_a0c06e7679159574717b",
+    "source_key": "circuit-history:bahrain",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/circuits/bahrain/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "Bahrain International Circuit winners in the 2021\u20132025 sample",
+    "text": "Recorded winners at Bahrain International Circuit in the bounded corpus: 2021: Lewis Hamilton (Mercedes); 2022: Charles Leclerc (Ferrari); 2023: Max Verstappen (Red Bull); 2024: Max Verstappen (Red Bull); 2025: Oscar Piastri (McLaren).",
+    "publication_date": null,
+    "event_date": null,
+    "season": null,
+    "event": null,
+    "driver_tags": [
+      "Lewis Hamilton",
+      "Charles Leclerc",
+      "Max Verstappen",
+      "Max Verstappen",
+      "Oscar Piastri"
+    ],
+    "constructor_tags": [
+      "Mercedes",
+      "Ferrari",
+      "Red Bull",
+      "Red Bull",
+      "McLaren"
+    ],
+    "circuit_tags": [
+      "bahrain",
+      "Bahrain International Circuit"
+    ],
+    "topic_tags": [
+      "circuit history",
+      "previous winners"
+    ],
+    "provenance": "Cross-event summary derived only from the cited Jolpica structured classifications.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_6aeab391d5a468e619ca",
+    "source_key": "circuit-history:monaco",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/circuits/monaco/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "Circuit de Monaco winners in the 2021\u20132025 sample",
+    "text": "Recorded winners at Circuit de Monaco in the bounded corpus: 2021: Max Verstappen (Red Bull); 2022: Sergio P\u00e9rez (Red Bull); 2023: Max Verstappen (Red Bull); 2024: Charles Leclerc (Ferrari); 2025: Lando Norris (McLaren).",
+    "publication_date": null,
+    "event_date": null,
+    "season": null,
+    "event": null,
+    "driver_tags": [
+      "Max Verstappen",
+      "Sergio P\u00e9rez",
+      "Max Verstappen",
+      "Charles Leclerc",
+      "Lando Norris"
+    ],
+    "constructor_tags": [
+      "Red Bull",
+      "Red Bull",
+      "Red Bull",
+      "Ferrari",
+      "McLaren"
+    ],
+    "circuit_tags": [
+      "monaco",
+      "Circuit de Monaco"
+    ],
+    "topic_tags": [
+      "circuit history",
+      "previous winners"
+    ],
+    "provenance": "Cross-event summary derived only from the cited Jolpica structured classifications.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_ba26201871b2ef19caa6",
+    "source_key": "circuit-history:monza",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/circuits/monza/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "Autodromo Nazionale di Monza winners in the 2021\u20132025 sample",
+    "text": "Recorded winners at Autodromo Nazionale di Monza in the bounded corpus: 2021: Daniel Ricciardo (McLaren); 2022: Max Verstappen (Red Bull); 2023: Max Verstappen (Red Bull); 2024: Charles Leclerc (Ferrari); 2025: Max Verstappen (Red Bull).",
+    "publication_date": null,
+    "event_date": null,
+    "season": null,
+    "event": null,
+    "driver_tags": [
+      "Daniel Ricciardo",
+      "Max Verstappen",
+      "Max Verstappen",
+      "Charles Leclerc",
+      "Max Verstappen"
+    ],
+    "constructor_tags": [
+      "McLaren",
+      "Red Bull",
+      "Red Bull",
+      "Ferrari",
+      "Red Bull"
+    ],
+    "circuit_tags": [
+      "monza",
+      "Autodromo Nazionale di Monza"
+    ],
+    "topic_tags": [
+      "circuit history",
+      "previous winners"
+    ],
+    "provenance": "Cross-event summary derived only from the cited Jolpica structured classifications.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_5cb6b6bed08dfa585042",
+    "source_key": "circuit-history:yas_marina",
+    "source_name": "Jolpica F1",
+    "source_url": "https://api.jolpi.ca/ergast/f1/circuits/yas_marina/results.json",
+    "source_type": "STRUCTURED_RESULT",
+    "authority_tier": "STRUCTURED_AUTHORITATIVE",
+    "title": "Yas Marina Circuit winners in the 2021\u20132025 sample",
+    "text": "Recorded winners at Yas Marina Circuit in the bounded corpus: 2021: Max Verstappen (Red Bull); 2022: Max Verstappen (Red Bull); 2023: Max Verstappen (Red Bull); 2024: Lando Norris (McLaren); 2025: Max Verstappen (Red Bull).",
+    "publication_date": null,
+    "event_date": null,
+    "season": null,
+    "event": null,
+    "driver_tags": [
+      "Max Verstappen",
+      "Max Verstappen",
+      "Max Verstappen",
+      "Lando Norris",
+      "Max Verstappen"
+    ],
+    "constructor_tags": [
+      "Red Bull",
+      "Red Bull",
+      "Red Bull",
+      "McLaren",
+      "Red Bull"
+    ],
+    "circuit_tags": [
+      "yas_marina",
+      "Yas Marina Circuit"
+    ],
+    "topic_tags": [
+      "circuit history",
+      "previous winners"
+    ],
+    "provenance": "Cross-event summary derived only from the cited Jolpica structured classifications.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_46cbd427722aca673bdc",
+    "source_key": "official:f1-glossary",
+    "source_name": "Formula 1",
+    "source_url": "https://www.formula1.com/en/page/f1-glossary",
+    "source_type": "OFFICIAL_EDITORIAL",
+    "authority_tier": "OFFICIAL",
+    "title": "Formula 1 terminology: parc ferme, undercut, DRS and dirty air",
+    "text": "## Parc ferme\nParc ferme is the controlled condition under which cars are restricted from substantial setup changes. In a Grand Prix weekend it begins after cars leave the pit lane for qualifying, subject to the applicable sporting regulations and permitted exceptions.\n\n## Undercut and overcut\nAn undercut is an attempt to stop before a rival, use the performance of fresher tyres and emerge ahead after the rival stops. An overcut keeps the car out longer and depends on the extra track time, clear air or tyre performance producing a better outcome.\n\n## DRS and dirty air\nThe drag reduction system opens an adjustable rear-wing element only under the rules and in designated zones. Dirty air is disturbed airflow behind another car; it can reduce aerodynamic performance and make close following harder.",
+    "publication_date": null,
+    "event_date": null,
+    "season": null,
+    "event": null,
+    "driver_tags": [],
+    "constructor_tags": [],
+    "circuit_tags": [],
+    "topic_tags": [
+      "parc ferme",
+      "undercut",
+      "DRS",
+      "dirty air"
+    ],
+    "provenance": "Concise factual paraphrase of Formula 1's official glossary; no article mirrored.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_72a3beb00f43263c1d5c",
+    "source_key": "official:fia-2021-sporting-safety-car",
+    "source_name": "FIA",
+    "source_url": "https://www.fia.com/sites/default/files/2021_formula_1_sporting_regulations_-_2019-10-31_1.pdf",
+    "source_type": "OFFICIAL_REGULATION",
+    "authority_tier": "OFFICIAL",
+    "title": "2021 Formula One sporting rules: Safety Car and Virtual Safety Car",
+    "text": "## Safety Car\nThe 2021 sporting regulations define the Safety Car procedure, including the order in which cars follow it, limits on overtaking, lapped-car procedure and the restart process. Drivers must follow prescribed signals and timing requirements.\n\n## Virtual Safety Car\nThe Virtual Safety Car procedure uses marshal-light and dashboard signals and requires drivers to remain above a minimum sector time. It neutralises the race without deploying the physical Safety Car.",
+    "publication_date": null,
+    "event_date": null,
+    "season": 2021,
+    "event": null,
+    "driver_tags": [],
+    "constructor_tags": [],
+    "circuit_tags": [],
+    "topic_tags": [
+      "safety car",
+      "virtual safety car",
+      "restart"
+    ],
+    "provenance": "Research summary of the official FIA 2021 Sporting Regulations, Articles 48 and 50.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_3c83485b78f5b90325b3",
+    "source_key": "official:fia-2022-technical-ground-effect",
+    "source_name": "FIA",
+    "source_url": "https://www.fia.com/sites/default/files/2022_formula_1_technical_regulations_-_iss_5_-_2021-07-08.pdf",
+    "source_type": "OFFICIAL_REGULATION",
+    "authority_tier": "OFFICIAL",
+    "title": "2022 Formula One technical regulations and ground-effect floors",
+    "text": "## Aerodynamic concept\nThe 2022 technical rules introduced a substantially revised aerodynamic package. Shaped floor tunnels generate a greater share of downforce through ground effect, while the bodywork and wings were tightly prescribed.\n\n## Intended racing effect\nThe revised aerodynamic concept was designed to make a following car less sensitive to the wake of the car ahead, supporting closer racing. The regulations also introduced 18-inch wheels and extensive dimensional and safety requirements.",
+    "publication_date": null,
+    "event_date": null,
+    "season": 2022,
+    "event": null,
+    "driver_tags": [],
+    "constructor_tags": [],
+    "circuit_tags": [],
+    "topic_tags": [
+      "2022 regulations",
+      "ground effect",
+      "technical regulations"
+    ],
+    "provenance": "Research summary of the official FIA 2022 Formula One Technical Regulations.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_a3ff062fb71e7caab45a",
+    "source_key": "official:fia-porpoising-response-2022",
+    "source_name": "FIA",
+    "source_url": "https://www.fia.com/news/fia-takes-steps-reduce-porpoising-interests-safety",
+    "source_type": "OFFICIAL_EDITORIAL",
+    "authority_tier": "OFFICIAL",
+    "title": "FIA safety response to porpoising in 2022",
+    "text": "## Safety response\nIn June 2022 the FIA said it would take steps to reduce excessive vertical oscillation of Formula One cars on safety grounds. Measures included closer scrutiny of the plank and skids and work on a quantitative limit for acceptable vertical oscillation.\n\n## Context\nThe phenomenon became prominent with the 2022 ground-effect cars. The FIA framed its intervention as a driver-safety matter rather than a prediction of competitive performance.",
+    "publication_date": null,
+    "event_date": null,
+    "season": 2022,
+    "event": null,
+    "driver_tags": [],
+    "constructor_tags": [],
+    "circuit_tags": [],
+    "topic_tags": [
+      "porpoising",
+      "safety",
+      "technical directive"
+    ],
+    "provenance": "Concise factual paraphrase of an official FIA safety announcement dated 16 June 2022.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_d173cf2e0d309a5290f1",
+    "source_key": "official:f1-monaco-circuit",
+    "source_name": "Formula 1",
+    "source_url": "https://www.formula1.com/en/latest/article/circuit-guide-everything-you-need-to-know-about-the-circuit-de-monaco.vFsmfGHr6RWyLFtxi58wi",
+    "source_type": "OFFICIAL_EDITORIAL",
+    "authority_tier": "OFFICIAL",
+    "title": "Circuit de Monaco characteristics",
+    "text": "## Circuit character\nMonaco is a narrow, low-speed street circuit with close barriers, heavy steering demand and little margin for error. Qualifying position is unusually important because passing opportunities are limited.\n\n## Race context\nLow average speed does not make the circuit easy: precision, traction and confidence over bumps and kerbs are central. Pit timing, traffic and interruptions can strongly influence track position.",
+    "publication_date": null,
+    "event_date": null,
+    "season": null,
+    "event": null,
+    "driver_tags": [],
+    "constructor_tags": [],
+    "circuit_tags": [
+      "monaco",
+      "Circuit de Monaco"
+    ],
+    "topic_tags": [
+      "circuit characteristics",
+      "overtaking"
+    ],
+    "provenance": "Concise factual paraphrase of Formula 1's official Monaco circuit guide.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_51a2196fe54eb4f21694",
+    "source_key": "official:f1-monza-circuit",
+    "source_name": "Formula 1",
+    "source_url": "https://www.formula1.com/en/latest/article/what-makes-the-italian-grand-prix-special-and-why-you-should-see-it.iAdwIYmBJXcxJQlnKgGfw",
+    "source_type": "OFFICIAL_EDITORIAL",
+    "authority_tier": "OFFICIAL",
+    "title": "Monza circuit characteristics",
+    "text": "## Circuit character\nMonza is dominated by long straights, major braking zones and fast corners. Teams normally pursue a low-downforce configuration to reduce drag while retaining braking stability and traction through the chicanes.\n\n## Racing context\nThe slipstream is important and the first chicane is a prominent overtaking and incident point. Kerb use, energy deployment and efficient straight-line speed shape lap performance.",
+    "publication_date": null,
+    "event_date": null,
+    "season": null,
+    "event": null,
+    "driver_tags": [],
+    "constructor_tags": [],
+    "circuit_tags": [
+      "monza",
+      "Autodromo Nazionale di Monza"
+    ],
+    "topic_tags": [
+      "circuit characteristics",
+      "low downforce"
+    ],
+    "provenance": "Concise factual paraphrase of Formula 1's official Monza editorial material.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  },
+  {
+    "document_id": "doc_0a0775c521d737a9e91e",
+    "source_key": "official:f1-yas-marina-circuit",
+    "source_name": "Formula 1",
+    "source_url": "https://www.formula1.com/en/latest/article/why-the-yas-marina-circuit-makes-for-a-great-season-finale.4z4Y9uuDhIo7V2Fl2xRFmY",
+    "source_type": "OFFICIAL_EDITORIAL",
+    "authority_tier": "OFFICIAL",
+    "title": "Yas Marina Circuit and the Abu Dhabi season finale",
+    "text": "## Circuit character\nYas Marina combines long straights and slow-to-medium-speed corners. Its layout offers heavy-braking overtaking opportunities, while traction and tyre temperature remain important across an evening race.\n\n## Event context\nThe Abu Dhabi Grand Prix commonly closes the Formula One season. Racing begins around sunset and continues under floodlights, so track and air conditions can evolve during the event.",
+    "publication_date": null,
+    "event_date": null,
+    "season": null,
+    "event": null,
+    "driver_tags": [],
+    "constructor_tags": [],
+    "circuit_tags": [
+      "yas_marina",
+      "Yas Marina Circuit"
+    ],
+    "topic_tags": [
+      "circuit characteristics",
+      "season finale"
+    ],
+    "provenance": "Concise factual paraphrase of Formula 1's official Yas Marina editorial material.",
+    "retrieved_at": "2026-09-12T04:42:07.804354Z"
+  }
+]

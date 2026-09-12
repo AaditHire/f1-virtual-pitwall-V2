@@ -17,7 +17,8 @@ Jolpica / OpenF1 / RSS / FastF1 archives
 - Provider-specific data stays in `src/f1_pitwall/providers/`; services consume normalized domain objects.
 - Historical replay enforces an archive publication-time cutoff. Future data is used only as evaluation labels.
 - Missing gaps, positions, tyres, weather, and timing remain missing or `UNKNOWN`; the system does not fabricate seconds gaps.
-- There is no database, authentication, agent, RAG, or MCP product feature.
+- There is no database, authentication, agent, production RAG, or MCP product feature. Phase 13A's
+  historical retrieval package is isolated research only.
 
 ## Completed phases
 
@@ -284,3 +285,30 @@ Preferred commands:
 .venv\Scripts\python -m scripts.import_phase12c_semantic_review_xlsx outputs\phase12c_semantic_review\phase12c_semantic_review.xlsx
 .venv\Scripts\python -m scripts.import_phase12c_semantic_review_xlsx outputs\phase12c_semantic_review\phase12c_semantic_review.xlsx --confirm-import
 ```
+
+## Phase 13A — Historical F1 RAG Foundation
+
+STATUS: COMPLETE — CONDITIONAL GO FOR RETRIEVAL HARDENING ONLY
+
+- An isolated `f1_pitwall.knowledge` research package defines provenance-first documents, deterministic
+  section/fixed chunking, BM25, local dense LSA, reciprocal-rank hybrid retrieval, metadata filtering,
+  retrieval metrics and a conservative structured-query boundary. It is not wired to any API or UI.
+- The bounded 2021–2025 corpus contains 45 documents / 53 selected chunks: 20 Jolpica event
+  classifications across Bahrain, Monaco, Monza and Yas Marina; 14 sampled driver-season summaries;
+  four circuit histories; and seven concise FIA/Formula1.com explanatory summaries. No full article,
+  radio record or ASR transcript is ingested.
+- The frozen 40-question benchmark covers event history (20), driver/team (6), circuit/history (6),
+  regulation/terminology (5) and multi-document context (3). Labels are deterministic/human-reviewed,
+  not LLM-generated. Exact results remain `STRUCTURED_FACT` queries.
+- Metadata-filtered section BM25 was the simplest best method: Recall@1 93.75%, Recall@3/5 95.00%,
+  MRR 0.950 and median query latency about 0.06 ms. Dense LSA and hybrid retrieval tied filtered recall
+  but did not improve it and were slower. Metadata filtering improved BM25 Recall@1 by 22.5 points.
+- Two multi-event comparisons missed their required event documents in the top five. Coverage is too
+  narrow for generation or a production chatbot. A reviewed Phase 13B may harden retrieval, broaden
+  authoritative coverage and test explicit multi-period decomposition; it must not start automatically.
+- Jolpica's non-commercial/share-alike data terms and volunteer-service limitations require review
+  before product use. FIA/F1 copyrighted material is stored only as concise factual paraphrase plus
+  provenance URL; redistribution rights are not assumed.
+- Full report: `docs/phase13a-historical-rag-research.md`; frozen corpus/benchmark and machine-readable
+  results: `docs/phase13a-knowledge-corpus.json`, `docs/phase13a-retrieval-benchmark.json`, and
+  `docs/phase13a-retrieval-results.json`.
