@@ -1,0 +1,94 @@
+{
+  "schema_version": "phase13d-experiment-b-human-review-v1",
+  "status": "COMPLETE_HUMAN_REVIEW",
+  "reviews": [
+    {
+      "review_id": "RB001",
+      "question_id": "q13d_1022d4890aa1ddd0aeb3",
+      "grounding": "PASS",
+      "usefulness": "GOOD",
+      "misleading": "NO",
+      "notes": "Winner/constructor changes at Las Vegas (2023-2025) match supplied evidence exactly; correctly cites all four sources."
+    },
+    {
+      "review_id": "RB002",
+      "question_id": "q13d_188d6aaccc2bf5674f69",
+      "grounding": "PASS",
+      "usefulness": "GOOD",
+      "misleading": "NO",
+      "notes": "Russell's 2021 Williams results match evidence exactly; correctly identifies best result (P2 Belgium) and other points finishes (P8, P9, P10)."
+    },
+    {
+      "review_id": "RB003",
+      "question_id": "q13d_3ac8e5db88c5dfc5733f",
+      "grounding": "PASS",
+      "usefulness": "GOOD",
+      "misleading": "NO",
+      "notes": "Paul Ricard: both events (2021, 2022) correctly described as same winner/constructor (Verstappen/Red Bull); grid/points differences and P2 finisher both correctly cited."
+    },
+    {
+      "review_id": "RB004",
+      "question_id": "q13d_3c0d14c3d12d8cf598c0",
+      "grounding": "PASS",
+      "usefulness": "GOOD",
+      "misleading": "NO",
+      "notes": "Norris's 2021 McLaren season matches evidence exactly - podiums, best result (P2 Italy), and weakest finishes (P15, P14) all correct. 'Majority of 22 rounds' scoring points is a conservative but true characterization of 20/22 finishes."
+    },
+    {
+      "review_id": "RB005",
+      "question_id": "q13d_50729da78eda7868f0db",
+      "grounding": "PASS",
+      "usefulness": "GOOD",
+      "misleading": "NO",
+      "notes": "Correct refusal: evidence (FIA porpoising announcement, 2022 technical regs, F1 glossary) does not address any private contract clause or 2022 Canadian GP tactics; matches expected refusal."
+    },
+    {
+      "review_id": "RB006",
+      "question_id": "q13d_6db38e6dd84333bfe455",
+      "grounding": "PASS",
+      "usefulness": "GOOD",
+      "misleading": "NO",
+      "notes": "Monaco constructor/winner change sequence 2021-2025 matches evidence exactly for all four year-to-year transitions."
+    },
+    {
+      "review_id": "RB007",
+      "question_id": "q13d_c24bc14709b66e393904",
+      "grounding": "PASS",
+      "usefulness": "GOOD",
+      "misleading": "NO",
+      "notes": "2023 Australian GP result and Albert Park winner sequence (2022-2025, 4 different winners, Ferrari twice) both match evidence exactly; correctly scopes claim to corpus years."
+    },
+    {
+      "review_id": "RB008",
+      "question_id": "q13d_c276ea6776f63463d336",
+      "grounding": "PASS",
+      "usefulness": "GOOD",
+      "misleading": "NO",
+      "notes": "2023 Monaco GP result and winner sequence (3 consecutive Red Bull wins 2021-2023) both match evidence exactly."
+    },
+    {
+      "review_id": "RB009",
+      "question_id": "q13d_dd78a393deca47353ced",
+      "grounding": "PASS",
+      "usefulness": "GOOD",
+      "misleading": "NO",
+      "notes": "2021 Mexico City GP result and circuit winner sequence (Verstappen 3-year streak, then Sainz 2024, Norris 2025) match evidence exactly."
+    },
+    {
+      "review_id": "RB010",
+      "question_id": "q13d_f3476f41b7bc05b3c18d",
+      "grounding": "PASS",
+      "usefulness": "GOOD",
+      "misleading": "NO",
+      "notes": "Stroll's 2021 Aston Martin season matches evidence exactly across all 22 rounds - best results, top-10s, and incidents (Azerbaijan, Hungary, Sao Paulo, Belgian) all correctly cited."
+    },
+    {
+      "review_id": "RB011",
+      "question_id": "q13d_f5d058442ae24723b194",
+      "grounding": "MINOR",
+      "usefulness": "GOOD",
+      "misleading": "NO",
+      "notes": "Leclerc's individual race results are all accurate, but the answer says 'three race retirements or troubled finishes' and then lists four (Monaco, Hungary, French GP, Russian GP) - an internal count error. The underlying facts aren't wrong, just the summary count of its own list."
+    }
+  ]
+}

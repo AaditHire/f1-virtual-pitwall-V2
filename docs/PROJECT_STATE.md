@@ -1,14 +1,16 @@
 # F1 Virtual Pit Wall — Project State
 
-Authoritative handoff through **Phase 13D-C Experiment B automated evaluation**. Phase 13C remains
+Authoritative handoff through **Phase 13D-C Experiment B human-review finalization**. Phase 13C remains
 closed with a **CONDITIONAL GO for continued research and controlled internal use** and a **NO-GO
 for a production/public chatbot**. Experiment A is complete: its narrow token-budget effect remains
 **SUPPORTED**, its full preregistered H1 remains **NOT SUPPORTED**, and human review found zero
 misleading answers without changing the failed automated guardrails. Experiment B applied exactly
 one identical retry to the 30 frozen 640-token mechanical failures. It recovered 11/30 and left
 19/100 final policy failures, missing the <=2/100 target and several quality guardrails. All 11
-recovered answers now require genuine human review, so Experiment B is **PAUSED — HUMAN REVIEW
-REQUIRED**. The production/public chatbot remains **NO-GO**. The
+recovered answers received genuine human review: 10 Grounding PASS and one MINOR, all 11
+Usefulness GOOD, and all 11 Misleading NO. Experiment B therefore supports mechanical recovery,
+heterogeneously, and passes human safety with a minor quality qualification; absolute reliability
+and automated quality still fail. The production/public chatbot remains **NO-GO**. The
 Phase 13C handoff cleanup is committed separately at `5006974`. The repository, checked-in reports,
 frozen JSON artifacts, and tests remain the ultimate source of truth.
 
@@ -470,7 +472,7 @@ STATUS: COMPLETE — NARROW TOKEN-BUDGET EFFECT SUPPORTED; FULL H1 NOT SUPPORTED
 
 ## Phase 13D-C — One Bounded Mechanical Retry Experiment B
 
-STATUS: PAUSED — HUMAN REVIEW REQUIRED; ABSOLUTE RELIABILITY TARGET FAILED; PRODUCTION NO-GO
+STATUS: COMPLETE — MECHANICAL RECOVERY SUPPORTED BUT HETEROGENEOUS; ABSOLUTE RELIABILITY AND AUTOMATED QUALITY FAILED; HUMAN SAFETY PASS WITH MINOR QUALITY QUALIFICATION; PRODUCTION NO-GO
 
 - The retry manifest was frozen before any new provider call at SHA-256
   `99e7473f9e9103aa86d29283ce2210da00b876de11996c484c3692585b4669c7`. Eligibility was exactly
@@ -481,7 +483,9 @@ STATUS: PAUSED — HUMAN REVIEW REQUIRED; ABSOLUTE RELIABILITY TARGET FAILED; PR
   `claude-opus-4-8`, official Anthropic SDK, 640-token allowance, prompts, evidence, ordering,
   retrieval, routing, forced tool schema, sampling defaults, parser, and validation were unchanged.
 - Eleven of 30 failures recovered (36.67%): 3/22 truncations, 4/4 schema failures, and 4/4 timeouts.
-  The policy therefore left 19/100 unrecovered failures and failed the <=2/100 absolute target.
+  Mechanical recovery is supported but heterogeneous. The policy left 19/100 unrecovered failures
+  and failed the <=2/100 absolute target. Truncation is now the dominant unresolved mechanical
+  failure mode: 19 of the original 22 truncation failures remained unrecovered after one retry.
   This is a policy-recovery experiment over the original first attempts, not a fresh independent
   100-question prospective validation.
 - Final policy metrics were: citation validity 206/206; citation completeness 81/100; citation
@@ -496,15 +500,22 @@ STATUS: PAUSED — HUMAN REVIEW REQUIRED; ABSOLUTE RELIABILITY TARGET FAILED; PR
 - New-call accounting was 78,483 input tokens, 16,594 output tokens, and 95,077 total tokens.
   Median/P90 latency was 6,794.7/7,819.9 ms. AgentRouter exposed no cost or balance field; recorded
   new external cash spend remains $0.00.
-- All 11 recovered answers are included in the blank protected review workbook at
-  `outputs/phase13d_experiment_b_human_review/phase13d_experiment_b_human_review.xlsx`. No human
-  verdict was fabricated. Validate a completed copy with
-  `python -m scripts.import_phase13d_experiment_b_human_review_xlsx <workbook>`.
+- The protected 11-row recovered-answer review imported without population, order, question,
+  evidence, answer, citation, or parser-status changes. Grounding was 10 PASS, one MINOR and zero
+  FAIL; usefulness was 11 GOOD, zero ACCEPTABLE and zero POOR; misleading was zero YES and 11 NO.
+  Human safety therefore passes with a minor quality qualification. The sole MINOR case,
+  `q13d_f5d058442ae24723b194`, accurately states the individual Leclerc race facts but says there
+  are "three" troubled/retirement races and then lists four. Canonical human results:
+  `docs/phase13d-experiment-b-human-review-results.json`.
+- One bounded retry is supported as a useful internal/research recovery mechanism for clearly
+  mechanical `TIMEOUT` and `SCHEMA_FAILURE` conditions. It is not supported as an adequate general
+  solution for truncation. The human result does not override the failed absolute-reliability and
+  automated-quality gates or establish production readiness.
 - The FIA porpoising evidence defect remains annotated separately and was not repaired. Frozen
   Experiment A metrics and all Phase 13C/13D benchmark artifacts remain unchanged.
 - Protocol: `docs/phase13d-experiment-b-protocol.md`; evaluation:
   `docs/phase13d-experiment-b-evaluation.json`; raw retry responses:
   `docs/phase13d-experiment-b-raw.jsonl`; full report:
   `docs/phase13d-experiment-b-results.md`.
-- Experiment C has not started. Scientific review and genuine human review are required before any
-  later experiment. The production/public chatbot remains **NO-GO**.
+- Experiment C has not started. Scientific review is required before any later experiment. The
+  production/public chatbot remains **NO-GO**.

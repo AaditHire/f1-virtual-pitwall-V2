@@ -126,3 +126,17 @@ def test_completed_retry_review_validation_is_exact(monkeypatch):
     monkeypatch.setattr(review_import, "inspect_workbook", lambda _path: {"review_values": missing})
     with pytest.raises(ValueError, match="invalid or missing grounding"):
         review_import.validate(Path("review.xlsx"))
+
+
+def test_canonical_retry_review_results_match_final_human_decision():
+    artifact = json.loads(
+        (DOCS / "phase13d-experiment-b-human-review-results.json").read_text(encoding="utf-8")
+    )
+    reviews = artifact["reviews"]
+    assert artifact["status"] == "COMPLETE_HUMAN_REVIEW"
+    assert len(reviews) == 11
+    assert Counter(row["grounding"] for row in reviews) == {"PASS": 10, "MINOR": 1}
+    assert Counter(row["usefulness"] for row in reviews) == {"GOOD": 11}
+    assert Counter(row["misleading"] for row in reviews) == {"NO": 11}
+    minor = [row for row in reviews if row["grounding"] == "MINOR"]
+    assert [row["question_id"] for row in minor] == ["q13d_f5d058442ae24723b194"]

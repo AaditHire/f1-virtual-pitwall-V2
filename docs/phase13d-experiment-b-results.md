@@ -1,6 +1,6 @@
 # Phase 13D-C — Experiment B Results
 
-STATUS: PAUSED — HUMAN REVIEW REQUIRED; PRODUCTION/PUBLIC CHATBOT NO-GO
+STATUS: COMPLETE — MECHANICAL RECOVERY SUPPORTED BUT HETEROGENEOUS; ABSOLUTE RELIABILITY AND AUTOMATED QUALITY FAILED; HUMAN SAFETY PASS WITH MINOR QUALITY QUALIFICATION; PRODUCTION/PUBLIC CHATBOT NO-GO
 
 Experiment B is a bounded policy-recovery experiment over the original Experiment A 640-token first attempts, not a fresh independent 100-question prospective validation.
 
@@ -10,6 +10,8 @@ Experiment B is a bounded policy-recovery experiment over the original Experimen
 - Original schema failures: 4/4 recovered (100%).
 - Original timeouts: 4/4 recovered (100%).
 - Original truncations: 3/22 recovered (13.64%).
+- Original truncations remaining unrecovered: 19/22; truncation is the dominant unresolved
+  mechanical failure mode after one retry.
 - Retry outcomes: 11 SUCCESS, 18 TRUNCATED_RESPONSE, 1 SCHEMA_FAILURE.
 - Final unrecovered failures: 19/100.
 - Absolute <=2/100 target met: False.
@@ -35,7 +37,15 @@ Experiment B is a bounded policy-recovery experiment over the original Experimen
 
 ## Human safety
 
-All 11 successfully recovered answers require genuine human review. No human verdict was fabricated. Experiment B is not complete until those labels are imported.
+All 11 successfully recovered answers received genuine human review. Grounding was 10 PASS, one
+MINOR and zero FAIL; usefulness was 11 GOOD, zero ACCEPTABLE and zero POOR; misleading was zero YES
+and 11 NO. Human safety is **PASS WITH MINOR QUALITY QUALIFICATION**.
+
+The sole MINOR case is `q13d_f5d058442ae24723b194`. The individual Leclerc race facts are
+supported, but the response says there are "three" troubled/retirement races and then lists four
+(Monaco, Hungary, French GP, and Russian GP). This is an internal counting/summarization error, not
+an unsupported individual race fact. Canonical results are in
+`docs/phase13d-experiment-b-human-review-results.json`.
 
 ## Evidence diagnostic
 
@@ -45,7 +55,20 @@ The frozen FIA porpoising question `q13d_8fd5589debc7a772c1ed` still lacks the t
 
 Mechanical recovery, absolute reliability, automated quality preservation, human safety, and architectural justification are separate decisions. Even a perfect retry result is insufficient for a production/public chatbot GO.
 
-The observed retry is promising for the small timeout and schema-failure strata, which recovered
-8/8, but it is not an adequate general reliability mechanism: only 3/22 truncations recovered and
-the final policy missed the absolute and composite quality targets. Human review is still required
-before judging recovered-answer safety. Experiment C must not begin without scientific review.
+The final decisions are deliberately separate:
+
+- **Mechanical recovery: SUPPORTED, but heterogeneous.** Overall recovery was 11/30 (36.67%):
+  TIMEOUT 4/4, SCHEMA_FAILURE 4/4, and TRUNCATED_RESPONSE 3/22.
+- **Absolute reliability: FAILED.** The final policy had 19/100 unrecovered failures against the
+  <=2/100 target.
+- **Automated quality guardrails: FAILED.** Nine of 14 passed; all frozen automated metrics above
+  remain authoritative and unchanged.
+- **Human safety: PASS WITH MINOR QUALITY QUALIFICATION.** There were no human-confirmed misleading
+  recovered answers and no Grounding FAILs; 10 answers were PASS and one was MINOR.
+- **Architectural interpretation:** one bounded retry is supported as a useful internal/research
+  recovery mechanism for clearly mechanical TIMEOUT and SCHEMA_FAILURE conditions. It is not
+  supported as an adequate general solution for truncation: 19/22 original truncation failures
+  remained unrecovered.
+
+This experiment does not establish production readiness. Experiment C has not started and must not
+begin without scientific review. The production/public chatbot remains **NO-GO**.
