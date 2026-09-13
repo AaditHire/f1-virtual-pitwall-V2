@@ -2,10 +2,14 @@
 
 Authoritative handoff through **Phase 13D-B Experiment A**. Phase 13C remains closed with a **CONDITIONAL GO for
 continued research and controlled internal use** and a **NO-GO for a production/public chatbot**.
-Phase 13D-B completed the preregistered paired 320-versus-640-token experiment. It found strong paired
+Phase 13D-B completed generation and automated evaluation for the preregistered paired
+320-versus-640-token experiment. It found strong paired
 evidence of fewer failures at 640 tokens, but 640 still had 30/100 unrecovered failures and missed
 multiple quality guardrails; H1 is **NOT SUPPORTED** under the composite rule and human review remains
-pending. The production/public chatbot remains **NO-GO**. The
+pending. The narrow token-budget effect is **SUPPORTED**, while the full preregistered H1 remains
+**NOT SUPPORTED** based on automated guardrails pending human safety evaluation. Experiment A is
+**PAUSED — HUMAN REVIEW REQUIRED**. The production/public chatbot remains
+**NO-GO**. The
 Phase 13C handoff cleanup is committed separately at `5006974`. The repository, checked-in reports,
 frozen JSON artifacts, and tests remain the ultimate source of truth.
 
@@ -429,7 +433,7 @@ STATUS: COMPLETE — PROTOCOL/HARNESS; SUPERSEDED BY COMPLETED PHASE 13D-B EXPER
 
 ## Phase 13D-B — Paired Output-Budget Experiment A
 
-STATUS: COMPLETE — H1 NOT SUPPORTED; HUMAN REVIEW PENDING; PRODUCTION NO-GO
+STATUS: PAUSED — HUMAN REVIEW REQUIRED; AUTOMATED H1 NOT SUPPORTED; PRODUCTION NO-GO
 
 - Before any provider output, the protocol was explicitly amended from a 640-only historical-control
   comparison to a paired prospective design. The same 100 generation questions each received one
@@ -451,7 +455,9 @@ STATUS: COMPLETE — H1 NOT SUPPORTED; HUMAN REVIEW PENDING; PRODUCTION NO-GO
 - Human review is pending and no label was fabricated. High mechanical failure left only eight,
   rather than ten, valid non-mandatory paired RAG candidates. The 169-row blank selection records
   this sampling shortfall and conservatively includes every mandatory/failure row plus all eight
-  available valid pairs.
+  available valid pairs. The protected reviewer workbook is
+  `outputs/phase13d_experiment_a_human_review/phase13d_experiment_a_human_review.xlsx`; validate a
+  completed copy with `python -m scripts.import_phase13d_experiment_a_human_review_xlsx <workbook>`.
 - Full report: `docs/phase13d-experiment-a-results.md`; authoritative corrected evaluation:
   `docs/phase13d-experiment-a-evaluation-corrected.json`; raw provider responses:
   `docs/phase13d-experiment-a-raw.jsonl`.

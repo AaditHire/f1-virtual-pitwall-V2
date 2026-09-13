@@ -2,8 +2,9 @@
 
 ## Decision
 
-**H1: NOT SUPPORTED under the preregistered composite decision rule.** The paired result provides
-strong evidence that 640 tokens reduced mechanical failures relative to 320 tokens, but 640 still
+**Narrow token-budget effect: SUPPORTED. Full preregistered H1: NOT SUPPORTED based on automated
+guardrails, pending human safety evaluation.** The paired result provides strong evidence that 640
+tokens reduced mechanical failures relative to 320 tokens, but 640 still
 had 30/100 unrecovered failures, missed the absolute <=2/100 target, and failed multiple quality
 guardrails. Human review is pending. The production/public chatbot remains **NO-GO**.
 
@@ -91,13 +92,28 @@ token totals should not be interpreted as a perfectly paired cost comparison.
 
 ## Human review status and methodological concerns
 
-Human review is **PENDING_GENUINE_HUMAN_REVIEW**; all 169 template rows have blank labels. No human
+Human review is **PENDING_GENUINE_HUMAN_REVIEW**; Experiment A is **PAUSED — HUMAN REVIEW REQUIRED**.
+All 169 template rows have blank labels. No human
 safety conclusion is available and no label was fabricated. The frozen procedure requested ten
 additional valid non-mandatory paired RAG questions, but only eight such pairs existed after the high
 failure rate. The first template derivation stopped rather than silently weakening that requirement.
 The final blank selection conservatively includes all eight available valid pairs, every mandatory
 MIXED/refusal/injection/conflict arm row, and every terminal failure. This post-run sampling shortfall
 is recorded in both review artifacts and does not alter the automated comparison.
+
+The reviewer workbook is
+`outputs/phase13d_experiment_a_human_review/phase13d_experiment_a_human_review.xlsx`. Its 169 rows
+preserve the frozen order and population, expose expected facts, supplied evidence, generated answer,
+citations and mechanical status, and blind the token-budget identity as `ARM_A`/`ARM_B`. Complete only
+the three verdict columns and optional reviewer notes; do not edit the protected context columns.
+Validate the completed workbook without writing results:
+
+```powershell
+.venv\Scripts\python.exe -m scripts.import_phase13d_experiment_a_human_review_xlsx outputs\phase13d_experiment_a_human_review\phase13d_experiment_a_human_review.xlsx
+```
+
+After that validation succeeds, an explicit `--confirm-import` writes the canonical human-review
+artifact. Final human metrics must not be calculated until that genuine completed artifact exists.
 
 The high failure rates and guardrail misses mean that the intervention isolates a real token-budget
 effect but does not produce an acceptable candidate. Experiment B must not start without separate
