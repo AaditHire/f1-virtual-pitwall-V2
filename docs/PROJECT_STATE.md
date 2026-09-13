@@ -1,15 +1,14 @@
 # F1 Virtual Pit Wall — Project State
 
-Authoritative handoff through **Phase 13D-B Experiment A**. Phase 13C remains closed with a **CONDITIONAL GO for
-continued research and controlled internal use** and a **NO-GO for a production/public chatbot**.
-Phase 13D-B completed generation and automated evaluation for the preregistered paired
-320-versus-640-token experiment. It found strong paired
-evidence of fewer failures at 640 tokens, but 640 still had 30/100 unrecovered failures and missed
-multiple quality guardrails; H1 is **NOT SUPPORTED** under the composite rule and human review remains
-pending. The narrow token-budget effect is **SUPPORTED**, while the full preregistered H1 remains
-**NOT SUPPORTED** based on automated guardrails pending human safety evaluation. Experiment A is
-**PAUSED — HUMAN REVIEW REQUIRED**. The production/public chatbot remains
-**NO-GO**. The
+Authoritative handoff through **Phase 13D-C Experiment B automated evaluation**. Phase 13C remains
+closed with a **CONDITIONAL GO for continued research and controlled internal use** and a **NO-GO
+for a production/public chatbot**. Experiment A is complete: its narrow token-budget effect remains
+**SUPPORTED**, its full preregistered H1 remains **NOT SUPPORTED**, and human review found zero
+misleading answers without changing the failed automated guardrails. Experiment B applied exactly
+one identical retry to the 30 frozen 640-token mechanical failures. It recovered 11/30 and left
+19/100 final policy failures, missing the <=2/100 target and several quality guardrails. All 11
+recovered answers now require genuine human review, so Experiment B is **PAUSED — HUMAN REVIEW
+REQUIRED**. The production/public chatbot remains **NO-GO**. The
 Phase 13C handoff cleanup is committed separately at `5006974`. The repository, checked-in reports,
 frozen JSON artifacts, and tests remain the ultimate source of truth.
 
@@ -433,7 +432,7 @@ STATUS: COMPLETE — PROTOCOL/HARNESS; SUPERSEDED BY COMPLETED PHASE 13D-B EXPER
 
 ## Phase 13D-B — Paired Output-Budget Experiment A
 
-STATUS: PAUSED — HUMAN REVIEW REQUIRED; AUTOMATED H1 NOT SUPPORTED; PRODUCTION NO-GO
+STATUS: COMPLETE — NARROW TOKEN-BUDGET EFFECT SUPPORTED; FULL H1 NOT SUPPORTED; PRODUCTION NO-GO
 
 - Before any provider output, the protocol was explicitly amended from a 640-only historical-control
   comparison to a paired prospective design. The same 100 generation questions each received one
@@ -452,14 +451,60 @@ STATUS: PAUSED — HUMAN REVIEW REQUIRED; AUTOMATED H1 NOT SUPPORTED; PRODUCTION
   false-refusal (1/125), multi-document (34/37), unsupported/uncited sentence proxy (75/288), and
   MIXED exact-fact (22/25) guardrails. Deterministic `STRUCTURED_ONLY` remained 30/30, route
   compliance 130/130, conflict handling 2/2 and prompt-injection resistance 3/3.
-- Human review is pending and no label was fabricated. High mechanical failure left only eight,
-  rather than ten, valid non-mandatory paired RAG candidates. The 169-row blank selection records
-  this sampling shortfall and conservatively includes every mandatory/failure row plus all eight
-  available valid pairs. The protected reviewer workbook is
-  `outputs/phase13d_experiment_a_human_review/phase13d_experiment_a_human_review.xlsx`; validate a
-  completed copy with `python -m scripts.import_phase13d_experiment_a_human_review_xlsx <workbook>`.
+- The protected 169-row review imported without changes to its population, order, questions,
+  evidence, answers, citations, or parser statuses. Grounding was 60 PASS, 0 MINOR and 109 FAIL;
+  usefulness was 58 GOOD, 2 ACCEPTABLE and 109 POOR; misleading was 0 YES and 169 NO. All 109
+  FAIL/POOR rows were mechanical no-answer cases. All 60 parsed answers were Grounding PASS and
+  Misleading NO. Human safety therefore passed with zero human-confirmed misleading answers, but
+  this does not override the failed reliability and automated quality gates.
+- Review identified a benchmark/retrieval-evidence defect for `q13d_8fd5589debc7a772c1ed`: the
+  expected FIA porpoising safeguards include plank/skids and a quantitative limit, but neither fact
+  appears in the evidence supplied to either arm. Both answers appropriately declined to fabricate,
+  earning PASS/ACCEPTABLE/NO. Frozen benchmark, evidence, raw outputs, and automated scores remain
+  unchanged. No additional reviewer-identified benchmark/evidence inconsistency was found.
 - Full report: `docs/phase13d-experiment-a-results.md`; authoritative corrected evaluation:
   `docs/phase13d-experiment-a-evaluation-corrected.json`; raw provider responses:
   `docs/phase13d-experiment-a-raw.jsonl`.
-- Phase 13C remains **CLOSED — CONDITIONAL GO**. Experiment B has not started. A production/public
-  chatbot remains **NO-GO**.
+- Canonical human results: `docs/phase13d-experiment-a-human-review-results.json`.
+- Phase 13C remains **CLOSED — CONDITIONAL GO**. A production/public chatbot remains **NO-GO**.
+
+## Phase 13D-C — One Bounded Mechanical Retry Experiment B
+
+STATUS: PAUSED — HUMAN REVIEW REQUIRED; ABSOLUTE RELIABILITY TARGET FAILED; PRODUCTION NO-GO
+
+- The retry manifest was frozen before any new provider call at SHA-256
+  `99e7473f9e9103aa86d29283ce2210da00b876de11996c484c3692585b4669c7`. Eligibility was exactly
+  the 30 original Experiment A 640-token mechanical failures: 22 `TRUNCATED_RESPONSE`, four
+  `SCHEMA_FAILURE`, and four `TIMEOUT`. The original 70 successes were retained unchanged.
+- Exactly 30 new AgentRouter requests were made in deterministic question-ID order. Each eligible
+  failure received one attempt; SDK retries and third attempts were zero. Provider, model
+  `claude-opus-4-8`, official Anthropic SDK, 640-token allowance, prompts, evidence, ordering,
+  retrieval, routing, forced tool schema, sampling defaults, parser, and validation were unchanged.
+- Eleven of 30 failures recovered (36.67%): 3/22 truncations, 4/4 schema failures, and 4/4 timeouts.
+  The policy therefore left 19/100 unrecovered failures and failed the <=2/100 absolute target.
+  This is a policy-recovery experiment over the original first attempts, not a fresh independent
+  100-question prospective validation.
+- Final policy metrics were: citation validity 206/206; citation completeness 81/100; citation
+  support 81/100; required facts 124/170; unsupported/uncited sentence proxy 83/336; refusals 5/5;
+  false refusals 1/125; multi-document synthesis 37/37; conflicts 2/2; prompt injection 3/3; route
+  compliance 130/130; deterministic STRUCTURED_ONLY 30/30; and MIXED exact facts 25/25.
+- Nine of 14 automated guardrails passed. Reliability, citation completeness, citation support,
+  required-fact coverage, and zero false refusals failed. The improved metrics do not satisfy the
+  composite quality requirement.
+- Three MIXED responses recovered, and all three preserved their deterministic structured-exact
+  fact. Final policy MIXED exact-fact accuracy was 25/25. Deterministic truth was not replaced.
+- New-call accounting was 78,483 input tokens, 16,594 output tokens, and 95,077 total tokens.
+  Median/P90 latency was 6,794.7/7,819.9 ms. AgentRouter exposed no cost or balance field; recorded
+  new external cash spend remains $0.00.
+- All 11 recovered answers are included in the blank protected review workbook at
+  `outputs/phase13d_experiment_b_human_review/phase13d_experiment_b_human_review.xlsx`. No human
+  verdict was fabricated. Validate a completed copy with
+  `python -m scripts.import_phase13d_experiment_b_human_review_xlsx <workbook>`.
+- The FIA porpoising evidence defect remains annotated separately and was not repaired. Frozen
+  Experiment A metrics and all Phase 13C/13D benchmark artifacts remain unchanged.
+- Protocol: `docs/phase13d-experiment-b-protocol.md`; evaluation:
+  `docs/phase13d-experiment-b-evaluation.json`; raw retry responses:
+  `docs/phase13d-experiment-b-raw.jsonl`; full report:
+  `docs/phase13d-experiment-b-results.md`.
+- Experiment C has not started. Scientific review and genuine human review are required before any
+  later experiment. The production/public chatbot remains **NO-GO**.

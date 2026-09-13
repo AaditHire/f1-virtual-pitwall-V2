@@ -1,0 +1,94 @@
+{
+  "schema_version": "phase13d-experiment-b-human-review-map-v1",
+  "template_sha256": "bd57a2f80c3552c82656c4abc9a576809327f4f2ea40b4a73558bd31f272b14c",
+  "rows": [
+    {
+      "review_id": "RB001",
+      "question_id": "q13d_1022d4890aa1ddd0aeb3",
+      "retry_sequence": 2,
+      "experiment_a_result_id": "TREATMENT_640:q13d_1022d4890aa1ddd0aeb3",
+      "original_failure_category": "TIMEOUT",
+      "retry_request_id": "20260914025414826345778g8n5vZc1TLISM"
+    },
+    {
+      "review_id": "RB002",
+      "question_id": "q13d_188d6aaccc2bf5674f69",
+      "retry_sequence": 3,
+      "experiment_a_result_id": "TREATMENT_640:q13d_188d6aaccc2bf5674f69",
+      "original_failure_category": "SCHEMA_FAILURE",
+      "retry_request_id": "20260914025420863267951blsnrrr4729JD"
+    },
+    {
+      "review_id": "RB003",
+      "question_id": "q13d_3ac8e5db88c5dfc5733f",
+      "retry_sequence": 4,
+      "experiment_a_result_id": "TREATMENT_640:q13d_3ac8e5db88c5dfc5733f",
+      "original_failure_category": "SCHEMA_FAILURE",
+      "retry_request_id": "20260914025427369166473gfrhvfSos6Wwj"
+    },
+    {
+      "review_id": "RB004",
+      "question_id": "q13d_3c0d14c3d12d8cf598c0",
+      "retry_sequence": 5,
+      "experiment_a_result_id": "TREATMENT_640:q13d_3c0d14c3d12d8cf598c0",
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "retry_request_id": "20260914025433850330677f5524UT9fehBX"
+    },
+    {
+      "review_id": "RB005",
+      "question_id": "q13d_50729da78eda7868f0db",
+      "retry_sequence": 8,
+      "experiment_a_result_id": "TREATMENT_640:q13d_50729da78eda7868f0db",
+      "original_failure_category": "SCHEMA_FAILURE",
+      "retry_request_id": "20260914025457158698124mb7686mjmj1mR"
+    },
+    {
+      "review_id": "RB006",
+      "question_id": "q13d_6db38e6dd84333bfe455",
+      "retry_sequence": 11,
+      "experiment_a_result_id": "TREATMENT_640:q13d_6db38e6dd84333bfe455",
+      "original_failure_category": "SCHEMA_FAILURE",
+      "retry_request_id": "202609140255159146586706c6hjK6wbXBZ8"
+    },
+    {
+      "review_id": "RB007",
+      "question_id": "q13d_c24bc14709b66e393904",
+      "retry_sequence": 20,
+      "experiment_a_result_id": "TREATMENT_640:q13d_c24bc14709b66e393904",
+      "original_failure_category": "TIMEOUT",
+      "retry_request_id": "2026091402561997364308226cnxf4kb2Xre"
+    },
+    {
+      "review_id": "RB008",
+      "question_id": "q13d_c276ea6776f63463d336",
+      "retry_sequence": 21,
+      "experiment_a_result_id": "TREATMENT_640:q13d_c276ea6776f63463d336",
+      "original_failure_category": "TIMEOUT",
+      "retry_request_id": "20260914025626368397371bvdpbSrJf40Mx"
+    },
+    {
+      "review_id": "RB009",
+      "question_id": "q13d_dd78a393deca47353ced",
+      "retry_sequence": 24,
+      "experiment_a_result_id": "TREATMENT_640:q13d_dd78a393deca47353ced",
+      "original_failure_category": "TIMEOUT",
+      "retry_request_id": "202609140256451707104898mbzqe7eqisFl"
+    },
+    {
+      "review_id": "RB010",
+      "question_id": "q13d_f3476f41b7bc05b3c18d",
+      "retry_sequence": 26,
+      "experiment_a_result_id": "TREATMENT_640:q13d_f3476f41b7bc05b3c18d",
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "retry_request_id": "20260914025657173590188b94xcAqjs80Ej"
+    },
+    {
+      "review_id": "RB011",
+      "question_id": "q13d_f5d058442ae24723b194",
+      "retry_sequence": 27,
+      "experiment_a_result_id": "TREATMENT_640:q13d_f5d058442ae24723b194",
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "retry_request_id": "20260914025706560888988nsq887WFXCjs9"
+    }
+  ]
+}

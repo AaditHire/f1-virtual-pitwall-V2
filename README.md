@@ -21,7 +21,7 @@ change the research status below or approve a production/public chatbot.
 ## Current project status
 
 The authoritative handoff is [docs/PROJECT_STATE.md](docs/PROJECT_STATE.md). The repository is
-implemented through **Phase 13D-B Experiment A**:
+implemented through **Phase 13D-C Experiment B automated evaluation**:
 
 - Phases 1–10 deliver the backend, causal replay and strategy research surfaces, current/live data,
   and the frontend application.
@@ -29,10 +29,12 @@ implemented through **Phase 13D-B Experiment A**:
   negative findings and safety gates.
 - Phase 13C is closed with a **CONDITIONAL GO** for research and controlled internal use and a
   **NO-GO** for a production/public chatbot.
-- Phase 13D-B Experiment A generation and automated evaluation are complete. The narrow
-  320-versus-640-token budget effect is supported, but the full preregistered H1 is not supported by
-  the automated guardrails. Experiment A is **PAUSED — HUMAN REVIEW REQUIRED**.
-- Experiment B has not started. The production/public chatbot remains **NO-GO**.
+- Phase 13D-B Experiment A is complete, including genuine human review. The narrow
+  320-versus-640-token budget effect is supported, but the full preregistered H1 is not supported.
+- Phase 13D-C Experiment B recovered 11/30 frozen mechanical failures with one identical retry, but
+  left 19/100 final failures and missed several automated guardrails. It is **PAUSED — HUMAN REVIEW
+  REQUIRED** for all 11 recovered answers.
+- Experiment C has not started. The production/public chatbot remains **NO-GO**.
 
 ## Install and run
 
@@ -245,9 +247,10 @@ See the [frontend guide](frontend/README.md) and [design system](frontend/docs/d
 - **Phases 13A–13B:** Historical retrieval foundation and hardening completed for narrow research.
 - **Phase 13C:** Grounded answer generation completed with a CONDITIONAL GO for controlled research
   and a production/public chatbot NO-GO.
-- **Phase 13D-B Experiment A:** Paired prospective output-budget generation and automated evaluation
-  completed. Human review is pending, so the experiment remains paused and no later experiment has
-  started.
+- **Phase 13D-B Experiment A:** Paired prospective output-budget evaluation and human review
+  completed. The narrow effect is supported; full H1 is not supported.
+- **Phase 13D-C Experiment B:** One identical retry recovered 11/30 mechanical failures. Human review
+  of every recovered answer is pending; Experiment C has not started.
 
 The frozen metrics, benchmark hashes, human-review state, and all negative experimental findings
 are maintained in [docs/PROJECT_STATE.md](docs/PROJECT_STATE.md) and the phase-specific reports.

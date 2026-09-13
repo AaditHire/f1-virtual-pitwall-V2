@@ -1,0 +1,398 @@
+{
+  "schema_version": "phase13d-experiment-b-retry-manifest-v1",
+  "phase": "13D-C_EXPERIMENT_B",
+  "status": "FROZEN_NOT_RUN",
+  "frozen_at": "2026-09-13T18:53:50.765983+00:00",
+  "base_commit": "86b91d749c37ae4998f815415e9168b76c7cfc61",
+  "hypothesis": "One identical retry after an explicitly detected 640-token mechanical failure will materially reduce final unrecovered failures without introducing misleading or ungrounded recovered answers.",
+  "design": "policy recovery over original Experiment A first attempts; not a fresh 100-question prospective run",
+  "source_hashes": {
+    "experiment_a_raw_sha256": "75a66fba6105de5c3999fda2aa0dcc8647ab956d54a22c8966727f564bcf4ade",
+    "experiment_a_outputs_sha256": "55a1d41c4ea6edfe5875274be66a283a11b0e9e9ebd8a2efc5ff6f6a36c6de28",
+    "experiment_a_evaluation_sha256": "139a4cd5223ee897912f14269e2841696a3f4c9595f08799db65eb7be69ddb81",
+    "experiment_a_inputs_sha256": "c965a986e9161a08170ac3441cda18d6d112810711f25edbc973abf78caa12d5",
+    "experiment_a_review_sha256": "a9a11226a1f3bc528bb9eee4df17b5e3a0d2578cd14cb04d9b90cc0fccb82826",
+    "benchmark_sha256": "e5f9abfef2ea4dca3f9a36e84d9fe9917bd7de76945c42d7753e636bd51eec74",
+    "phase13c_benchmark_sha256": "969ff9d522a4f047493c1c1fc2ba9eaeddeb80f10988bd271f87078c7112809e"
+  },
+  "protocol_sha256": "78e8b241dd18621e523dee77acedf93c11295731ef9fed434f6f1f539bc86ac5",
+  "runner_sha256": "953ee9a07a3f842225b5b286d069cc50066662013e36b59a6982668fd5b37905",
+  "eligibility": {
+    "allowed_original_statuses": [
+      "SCHEMA_FAILURE",
+      "TIMEOUT",
+      "TRUNCATED_RESPONSE"
+    ],
+    "eligible_rows": 30,
+    "category_counts": {
+      "SCHEMA_FAILURE": 4,
+      "TIMEOUT": 4,
+      "TRUNCATED_RESPONSE": 22
+    },
+    "original_successes_retained": 70,
+    "successful_answers_retried": 0,
+    "maximum_new_provider_calls": 30,
+    "maximum_attempts_per_eligible_question": 1
+  },
+  "configuration": {
+    "provider": "AgentRouter",
+    "model_id": "claude-opus-4-8",
+    "protocol": "Anthropic-compatible Messages via official Anthropic SDK",
+    "base_url": "https://agentrouter.org",
+    "system_prompt_sha256": "d272ed62b715c9b49eb2769cae0366542f5642f8f47b54d6ffc8ae652d70c7d9",
+    "max_output_tokens": 640,
+    "temperature": "SDK default (not overridden)",
+    "output_contract": "forced non-executing grounded_answer tool using GeneratedAnswer schema",
+    "sdk_retries": 0,
+    "transport_retries": 0,
+    "schema_retries": 0,
+    "content_retries": 0,
+    "third_attempts": 0,
+    "retrieval_changed": false,
+    "prompts_changed": false,
+    "evidence_changed": false
+  },
+  "retry_schedule": [
+    {
+      "retry_sequence": 1,
+      "question_id": "q13d_06ee85f215dd8eb67f7f",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_06ee85f215dd8eb67f7f",
+      "experiment_a_call_order": 31,
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "original_stop_reason": "max_tokens",
+      "bundle_sha256": "9bfcd723f78c11f6c0c3bafb1a289c7cd28f570e192b6239129098655e667bfd",
+      "messages_sha256": "6a5c20b8297d1557c755d2709dc663b8384423aa44ecebb7b199c091b539e460"
+    },
+    {
+      "retry_sequence": 2,
+      "question_id": "q13d_1022d4890aa1ddd0aeb3",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_1022d4890aa1ddd0aeb3",
+      "experiment_a_call_order": 46,
+      "original_failure_category": "TIMEOUT",
+      "original_stop_reason": null,
+      "bundle_sha256": "5ce44d1fce1456deb255c7f3cbfc3dd40bea87aa141c015197ac985e2d2b16c9",
+      "messages_sha256": "de99ac570d0f0dbeabb24c79c3278a2e8d103560dfa979dbe474529d05d55033"
+    },
+    {
+      "retry_sequence": 3,
+      "question_id": "q13d_188d6aaccc2bf5674f69",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_188d6aaccc2bf5674f69",
+      "experiment_a_call_order": 74,
+      "original_failure_category": "SCHEMA_FAILURE",
+      "original_stop_reason": "tool_use",
+      "bundle_sha256": "ab0769cf9dfe2e43d63aa9f2db38101c0ddb91a9a8fdedd9671cdb7ccc85be5c",
+      "messages_sha256": "30971c4e58d6f9209385ace33f7a8b2c497854c3221b12821b4357bc1adbbc42"
+    },
+    {
+      "retry_sequence": 4,
+      "question_id": "q13d_3ac8e5db88c5dfc5733f",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_3ac8e5db88c5dfc5733f",
+      "experiment_a_call_order": 96,
+      "original_failure_category": "SCHEMA_FAILURE",
+      "original_stop_reason": "tool_use",
+      "bundle_sha256": "701d327b28b4506b13f8b6c6f4222a5b5a700310265365b7a64798f0597d5647",
+      "messages_sha256": "d6f0518e666abd26dc1015571ca947be16c0cac41a3353e452c72abfb1f76e2e"
+    },
+    {
+      "retry_sequence": 5,
+      "question_id": "q13d_3c0d14c3d12d8cf598c0",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_3c0d14c3d12d8cf598c0",
+      "experiment_a_call_order": 106,
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "original_stop_reason": "max_tokens",
+      "bundle_sha256": "f45ad0ffd4ede8dd2c95fae5520d684b58a434f52bb25920d3fd4ddca1e5c420",
+      "messages_sha256": "ad5875f35aa8e15dbc45155765013102cdeaf58f659bb8eb8b8fac384a5af340"
+    },
+    {
+      "retry_sequence": 6,
+      "question_id": "q13d_3d047bb6f09c49355b01",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_3d047bb6f09c49355b01",
+      "experiment_a_call_order": 195,
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "original_stop_reason": "max_tokens",
+      "bundle_sha256": "3eda77392379f2555c8f50909ba7ecebcd1d16de8e525660fac834a79368ced2",
+      "messages_sha256": "353d12f07a614d2803b9411b4c276c598ff5b59518af40cb2202f5b12f4095fb"
+    },
+    {
+      "retry_sequence": 7,
+      "question_id": "q13d_47e67270f21eac606271",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_47e67270f21eac606271",
+      "experiment_a_call_order": 131,
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "original_stop_reason": "max_tokens",
+      "bundle_sha256": "9c5b90e7d253225c12f2fcfa7e618243bf9f13864f4ee58760a9a64bed47d244",
+      "messages_sha256": "aa2343c6168c32dd04636bbaa33dcb37f805b4009aac900872a76e679df9eaf4"
+    },
+    {
+      "retry_sequence": 8,
+      "question_id": "q13d_50729da78eda7868f0db",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_50729da78eda7868f0db",
+      "experiment_a_call_order": 55,
+      "original_failure_category": "SCHEMA_FAILURE",
+      "original_stop_reason": "tool_use",
+      "bundle_sha256": "6423b83810785912e9dbbbc064134f2e3c21bc327b57df535463c687e5d57598",
+      "messages_sha256": "1a0486fd2ae4cc52cb87503153f95582a5a8f011f7cfb7ab124167a9d6755082"
+    },
+    {
+      "retry_sequence": 9,
+      "question_id": "q13d_5d069051c25f5b93fb43",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_5d069051c25f5b93fb43",
+      "experiment_a_call_order": 4,
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "original_stop_reason": "max_tokens",
+      "bundle_sha256": "340606cad866acde32a79079e51df25151edb4366f3d46406a1bb6a715f1cd53",
+      "messages_sha256": "5360c01aeb28da67b5488cf130fdab84cb660e6770ce44065a0a49a1e114bc21"
+    },
+    {
+      "retry_sequence": 10,
+      "question_id": "q13d_654634b3a7b82d31c1a8",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_654634b3a7b82d31c1a8",
+      "experiment_a_call_order": 88,
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "original_stop_reason": "max_tokens",
+      "bundle_sha256": "38925bfa6423d4394d9c7ba5acd2d46f8f5a07555c3e69e31420521a3c1ddd84",
+      "messages_sha256": "f7ed084f0304be30619c4413bdd4d73e298bc034a8d3526cb2d0d0c7ffffb1d4"
+    },
+    {
+      "retry_sequence": 11,
+      "question_id": "q13d_6db38e6dd84333bfe455",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_6db38e6dd84333bfe455",
+      "experiment_a_call_order": 199,
+      "original_failure_category": "SCHEMA_FAILURE",
+      "original_stop_reason": "tool_use",
+      "bundle_sha256": "760e3345981b23d6e419833778c283c5280d63b2b847aa935f2d4be814c05605",
+      "messages_sha256": "1254418d0246a8bad50d5961fbb016bec1fc39242dee6f90228866f58a899274"
+    },
+    {
+      "retry_sequence": 12,
+      "question_id": "q13d_6e0fc99ed402dd96f394",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_6e0fc99ed402dd96f394",
+      "experiment_a_call_order": 40,
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "original_stop_reason": "max_tokens",
+      "bundle_sha256": "137ee18616681f39de21e2df76a7a844a0f1db7380f15b873a72d1de3f2480d8",
+      "messages_sha256": "87a4f03c75cdebd8b7ea2b7eb4ffdd9a81626c70b7d1d24df776b84ddb41da5e"
+    },
+    {
+      "retry_sequence": 13,
+      "question_id": "q13d_9425cc620df963b17579",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_9425cc620df963b17579",
+      "experiment_a_call_order": 144,
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "original_stop_reason": "max_tokens",
+      "bundle_sha256": "e310c773a275f62a702b485f84a8d0d70e3b87495705b76785d9169242e77e0c",
+      "messages_sha256": "0523a2f65793f6b8656d960f29131edd1ae8bba26f108b7d838ab933fcafdb79"
+    },
+    {
+      "retry_sequence": 14,
+      "question_id": "q13d_a24f1b8435ec597ad196",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_a24f1b8435ec597ad196",
+      "experiment_a_call_order": 125,
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "original_stop_reason": "max_tokens",
+      "bundle_sha256": "396b1a9ff5f55b46b774ef717f21f5e5af628a25f48a72b5d31e781ed2f3b899",
+      "messages_sha256": "e19912659cc2c3aa3970f5faf2d34279a212d9000c863990c6557e4b249e7406"
+    },
+    {
+      "retry_sequence": 15,
+      "question_id": "q13d_adbc043a105d36966a8b",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_adbc043a105d36966a8b",
+      "experiment_a_call_order": 83,
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "original_stop_reason": "max_tokens",
+      "bundle_sha256": "d4b71052486820f9fabf2adb2b75211789783abfe127adbf8dc654a40586d43c",
+      "messages_sha256": "31aab9ed402ad000a90e835fcff0fcac8bd9bb2837ec66780c1b576b3af25ae2"
+    },
+    {
+      "retry_sequence": 16,
+      "question_id": "q13d_b1ec61fd31efeb1f5039",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_b1ec61fd31efeb1f5039",
+      "experiment_a_call_order": 71,
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "original_stop_reason": "max_tokens",
+      "bundle_sha256": "24fb1b88c68479b0f3640b43f3e40f2b22c46a7de149d2314d6a5b5427e263cf",
+      "messages_sha256": "28030d21a50f58c955c57f197bb814f0710b49933ff040fc184d3209a71ba5c1"
+    },
+    {
+      "retry_sequence": 17,
+      "question_id": "q13d_bbf500c2a14de617099a",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_bbf500c2a14de617099a",
+      "experiment_a_call_order": 148,
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "original_stop_reason": "max_tokens",
+      "bundle_sha256": "6543a748512e6b3943967c9067d6110650073cf8158c0acdb9acf9bfbaec8f72",
+      "messages_sha256": "3e3a160047e03a3418f378823e9905feaba9b51552427cafe0224ed82823572c"
+    },
+    {
+      "retry_sequence": 18,
+      "question_id": "q13d_bcef1fced38bd839fe3e",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_bcef1fced38bd839fe3e",
+      "experiment_a_call_order": 118,
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "original_stop_reason": "max_tokens",
+      "bundle_sha256": "f0e623a0dadd9fe72d75956a3f1b2b1d04e670ecff6bc1484b54f778c8a9e6b5",
+      "messages_sha256": "672d34f67425755497ed2603861ec3f6f7ab67c83b7dc1dd090e7444b340cc90"
+    },
+    {
+      "retry_sequence": 19,
+      "question_id": "q13d_bf4c747740def5a9c01f",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_bf4c747740def5a9c01f",
+      "experiment_a_call_order": 33,
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "original_stop_reason": "max_tokens",
+      "bundle_sha256": "9aee6fb6570ad906b33c349154ff47ed58e881d13b7cd7864ddf432120955265",
+      "messages_sha256": "d3397b264c9a16fd961d86b3d2dd539112a6b9eb232300cf0c8ff81af00d58fd"
+    },
+    {
+      "retry_sequence": 20,
+      "question_id": "q13d_c24bc14709b66e393904",
+      "route_type": "MIXED",
+      "experiment_a_result_id": "TREATMENT_640:q13d_c24bc14709b66e393904",
+      "experiment_a_call_order": 2,
+      "original_failure_category": "TIMEOUT",
+      "original_stop_reason": null,
+      "bundle_sha256": "a0586b17d36894fd9f40201dfbbf6870bf83e609c23bd1f77a269444ee88545c",
+      "messages_sha256": "4354af3ad6afb3ebb16063558747e4bf7b4958c57c433b1c0368001fd1701d13"
+    },
+    {
+      "retry_sequence": 21,
+      "question_id": "q13d_c276ea6776f63463d336",
+      "route_type": "MIXED",
+      "experiment_a_result_id": "TREATMENT_640:q13d_c276ea6776f63463d336",
+      "experiment_a_call_order": 42,
+      "original_failure_category": "TIMEOUT",
+      "original_stop_reason": null,
+      "bundle_sha256": "b7ac1eb14f1e8d91411056a94410f63e5a2cd282b130a7b5a0496ec029819a0f",
+      "messages_sha256": "a514aa48c329cbcb69cef413bec9b86a407ddc90aa305f8bfae0112b3de8fac8"
+    },
+    {
+      "retry_sequence": 22,
+      "question_id": "q13d_c3a4291e7030f9e4b8ca",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_c3a4291e7030f9e4b8ca",
+      "experiment_a_call_order": 187,
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "original_stop_reason": "max_tokens",
+      "bundle_sha256": "708da81039b52b4cce40899346a2de1d4d7be6c4323cc01bae2f67d86f428707",
+      "messages_sha256": "dcf1e328fea275e6eb2219becfa229fd74b35328e017428a20c65a39de45f1bd"
+    },
+    {
+      "retry_sequence": 23,
+      "question_id": "q13d_d1ff5265c97949a034b9",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_d1ff5265c97949a034b9",
+      "experiment_a_call_order": 54,
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "original_stop_reason": "max_tokens",
+      "bundle_sha256": "8b8a6e2ebdbc23a78d865322e9ef23eb5b1e8eae545b87fc3f8d95ae340bf37b",
+      "messages_sha256": "39401cf375de41ab5e0738db0759a06daf501f599f94777c3dfcbaf261431de6"
+    },
+    {
+      "retry_sequence": 24,
+      "question_id": "q13d_dd78a393deca47353ced",
+      "route_type": "MIXED",
+      "experiment_a_result_id": "TREATMENT_640:q13d_dd78a393deca47353ced",
+      "experiment_a_call_order": 66,
+      "original_failure_category": "TIMEOUT",
+      "original_stop_reason": null,
+      "bundle_sha256": "a11dfc280d6b7481181fd370859326f00df6ce36bc8b630ca955a9cfd91aa85c",
+      "messages_sha256": "9fc0cde07db4d4db26d2bcad8e6435b63283157c4270dc2cb172ff58a82ff87b"
+    },
+    {
+      "retry_sequence": 25,
+      "question_id": "q13d_ef6885af9ddb46390aab",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_ef6885af9ddb46390aab",
+      "experiment_a_call_order": 197,
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "original_stop_reason": "max_tokens",
+      "bundle_sha256": "93c77fc044d48de252cab203f6eff62b4140f4cc3dfa2019655fa42694ee4fea",
+      "messages_sha256": "749948372de479ba1a3df1f43fdad0c41b9edb97a22368cd9c26d6ed6f06b5ed"
+    },
+    {
+      "retry_sequence": 26,
+      "question_id": "q13d_f3476f41b7bc05b3c18d",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_f3476f41b7bc05b3c18d",
+      "experiment_a_call_order": 156,
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "original_stop_reason": "max_tokens",
+      "bundle_sha256": "9cbcc2d5dc0e9a84421820454648a101efcca1438216ddd7ee553388dc6eb4c7",
+      "messages_sha256": "76f19d936f594b2497cf845f3d1c50513dca576515596430582d4794aa4a9995"
+    },
+    {
+      "retry_sequence": 27,
+      "question_id": "q13d_f5d058442ae24723b194",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_f5d058442ae24723b194",
+      "experiment_a_call_order": 35,
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "original_stop_reason": "max_tokens",
+      "bundle_sha256": "6f0881986e05c33d6e188db59a2dcab8556bdd253f738ee5cbe1c39ea75a7009",
+      "messages_sha256": "911d90f2a26ef4725d100b943041f2f4f3cf27e35d2df63bcd10827b0482e4c5"
+    },
+    {
+      "retry_sequence": 28,
+      "question_id": "q13d_f7ad5e2d299b153de56f",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_f7ad5e2d299b153de56f",
+      "experiment_a_call_order": 80,
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "original_stop_reason": "max_tokens",
+      "bundle_sha256": "0729d04c434b4dd36c63bab8b6c81966fff68dae26ba8abef83d2d1b987df2d3",
+      "messages_sha256": "add2ff492dc546308a10034e1117bf30ca1b2db2063b40e8f81c54c7c2c622b3"
+    },
+    {
+      "retry_sequence": 29,
+      "question_id": "q13d_fd58cc807956e9279c23",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_fd58cc807956e9279c23",
+      "experiment_a_call_order": 128,
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "original_stop_reason": "max_tokens",
+      "bundle_sha256": "364a0e638fca2061fea600e93defd77d88e873cb349c0cf03c53a299ecfaa205",
+      "messages_sha256": "18ada41d82617b2dddd2aeeaa195d00102e8d66d0c2481695a03893fad9b2eff"
+    },
+    {
+      "retry_sequence": 30,
+      "question_id": "q13d_fe4acbbe13550c295703",
+      "route_type": "RAG_ONLY",
+      "experiment_a_result_id": "TREATMENT_640:q13d_fe4acbbe13550c295703",
+      "experiment_a_call_order": 104,
+      "original_failure_category": "TRUNCATED_RESPONSE",
+      "original_stop_reason": "max_tokens",
+      "bundle_sha256": "a87b9abd711d7ac61ef1b4137d8f4825ef8a18e2b56d6071393a9a382b186379",
+      "messages_sha256": "58b5a215e5f2ac9e4a5382b46cb723370e7b980a7a7ba3991b579cdd68a2296c"
+    }
+  ],
+  "human_review": {
+    "population": "all successfully parsed retry answers",
+    "sampling": "none",
+    "status": "PENDING_GENUINE_HUMAN_REVIEW"
+  },
+  "known_diagnostic": {
+    "question_id": "q13d_8fd5589debc7a772c1ed",
+    "issue": "expected FIA porpoising safeguards are absent from supplied evidence",
+    "frozen_artifacts_modified": false
+  },
+  "production_decision": "NO_GO_UNCHANGED"
+}

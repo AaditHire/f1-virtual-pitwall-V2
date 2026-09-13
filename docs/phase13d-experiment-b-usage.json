@@ -1,0 +1,18 @@
+{
+  "schema_version": "phase13d-experiment-b-usage-v1",
+  "provider": "AgentRouter",
+  "model_id": "claude-opus-4-8",
+  "new_requests": 30,
+  "automatic_retries": 0,
+  "third_attempts": 0,
+  "prompt_tokens": 78483,
+  "completion_tokens": 16594,
+  "total_tokens": 95077,
+  "latency_total_ms": 208758.68519999494,
+  "latency_median_ms": 6794.705399999657,
+  "latency_p90_ms": 7819.876300003671,
+  "new_external_cash_spent": 0.0,
+  "provider_credit_cost": null,
+  "balance_api_available": false,
+  "review_rows_required": 11
+}
