@@ -1,10 +1,42 @@
-# F1 Virtual Pit Wall — Phases 1–7
+# F1 Virtual Pit Wall
 
-Python 3.12+ / FastAPI backend for historical analysis and the current F1 weekend. It combines
-calendars, session state, qualifying, grids, results, standings, deduplicated news, current timing,
-weather, race control, and an explicitly experimental live Pit Wall. No frontend or database.
+Full-stack Formula 1 data, replay, and race-intelligence research platform. A Python 3.12+
+FastAPI backend combines calendars, session state, qualifying, grids, results, standings,
+deduplicated news, current timing, weather, race control, causal historical replay, and an
+explicitly experimental Pit Wall. A Next.js 16 frontend provides Home, Weekend, Replay, Live Pit
+Wall, Standings, and News interfaces.
+
+## Live deployments
+
+- **Web application (Vercel Preview):** [Open F1 Virtual Pit Wall](https://f1-virtual-pitwall-6xvxdymg4-stealth8.vercel.app)
+- **Production API:** [OpenAPI / Swagger UI](https://f1-virtual-pitwall-api.vercel.app/docs)
+- **API health:** [Check backend health](https://f1-virtual-pitwall-api.vercel.app/health)
+
+API base URL: `https://f1-virtual-pitwall-api.vercel.app`
+
+The web application is a preview deployment; the existing production frontend has not been
+replaced. The API is deployed to the stable production alias. Deployment availability does not
+change the research status below or approve a production/public chatbot.
+
+## Current project status
+
+The authoritative handoff is [docs/PROJECT_STATE.md](docs/PROJECT_STATE.md). The repository is
+implemented through **Phase 13D-B Experiment A**:
+
+- Phases 1–10 deliver the backend, causal replay and strategy research surfaces, current/live data,
+  and the frontend application.
+- Phases 11–12 cover pre-race simulation and historical radio-transcription research with explicit
+  negative findings and safety gates.
+- Phase 13C is closed with a **CONDITIONAL GO** for research and controlled internal use and a
+  **NO-GO** for a production/public chatbot.
+- Phase 13D-B Experiment A generation and automated evaluation are complete. The narrow
+  320-versus-640-token budget effect is supported, but the full preregistered H1 is not supported by
+  the automated guardrails. Experiment A is **PAUSED — HUMAN REVIEW REQUIRED**.
+- Experiment B has not started. The production/public chatbot remains **NO-GO**.
 
 ## Install and run
+
+### Backend
 
 ```powershell
 python -m venv .venv
@@ -13,6 +45,18 @@ python -m venv .venv
 ```
 
 On macOS/Linux use `.venv/bin/python`. Open [interactive API docs](http://127.0.0.1:8000/docs). No API keys are required for these public providers. Internet access is needed for provider data; `/health` does not call providers.
+
+### Frontend
+
+```powershell
+cd frontend
+npm install
+$env:API_BASE_URL = "http://127.0.0.1:8000"
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000). The FastAPI backend must be running first.
+`API_BASE_URL` is used for server-rendered requests and the same-origin `/backend/*` rewrite.
 
 ## Configure
 
@@ -182,3 +226,28 @@ Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/live/pitwall'
 See the [Phase 7 backend contract](docs/phase7-current-live-backend.md),
 [live/archive compatibility result](docs/phase7-live-historical-consistency.json), and
 [runtime measurements](docs/phase7-performance.json).
+
+## Frontend and replay UX (Phases 8–10)
+
+Phase 8 introduced the Next.js dashboard and Phase 8B implemented the current visual redesign;
+the original approval checkpoint was not recorded separately. Phases 9A–9C added the historical
+Replay workspace, and Phase 10A completed the live Pit Wall engineering and strategy UX. Frontend
+rendering preserves backend uncertainty, missing data, and experimental labels rather than
+inventing recommendations.
+
+See the [frontend guide](frontend/README.md) and [design system](frontend/docs/design-system.md).
+
+## Research tracks (Phases 11–13D)
+
+- **Phase 11A:** Pre-race simulation research completed with a NO-GO for Phase 11B.
+- **Phases 12A–12C:** Historical radio ingestion, transcription, and human benchmarking completed;
+  ungated automated radio intelligence remains NO-GO.
+- **Phases 13A–13B:** Historical retrieval foundation and hardening completed for narrow research.
+- **Phase 13C:** Grounded answer generation completed with a CONDITIONAL GO for controlled research
+  and a production/public chatbot NO-GO.
+- **Phase 13D-B Experiment A:** Paired prospective output-budget generation and automated evaluation
+  completed. Human review is pending, so the experiment remains paused and no later experiment has
+  started.
+
+The frozen metrics, benchmark hashes, human-review state, and all negative experimental findings
+are maintained in [docs/PROJECT_STATE.md](docs/PROJECT_STATE.md) and the phase-specific reports.

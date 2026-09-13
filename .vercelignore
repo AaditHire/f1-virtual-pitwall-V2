@@ -1,0 +1,15 @@
+.git/
+.github/
+.venv/
+.env
+.env.*
+.cache/
+.pytest_cache/
+.ruff_cache/
+frontend/
+docs/
+outputs/
+scripts/
+tests/
+acceptance-output.json
+replay-output.json
