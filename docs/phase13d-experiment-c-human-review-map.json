@@ -1,0 +1,160 @@
+{
+  "schema_version": "phase13d-experiment-c-human-review-map-v1",
+  "template_sha256": "c508d5d1dbbe37a0787686c1e9eef8988ca74a01c9ab2eee8eb03849548a7616",
+  "rows": [
+    {
+      "review_id": "RC001",
+      "question_id": "q13d_06ee85f215dd8eb67f7f",
+      "fallback_sequence": 1,
+      "experiment_a_result_id": "TREATMENT_640:q13d_06ee85f215dd8eb67f7f",
+      "fallback_request_id": "202609140333088786064556c6hj1xkSA0zS"
+    },
+    {
+      "review_id": "RC002",
+      "question_id": "q13d_3c0d14c3d12d8cf598c0",
+      "fallback_sequence": 2,
+      "experiment_a_result_id": "TREATMENT_640:q13d_3c0d14c3d12d8cf598c0",
+      "fallback_request_id": "20260914033319820053293jl4rmiHPZgA61"
+    },
+    {
+      "review_id": "RC003",
+      "question_id": "q13d_3d047bb6f09c49355b01",
+      "fallback_sequence": 3,
+      "experiment_a_result_id": "TREATMENT_640:q13d_3d047bb6f09c49355b01",
+      "fallback_request_id": "2026091403333123453853s4cmnWgvFwpgW"
+    },
+    {
+      "review_id": "RC004",
+      "question_id": "q13d_47e67270f21eac606271",
+      "fallback_sequence": 4,
+      "experiment_a_result_id": "TREATMENT_640:q13d_47e67270f21eac606271",
+      "fallback_request_id": "20260914033340187824616n9ft5GlfZRjhK"
+    },
+    {
+      "review_id": "RC005",
+      "question_id": "q13d_5d069051c25f5b93fb43",
+      "fallback_sequence": 5,
+      "experiment_a_result_id": "TREATMENT_640:q13d_5d069051c25f5b93fb43",
+      "fallback_request_id": "20260914033350379864723tqsvrnnMmIwPz"
+    },
+    {
+      "review_id": "RC006",
+      "question_id": "q13d_654634b3a7b82d31c1a8",
+      "fallback_sequence": 6,
+      "experiment_a_result_id": "TREATMENT_640:q13d_654634b3a7b82d31c1a8",
+      "fallback_request_id": "20260914033403144742107sqxvln9d7vg9e"
+    },
+    {
+      "review_id": "RC007",
+      "question_id": "q13d_6e0fc99ed402dd96f394",
+      "fallback_sequence": 7,
+      "experiment_a_result_id": "TREATMENT_640:q13d_6e0fc99ed402dd96f394",
+      "fallback_request_id": "20260914033411505570435x5nwkJIWaZXcQ"
+    },
+    {
+      "review_id": "RC008",
+      "question_id": "q13d_9425cc620df963b17579",
+      "fallback_sequence": 8,
+      "experiment_a_result_id": "TREATMENT_640:q13d_9425cc620df963b17579",
+      "fallback_request_id": "20260914033419321371844jl4rmyJAj02ny"
+    },
+    {
+      "review_id": "RC009",
+      "question_id": "q13d_a24f1b8435ec597ad196",
+      "fallback_sequence": 9,
+      "experiment_a_result_id": "TREATMENT_640:q13d_a24f1b8435ec597ad196",
+      "fallback_request_id": "20260914033430427381767s4cmn316AyCaM"
+    },
+    {
+      "review_id": "RC010",
+      "question_id": "q13d_adbc043a105d36966a8b",
+      "fallback_sequence": 10,
+      "experiment_a_result_id": "TREATMENT_640:q13d_adbc043a105d36966a8b",
+      "fallback_request_id": "20260914033440374330421s4cmnoNMqcNnV"
+    },
+    {
+      "review_id": "RC011",
+      "question_id": "q13d_b1ec61fd31efeb1f5039",
+      "fallback_sequence": 11,
+      "experiment_a_result_id": "TREATMENT_640:q13d_b1ec61fd31efeb1f5039",
+      "fallback_request_id": "20260914033449657313276c7nsde7RNl0SB"
+    },
+    {
+      "review_id": "RC012",
+      "question_id": "q13d_bbf500c2a14de617099a",
+      "fallback_sequence": 12,
+      "experiment_a_result_id": "TREATMENT_640:q13d_bbf500c2a14de617099a",
+      "fallback_request_id": "20260914033458422449551gfrhvp2f2geEK"
+    },
+    {
+      "review_id": "RC013",
+      "question_id": "q13d_bcef1fced38bd839fe3e",
+      "fallback_sequence": 13,
+      "experiment_a_result_id": "TREATMENT_640:q13d_bcef1fced38bd839fe3e",
+      "fallback_request_id": "20260914033506558509582g8n5viH22C6AU"
+    },
+    {
+      "review_id": "RC014",
+      "question_id": "q13d_bf4c747740def5a9c01f",
+      "fallback_sequence": 14,
+      "experiment_a_result_id": "TREATMENT_640:q13d_bf4c747740def5a9c01f",
+      "fallback_request_id": "202609140335161224360478mbzqkiZGqXZu"
+    },
+    {
+      "review_id": "RC015",
+      "question_id": "q13d_c3a4291e7030f9e4b8ca",
+      "fallback_sequence": 15,
+      "experiment_a_result_id": "TREATMENT_640:q13d_c3a4291e7030f9e4b8ca",
+      "fallback_request_id": "2026091403352516440332gfrhvk4jD8f8c"
+    },
+    {
+      "review_id": "RC016",
+      "question_id": "q13d_d1ff5265c97949a034b9",
+      "fallback_sequence": 16,
+      "experiment_a_result_id": "TREATMENT_640:q13d_d1ff5265c97949a034b9",
+      "fallback_request_id": "2026091403353575339900126cnxm9LU6Y4g"
+    },
+    {
+      "review_id": "RC017",
+      "question_id": "q13d_ef6885af9ddb46390aab",
+      "fallback_sequence": 17,
+      "experiment_a_result_id": "TREATMENT_640:q13d_ef6885af9ddb46390aab",
+      "fallback_request_id": "20260914033543346204621jgbvwSJ8t9so5"
+    },
+    {
+      "review_id": "RC018",
+      "question_id": "q13d_f3476f41b7bc05b3c18d",
+      "fallback_sequence": 18,
+      "experiment_a_result_id": "TREATMENT_640:q13d_f3476f41b7bc05b3c18d",
+      "fallback_request_id": "20260914033552834100540sndzkAkNmsrNX"
+    },
+    {
+      "review_id": "RC019",
+      "question_id": "q13d_f5d058442ae24723b194",
+      "fallback_sequence": 19,
+      "experiment_a_result_id": "TREATMENT_640:q13d_f5d058442ae24723b194",
+      "fallback_request_id": "20260914033600121773036gpx7n3vBtmV0b"
+    },
+    {
+      "review_id": "RC020",
+      "question_id": "q13d_f7ad5e2d299b153de56f",
+      "fallback_sequence": 20,
+      "experiment_a_result_id": "TREATMENT_640:q13d_f7ad5e2d299b153de56f",
+      "fallback_request_id": "20260914033608127065229npmn8QFybCA4"
+    },
+    {
+      "review_id": "RC021",
+      "question_id": "q13d_fd58cc807956e9279c23",
+      "fallback_sequence": 21,
+      "experiment_a_result_id": "TREATMENT_640:q13d_fd58cc807956e9279c23",
+      "fallback_request_id": "202609140336172542971168mbzqAWTZ9JJR"
+    },
+    {
+      "review_id": "RC022",
+      "question_id": "q13d_fe4acbbe13550c295703",
+      "fallback_sequence": 22,
+      "experiment_a_result_id": "TREATMENT_640:q13d_fe4acbbe13550c295703",
+      "fallback_request_id": "20260914033625773968110g8n5vKypGnHNY"
+    }
+  ]
+}

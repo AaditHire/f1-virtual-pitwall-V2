@@ -1,6 +1,6 @@
 # F1 Virtual Pit Wall — Project State
 
-Authoritative handoff through **Phase 13D-C Experiment B human-review finalization**. Phase 13C remains
+Authoritative handoff through **Phase 13D-D Experiment C automated evaluation**. Phase 13C remains
 closed with a **CONDITIONAL GO for continued research and controlled internal use** and a **NO-GO
 for a production/public chatbot**. Experiment A is complete: its narrow token-budget effect remains
 **SUPPORTED**, its full preregistered H1 remains **NOT SUPPORTED**, and human review found zero
@@ -10,7 +10,10 @@ one identical retry to the 30 frozen 640-token mechanical failures. It recovered
 recovered answers received genuine human review: 10 Grounding PASS and one MINOR, all 11
 Usefulness GOOD, and all 11 Misleading NO. Experiment B therefore supports mechanical recovery,
 heterogeneously, and passes human safety with a minor quality qualification; absolute reliability
-and automated quality still fail. The production/public chatbot remains **NO-GO**. The
+and automated quality still fail. Experiment C recovered all 22 original truncations with one
+1280-token fallback and its diagnostic candidate policy reached 0/100 unrecovered, but authoritative
+required-fact coverage and false-refusal guardrails failed and human review is pending. Experiment C
+is **PAUSED — HUMAN REVIEW REQUIRED**. The production/public chatbot remains **NO-GO**. The
 Phase 13C handoff cleanup is committed separately at `5006974`. The repository, checked-in reports,
 frozen JSON artifacts, and tests remain the ultimate source of truth.
 
@@ -519,3 +522,62 @@ STATUS: COMPLETE — MECHANICAL RECOVERY SUPPORTED BUT HETEROGENEOUS; ABSOLUTE R
   `docs/phase13d-experiment-b-results.md`.
 - Experiment C has not started. Scientific review is required before any later experiment. The
   production/public chatbot remains **NO-GO**.
+
+## Phase 13D-D — Truncation-Specific 1280-Token Fallback Experiment C
+
+STATUS: PAUSED — HUMAN REVIEW REQUIRED; DEVELOPMENT/DIAGNOSTIC RESULT; PRODUCTION NO-GO
+
+- The Phase 13D benchmark has now been used for development and intervention selection. It is not
+  an untouched final prospective holdout for any future production-readiness claim. Experiment C
+  is development/diagnostic evidence; any later readiness evaluation requires a new untouched
+  prospective holdout.
+- H3 tests one otherwise-identical 1280-token fallback on all 22 questions whose original
+  Experiment A 640-token attempt was `TRUNCATED_RESPONSE`. The population is not restricted to the
+  19 truncations unrecovered in Experiment B. It includes all 22 original truncations in
+  deterministic question-ID order.
+- The only generation variable is `max_tokens`, increased from 640 to 1280. Prompt, model,
+  provider, SDK, forced schema, sampling defaults, retrieval, evidence, source order, route, parser,
+  and validation remain fixed. Each eligible question receives exactly one call; non-truncations
+  receive zero calls and no second fallback is allowed.
+- The diagnostic candidate policy retains original 640-token successes, uses the Experiment B
+  640-token retry only for original timeout and schema failures, and uses the Experiment C
+  1280-token fallback for every original truncation. Experiment B truncation retries remain frozen
+  historical evidence and do not enter this policy.
+- The observed 3/22 Experiment B truncation-retry recovery and the new 1280 fallback may be compared
+  descriptively only. They were executed at different times, not as concurrent randomized arms.
+- The FIA porpoising defect remains frozen. Experiment C will report authoritative frozen metrics
+  plus a separately labelled defect-aware sensitivity; the sensitivity will never replace the
+  frozen result.
+- Before any request, the 22-row manifest was frozen at SHA-256
+  `33020d09b0091226964d18b88c7651cf0ae20a46a72c52fd46f57dfc34bbe9d3`. Exactly 22 new AgentRouter
+  calls were made, one per eligible original truncation. Non-truncation calls, SDK retries, and
+  second fallbacks were zero. All 22 parsed successfully: 22/22 recovery versus the historical
+  same-budget retry's 3/22, a descriptive +86.36 percentage-point difference. This is not a
+  concurrent randomized causal comparison.
+- The candidate policy reached 0/100 unrecovered and met the <=2/100 reliability target. Its
+  authoritative frozen metrics were: citation validity 225/225; completeness 100/100; support
+  100/100; required facts 143/170; unsupported/uncited sentence proxy 91/372; refusals 5/5; false
+  refusals 1/125; multi-document synthesis 37/37; conflicts 2/2; prompt injection 3/3; route
+  compliance 130/130; deterministic STRUCTURED_ONLY 30/30; and MIXED exact facts 25/25.
+- Authoritative automated quality still failed required-fact coverage (84.12%, target >=90%) and
+  zero false refusals. The separately labelled FIA-defect sensitivity was 143/168 required facts
+  (85.12%) and zero false refusals; required-fact coverage still failed. Frozen authoritative
+  metrics were not replaced.
+- There were zero MIXED questions in the 22-case truncation population, hence zero recovered MIXED
+  truncation answers to inspect. The complete candidate policy retained MIXED exact-fact accuracy
+  at 25/25.
+- New-call usage was 46,694 input, 17,343 output, and 64,037 total tokens. Mean/median output was
+  788.3/814.5 tokens; median/P90 latency was 9,204.4/11,108.5 ms. The historical 640 truncation
+  retry used mean/median output 613.6/640.0 tokens and median/P90 latency 7,108.1/7,819.9 ms.
+  AgentRouter exposed no provider cost/balance field; recorded external cash spend is $0.00.
+- All 22 successfully parsed fallbacks are in the protected blank review workbook at
+  `outputs/phase13d_experiment_c_human_review/phase13d_experiment_c_human_review.xlsx`. Human
+  semantic labels were not fabricated. Experiment C remains paused until genuine review is
+  completed and imported.
+- Protocol: `docs/phase13d-experiment-c-protocol.md`; raw responses:
+  `docs/phase13d-experiment-c-raw.jsonl`; candidate policy:
+  `docs/phase13d-experiment-c-policy-outputs.json`; automated evaluation:
+  `docs/phase13d-experiment-c-evaluation.json`; report: `docs/phase13d-experiment-c-results.md`.
+- Phase 13C remains **CLOSED — CONDITIONAL GO**; Experiment A and B findings remain unchanged. A
+  later production-readiness claim requires a new untouched prospective holdout. The
+  production/public chatbot remains **NO-GO**. No later experiment has started.

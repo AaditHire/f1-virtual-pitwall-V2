@@ -1,0 +1,27 @@
+{
+  "schema_version": "phase13d-experiment-c-usage-v1",
+  "provider": "AgentRouter",
+  "model_id": "claude-opus-4-8",
+  "new_requests": 22,
+  "automatic_retries": 0,
+  "second_fallbacks": 0,
+  "prompt_tokens": 46694,
+  "completion_tokens": 17343,
+  "total_tokens": 64037,
+  "completion_tokens_mean": 788.3181818181819,
+  "completion_tokens_median": 814.5,
+  "latency_total_ms": 203753.91430001036,
+  "latency_median_ms": 9204.374150001968,
+  "latency_p90_ms": 11108.495699998457,
+  "provider_credit_cost": null,
+  "balance_api_available": false,
+  "new_external_cash_spent": 0.0,
+  "same_budget_640_truncation_retry_comparator": {
+    "requests": 22,
+    "completion_tokens_mean": 613.5909090909091,
+    "completion_tokens_median": 640.0,
+    "latency_median_ms": 7108.094700000947,
+    "latency_p90_ms": 7819.876300003671
+  },
+  "review_rows_required": 22
+}

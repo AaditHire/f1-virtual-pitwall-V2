@@ -1,0 +1,8 @@
+{
+  "schema_version": "phase13d-experiment-c-freeze-v1",
+  "frozen_at": "2026-09-13T19:32:51.076039+00:00",
+  "manifest_sha256": "33020d09b0091226964d18b88c7651cf0ae20a46a72c52fd46f57dfc34bbe9d3",
+  "protocol_sha256": "61b4012138a0afb313fbd0450b7008aa0d0936064380ff817212f4868a61c845",
+  "runner_sha256": "b215d71a5262f9d207730ccefea5ca2ec29695d074a7f1f8ef9d86764bf7714e",
+  "provider_requests_observed_before_freeze": 0
+}

@@ -21,7 +21,7 @@ change the research status below or approve a production/public chatbot.
 ## Current project status
 
 The authoritative handoff is [docs/PROJECT_STATE.md](docs/PROJECT_STATE.md). The repository is
-implemented through **Phase 13D-C Experiment B human-review finalization**:
+implemented through **Phase 13D-D Experiment C automated evaluation**:
 
 - Phases 1–10 deliver the backend, causal replay and strategy research surfaces, current/live data,
   and the frontend application.
@@ -36,7 +36,12 @@ implemented through **Phase 13D-C Experiment B human-review finalization**:
   Grounding PASS, one MINOR, zero FAIL, and zero misleading recovered answers. Mechanical recovery
   is supported but heterogeneous; human safety passes with a minor quality qualification, while
   absolute reliability and automated quality fail.
-- Experiment C has not started. The production/public chatbot remains **NO-GO**.
+- Phase 13D-D Experiment C recovered all 22 original truncations with one 1280-token fallback and
+  reached 0/100 unrecovered in a diagnostic candidate policy. Required-fact coverage still failed,
+  the benchmark is development data rather than an untouched holdout, and genuine review of all 22
+  fallback answers is pending.
+- Experiment C is **PAUSED — HUMAN REVIEW REQUIRED**. The production/public chatbot remains
+  **NO-GO**.
 
 ## Install and run
 
@@ -253,7 +258,9 @@ See the [frontend guide](frontend/README.md) and [design system](frontend/docs/d
   completed. The narrow effect is supported; full H1 is not supported.
 - **Phase 13D-C Experiment B:** One identical retry recovered 11/30 mechanical failures. Human review
   passed with a minor quality qualification; 19/22 original truncations remained unrecovered.
-  Experiment C has not started.
+- **Phase 13D-D Experiment C:** One 1280-token fallback recovered 22/22 original truncations and the
+  diagnostic candidate policy reached 0/100 unrecovered. Automated required-fact coverage failed,
+  human review is pending, and a new untouched holdout is required for any readiness claim.
 
 The frozen metrics, benchmark hashes, human-review state, and all negative experimental findings
 are maintained in [docs/PROJECT_STATE.md](docs/PROJECT_STATE.md) and the phase-specific reports.

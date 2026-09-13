@@ -14,3 +14,7 @@ replay-output.json
 
 # Microsoft Office temporary owner/lock files
 ~$*.xlsx
+
+# Generated spreadsheet verification support files
+outputs/*/preview/
+*.xlsx.inspect.ndjson
