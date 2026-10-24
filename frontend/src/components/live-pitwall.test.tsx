@@ -352,26 +352,40 @@ describe("LivePitWall", () => {
       "P3–P5",
     );
     expect(screen.getByRole("region", { name: "Traffic analysis" })).toHaveTextContent(
-      "LIGHT TRAFFIC",
+      "Light traffic",
     );
     const strategy = screen.getByRole("region", { name: "Experimental live strategy" });
     expect(within(strategy).getByText(/experimental strategy/i)).toBeInTheDocument();
-    expect(strategy).toHaveTextContent("HOLD NO CLEAR ADVANTAGE");
-    expect(strategy).toHaveTextContent("CAUTION");
-    expect(strategy).toHaveTextContent("PIT WINDOW OPEN");
-    expect(within(strategy).getByText("+1")).toBeInTheDocument();
-    expect(within(strategy).getByText("+3")).toBeInTheDocument();
-    expect(within(strategy).getByText("+5")).toBeInTheDocument();
+    expect(strategy).toHaveTextContent("No clear gain either way");
+    expect(strategy).toHaveTextContent("Uncertain");
+    expect(strategy).toHaveTextContent("Pitting is an option");
+    expect(within(strategy).getByText("After 1 lap")).toBeInTheDocument();
+    expect(within(strategy).getByText("After 3 laps")).toBeInTheDocument();
+    expect(within(strategy).getByText("After 5 laps")).toBeInTheDocument();
     expect(strategy).toHaveTextContent("Paired counterfactual state is PIT_WINDOW_OPEN.");
   });
 
   it.each([
-    ["PIT_NOW_SOFT", "ACTIONABLE", "PIT_WINDOW_STRONG"],
-    ["EXTEND_2", "CAUTION", "PIT_WINDOW_CLOSED"],
-    [null, "INSUFFICIENT_DATA", null],
+    [
+      "PIT_NOW_SOFT",
+      "ACTIONABLE",
+      "PIT_WINDOW_STRONG",
+      "Pit now for softs",
+      "Confident",
+      "Good time to pit",
+    ],
+    [
+      "EXTEND_2",
+      "CAUTION",
+      "PIT_WINDOW_CLOSED",
+      "Stay out 2 more laps",
+      "Uncertain",
+      "Not a good time to pit",
+    ],
+    [null, "INSUFFICIENT_DATA", null, "Not enough data", "Not enough data", null],
   ] as const)(
-    "renders backend strategy state %s without frontend substitution",
-    async (recommendation, decision_state, window) => {
+    "renders backend strategy state %s in plain words without changing it",
+    async (recommendation, decision_state, window, shown, sureness, windowShown) => {
       const response = detail("ver", 12, {
         recommendation,
         decision_state,
@@ -387,11 +401,9 @@ describe("LivePitWall", () => {
         />,
       );
       const strategy = await screen.findByRole("region", { name: "Experimental live strategy" });
-      expect(strategy).toHaveTextContent(
-        recommendation?.replaceAll("_", " ") ?? "INSUFFICIENT DATA",
-      );
-      expect(strategy).toHaveTextContent(decision_state.replaceAll("_", " "));
-      if (window) expect(strategy).toHaveTextContent(window.replaceAll("_", " "));
+      expect(strategy).toHaveTextContent(shown);
+      expect(strategy).toHaveTextContent(sureness);
+      if (windowShown) expect(strategy).toHaveTextContent(windowShown);
     },
   );
 
@@ -416,12 +428,12 @@ describe("LivePitWall", () => {
     await screen.findByRole("region", { name: "Pace analysis" });
     fireEvent.click(screen.getByRole("option", { name: /NOR/ }));
     fireEvent.click(screen.getByRole("option", { name: /VER/ }));
-    expect(await screen.findByText("EXTEND 3")).toBeInTheDocument();
+    expect(await screen.findByText("Stay out 3 more laps")).toBeInTheDocument();
     await act(async () => {
       resolveNor(detail("nor", 12, { recommendation: "PIT_NOW_SOFT" }));
     });
     expect(screen.getByText("ver Driver")).toBeInTheDocument();
-    expect(screen.getByText("EXTEND 3")).toBeInTheDocument();
+    expect(screen.getByText("Stay out 3 more laps")).toBeInTheDocument();
   });
 
   it("polls once per interval and replaces RaceState and selected detail together", async () => {
@@ -446,7 +458,7 @@ describe("LivePitWall", () => {
       await vi.advanceTimersByTimeAsync(50);
     });
     expect(screen.getByText("Lap 13")).toBeInTheDocument();
-    expect(screen.getByText("EXTEND 1")).toBeInTheDocument();
+    expect(screen.getByText("Stay out 1 more lap")).toBeInTheDocument();
     expect(api.status).toHaveBeenCalledTimes(1);
     expect(api.pitwall).toHaveBeenCalledTimes(1);
     expect(api.driver).toHaveBeenCalledTimes(2);
@@ -499,7 +511,7 @@ describe("LivePitWall", () => {
     ).toHaveLength(2);
     expect(await screen.findByText("Selected driver detail · analysis failed")).toBeInTheDocument();
     expect(screen.getByRole("region", { name: "Experimental live strategy" })).toHaveTextContent(
-      "HOLD NO CLEAR ADVANTAGE",
+      "No clear gain either way",
     );
     expect(
       screen.getByText("Engineering analysis is unavailable for this driver state."),
@@ -524,9 +536,7 @@ describe("LivePitWall", () => {
     await screen.findByRole("region", { name: "Pace analysis" });
     fireEvent.click(screen.getByRole("button", { name: "Refresh live data" }));
     expect(
-      await screen.findByText(
-        "Previous engineering snapshot retained while current driver detail is unavailable.",
-      ),
+      await screen.findByText("Showing the previous analysis while the latest one is unavailable."),
     ).toBeInTheDocument();
     expect(
       within(screen.getByRole("listbox", { name: "Drivers" })).getAllByRole("option"),

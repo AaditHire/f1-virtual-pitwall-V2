@@ -314,7 +314,7 @@ describe("ReplayWorkspace", () => {
     await screen.findByText("Lap 3 / 3 · 2 participants");
     fireEvent.click(screen.getByRole("button", { name: "Previous lap" }));
     expect(
-      await screen.findByText("Current lap retained until the causal snapshot is ready."),
+      await screen.findByText("Showing the current lap until it is ready."),
     ).toBeInTheDocument();
     expect(
       within(screen.getByRole("listbox", { name: "Historical drivers" })).getAllByRole("option"),
@@ -353,8 +353,12 @@ describe("ReplayWorkspace", () => {
     expect(await screen.findByRole("heading", { name: "Driver engineering" })).toBeInTheDocument();
     expect(await screen.findByText("1:30.300")).toBeInTheDocument();
     expect(screen.getByText("P3–P5")).toBeInTheDocument();
-    expect(screen.getByText("LIGHT TRAFFIC")).toBeInTheDocument();
-    expect(screen.getAllByText("LOW CONFIDENCE").length).toBeGreaterThan(0);
+    expect(screen.getByText("Light traffic")).toBeInTheDocument();
+    expect(screen.getAllByText("Low confidence").length).toBeGreaterThan(0);
+    const glance = screen.getByRole("region", { name: "At a glance" });
+    expect(glance).toHaveTextContent("Driver leads by 1.0s.");
+    expect(glance).toHaveTextContent("On medium tyres that are 3 laps old.");
+    expect(glance).toHaveTextContent("A pit stop now costs about 21.");
   });
 
   it("changes engineering analysis with driver and leader lap", async () => {
@@ -382,14 +386,15 @@ describe("ReplayWorkspace", () => {
       ),
     });
     render(<ReplayWorkspace loaders={loaders()} analysisLoaders={engineering} />);
+    expect(await screen.findByText("Not enough clean laps yet at this point.")).toBeInTheDocument();
+    expect(screen.getAllByText("Not enough data").length).toBeGreaterThan(0);
     expect(
-      await screen.findByText("Insufficient clean laps are available at this cutoff."),
+      screen.getByText("Describes the tyres only. It does not predict how long they will last."),
     ).toBeInTheDocument();
-    expect(screen.getAllByText("INSUFFICIENT DATA").length).toBeGreaterThan(0);
-    expect(
-      screen.getByText("Diagnostic evidence only · no tyre-life or degradation forecast."),
-    ).toBeInTheDocument();
-    expect(screen.getAllByText("Unavailable").length).toBeGreaterThan(1);
+    expect(screen.getAllByText("—").length).toBeGreaterThan(1);
+    expect(screen.getByRole("region", { name: "At a glance" })).toHaveTextContent(
+      "Not enough clean laps yet to judge pace.",
+    );
   });
 
   it("keeps RaceState usable when engineering analysis fails", async () => {
@@ -422,29 +427,25 @@ describe("ReplayWorkspace", () => {
     await waitFor(() =>
       expect(engineering.undercut).toHaveBeenCalledWith(2024, 1, 3, "ver", "ham"),
     );
-    expect(screen.getAllByText("Supporting context only")).toHaveLength(2);
-    expect(
-      screen.getByText(
-        "Sparse historical coverage and material margin error. Context, not a recommendation.",
-      ),
-    ).toBeInTheDocument();
+    expect(await screen.findAllByText("Verdict")).toHaveLength(2);
+    expect(screen.getByText(/A rough guide only/)).toBeInTheDocument();
   });
 
   it("renders experimental HOLD strategy, confidence, window, alerts and paired horizons", async () => {
     render(<ReplayWorkspace loaders={loaders()} analysisLoaders={analysisLoaders()} />);
     expect(await screen.findByText(/experimental strategy/i)).toBeInTheDocument();
-    expect(await screen.findByText("HOLD NO CLEAR ADVANTAGE")).toBeInTheDocument();
-    expect(screen.getByText("CAUTION")).toBeInTheDocument();
-    expect(screen.getAllByText("PIT WINDOW OPEN").length).toBeGreaterThan(0);
+    expect(await screen.findByText("No clear gain either way")).toBeInTheDocument();
+    expect(screen.getByText("Uncertain")).toBeInTheDocument();
+    expect(screen.getAllByText("Pitting is an option").length).toBeGreaterThan(0);
     expect(
       screen.getByRole("region", { name: "Paired PIT versus EXTEND evaluation" }),
     ).toBeInTheDocument();
-    expect(screen.getByText("OVERLAPPING OUTCOMES")).toBeInTheDocument();
-    expect(screen.getByText(/negative favors PIT/)).toBeInTheDocument();
-    expect(screen.getByText("+1")).toBeInTheDocument();
-    expect(screen.getByText("+3")).toBeInTheDocument();
-    expect(screen.getByText("+5")).toBeInTheDocument();
-    expect(screen.getByText("STRATEGY MODEL UNCERTAIN")).toBeInTheDocument();
+    expect(screen.getByText("No, too close to call")).toBeInTheDocument();
+    expect(screen.getByText(/a negative number means pitting is faster/)).toBeInTheDocument();
+    expect(screen.getByText("After 1 lap")).toBeInTheDocument();
+    expect(screen.getByText("After 3 laps")).toBeInTheDocument();
+    expect(screen.getByText("After 5 laps")).toBeInTheDocument();
+    expect(screen.getByText("Strategy model uncertain")).toBeInTheDocument();
   });
 
   it("renders backend PIT_NOW and closed-window EXTEND states without reinterpretation", async () => {
@@ -468,9 +469,9 @@ describe("ReplayWorkspace", () => {
       ),
     });
     const first = render(<ReplayWorkspace loaders={loaders()} analysisLoaders={pit} />);
-    expect((await screen.findAllByText("PIT NOW")).length).toBeGreaterThan(0);
-    expect(screen.getByText("ACTIONABLE")).toBeInTheDocument();
-    expect(screen.getByText("PIT WINDOW STRONG")).toBeInTheDocument();
+    expect((await screen.findAllByText("Pit now")).length).toBeGreaterThan(0);
+    expect(screen.getByText("Confident")).toBeInTheDocument();
+    expect(screen.getByText("Good time to pit")).toBeInTheDocument();
     first.unmount();
     const extend = analysisLoaders({
       strategy: vi.fn((_year, _round, lap, driverId) =>
@@ -492,8 +493,8 @@ describe("ReplayWorkspace", () => {
       ),
     });
     render(<ReplayWorkspace loaders={loaders()} analysisLoaders={extend} />);
-    expect(await screen.findByText("EXTEND")).toBeInTheDocument();
-    expect(screen.getByText("PIT WINDOW CLOSED")).toBeInTheDocument();
+    expect(await screen.findByText("Stay out")).toBeInTheDocument();
+    expect(screen.getByText("Not a good time to pit")).toBeInTheDocument();
     expect(screen.getByText("Normal-stop cooldown remains active.")).toBeInTheDocument();
   });
 
@@ -515,11 +516,11 @@ describe("ReplayWorkspace", () => {
       ),
     });
     render(<ReplayWorkspace loaders={loaders()} analysisLoaders={engineering} />);
-    expect((await screen.findAllByText("INSUFFICIENT DATA")).length).toBeGreaterThan(0);
+    expect((await screen.findAllByText("Not enough data")).length).toBeGreaterThan(0);
     expect(
-      screen.getByText("Paired simulation is unavailable for this driver and lap."),
+      screen.getByText("The simulation did not run for this driver and lap."),
     ).toBeInTheDocument();
-    expect(screen.getByText("No strategy alerts were returned.")).toBeInTheDocument();
+    expect(screen.getByText("No alerts.")).toBeInTheDocument();
   });
 
   it("keeps RaceState and Phase 9B analysis when strategy evaluation fails", async () => {

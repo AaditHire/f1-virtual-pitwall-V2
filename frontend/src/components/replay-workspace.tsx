@@ -11,6 +11,7 @@ import type {
   Season,
 } from "@/lib/api/types";
 import { driverCode, fmtNumber } from "@/lib/format";
+import { plainStatus } from "@/lib/plain";
 import { CompoundBadge } from "./compound-badge";
 import { ReplayEngineering, type ReplayAnalysisLoaders } from "./replay-engineering";
 import { EmptyRow, SurfaceError } from "./status";
@@ -379,7 +380,7 @@ export function ReplayWorkspace({
         <div className="replay-initial" role="status" aria-label="Loading historical race">
           <LoaderCircle aria-hidden="true" />
           <strong>Loading historical race…</strong>
-          <span>FastF1 archive preparation may take a moment.</span>
+          <span>The first load of a race can take up to a minute.</span>
         </div>
       ) : null}
 
@@ -389,8 +390,8 @@ export function ReplayWorkspace({
             <div className="replay-loading" role="status">
               <LoaderCircle aria-hidden="true" />
               <span>
-                <strong>Loading leader lap {pendingLap}</strong>
-                <small>Current lap retained until the causal snapshot is ready.</small>
+                <strong>Loading lap {pendingLap}</strong>
+                <small>Showing the current lap until it is ready.</small>
               </span>
             </div>
           ) : null}
@@ -441,7 +442,7 @@ export function ReplayWorkspace({
                         {formatLapTime(driver.recent_clean_pace ?? driver.last_lap_time)}
                       </span>
                       <span className={`replay-status replay-status-${driver.status}`}>
-                        {driver.status.replaceAll("_", " ")}
+                        {plainStatus(driver.status)}
                       </span>
                     </button>
                   ))

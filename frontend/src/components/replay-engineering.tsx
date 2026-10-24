@@ -10,14 +10,15 @@ import {
 } from "@/lib/api/replay";
 import type { DriverAnalysis, DriverRaceState, PairAnalysis, PitWallDriver } from "@/lib/api/types";
 import { driverCode } from "@/lib/format";
+import { isOut, plainStatus, sentenceCase } from "@/lib/plain";
 import { CompoundBadge } from "./compound-badge";
 import {
   ConfidenceBadge,
   DriverEngineeringAnalysis,
   EvidenceLabel,
 } from "./driver-engineering-analysis";
+import { DriverSummary } from "./driver-summary";
 import { ReplayStrategy } from "./replay-strategy";
-import { Status } from "./status";
 
 export interface ReplayAnalysisLoaders {
   driver: (year: number, round: number, lap: number, driverId: string) => Promise<DriverAnalysis>;
@@ -54,24 +55,22 @@ interface Props {
   loaders?: ReplayAnalysisLoaders;
 }
 
+const MISSING = "—";
+
 function formatLapTime(value?: number | null) {
-  if (value == null) return "Unavailable";
+  if (value == null) return MISSING;
   const minutes = Math.floor(value / 60);
   return `${minutes}:${(value - minutes * 60).toFixed(3).padStart(6, "0")}`;
 }
 
 function formatSeconds(value?: number | null, signed = false) {
-  if (value == null) return "Unavailable";
+  if (value == null) return MISSING;
   const prefix = signed && value > 0 ? "+" : "";
-  return `${prefix}${value.toFixed(2)}s`;
-}
-
-function displayState(value: string) {
-  return value.replaceAll("_", " ");
+  return `${prefix}${value.toFixed(1)}s`;
 }
 
 function driverLabel(id: string | null | undefined, byId: Map<string, DriverRaceState>) {
-  if (!id) return "Unavailable";
+  if (!id) return MISSING;
   const driver = byId.get(id);
   return driver ? `${driverCode(driver.driver)} · ${driver.driver.last_name}` : id.toUpperCase();
 }
@@ -81,18 +80,17 @@ function TacticalRow({ title, result }: { title: string; result: PairAnalysis | 
     <div className="analysis-tactical-row">
       <div>
         <b>{title}</b>
-        <span>Supporting context only</span>
       </div>
       {result ? (
         <>
           <ConfidenceBadge value={result.confidence} />
           <dl>
             <div>
-              <dt>Evidence outcome</dt>
-              <dd>{displayState(result.opportunity)}</dd>
+              <dt>Verdict</dt>
+              <dd>{sentenceCase(result.opportunity)}</dd>
             </div>
             <div>
-              <dt>Conditional margin</dt>
+              <dt>Margin if it works</dt>
               <dd>{formatSeconds(result.estimated_margin, true)}</dd>
             </div>
           </dl>
@@ -101,7 +99,7 @@ function TacticalRow({ title, result }: { title: string; result: PairAnalysis | 
           ) : null}
         </>
       ) : (
-        <span className="analysis-unavailable">Unavailable for this comparison</span>
+        <span className="analysis-unavailable">No estimate for this pair of cars</span>
       )}
     </div>
   );
@@ -129,6 +127,8 @@ export function ReplayEngineering({
   const [strategyError, setStrategyError] = useState<string | null>(null);
   const [pairError, setPairError] = useState<string | null>(null);
   const pairRequest = useRef(0);
+  // Retired, disqualified and non-starting cars have no race left to analyse.
+  const out = isOut(selected.status);
   const byId = useMemo(
     () => new Map(drivers.map((driver) => [driver.driver.id, driver])),
     [drivers],
@@ -192,7 +192,7 @@ export function ReplayEngineering({
     if (under.status === "fulfilled") setUndercut(under.value);
     if (over.status === "fulfilled") setOvercut(over.value);
     if (under.status === "rejected" || over.status === "rejected")
-      setPairError("Some tactical context is unavailable.");
+      setPairError("Part of this comparison could not load.");
     setPairLoading(false);
   };
 
@@ -211,7 +211,7 @@ export function ReplayEngineering({
     <aside className="replay-driver-panel replay-engineering" aria-live="polite">
       <div className="replay-section-title">
         <h2>Driver engineering</h2>
-        <span>Leader lap {lap} cutoff</span>
+        <span>As of lap {lap}</span>
       </div>
       <div className="replay-driver-head">
         <strong>{selected.position ?? "—"}</strong>
@@ -222,9 +222,16 @@ export function ReplayEngineering({
         </span>
       </div>
 
+      <DriverSummary
+        selected={selected}
+        drivers={drivers}
+        analysis={analysis}
+        strategy={strategy}
+      />
+
       <section className="analysis-observed" aria-label="Observed driver state">
         <div className="analysis-heading">
-          <h3>Race state</h3>
+          <h3>Right now</h3>
           <EvidenceLabel observed />
         </div>
         <dl>
@@ -244,11 +251,11 @@ export function ReplayEngineering({
           </div>
           <div>
             <dt>Tyre age</dt>
-            <dd>{selected.tyre_age == null ? "Unavailable" : `${selected.tyre_age} laps`}</dd>
+            <dd>{selected.tyre_age == null ? MISSING : `${selected.tyre_age} laps`}</dd>
           </div>
           <div>
             <dt>Stint</dt>
-            <dd>{selected.stint_number ?? "Unavailable"}</dd>
+            <dd>{selected.stint_number ?? MISSING}</dd>
           </div>
           <div>
             <dt>Stops</dt>
@@ -256,8 +263,10 @@ export function ReplayEngineering({
           </div>
         </dl>
         <div className="analysis-state-line">
-          <Status value={selected.status} />
-          <span>Only data observed through leader lap {lap}</span>
+          <span className={`replay-status replay-status-${selected.status}`}>
+            {plainStatus(selected.status)}
+          </span>
+          <span>Uses only what was known by lap {lap}</span>
         </div>
       </section>
 
@@ -265,8 +274,8 @@ export function ReplayEngineering({
         <div className="analysis-loading" role="status">
           <LoaderCircle aria-hidden="true" />
           <span>
-            <b>Loading engineering analysis</b>
-            <small>Race timing remains available.</small>
+            <b>Loading the analysis</b>
+            <small>The timing table stays usable meanwhile.</small>
           </span>
         </div>
       ) : null}
@@ -274,20 +283,24 @@ export function ReplayEngineering({
         <div className="analysis-error" role="alert">
           <AlertTriangle aria-hidden="true" />
           <span>
-            <b>Engineering analysis unavailable</b>
+            <b>The analysis could not load</b>
             <small>{error}</small>
           </span>
         </div>
       ) : null}
 
-      {analysis ? (
+      {out ? null : analysis ? (
         <div className="analysis-derived">
           <DriverEngineeringAnalysis analysis={analysis} drivers={drivers} />
-          <section className="analysis-tactical" aria-label="Undercut and overcut context">
-            <div className="analysis-heading">
-              <h3>Undercut / overcut context</h3>
-              <span className="analysis-low-label">LOW CONFIDENCE</span>
-            </div>
+          <details className="analysis-tactical" aria-label="Undercut and overcut context">
+            <summary className="analysis-heading">
+              <h3>Undercut / overcut</h3>
+              <span className="analysis-low-label">Low confidence</span>
+            </summary>
+            <p className="analysis-note">
+              Could pitting before (undercut) or after (overcut) another car gain the place? A rough
+              guide only: few past races to learn from, and the margins have wide error.
+            </p>
             <label>
               <span>Comparison car</span>
               <select
@@ -306,7 +319,7 @@ export function ReplayEngineering({
             </label>
             {pairLoading ? (
               <div className="analysis-pair-loading" role="status">
-                Loading tactical context…
+                Loading the comparison…
               </div>
             ) : (
               <>
@@ -315,18 +328,17 @@ export function ReplayEngineering({
               </>
             )}
             {pairError ? <p className="analysis-note analysis-warning">{pairError}</p> : null}
-            <p className="analysis-note">
-              Sparse historical coverage and material margin error. Context, not a recommendation.
-            </p>
-          </section>
+          </details>
         </div>
       ) : null}
-      <ReplayStrategy
-        strategy={strategy}
-        loading={strategyLoading}
-        error={strategyError}
-        lap={lap}
-      />
+      {out ? null : (
+        <ReplayStrategy
+          strategy={strategy}
+          loading={strategyLoading}
+          error={strategyError}
+          lap={lap}
+        />
+      )}
     </aside>
   );
 }

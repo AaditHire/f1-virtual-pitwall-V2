@@ -5,8 +5,10 @@ from unittest.mock import AsyncMock, Mock
 
 import pytest
 
+from f1_pitwall.core.config import Settings
 from f1_pitwall.core.exceptions import NotFound, ProviderError
 from f1_pitwall.providers.fastf1 import (
+    fetch_stream,
     gap,
     normalize_lap_revisions,
     normalize_timing,
@@ -52,6 +54,21 @@ def test_normalize_timing_uses_atomic_completed_laps_and_timed_retirement():
     assert laps[1].lap_time_seconds == 100
     assert len(pits) == 1 and pits[0].exited_at == 220
     assert next(t.at for t in timing if t.retired) == 300
+
+
+def test_lap_time_in_a_separate_packet_pairs_with_its_crossing():
+    records = [
+        ("00:00:00.000", {"Lines": {"9": {"InPit": False}}}),
+        ("00:01:40.000", {"Lines": {"9": {"NumberOfLaps": 1}}}),
+        ("00:01:40.030", {"Lines": {"9": {"LastLapTime": {"Value": "1:39.000"}}}}),
+        ("00:03:19.990", {"Lines": {"9": {"LastLapTime": {"Value": "1:40.000"}}}}),
+        ("00:03:20.000", {"Lines": {"9": {"NumberOfLaps": 2}}}),
+    ]
+    _, laps, _ = normalize_timing(records, {"9": "stable"}, 1)
+    assert [(r.number, r.completed_at, r.available_at, r.lap_time_seconds) for r in laps] == [
+        (1, 100, 100.03, 99),  # Published with its time, never before the time arrived.
+        (2, 200, 200, 100),
+    ]
 
 
 def test_tyre_observations_keep_used_life_and_do_not_backfill():
@@ -158,3 +175,21 @@ def test_unwritable_replay_cache_falls_back_to_temp(tmp_path, monkeypatch):
     monkeypatch.setattr(tempfile, "gettempdir", lambda: str(tmp_path))
     assert writable_cache_dir(str(blocker / "cache")) == tmp_path / "f1-pitwall-fastf1"
     assert writable_cache_dir(str(tmp_path / "ok")) == tmp_path / "ok"
+
+
+def test_archive_failure_names_both_sources(monkeypatch):
+    import fastf1
+    import requests
+
+    def refuse(url, **kwargs):
+        response = requests.Response()
+        response.status_code = 404 if "mirror" in url else 403
+        raise requests.HTTPError(response=response)
+
+    monkeypatch.setattr(fastf1.Cache, "requests_get", refuse)
+    with pytest.raises(ValueError) as error:
+        fetch_stream("2026/race/", "driver_list", Settings(retries=0))
+    assert str(error.value) == (
+        "archive stream unavailable: driver_list "
+        "(livetiming.formula1.com HTTP 403; livetiming-mirror.fastf1.dev HTTP 404)"
+    )

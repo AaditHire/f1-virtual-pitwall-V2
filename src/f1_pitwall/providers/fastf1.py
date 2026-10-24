@@ -34,6 +34,10 @@ from f1_pitwall.domain.replay import (
 
 log = logging.getLogger(__name__)
 _FASTF1_LOCK = Lock()  # FastF1's disk-cache configuration is process-global.
+# F1 often sends LastLapTime as its own packet next to the NumberOfLaps increment (observed
+# up to 0.34 s apart in 2021). A lap takes over a minute, so a time this close can only
+# belong to the crossing it sits beside.
+LAP_TIME_PAIRING_SECONDS = 1.0
 
 
 def fetch_stream(path: str, topic: str, settings: Settings) -> list:
@@ -42,8 +46,9 @@ def fetch_stream(path: str, topic: str, settings: Settings) -> list:
     import requests
     from fastf1 import _api
 
-    last_error = None
+    failures = []
     for base in (_api.base_url, _api.base_url_mirror):
+        last_error = None
         for attempt in range(settings.retries + 1):
             try:
                 response = fastf1.Cache.requests_get(
@@ -68,7 +73,16 @@ def fetch_stream(path: str, topic: str, settings: Settings) -> list:
                         if delay is None or delay > 10:
                             break
                     time.sleep(delay)
-    raise ValueError(f"archive stream unavailable: {topic} ({last_error})")
+        failures.append(_failure(base, last_error))
+    # F1's archive answers 403 to many cloud hosts and the mirror only holds older seasons, so
+    # report both; the last error alone hides why the primary source failed.
+    raise ValueError(f"archive stream unavailable: {topic} ({'; '.join(failures)})")
+
+
+def _failure(base: str, error: Exception | None) -> str:
+    response = getattr(error, "response", None)
+    reason = f"HTTP {response.status_code}" if response is not None else type(error).__name__
+    return f"{urlsplit(base).netloc} {reason}"
 
 
 def seconds(value: str) -> float:
@@ -159,6 +173,7 @@ def roster(records, started_at: float) -> tuple[list[Participant], dict[str, str
 def normalize_timing(records, ids, started_at):
     timing, laps, pits = [], [], []
     counts, in_pit, open_pit = {}, {}, {}
+    untimed, early = {}, {}  # index of a crossing still waiting for its time; time seen just before
     for stamp, update in sorted(records, key=lambda r: seconds(r[0])):
         at = seconds(stamp)
         for number, row in update.get("Lines", {}).items():
@@ -196,10 +211,14 @@ def normalize_timing(records, ids, started_at):
                         pits.append(PitStop(driver_id=driver_id, entered_at=entered, exited_at=at))
                 in_pit[number] = current
             count = integer(row.get("NumberOfLaps"))
+            duration = lap_duration(row.get("LastLapTime", {}).get("Value"))
             if count is not None and count > counts.get(number, 0) and at >= started_at:
                 counts[number] = count
-                lap_time = row.get("LastLapTime", {}).get("Value")
-                duration = lap_duration(lap_time)
+                if duration is None and number in early:
+                    seen_at, early_duration = early[number]
+                    if at - seen_at <= LAP_TIME_PAIRING_SECONDS:
+                        duration = early_duration
+                early.pop(number, None)
                 laps.append(
                     LapData(
                         driver_id=driver_id,
@@ -209,7 +228,19 @@ def normalize_timing(records, ids, started_at):
                         lap_time_seconds=duration,
                     )
                 )
-            # Never attach an unnumbered late lap-time packet to an inferred lap.
+                untimed[number] = len(laps) - 1 if duration is None else None
+            elif duration is not None:
+                index = untimed.get(number)
+                if index is not None and at - laps[index].completed_at <= LAP_TIME_PAIRING_SECONDS:
+                    # Publish the crossing with its time when the time arrives. Delaying it by under
+                    # a second never leaks the future, and the lap's cutoff then includes its time.
+                    laps[index] = laps[index].model_copy(
+                        update={"available_at": at, "lap_time_seconds": duration}
+                    )
+                    untimed[number] = None
+                else:
+                    early[number] = (at, duration)
+            # A lap-time packet further from any crossing stays unattached: it is ambiguous.
     for number, entered in open_pit.items():
         if entered >= started_at:
             pits.append(PitStop(driver_id=ids[number], entered_at=entered))
