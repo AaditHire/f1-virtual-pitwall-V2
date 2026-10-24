@@ -1,11 +1,16 @@
+import asyncio
 import json
 import logging
 import re
+import time
 import unicodedata
 from datetime import datetime, timedelta
 
+import httpx
 from pydantic import BaseModel
 
+from f1_pitwall.core.config import Settings
+from f1_pitwall.core.exceptions import ProviderError
 from f1_pitwall.domain.enums import SessionType
 from f1_pitwall.domain.live import LiveSession
 from f1_pitwall.domain.models import Driver, Event, GridEntry, Session
@@ -26,6 +31,53 @@ class Weekend(BaseModel):
     circuit_name: str
     locality: str
     sessions: list[Session]
+
+
+UNAUTHORIZED_HINT = (
+    "OpenF1 serves live session data only to authenticated sponsor accounts; "
+    "set F1_OPENF1_USERNAME and F1_OPENF1_PASSWORD"
+)
+
+
+class OpenF1Auth:
+    """OAuth2 password-grant bearer token for OpenF1 real-time data, refreshed before expiry."""
+
+    def __init__(self, client: httpx.AsyncClient, settings: Settings):
+        if not settings.openf1_username or settings.openf1_password is None:
+            raise ValueError("OpenF1 credentials are not configured")
+        self.client, self.settings = client, settings
+        self._token: str | None = None
+        self._expires = 0.0
+        self._lock = asyncio.Lock()
+
+    async def headers(self) -> dict[str, str]:
+        async with self._lock:
+            if self._token is None or self._expires <= time.monotonic():
+                await self._login()
+            return {"Authorization": f"Bearer {self._token}"}
+
+    def invalidate(self) -> None:
+        self._token, self._expires = None, 0.0
+
+    async def _login(self) -> None:
+        try:
+            response = await self.client.post(
+                self.settings.openf1_token_url,
+                data={
+                    "username": self.settings.openf1_username,
+                    "password": self.settings.openf1_password.get_secret_value(),
+                },
+                timeout=self.settings.timeout,
+            )
+            response.raise_for_status()
+            body = response.json()
+            token, lifetime = body["access_token"], float(body.get("expires_in", 3600))
+        except httpx.HTTPStatusError as exc:
+            raise ProviderError("openf1", f"login failed: HTTP {exc.response.status_code}") from exc
+        except (httpx.HTTPError, ValueError, KeyError, TypeError) as exc:
+            raise ProviderError("openf1", f"login failed: {type(exc).__name__}") from exc
+        # Refresh a minute early so a request never carries a token that expires mid-flight.
+        self._token, self._expires = token, time.monotonic() + max(lifetime - 60, 30)
 
 
 class OpenF1:

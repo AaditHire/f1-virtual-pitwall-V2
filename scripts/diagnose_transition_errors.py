@@ -51,9 +51,7 @@ def collect_rows(cases):
     rows = []
     for case in cases["PIT_NOW"]:
         predicted, trace, outcome, result = _raw_prediction(case)
-        improved_pace = estimate_multi_lap_relative_pace(
-            case["context"], case["driver_id"]
-        )
+        improved_pace = estimate_multi_lap_relative_pace(case["context"], case["driver_id"])
         baseline_pace = outcome.components.get("relative_pace_seconds_per_lap")
         current_gap = case["context"].driver(case["driver_id"]).gap_to_leader
         previous_predicted = previous_actual = 0.0
@@ -115,12 +113,8 @@ def collect_rows(cases):
                 ],
                 "actual_pit_loss": case["actual_transition"]["pit_loss_seconds"],
                 "baseline_relative_pace": baseline_pace,
-                "improved_relative_pace": improved_pace[
-                    "expected_relative_pace_seconds_per_lap"
-                ],
-                "improved_pace_uncertainty": improved_pace[
-                    "uncertainty_seconds_per_lap"
-                ],
+                "improved_relative_pace": improved_pace["expected_relative_pace_seconds_per_lap"],
+                "improved_pace_uncertainty": improved_pace["uncertainty_seconds_per_lap"],
                 "improved_pace_evidence": improved_pace,
                 "predicted_position": positions.get(checkpoint),
                 "actual_position": actual.get("position"),
@@ -227,9 +221,7 @@ def build_report():
     development = collect_factual_cases(development_races)
     validation = collect_factual_cases(validation_races)
     attach_chronological_profiles(development, prior_races + development_races)
-    attach_chronological_profiles(
-        validation, prior_races + development_races + validation_races
-    )
+    attach_chronological_profiles(validation, prior_races + development_races + validation_races)
     development_rows = collect_rows(development)
     validation_rows = collect_rows(validation)
     fitted = calibration(development_rows)

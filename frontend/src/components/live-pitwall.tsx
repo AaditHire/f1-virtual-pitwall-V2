@@ -6,7 +6,8 @@ import { ChevronDown, RefreshCw, Sun } from "lucide-react";
 import { getLiveDriver, getLivePitWall, getLiveRace, getLiveStatus } from "@/lib/api/live";
 import { getRaceControl, getWeather } from "@/lib/api/weekend";
 import type { CurrentPitWall, LiveRace, LiveStatus, PitWallAlert, PitWallDriver, RaceControlResponse, WeatherResponse } from "@/lib/api/types";
-import { driverCode, fmtNumber, fmtTime } from "@/lib/format";
+import { driverCode, fmtNumber } from "@/lib/format";
+import { LocalTime } from "./local-time";
 import { CompoundBadge } from "./compound-badge";
 import { DriverEngineeringAnalysis } from "./driver-engineering-analysis";
 import { ReplayStrategy } from "./replay-strategy";
@@ -102,9 +103,13 @@ export function LivePitWall({ initialStatus, initialRace = null, initialPitwall 
     let timer: ReturnType<typeof setTimeout>;
     const active = status.live || status.availability === "DELAYED_AVAILABLE";
     const delay = active ? pollIntervalMs : Math.max(pollIntervalMs, 30_000);
-    const tick = async () => { await refresh(); if (!stopped) timer = setTimeout(tick, delay); };
+    let running = false;
+    const tick = async () => { running = true; await refresh(); running = false; if (!stopped) timer = setTimeout(tick, delay); };
     timer = setTimeout(tick, delay);
-    return () => { stopped = true; clearTimeout(timer); };
+    // Polling skips hidden tabs, so catch up as soon as the tab is shown again.
+    const onVisible = () => { if (!document.hidden && !stopped && !running) { clearTimeout(timer); void tick(); } };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => { stopped = true; clearTimeout(timer); document.removeEventListener("visibilitychange", onVisible); };
   }, [pollIntervalMs, refresh, status.availability, status.live]);
 
   useEffect(() => {
@@ -134,7 +139,7 @@ export function LivePitWall({ initialStatus, initialRace = null, initialPitwall 
   const fieldAlerts = useMemo(() => (pitwall?.snapshot?.alerts ?? []).filter((alert) => alert.driver_id !== selected), [pitwall?.snapshot?.alerts, selected]);
   const operational = status.live || status.availability === "DELAYED_AVAILABLE";
 
-  if (!operational) return <div className="page"><header className="pitwall-offline-head"><div><span className="round-label">Live pit wall</span><h1>Session offline</h1></div><Status value={status.session_status}/><button className="icon-button" onClick={refresh} disabled={refreshing}><RefreshCw size={15}/>{refreshing ? "Refreshing" : "Refresh"}</button></header>{refreshError ? <div className="inline-alert" role="alert">Refresh issue · {refreshError}</div> : null}<section className="offline-state"><span className="experimental">Strategy · experimental</span><h2>{status.next_session?.session.name ?? "No live timing feed"}</h2><p>{status.reason ?? "Live strategy analysis activates when the provider reports an active session."}</p>{status.next_session ? <div className="offline-next"><span>Next session</span><strong>{status.next_session.event.name}</strong><time>{fmtTime(status.next_session.session.start)}</time></div> : null}<div className="offline-actions"><Link className="button-link button-primary" href="/weekend">View weekend</Link><span>Provider state · {status.availability.replaceAll("_", " ")}</span></div><div className="freshness-line"><Status value={status.freshness.state}/><span>Source · {status.provider}</span><span>Updated · {fmtTime(status.freshness.retrieved_at)}</span></div></section></div>;
+  if (!operational) return <div className="page"><header className="pitwall-offline-head"><div><span className="round-label">Live pit wall</span><h1>Session offline</h1></div><Status value={status.session_status}/><button className="icon-button" onClick={refresh} disabled={refreshing}><RefreshCw size={15}/>{refreshing ? "Refreshing" : "Refresh"}</button></header>{refreshError ? <div className="inline-alert" role="alert">Refresh issue · {refreshError}</div> : null}<section className="offline-state"><span className="experimental">Strategy · experimental</span><h2>{status.next_session?.session.name ?? "No live timing feed"}</h2><p>{status.reason ?? "Live strategy analysis activates when the provider reports an active session."}</p>{status.next_session ? <div className="offline-next"><span>Next session</span><strong>{status.next_session.event.name}</strong><LocalTime value={status.next_session.session.start} /></div> : null}<div className="offline-actions"><Link className="button-link button-primary" href="/weekend">View weekend</Link><span>Provider state · {status.availability.replaceAll("_", " ")}</span></div><div className="freshness-line"><Status value={status.freshness.state}/><span>Source · {status.provider}</span><span>Updated · <LocalTime value={status.freshness.retrieved_at} /></span></div></section></div>;
 
   const trackState = race?.track_status ?? pitwall?.snapshot?.race_status ?? "UNKNOWN";
   const strategyFreshness = detailOutdated ? pitwall?.data_freshness ?? status.freshness : detail?.data_freshness ?? pitwall?.data_freshness ?? status.freshness;
@@ -165,6 +170,6 @@ export function LivePitWall({ initialStatus, initialRace = null, initialPitwall 
         <section className="alerts-panel"><div className="section-header"><h2>Field engineering feed</h2><span>{fieldAlerts.length} active</span></div><Feed alerts={fieldAlerts}/></section>
       </> : <EmptyRow>Select a driver to inspect.</EmptyRow>}</section>
     </div>
-    <aside className="pitwall-support"><section><div className="support-title"><Sun/><span>Weather</span></div>{weather?.weather ? <dl className="support-weather"><div><dt>Air</dt><dd>{weather.weather.air_temperature_c ?? "—"}°C</dd></div><div><dt>Track</dt><dd>{weather.weather.track_temperature_c ?? "—"}°C</dd></div><div><dt>Humidity</dt><dd>{weather.weather.humidity_percent ?? "—"}%</dd></div><div><dt>Wind</dt><dd>{weather.weather.wind_speed ?? "—"}</dd></div></dl> : <EmptyRow>Weather unavailable.</EmptyRow>}</section><section className="support-control"><div className="support-title"><span>Race control</span></div>{control?.messages.length ? <ul>{control.messages.slice(0, 5).map((message, index) => <li key={`${message.timestamp}-${index}`}><time>{fmtTime(message.timestamp)}</time><b>{message.flag ?? message.category ?? "INFO"}</b><span>{message.message}</span></li>)}</ul> : <EmptyRow>No race control messages.</EmptyRow>}</section><section className="track-status"><span>Track status</span><strong>{trackState}</strong><small>{status.session_status}</small></section></aside>
+    <aside className="pitwall-support"><section><div className="support-title"><Sun/><span>Weather</span></div>{weather?.weather ? <dl className="support-weather"><div><dt>Air</dt><dd>{weather.weather.air_temperature_c ?? "—"}°C</dd></div><div><dt>Track</dt><dd>{weather.weather.track_temperature_c ?? "—"}°C</dd></div><div><dt>Humidity</dt><dd>{weather.weather.humidity_percent ?? "—"}%</dd></div><div><dt>Wind</dt><dd>{weather.weather.wind_speed ?? "—"}</dd></div></dl> : <EmptyRow>Weather unavailable.</EmptyRow>}</section><section className="support-control"><div className="support-title"><span>Race control</span></div>{control?.messages.length ? <ul>{control.messages.slice(0, 5).map((message, index) => <li key={`${message.timestamp}-${index}`}><LocalTime value={message.timestamp} /><b>{message.flag ?? message.category ?? "INFO"}</b><span>{message.message}</span></li>)}</ul> : <EmptyRow>No race control messages.</EmptyRow>}</section><section className="track-status"><span>Track status</span><strong>{trackState}</strong><small>{status.session_status}</small></section></aside>
   </div>;
 }

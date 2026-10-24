@@ -20,7 +20,7 @@ function immutableGet<T>(path: string): Promise<T> {
 }
 
 export const getReplaySeasons = () => apiGet<Season[]>("/api/v1/seasons");
-export const getReplayEvents = (year: number) => apiGet<Event[]>(`/api/v1/seasons/${year}/calendar?timezone=Asia/Kolkata`);
+export const getReplayEvents = (year: number) => apiGet<Event[]>(`/api/v1/seasons/${year}/calendar`);
 export const getReplayLaps = (year: number, round: number) => immutableGet<ReplayAvailableLaps>(`/api/v1/replay/${year}/${round}/laps`);
 export const getReplayState = (year: number, round: number, lap: number) => immutableGet<ReplayRaceState>(`/api/v1/replay/${year}/${round}/${lap}`);
 export const getReplayDriverAnalysis = (year: number, round: number, lap: number, driverId: string) => immutableGet<DriverAnalysis>(`/api/v1/analysis/${year}/${round}/${lap}/drivers/${encodeURIComponent(driverId)}`);

@@ -236,12 +236,8 @@ async def test_simulation_api_get_post_and_errors(analysis_history):
 
 def test_probabilistic_kernel_is_reproducible_and_widens(analysis_history):
     race = strategy_history(analysis_history)
-    first = rollout_action(
-        AnalysisContext(race, 22), "d0", "PIT_NOW_HARD", 100, 73, "PERSISTENT"
-    )
-    second = rollout_action(
-        AnalysisContext(race, 22), "d0", "PIT_NOW_HARD", 100, 73, "PERSISTENT"
-    )
+    first = rollout_action(AnalysisContext(race, 22), "d0", "PIT_NOW_HARD", 100, 73, "PERSISTENT")
+    second = rollout_action(AnalysisContext(race, 22), "d0", "PIT_NOW_HARD", 100, 73, "PERSISTENT")
     assert first == second
     assert first.trajectory_count == 100
     assert first.transitions[0].transition_phases == ["PIT_ENTRY", "PIT_TRANSIT", "PIT_EXIT"]
@@ -249,16 +245,12 @@ def test_probabilistic_kernel_is_reproducible_and_widens(analysis_history):
     assert widths[0] < widths[1] < widths[2]
     assert all(row.position_range_80 is not None for row in first.outcomes)
     assert first.components["seconds_gap_fabricated"] is False
-    assert first.components["whole_race_safety_policy"]["OUT_OF_DOMAIN"].startswith(
-        "stop precise"
-    )
+    assert first.components["whole_race_safety_policy"]["OUT_OF_DOMAIN"].startswith("stop precise")
 
 
 def test_kernel_supports_extend_and_preserves_lap_deficit(analysis_history):
     race = strategy_history(analysis_history)
-    extend = rollout_action(
-        AnalysisContext(race, 22), "d0", "EXTEND_3", 100, 9, "INDEPENDENT"
-    )
+    extend = rollout_action(AnalysisContext(race, 22), "d0", "EXTEND_3", 100, 9, "INDEPENDENT")
     assert extend.kind == "EXTEND"
     assert extend.transitions[3].transition_phases == ["PIT_ENTRY", "PIT_TRANSIT", "PIT_EXIT"]
 
@@ -270,9 +262,7 @@ def test_kernel_supports_extend_and_preserves_lap_deficit(analysis_history):
     )
     latest.gap_to_leader = None
     latest.laps_behind = 1
-    result = rollout_action(
-        AnalysisContext(lapped, 22), "d1", "PIT_NOW_HARD", 100, 2, "PERSISTENT"
-    )
+    result = rollout_action(AnalysisContext(lapped, 22), "d1", "PIT_NOW_HARD", 100, 2, "PERSISTENT")
     assert all(row.median_relative_delta_seconds is None for row in result.outcomes)
     assert all(row.position_range_80 is not None for row in result.outcomes)
     assert result.components["seconds_gap_fabricated"] is False
@@ -281,9 +271,7 @@ def test_kernel_supports_extend_and_preserves_lap_deficit(analysis_history):
 async def test_transition_kernel_api(analysis_history):
     app = create_app()
     async with app.router.lifespan_context(app):
-        app.state.hub.replay.load_race = AsyncMock(
-            return_value=strategy_history(analysis_history)
-        )
+        app.state.hub.replay.load_race = AsyncMock(return_value=strategy_history(analysis_history))
         body = {
             "year": 2024,
             "round": 1,

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Activity, CalendarDays, Flag, Gauge, History, Home, Menu, Newspaper, Trophy, X } from "lucide-react";
 import { useState } from "react";
 import { ConnectionIndicator } from "./connection-indicator";
+import { ZoneLabel } from "./local-time";
 
 const links = [
   ["Home", "/"], ["Weekend", "/weekend"], ["Live Pit Wall", "/pitwall"],
@@ -27,10 +28,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {links.map(([label, href]) => <Link key={href} href={href} className={pathname === href ? "active" : ""} onClick={() => setOpen(false)}>{label}</Link>)}
       </nav>
       <ConnectionIndicator />
-      <div className="topbar-clock"><Activity size={14}/><span>All times IST</span></div>
+      <div className="topbar-clock"><Activity size={14}/><span><ZoneLabel /></span></div>
     </header>
     <main>{children}</main>
-    <footer className="footer"><b><Flag size={13}/> Virtual Pit Wall</b><span>Real insights. Deeper racing.</span><span>All times Asia/Kolkata</span></footer>
+    <footer className="footer"><b><Flag size={13}/> Virtual Pit Wall</b><span>Real insights. Deeper racing.</span><span><ZoneLabel full /></span></footer>
     <nav className="mobile-nav" aria-label="Mobile navigation">{mobileLinks.map(([label, href, Icon]) => <Link key={href} href={href} className={pathname === href ? "active" : ""}><Icon aria-hidden="true"/><span>{label}</span></Link>)}</nav>
   </div>;
 }

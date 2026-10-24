@@ -5,6 +5,7 @@ from collections import OrderedDict
 from datetime import UTC, datetime
 from email.utils import parsedate_to_datetime
 from functools import wraps
+from typing import Protocol
 
 import httpx
 from pydantic import ValidationError
@@ -16,11 +17,25 @@ from f1_pitwall.domain.models import DataSourceStatus
 log = logging.getLogger(__name__)
 
 
+class ProviderAuth(Protocol):
+    async def headers(self) -> dict[str, str]: ...
+
+    def invalidate(self) -> None: ...
+
+
 class ProviderHTTP:
     """Bounded TTL cache, shared in-flight requests, rate pacing, transient GET retries."""
 
-    def __init__(self, name: str, client: httpx.AsyncClient, settings: Settings):
+    def __init__(
+        self,
+        name: str,
+        client: httpx.AsyncClient,
+        settings: Settings,
+        auth: ProviderAuth | None = None,
+        unauthorized_hint: str | None = None,
+    ):
         self.name, self.client, self.settings = name, client, settings
+        self.auth, self.unauthorized_hint = auth, unauthorized_hint
         self.status = DataSourceStatus(provider=name)
         self.cache: OrderedDict[str, tuple[float, bytes]] = OrderedDict()
         # Pacing only spaces out request starts; it is never held across a request or a retry.
@@ -70,7 +85,10 @@ class ProviderHTTP:
         for attempt in range(self.settings.retries + 1):
             await self._pace()
             try:
-                response = await self.client.get(url, params=params, timeout=self.settings.timeout)
+                headers = await self.auth.headers() if self.auth else None
+                response = await self.client.get(
+                    url, params=params, headers=headers, timeout=self.settings.timeout
+                )
                 no_results = False
                 if empty_on_no_results and response.status_code == 404:
                     try:
@@ -89,6 +107,14 @@ class ProviderHTTP:
                         if isinstance(exc, httpx.HTTPStatusError)
                         else type(exc).__name__
                     )
+                    if isinstance(exc, httpx.HTTPStatusError) and exc.response.status_code in (
+                        401,
+                        403,
+                    ):
+                        if self.auth:
+                            self.auth.invalidate()  # The next request logs in again.
+                        if self.unauthorized_hint:
+                            message = f"{message}: {self.unauthorized_hint}"
                     raise self.fail(key, message) from exc
                 delay = 0.5 * 2**attempt
                 if isinstance(exc, httpx.HTTPStatusError):

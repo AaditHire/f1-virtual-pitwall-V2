@@ -199,9 +199,7 @@ def main():
             "by_traffic_level": grouped_metrics(
                 validation, ridge_estimates, baseline_estimates, "traffic_level"
             ),
-            "worst_cases": worst_cases(validation, ridge_estimates)
-            if horizon == 5
-            else [],
+            "worst_cases": worst_cases(validation, ridge_estimates) if horizon == 5 else [],
         }
     result["decision"] = (
         "reject"

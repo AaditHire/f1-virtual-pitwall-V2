@@ -164,11 +164,8 @@ def average(rows, key):
 
 
 def policy_metrics(rows, key):
-    decisive = [
-        row
-        for row in rows
-        if row[key] == "PIT_NOW" or str(row[key]).startswith("EXTEND")
-    ]
+    decisive = [row for row in rows if row[key] == "PIT_NOW" or str(row[key]).startswith("EXTEND")]
+
     def aligned_with_observed(row):
         recommendation = row[key]
         if recommendation == "PIT_NOW":
@@ -203,12 +200,10 @@ def policy_metrics(rows, key):
         "samples": len(rows),
         "decisive": len(decisive),
         "decision_coverage": len(decisive) / len(rows) if rows else None,
-        "hold_frequency": sum(row[key] == "HOLD_NO_CLEAR_ADVANTAGE" for row in rows)
-        / len(rows)
+        "hold_frequency": sum(row[key] == "HOLD_NO_CLEAR_ADVANTAGE" for row in rows) / len(rows)
         if rows
         else None,
-        "insufficient_frequency": sum(row[key] == "INSUFFICIENT_DATA" for row in rows)
-        / len(rows)
+        "insufficient_frequency": sum(row[key] == "INSUFFICIENT_DATA" for row in rows) / len(rows)
         if rows
         else None,
         "recommendations": dict(Counter(row[key] for row in rows)),
@@ -261,9 +256,7 @@ def pit_rejoin_rows(races):
         for stop in race.pit_stops:
             prior = [lap for lap, cutoff in cuts.items() if cutoff < stop.entered_at]
             after = [
-                lap
-                for lap, cutoff in cuts.items()
-                if stop.exited_at and cutoff >= stop.exited_at
+                lap for lap, cutoff in cuts.items() if stop.exited_at and cutoff >= stop.exited_at
             ]
             if not prior or not after:
                 continue
@@ -272,9 +265,9 @@ def pit_rejoin_rows(races):
             predicted = predict_pit_rejoin(
                 stop.driver_id, current.state, estimate_pit_loss(current)
             )
-            actual_position = cached_context(contexts, race, outcome_lap).driver(
-                stop.driver_id
-            ).position
+            actual_position = (
+                cached_context(contexts, race, outcome_lap).driver(stop.driver_id).position
+            )
             if not predicted.position_range or actual_position is None:
                 continue
             lower, upper = predicted.position_range
@@ -366,11 +359,7 @@ if __name__ == "__main__":
                 "validation": report["validation"]["policies"],
                 "validation_by_grid_region": report["validation"]["engine_by_grid_region"],
                 "pit_rejoin_validation": {
-                    split: {
-                        key: value
-                        for key, value in result.items()
-                        if key != "rows"
-                    }
+                    split: {key: value for key, value in result.items() if key != "rows"}
                     for split, result in report["pit_rejoin_validation"].items()
                 },
                 "backmarkers": report["backmarker_validation"],

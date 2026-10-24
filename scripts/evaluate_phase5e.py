@@ -96,9 +96,9 @@ def collect_records(races, prior_races):
                     "kind": kind,
                     "action": case["action"],
                     "grid_region": grid_region(case["position"]),
-                    "gap_kind": "LAP_DEFICIT" if current.lapped else (
-                        "TIME" if current.gap_to_leader is not None else "UNKNOWN"
-                    ),
+                    "gap_kind": "LAP_DEFICIT"
+                    if current.lapped
+                    else ("TIME" if current.gap_to_leader is not None else "UNKNOWN"),
                     "context": context,
                     "full_race": full_races[case["race"]],
                     "outcomes": outcomes,
@@ -111,11 +111,7 @@ def residual_curve(record):
     residuals = {}
     for horizon in HORIZONS:
         row = record["outcomes"][horizon]
-        if (
-            row["actual_delta"] is None
-            or row["deterministic_delta"] is None
-            or not row["green"]
-        ):
+        if row["actual_delta"] is None or row["deterministic_delta"] is None or not row["green"]:
             return None
         residuals[horizon] = row["actual_delta"] - row["deterministic_delta"]
     cumulative = [
@@ -165,14 +161,15 @@ def fit_artifact(records):
     }
 
 
-def score_records(
-    records, error_model, trajectories=100, artifact_override=None, seed_offset=0
-):
+def score_records(records, error_model, trajectories=100, artifact_override=None, seed_offset=0):
     rows = []
     for record in records:
-        seed = zlib.crc32(
-            f"{record['race']}:{record['lap']}:{record['driver_id']}:{record['action']}".encode()
-        ) + seed_offset
+        seed = (
+            zlib.crc32(
+                f"{record['race']}:{record['lap']}:{record['driver_id']}:{record['action']}".encode()
+            )
+            + seed_offset
+        )
         rollout = rollout_action(
             record["context"],
             record["driver_id"],
@@ -253,15 +250,11 @@ def metrics(rows, prediction="rollout"):
         "timed_samples": len(timed),
         "mae_seconds": mean(abs(value) for value in errors) if errors else None,
         "bias_seconds": mean(errors) if errors else None,
-        "p90_absolute_error_seconds": upper_quantile(
-            [abs(value) for value in errors], 0.9
-        )
+        "p90_absolute_error_seconds": upper_quantile([abs(value) for value in errors], 0.9)
         if errors
         else None,
         "position_samples": len(positioned),
-        "position_mae": mean(
-            abs(row["position"] - row["actual_position"]) for row in positioned
-        )
+        "position_mae": mean(abs(row["position"] - row["actual_position"]) for row in positioned)
         if positioned
         else None,
     }
@@ -269,19 +262,21 @@ def metrics(rows, prediction="rollout"):
         for level in (50, 80, 90):
             key = f"interval_{level}"
             eligible = [row for row in timed if row[key] is not None]
-            result[f"coverage_{level}"] = mean(
-                interval_contains(row[key], row["actual"]) for row in eligible
-            ) if eligible else None
-            result[f"mean_width_{level}_seconds"] = mean(
-                row[key][1] - row[key][0] for row in eligible
-            ) if eligible else None
+            result[f"coverage_{level}"] = (
+                mean(interval_contains(row[key], row["actual"]) for row in eligible)
+                if eligible
+                else None
+            )
+            result[f"mean_width_{level}_seconds"] = (
+                mean(row[key][1] - row[key][0] for row in eligible) if eligible else None
+            )
             pkey = f"position_range_{level}"
-            pos_eligible = [
-                row for row in positioned if row[pkey] is not None
-            ]
-            result[f"position_coverage_{level}"] = mean(
-                interval_contains(row[pkey], row["actual_position"]) for row in pos_eligible
-            ) if pos_eligible else None
+            pos_eligible = [row for row in positioned if row[pkey] is not None]
+            result[f"position_coverage_{level}"] = (
+                mean(interval_contains(row[pkey], row["actual_position"]) for row in pos_eligible)
+                if pos_eligible
+                else None
+            )
     return result
 
 
@@ -295,7 +290,9 @@ def report_rows(rows):
             "probabilistic_rollout": metrics(selected),
         }
     for dimension, target in (
-        ("kind", "by_action"), ("grid_region", "by_grid_region"), ("circuit", "by_circuit")
+        ("kind", "by_action"),
+        ("grid_region", "by_grid_region"),
+        ("circuit", "by_circuit"),
     ):
         for value in sorted({row[dimension] for row in rows}):
             report[target][value] = {
@@ -306,11 +303,7 @@ def report_rows(rows):
                 }
                 for horizon in HORIZONS
                 for selected in (
-                    [
-                        row
-                        for row in rows
-                        if row[dimension] == value and row["horizon"] == horizon
-                    ],
+                    [row for row in rows if row[dimension] == value and row["horizon"] == horizon],
                 )
             }
     return report

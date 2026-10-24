@@ -985,9 +985,7 @@ class SimulationService:
         def operation(context):
             if action not in legal_counterfactual_actions(context, driver_id):
                 raise NotFound(f"Action {action} is not legal at this snapshot")
-            return rollout_action(
-                context, driver_id, action, trajectory_count, seed, error_model
-            )
+            return rollout_action(context, driver_id, action, trajectory_count, seed, error_model)
 
         return await self._run(year, round, lap, operation)
 

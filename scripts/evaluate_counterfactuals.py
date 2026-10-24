@@ -267,11 +267,7 @@ def collect_factual_cases(races):
         full_stop_samples, _ = observed_pit_samples(full_context)
         timing_by_driver = {
             participant.driver.id: sorted(
-                (
-                    sample
-                    for sample in race.timing
-                    if sample.driver_id == participant.driver.id
-                ),
+                (sample for sample in race.timing if sample.driver_id == participant.driver.id),
                 key=lambda sample: sample.at,
             )
             for participant in race.participants
@@ -369,9 +365,7 @@ def collect_factual_cases(races):
                     "actual_transition_path": {
                         name: {
                             "target_lap": target,
-                            **timing_values_at(
-                                timing_by_driver[stop.driver_id], cuts[target]
-                            ),
+                            **timing_values_at(timing_by_driver[stop.driver_id], cuts[target]),
                             "stable_gap_reference": stable_gap_reference(
                                 race,
                                 current,
@@ -990,9 +984,7 @@ def build_report():
         development_policy_rows,
         development_exclusions,
         development_backmarker_exclusions,
-    ) = policy_rows(
-        development_races, calibration, threshold, prior_races + development_races
-    )
+    ) = policy_rows(development_races, calibration, threshold, prior_races + development_races)
     validation_policy_rows, validation_exclusions, validation_backmarker_exclusions = policy_rows(
         validation_races,
         calibration,
@@ -1055,9 +1047,7 @@ def build_report():
         "pit_error_diagnosis": {
             "phase5_before_grouped_validation": grouped_pit_error(baseline_validation),
             "phase5b_after_grouped_validation": grouped_pit_error(validation_factual),
-            "phase5c_selected_grouped_validation": grouped_pit_error(
-                selected_validation_factual
-            ),
+            "phase5c_selected_grouped_validation": grouped_pit_error(selected_validation_factual),
             "phase5_factual_pit_cases": pit_case_records(baseline_validation),
             "phase5b_factual_pit_cases": pit_case_records(validation_factual),
             "interpretation": (

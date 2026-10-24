@@ -8,7 +8,7 @@ import pytest
 from f1_pitwall.core.exceptions import ProviderError
 from f1_pitwall.domain.live import LiveSession, LiveTimingBundle
 from f1_pitwall.domain.pitwall import PitWallSnapshot
-from f1_pitwall.services.live import LiveService, freshness
+from f1_pitwall.services.live import LiveService, driver_reference, freshness
 
 
 def live_fixture(now: datetime, *, tyres=True, weather=True, positions=True):
@@ -130,7 +130,7 @@ async def test_live_normalizes_observed_full_grid_without_fabrication():
     bundle = live_fixture(now)
     live = service(now, bundle)
     history = await live.history(bundle)
-    assert history and {p.driver.id for p in history.participants} == {"one", "two"}
+    assert history and {p.driver.id for p in history.participants} == {"f1:ONEDRI01", "f1:TWODRI01"}
     response = await live.race()
     assert response.live and response.availability == "LIVE_AVAILABLE"
     assert response.lap == 4 and len(response.drivers) == 2
@@ -203,3 +203,15 @@ def test_recorded_recent_live_archive_compatibility():
     for field in ("position", "laps_completed", "compound", "stint_number", "pit_stops_completed"):
         assert report["matches"][field] == report["common_drivers"]
         assert report["missing_live"][field] == 0
+
+
+def test_live_driver_ids_match_archive_references():
+    headshot = (
+        "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/"
+        "drivers/M/MICSCH02_Mick_Schumacher/micsch02.png.transform/1col/image.png"
+    )
+    assert driver_reference({"headshot_url": headshot}, "Mick", "Schumacher") == "MICSCH02"
+    assert driver_reference({}, "Nico", "Hülkenberg") == "NICHUL01"
+    assert driver_reference({}, "Andrea Kimi", "Antonelli") == "ANDANT01"
+    assert driver_reference({}, "Nyck", "de Vries") == "NYCDEV01"
+    assert driver_reference({}, "Li", "Ng") is None

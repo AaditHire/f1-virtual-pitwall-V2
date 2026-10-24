@@ -121,6 +121,7 @@ class NewsArticle(BaseModel):
 class DataSourceStatus(BaseModel):
     provider: str
     status: Literal["not_checked", "ok", "degraded"] = "not_checked"
+    authenticated: bool | None = None
     checked_at: UTCTime | None = None
     last_success_at: UTCTime | None = None
     errors: dict[str, str] = Field(default_factory=dict)

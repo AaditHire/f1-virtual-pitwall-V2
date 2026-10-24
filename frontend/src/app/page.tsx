@@ -18,7 +18,7 @@ export default async function HomePage() {
   const sessions = weekend?.session_schedule?.length ? weekend.session_schedule : home.weekend_schedule;
   return <div className="page home-page">
     <EventFeature event={event} nextSession={home.next_session} status={weekend?.status ?? home.weekend_status} />
-    <section className="section timeline-section"><div className="section-header"><h2>Weekend sessions</h2><Link className="text-link" href="/weekend">All times IST · Full weekend →</Link></div>{sessions.length ? <SessionTimeline sessions={sessions} /> : <EmptyRow>Session schedule is not available yet.</EmptyRow>}</section>
+    <section className="section timeline-section"><div className="section-header"><h2>Weekend sessions</h2><Link className="text-link" href="/weekend">Full weekend →</Link></div>{sessions.length ? <SessionTimeline sessions={sessions} /> : <EmptyRow>Session schedule is not available yet.</EmptyRow>}</section>
     <div className="home-intelligence">
       <section className="home-news"><div className="section-header"><h2>Latest news</h2><Link className="text-link" href="/news">All news →</Link></div>{home.latest_news.length ? <EditorialNews articles={home.latest_news} /> : <EmptyRow>No news available.</EmptyRow>}</section>
       <div className="championship-band">

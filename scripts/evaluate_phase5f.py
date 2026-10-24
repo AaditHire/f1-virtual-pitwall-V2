@@ -166,19 +166,13 @@ def calibration_score(report):
 def performance(rows):
     output = calibration_metrics(rows)
     for horizon in HORIZONS:
-        selected = [
-            row
-            for row in rows
-            if row["horizon"] == horizon and row["actual"] is not None
-        ]
+        selected = [row for row in rows if row["horizon"] == horizon and row["actual"] is not None]
         errors = [row["rollout"] - row["actual"] for row in selected]
         output[str(horizon)].update(
             {
                 "mae": mean(abs(value) for value in errors) if errors else None,
                 "bias": mean(errors) if errors else None,
-                "p90": quantile([abs(value) for value in errors], 0.9)
-                if errors
-                else None,
+                "p90": quantile([abs(value) for value in errors], 0.9) if errors else None,
             }
         )
     return output
@@ -202,13 +196,17 @@ def position_report(rows):
         }
         for level in (80, 90):
             intervals = [row[f"position_range_{level}"] for row in selected]
-            result[f"coverage_{level}"] = mean(
-                interval_contains(interval, row["actual_position"])
-                for interval, row in zip(intervals, selected, strict=True)
-            ) if selected else None
-            result[f"mean_width_{level}"] = mean(
-                interval[1] - interval[0] for interval in intervals
-            ) if intervals else None
+            result[f"coverage_{level}"] = (
+                mean(
+                    interval_contains(interval, row["actual_position"])
+                    for interval, row in zip(intervals, selected, strict=True)
+                )
+                if selected
+                else None
+            )
+            result[f"mean_width_{level}"] = (
+                mean(interval[1] - interval[0] for interval in intervals) if intervals else None
+            )
         output[str(horizon)] = result
     return output
 
@@ -294,11 +292,7 @@ def reliability_report(rows):
 
 def failure_modes(rows):
     selected = sorted(
-        (
-            row
-            for row in rows
-            if row["horizon"] == 5 and row["actual"] is not None
-        ),
+        (row for row in rows if row["horizon"] == 5 and row["actual"] is not None),
         key=lambda row: abs(row["rollout"] - row["actual"]),
         reverse=True,
     )[:20]
@@ -348,9 +342,7 @@ def circuit_holdout(training, development, selected_candidate):
         if selected_candidate == "current":
             factors, padding = {}, {}
         else:
-            factors, padding, _ = artifact_calibration(
-                raw_calibration, selected_candidate
-            )
+            factors, padding, _ = artifact_calibration(raw_calibration, selected_candidate)
         artifact["time_calibration_factors"] = factors
         artifact["position_calibration_padding"] = padding
         scored = score_records(test, artifact["selected_error_model"], artifact_override=artifact)
@@ -446,9 +438,7 @@ def long_horizon_rows(records, artifact, trajectories=100):
             ]
             if len(factual_laps) < horizon:
                 continue
-            actual_delta = sum(
-                lap.lap_time_seconds - reference[lap.number] for lap in factual_laps
-            )
+            actual_delta = sum(lap.lap_time_seconds - reference[lap.number] for lap in factual_laps)
             samples = [path[horizon] for path in paths]
             midpoint = median(samples)
             interval80 = (quantile(samples, 0.1), quantile(samples, 0.9))
@@ -573,12 +563,8 @@ def main():
             factors, padding, counts = fit_calibration(calibrate, candidate)
             calibrated = apply_candidate(select, candidate, factors, padding, counts)
         report = calibration_metrics(calibrated)
-        pit_report = calibration_metrics(
-            [row for row in calibrated if row["kind"] == "PIT_NOW"]
-        )
-        extend_report = calibration_metrics(
-            [row for row in calibrated if row["kind"] == "EXTEND"]
-        )
+        pit_report = calibration_metrics([row for row in calibrated if row["kind"] == "PIT_NOW"])
+        extend_report = calibration_metrics([row for row in calibrated if row["kind"] == "EXTEND"])
         score = mean(
             (
                 calibration_score(report),
@@ -597,9 +583,7 @@ def main():
     if selected_candidate == "current":
         time_factors, position_padding, counts = {}, {}, {}
     else:
-        time_factors, position_padding, counts = artifact_calibration(
-            raw_dev, selected_candidate
-        )
+        time_factors, position_padding, counts = artifact_calibration(raw_dev, selected_candidate)
     artifact["calibration_method"] = selected_candidate
     artifact["time_calibration_factors"] = time_factors
     artifact["position_calibration_padding"] = position_padding
@@ -612,9 +596,7 @@ def main():
     }
     joblib.dump(artifact, ARTIFACT)
     _artifact.cache_clear()
-    final = cached_records(
-        "final", final_races, training_races + development_races + final_races
-    )
+    final = cached_records("final", final_races, training_races + development_races + final_races)
     final_rows = score_records(final, artifact["selected_error_model"], artifact_override=artifact)
     circuits, unseen_pit = circuit_holdout(training, development, selected_candidate)
     result = {
@@ -625,12 +607,8 @@ def main():
         "candidate_comparison": candidates,
         "selected_calibration": selected_candidate,
         "final_calibration": performance(final_rows),
-        "pit_calibration": performance(
-            [row for row in final_rows if row["kind"] == "PIT_NOW"]
-        ),
-        "extend_calibration": performance(
-            [row for row in final_rows if row["kind"] == "EXTEND"]
-        ),
+        "pit_calibration": performance([row for row in final_rows if row["kind"] == "PIT_NOW"]),
+        "extend_calibration": performance([row for row in final_rows if row["kind"] == "EXTEND"]),
         "position_calibration": position_report(final_rows),
         "reliability": reliability_report(final_rows),
         "selective": selective(final_rows),

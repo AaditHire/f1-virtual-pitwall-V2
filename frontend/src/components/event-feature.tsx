@@ -1,6 +1,6 @@
 import type { Event, NextSession, SessionStatus } from "@/lib/api/types";
-import { fmtTime } from "@/lib/format";
 import { Countdown } from "./countdown";
+import { LocalDateRange, LocalTime } from "./local-time";
 import { Status } from "./status";
 
 function eventDates(event?: Event | null) {
@@ -8,9 +8,7 @@ function eventDates(event?: Event | null) {
   const dates = event.sessions.map((session) => new Date(session.start ?? session.date)).filter((date) => !Number.isNaN(date.getTime()));
   const first = dates[0] ?? new Date(event.race_date);
   const last = dates.at(-1) ?? new Date(event.race_date);
-  const day = new Intl.DateTimeFormat("en-IN", { day: "2-digit", timeZone: "Asia/Kolkata" });
-  const tail = new Intl.DateTimeFormat("en-IN", { day: "2-digit", month: "short", year: "numeric", timeZone: "Asia/Kolkata" });
-  return `${day.format(first)}–${tail.format(last)}`.toUpperCase();
+  return <LocalDateRange first={first} last={last} />;
 }
 
 function TrackGlyph() {
@@ -34,7 +32,7 @@ export function EventFeature({ event, nextSession, status, mode = "home", weeken
     <div className="event-image" aria-hidden="true"><span className="event-round-watermark">{event?.round ?? "—"}</span></div>
     <div className="event-session">
       {mode === "weekend" ? <div className="event-status"><span>Event status</span><Status value={status} /></div> : null}
-      <div><span>Next session</span><strong>{nextSession?.session.name ?? "Schedule pending"}</strong><time>{fmtTime(nextSession?.session.start)}</time></div>
+      <div><span>Next session</span><strong>{nextSession?.session.name ?? "Schedule pending"}</strong><LocalTime value={nextSession?.session.start} /></div>
       {mode === "home" ? <div className="hero-countdown"><span>Time until session</span><Countdown target={nextSession?.session.start} compact /></div> : null}
     </div>
   </section>;

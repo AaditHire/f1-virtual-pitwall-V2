@@ -50,9 +50,7 @@ def _team_prior(context, driver_id):
         and item.constructor.id == driver.constructor.id
         and item.status == "active"
     ]
-    evidence = [
-        (item.driver.id, _driver_field_pace(context, item.driver.id)) for item in teammates
-    ]
+    evidence = [(item.driver.id, _driver_field_pace(context, item.driver.id)) for item in teammates]
     usable = [(identity, item) for identity, item in evidence if item["seconds"] is not None]
     values = [item["seconds"] for _, item in usable]
     return (
@@ -69,9 +67,7 @@ def estimate_field_relative_pace(context, driver_id):
     own_weight = min(3.0, float(individual["sample_count"]))
     team_weight = min(1.0, team_samples / 6) if team_seconds is not None else 0.0
     if own is not None and team_seconds is not None:
-        expected = (own * own_weight + team_seconds * team_weight) / (
-            own_weight + team_weight
-        )
+        expected = (own * own_weight + team_seconds * team_weight) / (own_weight + team_weight)
         source = "driver_normalized_pace_shrunk_to_team"
     elif own is not None:
         expected, source = own, individual["source"]

@@ -1,11 +1,15 @@
 import os
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, SecretStr
 
 
 class Settings(BaseModel):
     jolpica_url: str = "https://api.jolpi.ca/ergast/f1"
     openf1_url: str = "https://api.openf1.org/v1"
+    # OpenF1 serves real-time data only to sponsor accounts; without these, live mode is historical.
+    openf1_token_url: str = "https://api.openf1.org/token"
+    openf1_username: str | None = None
+    openf1_password: SecretStr | None = None
     timeout: float = Field(default=15, gt=0)
     retries: int = Field(default=2, ge=0, le=5)
     long_ttl: float = Field(default=3600, ge=0)

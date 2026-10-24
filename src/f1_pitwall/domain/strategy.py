@@ -7,9 +7,7 @@ from pydantic import BaseModel, Field
 from f1_pitwall.domain.analysis import Confidence, RejoinAnalysis, TrafficLevel
 from f1_pitwall.domain.models import Driver
 
-Recommendation = Literal[
-    "PIT_NOW", "EXTEND", "HOLD_NO_CLEAR_ADVANTAGE", "INSUFFICIENT_DATA"
-]
+Recommendation = Literal["PIT_NOW", "EXTEND", "HOLD_NO_CLEAR_ADVANTAGE", "INSUFFICIENT_DATA"]
 ActionKind = Literal["PIT_NOW", "EXTEND"]
 
 

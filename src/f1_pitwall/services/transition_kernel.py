@@ -113,9 +113,7 @@ def _calibrated_position_interval(
     lower, upper = _position_interval(values, level / 100)
     padding = artifact.get("position_calibration_padding", {}).get(
         f"{kind}:{horizon}:{applicability}:{level}",
-        artifact.get("position_calibration_padding", {}).get(
-            f"{kind}:{horizon}:{level}", 0
-        ),
+        artifact.get("position_calibration_padding", {}).get(f"{kind}:{horizon}:{level}", 0),
     )
     return max(1, lower - padding), min(field_size, upper + padding)
 
@@ -167,11 +165,7 @@ def _pool(artifact, kind, phase, applicability):
     grouped = pools.get(f"{phase}:{applicability}")
     values = grouped if grouped and len(grouped) >= 12 else pools.get(phase, pools["DEFAULT"])
     scale = (
-        1.0
-        if applicability in {"RELIABLE", "USABLE"}
-        else 1.5
-        if applicability == "WEAK"
-        else 2.0
+        1.0 if applicability in {"RELIABLE", "USABLE"} else 1.5 if applicability == "WEAK" else 2.0
     )
     return [float(value) * scale for value in values]
 
@@ -258,9 +252,7 @@ def rollout_action(
             for lap_index in range(1, 6):
                 phase = _phase_for_lap(kind, extension, lap_index)
                 app = applicability[1 if lap_index == 1 else 3 if lap_index <= 3 else 5]
-                residual = _sample_residual(
-                    rng, artifact, kind, phase, app, error_model, latent
-                )
+                residual = _sample_residual(rng, artifact, kind, phase, app, error_model, latent)
                 increment = deterministic_increments[lap_index - 1] + residual
                 total += increment
                 increments[trajectory][lap_index - 1] = increment
@@ -303,7 +295,9 @@ def rollout_action(
         transitions.append(
             OneLapTransition(
                 lap_index=lap_index,
-                from_phase="PIT_ENTRY" if lap_index == 1 and kind == "PIT_NOW" else (
+                from_phase="PIT_ENTRY"
+                if lap_index == 1 and kind == "PIT_NOW"
+                else (
                     _phase_after(kind, extension, lap_index - 1)
                     if lap_index > 1
                     else "NORMAL_RUNNING"

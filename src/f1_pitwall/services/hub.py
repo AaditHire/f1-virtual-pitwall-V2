@@ -9,7 +9,7 @@ from f1_pitwall.providers.fastf1 import FastF1Provider
 from f1_pitwall.providers.http import ProviderHTTP
 from f1_pitwall.providers.jolpica import Jolpica
 from f1_pitwall.providers.news import RSSProvider
-from f1_pitwall.providers.openf1 import OpenF1
+from f1_pitwall.providers.openf1 import UNAUTHORIZED_HINT, OpenF1, OpenF1Auth
 from f1_pitwall.services.analysis import AnalysisService
 from f1_pitwall.services.calendar import CalendarService
 from f1_pitwall.services.live import LiveService, freshness
@@ -27,7 +27,16 @@ from f1_pitwall.services.weekend import CurrentWeekendService
 class Hub:
     def __init__(self, client: httpx.AsyncClient, settings: Settings):
         self.jolpica = Jolpica(ProviderHTTP("jolpica", client, settings))
-        self.openf1 = OpenF1(ProviderHTTP("openf1", client, settings))
+        auth = (
+            OpenF1Auth(client, settings)
+            if settings.openf1_username and settings.openf1_password is not None
+            else None
+        )
+        openf1_http = ProviderHTTP(
+            "openf1", client, settings, auth=auth, unauthorized_hint=UNAUTHORIZED_HINT
+        )
+        openf1_http.status.authenticated = auth is not None
+        self.openf1 = OpenF1(openf1_http)
         self.seasons = SeasonService(self.jolpica)
         self.calendar = CalendarService(self.seasons, self.jolpica, self.openf1)
         self.results = ResultsService(self.seasons, self.calendar, self.jolpica, self.openf1)

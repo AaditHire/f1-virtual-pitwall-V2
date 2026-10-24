@@ -83,9 +83,7 @@ class ShortHorizonRequest(BaseModel):
 class TransitionKernelRequest(ShortHorizonRequest):
     trajectory_count: Literal[100, 500, 1000] = 100
     seed: int = 0
-    error_model: Literal["FROZEN_SELECTED", "INDEPENDENT", "PERSISTENT"] = (
-        "FROZEN_SELECTED"
-    )
+    error_model: Literal["FROZEN_SELECTED", "INDEPENDENT", "PERSISTENT"] = "FROZEN_SELECTED"
 
 
 class OneLapTransition(BaseModel):

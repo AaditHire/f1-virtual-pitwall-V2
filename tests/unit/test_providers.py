@@ -9,7 +9,7 @@ from f1_pitwall.domain.models import Driver
 from f1_pitwall.providers.http import ProviderHTTP
 from f1_pitwall.providers.jolpica import Jolpica, event
 from f1_pitwall.providers.news import RSSProvider
-from f1_pitwall.providers.openf1 import OpenF1, Weekend
+from f1_pitwall.providers.openf1 import UNAUTHORIZED_HINT, OpenF1, OpenF1Auth, Weekend
 from f1_pitwall.services.news import NewsService
 
 
@@ -292,3 +292,52 @@ async def test_rss_skips_malformed_items_and_normalizes_dates():
     assert result.articles[1].published_at.hour == 4
     assert result.articles[2].published_at is None
     assert result.provider_status[0].status == "ok"
+
+
+async def test_openf1_login_sends_bearer_token_and_relogs_after_401():
+    logins, seen = 0, []
+
+    def handler(request):
+        nonlocal logins
+        if request.url.path == "/token":
+            logins += 1
+            assert b"username=fan" in request.content and b"password=secret" in request.content
+            return httpx.Response(
+                200,
+                json={"access_token": f"t{logins}", "expires_in": "3600", "token_type": "bearer"},
+            )
+        seen.append(request.headers.get("Authorization"))
+        if request.url.path.endswith("/laps") and len(seen) == 1:
+            return httpx.Response(401)
+        return httpx.Response(200, json=[])
+
+    settings = Settings(openf1_username="fan", openf1_password="secret", retries=0)
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        http = ProviderHTTP("openf1", client, settings, auth=OpenF1Auth(client, settings))
+        provider = OpenF1(http)
+        with pytest.raises(ProviderError, match="HTTP 401"):
+            await provider.get_laps(1)
+        assert await provider.get_stints(1) == []
+    assert seen == ["Bearer t1", "Bearer t2"] and logins == 2
+    assert "secret" not in repr(settings)
+
+
+async def test_openf1_unauthorized_without_login_explains_how_to_fix():
+    async with httpx.AsyncClient(
+        transport=httpx.MockTransport(lambda r: httpx.Response(401))
+    ) as client:
+        http = ProviderHTTP(
+            "openf1", client, Settings(retries=0), unauthorized_hint=UNAUTHORIZED_HINT
+        )
+        with pytest.raises(ProviderError, match="F1_OPENF1_USERNAME"):
+            await OpenF1(http).get_laps(1)
+        assert "F1_OPENF1_USERNAME" in next(iter(http.status.errors.values()))
+
+
+async def test_openf1_failed_login_is_a_provider_error():
+    settings = Settings(openf1_username="fan", openf1_password="wrong")
+    async with httpx.AsyncClient(
+        transport=httpx.MockTransport(lambda r: httpx.Response(401))
+    ) as client:
+        with pytest.raises(ProviderError, match="login failed: HTTP 401"):
+            await OpenF1Auth(client, settings).headers()

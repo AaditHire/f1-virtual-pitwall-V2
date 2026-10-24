@@ -11,7 +11,7 @@ export interface Event { year: number; round: number; name: string; circuit: Cir
 export interface NextSession { event: Event; session: Session; seconds_until_start: number }
 export interface DriverStanding { position?: number | null; points: number; wins?: number | null; driver: Driver; constructors: Constructor[] }
 export interface ConstructorStanding { position?: number | null; points: number; wins?: number | null; constructor: Constructor }
-export interface NewsArticle { headline: string; source: string; url: string; published_at?: string | null; summary?: string | null }
+export interface NewsArticle { headline: string; source: string; url: string; published_at?: string | null; summary?: string | null; image_url?: string | null }
 export interface GridEntry { position?: number | null; driver: Driver; constructor?: Constructor | null; pit_lane?: boolean | null; source: string }
 export interface QualifyingResult { position?: number | null; driver: Driver; constructor: Constructor; q1?: string | null; q2?: string | null; q3?: string | null }
 export interface RaceResult { position?: number | null; position_text?: string | null; driver: Driver; constructor: Constructor; grid?: number | null; points?: number | null; laps?: number | null; status?: string | null; time?: string | null }

@@ -45,6 +45,19 @@ function loaders(overrides: Partial<LivePitWallLoaders> = {}): LivePitWallLoader
 afterEach(() => { vi.useRealTimers(); });
 
 describe("LivePitWall", () => {
+  it("skips polling while the tab is hidden and refreshes as soon as it is shown", async () => {
+    vi.useFakeTimers();
+    const api = loaders();
+    const hidden = vi.spyOn(document, "hidden", "get").mockReturnValue(true);
+    render(<LivePitWall initialStatus={liveStatus()} initialRace={liveRace()} initialPitwall={pitwall()} loaders={api} pollIntervalMs={50}/>);
+    await act(async () => { await vi.advanceTimersByTimeAsync(200); });
+    expect(api.status).not.toHaveBeenCalled();
+    hidden.mockReturnValue(false);
+    await act(async () => { document.dispatchEvent(new Event("visibilitychange")); await vi.advanceTimersByTimeAsync(0); });
+    expect(api.status).toHaveBeenCalledTimes(1);
+    hidden.mockRestore();
+  });
+
   it("renders honest historical-only and unavailable provider states", () => {
     const { unmount } = render(<LivePitWall initialStatus={{ ...liveStatus("HISTORICAL_ONLY"), reason: "No active session" }}/>);
     expect(screen.getByText("Session offline")).toBeInTheDocument();

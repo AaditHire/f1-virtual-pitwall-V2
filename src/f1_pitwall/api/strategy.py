@@ -17,8 +17,6 @@ async def all_drivers(year: Year, round: Round, lap: Lap, h: H):
     return await h.strategy.recommend_full_grid(year, round, lap)
 
 
-@router.get(
-    "/{year}/{round}/{lap}/drivers/{driver_id}/actions", response_model=ActionComparison
-)
+@router.get("/{year}/{round}/{lap}/drivers/{driver_id}/actions", response_model=ActionComparison)
 async def actions(year: Year, round: Round, lap: Lap, driver_id: str, h: H):
     return await h.strategy.compare_actions(year, round, lap, driver_id)

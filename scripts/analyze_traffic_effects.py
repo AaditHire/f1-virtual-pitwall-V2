@@ -42,11 +42,7 @@ def analyze(races):
         context = AnalysisContext(race, max(laps))
         timing = {
             participant.driver.id: sorted(
-                (
-                    sample
-                    for sample in race.timing
-                    if sample.driver_id == participant.driver.id
-                ),
+                (sample for sample in race.timing if sample.driver_id == participant.driver.id),
                 key=lambda sample: sample.at,
             )
             for participant in race.participants

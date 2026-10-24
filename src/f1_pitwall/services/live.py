@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import asyncio
+import re
+import unicodedata
 from datetime import UTC, datetime, timedelta
 
 from f1_pitwall.core.exceptions import ProviderError
@@ -29,8 +31,27 @@ from f1_pitwall.domain.replay import (
     Stint,
     TimingSample,
 )
+from f1_pitwall.providers.fastf1 import slug
 from f1_pitwall.providers.live import LiveTimingProvider
 from f1_pitwall.services.analysis_context import AnalysisContext
+
+
+def _letters(value: str) -> str:
+    ascii_name = unicodedata.normalize("NFKD", value).encode("ascii", "ignore").decode()
+    return re.sub(r"[^A-Za-z]", "", ascii_name).upper()
+
+
+def driver_reference(row: dict, first: str, last: str) -> str | None:
+    """The F1 timing 'Reference' (e.g. MAXVER01) that archive replay uses as the driver id.
+
+    OpenF1 headshot URLs embed it verbatim; otherwise rebuild it from the name, which matches the
+    usual first-three + last-three + '01' pattern but can miss a driver numbered '02'.
+    """
+    match = re.search(r"/([A-Z]{6}\d{2})_", row.get("headshot_url") or "")
+    if match:
+        return match[1]
+    head, tail = _letters(first)[:3], _letters(last)[:3]
+    return f"{head}{tail}01" if len(head) == 3 and len(tail) == 3 else None
 
 
 def _dt(value) -> datetime | None:
@@ -378,23 +399,27 @@ class LiveService:
         for number, row in profiles.items():
             full = row.get("full_name") or row.get("broadcast_name") or str(number)
             parts = full.strip().split(maxsplit=1)
-            identity = (row.get("name_acronym") or str(number)).casefold()
+            first = row.get("first_name") or parts[0]
+            last = row.get("last_name") or (parts[1].title() if len(parts) > 1 else "")
+            # Same id scheme as archive replay, so a driver keeps one id across replay and live.
+            reference = driver_reference(row, first, last)
+            identity = f"f1:{reference}" if reference else f"f1:{slug(f'{first} {last}')}"
+            if not reference and not last:
+                identity = f"f1:{number}"
+            if identity in ids.values():
+                identity = f"{identity}_{number}"
             ids[number] = identity
+            team = row.get("team_name")
             participants.append(
                 Participant(
                     driver=Driver(
                         id=identity,
                         number=number,
                         code=row.get("name_acronym"),
-                        first_name=parts[0],
-                        last_name=parts[1] if len(parts) > 1 else "",
+                        first_name=first,
+                        last_name=last,
                     ),
-                    constructor=Constructor(
-                        id=(row.get("team_name") or "unknown").casefold().replace(" ", "_"),
-                        name=row.get("team_name") or "Unknown",
-                    )
-                    if row.get("team_name")
-                    else None,
+                    constructor=Constructor(id=f"f1:{slug(team)}", name=team) if team else None,
                 )
             )
         laps = []
