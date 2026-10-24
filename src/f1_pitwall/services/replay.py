@@ -11,6 +11,7 @@ from f1_pitwall.domain.replay import (
 )
 from f1_pitwall.providers.fastf1 import FastF1Provider
 from f1_pitwall.providers.jolpica import Jolpica
+from f1_pitwall.providers.replay_snapshots import SnapshotStore
 from f1_pitwall.services.race_state import RaceStateBuilder, cutoff_for
 from f1_pitwall.services.season import SeasonService
 
@@ -22,8 +23,10 @@ class ReplayService:
         jolpica: Jolpica,
         provider: FastF1Provider,
         cache_size: int = 4,
+        snapshots: SnapshotStore | None = None,
     ):
         self.seasons, self.jolpica, self.provider = seasons, jolpica, provider
+        self.snapshots = snapshots
         self.cache_size = cache_size
         self._cache: OrderedDict[tuple[int, int], HistoricalRace] = OrderedDict()
         # One shared load per race; loads of different races never wait for each other.
@@ -48,11 +51,19 @@ class ReplayService:
         event = next((e for e in await self.jolpica.calendar(year) if e.round == round), None)
         if event is None:
             raise NotFound(f"Event {year}/{round} is unavailable")
-        race = await asyncio.to_thread(self.provider.load, event)
+        race = await self._snapshot(event)
+        if race is None:
+            race = await asyncio.to_thread(self.provider.load, event)
         self._cache[key] = race
         while len(self._cache) > self.cache_size:
             self._cache.popitem(last=False)
         return race
+
+    async def _snapshot(self, event) -> HistoricalRace | None:
+        data = await self.snapshots.fetch(event) if self.snapshots else None
+        if data is None:
+            return None
+        return await asyncio.to_thread(self.snapshots.decode, event, data)
 
     def _loaded(self, key: tuple[int, int], task: asyncio.Future[HistoricalRace]) -> None:
         self._loading.pop(key, None)

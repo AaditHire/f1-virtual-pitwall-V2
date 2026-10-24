@@ -10,6 +10,7 @@ from f1_pitwall.providers.http import ProviderHTTP
 from f1_pitwall.providers.jolpica import Jolpica
 from f1_pitwall.providers.news import RSSProvider
 from f1_pitwall.providers.openf1 import UNAUTHORIZED_HINT, OpenF1, OpenF1Auth
+from f1_pitwall.providers.replay_snapshots import SnapshotStore
 from f1_pitwall.services.analysis import AnalysisService
 from f1_pitwall.services.calendar import CalendarService
 from f1_pitwall.services.live import LiveService, freshness
@@ -42,7 +43,11 @@ class Hub:
         self.results = ResultsService(self.seasons, self.calendar, self.jolpica, self.openf1)
         self.standings = StandingsService(self.seasons, self.jolpica)
         self.replay = ReplayService(
-            self.seasons, self.jolpica, FastF1Provider(settings), settings.replay_cache_size
+            self.seasons,
+            self.jolpica,
+            FastF1Provider(settings),
+            settings.replay_cache_size,
+            SnapshotStore(client, settings),
         )
         self.analysis = AnalysisService(self.replay)
         self.strategy = StrategyService(self.replay)
