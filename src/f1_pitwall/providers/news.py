@@ -1,7 +1,8 @@
 import html
+import logging
 import re
 import time
-from datetime import datetime
+from datetime import UTC, datetime
 from email.utils import parsedate_to_datetime
 from urllib.parse import urlsplit
 
@@ -10,6 +11,8 @@ from defusedxml import ElementTree
 from f1_pitwall.domain.models import NewsArticle
 from f1_pitwall.providers.http import ProviderHTTP, normalized
 
+log = logging.getLogger(__name__)
+
 
 def plain(value: str | None) -> str | None:
     return html.unescape(re.sub(r"<[^>]+>", "", value)).strip() if value else None
@@ -17,6 +20,17 @@ def plain(value: str | None) -> str | None:
 
 def safe_url(value: str | None) -> str | None:
     return value if value and urlsplit(value).scheme in ("http", "https") else None
+
+
+def published(value: str | None) -> datetime | None:
+    """RFC 2822 date as aware UTC; '-0000' parses naive and garbage is treated as unknown."""
+    if not value:
+        return None
+    try:
+        stamp = parsedate_to_datetime(value)
+    except (TypeError, ValueError):
+        return None
+    return stamp.replace(tzinfo=UTC) if stamp.tzinfo is None else stamp.astimezone(UTC)
 
 
 class RSSProvider:
@@ -38,14 +52,15 @@ class RSSProvider:
             raise self.http.fail("rss", f"invalid XML: {type(exc).__name__}") from exc
         if root.tag != "rss":
             raise ValueError("expected RSS feed")
-        articles = []
+        articles, skipped = [], 0
         for item in root.findall("./channel/item"):
             title = plain(item.findtext("title"))
             url = safe_url(item.findtext("link"))
             if not title or not url:
-                raise ValueError("RSS item missing headline or HTTP URL")
-            published = item.findtext("pubDate")
-            timestamp: datetime | None = parsedate_to_datetime(published) if published else None
+                # One malformed item must not take the whole feed down.
+                skipped += 1
+                continue
+            timestamp = published(item.findtext("pubDate"))
             image = item.find("{http://search.yahoo.com/mrss/}thumbnail")
             if image is None:
                 image = item.find("{http://search.yahoo.com/mrss/}content")
@@ -64,6 +79,8 @@ class RSSProvider:
                     tags=[plain(c.text) for c in item.findall("category") if plain(c.text)],
                 )
             )
+        if skipped:
+            log.warning("provider=%s skipped_rss_items=%s", self.http.name, skipped)
         self.http.status.errors.pop("rss", None)
         self._articles = articles
         self._expires = time.monotonic() + self.http.settings.short_ttl

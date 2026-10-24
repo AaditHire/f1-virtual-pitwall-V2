@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import asyncio
-from collections import Counter, defaultdict
+from collections import Counter, OrderedDict, defaultdict
 from time import perf_counter
 
 from f1_pitwall.domain.paired import PitWindow
@@ -592,28 +592,40 @@ def run_pitwall_replay(race, start_lap, end_lap, driver_id=None, trajectory_coun
 
 
 class PitWallService:
+    # Archived races are immutable and evaluation is seeded, so a lap's snapshot never changes.
+    SNAPSHOT_CACHE_SIZE = 64
+
     def __init__(self, replay):
         self.replay = replay
+        self._snapshots: OrderedDict[tuple[int, int, int, int], PitWallSnapshot] = OrderedDict()
 
     async def snapshot(self, year, round, lap, trajectory_count=100):
+        key = (year, round, lap, trajectory_count)
+        if key in self._snapshots:
+            self._snapshots.move_to_end(key)
+            return self._snapshots[key]
         race = await self.replay.load_race(year, round)
-        return await asyncio.to_thread(
-            build_pitwall_snapshot, AnalysisContext(race, lap), trajectory_count
+        snapshot = await asyncio.to_thread(
+            lambda: build_pitwall_snapshot(AnalysisContext(race, lap), trajectory_count)
         )
+        self._snapshots[key] = snapshot
+        while len(self._snapshots) > self.SNAPSHOT_CACHE_SIZE:
+            self._snapshots.popitem(last=False)
+        return snapshot
 
     async def snapshot_history(self, race, lap, trajectory_count=100):
         return await asyncio.to_thread(
-            build_pitwall_snapshot, AnalysisContext(race, lap), trajectory_count
+            lambda: build_pitwall_snapshot(AnalysisContext(race, lap), trajectory_count)
         )
 
     async def driver(self, year, round, lap, driver_id, trajectory_count=100):
         race = await self.replay.load_race(year, round)
-        context = AnalysisContext(race, lap)
-        return await asyncio.to_thread(evaluate_driver, context, driver_id, trajectory_count, True)
+        return await self.driver_history(race, lap, driver_id, trajectory_count)
 
     async def driver_history(self, race, lap, driver_id, trajectory_count=100):
-        context = AnalysisContext(race, lap)
-        return await asyncio.to_thread(evaluate_driver, context, driver_id, trajectory_count, True)
+        return await asyncio.to_thread(
+            lambda: evaluate_driver(AnalysisContext(race, lap), driver_id, trajectory_count, True)
+        )
 
     async def timeline(self, year, round, start_lap, end_lap, driver_id=None, trajectory_count=100):
         race = await self.replay.load_race(year, round)

@@ -8,6 +8,7 @@ Only this module knows the upstream packet schema or FastF1's private API.
 import logging
 import math
 import re
+import tempfile
 import time
 from bisect import bisect_right
 from datetime import datetime
@@ -444,6 +445,24 @@ def normalize_archive(event: Event, streams: dict, api_path: str = "/") -> Histo
     )
 
 
+def writable_cache_dir(configured: str) -> Path:
+    """Configured cache dir, or the temp dir on read-only hosts such as serverless functions."""
+    cache = Path(configured).resolve()
+    try:
+        cache.mkdir(parents=True, exist_ok=True)
+        probe = cache / ".write-test"
+        probe.touch()
+        probe.unlink()
+        return cache
+    except OSError as exc:
+        fallback = Path(tempfile.gettempdir()) / "f1-pitwall-fastf1"
+        fallback.mkdir(parents=True, exist_ok=True)
+        log.warning(
+            "replay_cache_dir_unwritable path=%s fallback=%s error=%s", cache, fallback, exc
+        )
+        return fallback
+
+
 class FastF1Provider:
     def __init__(self, settings: Settings):
         self.settings = settings
@@ -453,8 +472,7 @@ class FastF1Provider:
 
         try:
             with _FASTF1_LOCK:
-                cache = Path(self.settings.replay_cache_dir).resolve()
-                cache.mkdir(parents=True, exist_ok=True)
+                cache = writable_cache_dir(self.settings.replay_cache_dir)
                 fastf1.Cache.enable_cache(str(cache))
                 session = fastf1.get_session(event.year, event.round, "R")
                 if abs((session.date.date() - event.race_date).days) > 1:

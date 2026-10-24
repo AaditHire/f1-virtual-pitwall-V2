@@ -8,6 +8,8 @@ from f1_pitwall.domain.pitwall import PitWallDriver, PitWallSnapshot, PitWallTim
 
 router = APIRouter(tags=["Rolling Virtual Pit Wall"])
 TrajectoryCount = Annotated[int, Query(ge=100, le=1000)]
+# Each timeline lap is a full rolling evaluation; bound the work one public request can ask for.
+MAX_TIMELINE_LAPS = 10
 
 
 def checked_trajectory_count(value: int) -> int:
@@ -28,6 +30,8 @@ async def timeline(
 ):
     if end_lap < start_lap:
         raise HTTPException(422, "end_lap must be greater than or equal to start_lap")
+    if end_lap - start_lap + 1 > MAX_TIMELINE_LAPS:
+        raise HTTPException(422, f"timeline range is limited to {MAX_TIMELINE_LAPS} laps")
     return await h.pitwall.timeline(
         year,
         round,

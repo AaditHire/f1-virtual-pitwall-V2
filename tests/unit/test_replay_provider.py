@@ -1,4 +1,6 @@
 import asyncio
+import tempfile
+import threading
 from unittest.mock import AsyncMock, Mock
 
 import pytest
@@ -10,6 +12,7 @@ from f1_pitwall.providers.fastf1 import (
     normalize_timing,
     normalize_tyres,
     roster,
+    writable_cache_dir,
 )
 from f1_pitwall.services.replay import ReplayService
 
@@ -120,3 +123,38 @@ async def test_failed_load_is_not_cached():
         await service.load_race(2030, 1)
     assert await service.load_race(2030, 1) == race
     assert provider.load.call_count == 2
+
+
+async def test_cached_race_is_served_while_another_race_loads():
+    from test_replay import race as fixture
+
+    race = fixture.__wrapped__()
+    other = race.model_copy(update={"event": race.event.model_copy(update={"round": 2})})
+    seasons, jolpica, provider = AsyncMock(), AsyncMock(), Mock()
+    jolpica.calendar.return_value = [race.event, other.event]
+    started, release = threading.Event(), threading.Event()
+
+    def load(event):
+        if event.round == 2:
+            started.set()
+            release.wait(5)
+            return other
+        return race
+
+    provider.load.side_effect = load
+    service = ReplayService(seasons, jolpica, provider)
+    assert await service.load_race(2030, 1) == race
+    slow = asyncio.create_task(service.load_race(2030, 2))
+    await asyncio.to_thread(started.wait, 5)
+    assert await asyncio.wait_for(service.load_race(2030, 1), timeout=0.5) == race
+    release.set()
+    assert await slow == other
+    assert provider.load.call_count == 2
+
+
+def test_unwritable_replay_cache_falls_back_to_temp(tmp_path, monkeypatch):
+    blocker = tmp_path / "file"
+    blocker.write_text("not a directory")
+    monkeypatch.setattr(tempfile, "gettempdir", lambda: str(tmp_path))
+    assert writable_cache_dir(str(blocker / "cache")) == tmp_path / "f1-pitwall-fastf1"
+    assert writable_cache_dir(str(tmp_path / "ok")) == tmp_path / "ok"

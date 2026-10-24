@@ -574,7 +574,7 @@ class LiveService:
         if history and history.laps:
             leader_lap = max(row.number for row in history.laps)
             try:
-                state = AnalysisContext(history, leader_lap).state
+                state = await asyncio.to_thread(lambda: AnalysisContext(history, leader_lap).state)
                 state.timestamp = meta.provider_timestamp
             except Exception as exc:
                 missing.append(f"race state: {type(exc).__name__}")
@@ -648,7 +648,7 @@ class LiveService:
         state = None
         if history and leader_lap:
             try:
-                state = AnalysisContext(history, leader_lap).state
+                state = await asyncio.to_thread(lambda: AnalysisContext(history, leader_lap).state)
             except Exception as exc:
                 missing.append(f"normalized race state: {type(exc).__name__}")
         if missing:

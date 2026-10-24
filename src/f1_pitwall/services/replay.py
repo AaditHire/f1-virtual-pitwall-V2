@@ -26,25 +26,38 @@ class ReplayService:
         self.seasons, self.jolpica, self.provider = seasons, jolpica, provider
         self.cache_size = cache_size
         self._cache: OrderedDict[tuple[int, int], HistoricalRace] = OrderedDict()
-        self._lock = asyncio.Lock()
+        # One shared load per race; loads of different races never wait for each other.
+        self._loading: dict[tuple[int, int], asyncio.Future[HistoricalRace]] = {}
         self.builder = RaceStateBuilder()
 
     async def load_race(self, year: int, round: int) -> HistoricalRace:
         key = (year, round)
-        # One shared load, including simultaneous requests for different drivers.
-        async with self._lock:
-            if key not in self._cache:
-                await self.seasons.get_season(year)
-                event = next(
-                    (e for e in await self.jolpica.calendar(year) if e.round == round), None
-                )
-                if event is None:
-                    raise NotFound(f"Event {year}/{round} is unavailable")
-                self._cache[key] = await asyncio.to_thread(self.provider.load, event)
-                while len(self._cache) > self.cache_size:
-                    self._cache.popitem(last=False)
+        if key in self._cache:
             self._cache.move_to_end(key)
             return self._cache[key]
+        task = self._loading.get(key)
+        if task is None:
+            task = asyncio.ensure_future(self._load(key))
+            self._loading[key] = task
+            task.add_done_callback(lambda done: self._loaded(key, done))
+        return await asyncio.shield(task)
+
+    async def _load(self, key: tuple[int, int]) -> HistoricalRace:
+        year, round = key
+        await self.seasons.get_season(year)
+        event = next((e for e in await self.jolpica.calendar(year) if e.round == round), None)
+        if event is None:
+            raise NotFound(f"Event {year}/{round} is unavailable")
+        race = await asyncio.to_thread(self.provider.load, event)
+        self._cache[key] = race
+        while len(self._cache) > self.cache_size:
+            self._cache.popitem(last=False)
+        return race
+
+    def _loaded(self, key: tuple[int, int], task: asyncio.Future[HistoricalRace]) -> None:
+        self._loading.pop(key, None)
+        if not task.cancelled():
+            task.exception()  # Failed loads are not cached; mark them retrieved.
 
     async def get_race_state(self, year: int, round: int, lap: int) -> RaceState:
         race = await self.load_race(year, round)

@@ -18,7 +18,8 @@ dependencies = [
     "defusedxml>=0.7,<1",
     "fastf1>=3.8,<3.9",
     "joblib>=1.4,<2",
-    "scikit-learn>=1.5,<2",
+    # The bundled .joblib models were saved with 1.9.0; other versions may unpickle differently.
+    "scikit-learn==1.9.0",
 ]
 
 [project.optional-dependencies]

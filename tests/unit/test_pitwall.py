@@ -232,3 +232,32 @@ async def test_pitwall_api_snapshot_detail_and_timeline(analysis_history):
         assert snapshot.json()["drivers"]
         assert detail.json()["actions"]
         assert timeline.json()["reanchored_laps"] == [21, 22]
+
+
+async def test_timeline_range_is_bounded_and_snapshots_are_cached(analysis_history, monkeypatch):
+    import f1_pitwall.services.pitwall as pitwall_module
+
+    race = strategy_history(analysis_history)
+    app = create_app()
+    async with app.router.lifespan_context(app):
+        app.state.hub.replay.load_race = AsyncMock(return_value=race)
+        calls = 0
+        real = pitwall_module.build_pitwall_snapshot
+
+        def counted(*args, **kwargs):
+            nonlocal calls
+            calls += 1
+            return real(*args, **kwargs)
+
+        monkeypatch.setattr(pitwall_module, "build_pitwall_snapshot", counted)
+        async with httpx.AsyncClient(
+            transport=httpx.ASGITransport(app=app), base_url="http://test"
+        ) as client:
+            too_long = await client.get(
+                "/api/v1/pitwall/2024/1/timeline", params={"start_lap": 1, "end_lap": 11}
+            )
+            first = await client.get("/api/v1/pitwall/2024/1/22")
+            second = await client.get("/api/v1/pitwall/2024/1/22")
+    assert too_long.status_code == 422
+    assert first.status_code == second.status_code == 200
+    assert first.json() == second.json() and calls == 1

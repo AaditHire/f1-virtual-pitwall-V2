@@ -250,3 +250,45 @@ def test_openf1_disagreement_and_ambiguous_match(caplog):
     w.circuit_name = w.locality = "Elsewhere"
     assert p.enrich(e, [w]).warnings
     assert "differs" in caplog.text
+
+
+async def test_cache_hit_is_not_blocked_by_slow_inflight_request():
+    release = asyncio.Event()
+
+    async def handler(request):
+        if request.url.path == "/slow":
+            await release.wait()
+        return httpx.Response(200, content=request.url.path.encode())
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        p = ProviderHTTP("test", client, Settings())
+        assert await p.get("https://test.invalid/fast", 10) == b"/fast"
+        slow = asyncio.create_task(p.get("https://test.invalid/slow", 10))
+        await asyncio.sleep(0.5)  # The slow request is now in flight.
+        cached = await asyncio.wait_for(p.get("https://test.invalid/fast", 10), timeout=0.1)
+        assert cached == b"/fast" and not slow.done()
+        release.set()
+        assert await slow == b"/slow"
+        assert not p._inflight
+
+
+async def test_rss_skips_malformed_items_and_normalizes_dates():
+    rss = b"""<rss><channel>
+    <item><title>No link here</title></item>
+    <item><title>Bad date</title><link>https://news.example/bad</link>
+    <pubDate>not a date</pubDate></item>
+    <item><title>Unknown zone</title><link>https://news.example/zone</link>
+    <pubDate>Sun, 06 Sep 2026 08:00:00 -0000</pubDate></item>
+    <item><title>Offset</title><link>https://news.example/offset</link>
+    <pubDate>Sun, 06 Sep 2026 10:00:00 +0530</pubDate></item>
+    </channel></rss>"""
+    async with httpx.AsyncClient(
+        transport=httpx.MockTransport(lambda r: httpx.Response(200, content=rss))
+    ) as client:
+        news = NewsService([RSSProvider(ProviderHTTP("test", client, Settings()), "https://t")])
+        result = await news.get_latest_news(10)
+    assert [a.headline for a in result.articles] == ["Unknown zone", "Offset", "Bad date"]
+    assert result.articles[0].published_at.utcoffset().total_seconds() == 0
+    assert result.articles[1].published_at.hour == 4
+    assert result.articles[2].published_at is None
+    assert result.provider_status[0].status == "ok"
