@@ -3,7 +3,7 @@
 Replay any Formula 1 race since 2021 lap by lap, seeing only what the pit wall could have known at
 that moment, with tyre, pace, traffic and pit-window analysis for every car.
 
-- **Web app:** [F1 Virtual Pit Wall](https://f1-virtual-pitwall-6xvxdymg4-stealth8.vercel.app)
+- **Web app:** [f1-virtual-pitwall.vercel.app](https://f1-virtual-pitwall.vercel.app)
 - **API:** [Swagger UI](https://f1-virtual-pitwall-api.vercel.app/docs) ·
   [health](https://f1-virtual-pitwall-api.vercel.app/health) · base URL
   `https://f1-virtual-pitwall-api.vercel.app`

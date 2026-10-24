@@ -6,10 +6,12 @@
 .cache/
 .pytest_cache/
 .ruff_cache/
-frontend/
-docs/
-outputs/
-scripts/
-tests/
+# Vercel applies this file to both projects, so keep the frontend source for the
+# frontend project (Root Directory "frontend") and drop only its design screenshots.
+/frontend/docs/
+/docs/
+/outputs/
+/scripts/
+/tests/
 acceptance-output.json
 replay-output.json
