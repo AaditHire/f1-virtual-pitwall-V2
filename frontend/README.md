@@ -14,4 +14,4 @@ The FastAPI backend must be running before the frontend. Available routes are `/
 
 Use `npm run build` and `npm run start` for the production server.
 
-Quality checks: `npm run typecheck`, `npm run lint`, `npm test`, and `npm run build`.
+Quality checks: `npm run typecheck`, `npm run lint`, `npm run format:check`, `npm test`, and `npm run build`. Run `npm run format` to apply Prettier.

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import math
 import re
-from collections import Counter
+from collections import Counter, defaultdict
 from dataclasses import dataclass
 from time import perf_counter
 
@@ -138,7 +138,7 @@ class DenseLSARetriever:
 
     @property
     def storage_bytes(self) -> int:
-        return int(self.embeddings.nbytes)
+        return int(np.asarray(self.embeddings).nbytes)
 
     def search(
         self, query: str, limit: int = 5, metadata: MetadataFilter | None = None
@@ -180,7 +180,7 @@ class HybridRetriever:
             self.lexical.search(query, candidate_limit, metadata),
             self.dense.search(query, candidate_limit, metadata),
         ]
-        scores: dict[str, float] = Counter()
+        scores: defaultdict[str, float] = defaultdict(float)
         chunks = {}
         for rows in lists:
             for row in rows:

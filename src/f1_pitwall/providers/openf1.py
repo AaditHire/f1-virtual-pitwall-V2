@@ -46,6 +46,7 @@ class OpenF1Auth:
         if not settings.openf1_username or settings.openf1_password is None:
             raise ValueError("OpenF1 credentials are not configured")
         self.client, self.settings = client, settings
+        self._username, self._password = settings.openf1_username, settings.openf1_password
         self._token: str | None = None
         self._expires = 0.0
         self._lock = asyncio.Lock()
@@ -64,8 +65,8 @@ class OpenF1Auth:
             response = await self.client.post(
                 self.settings.openf1_token_url,
                 data={
-                    "username": self.settings.openf1_username,
-                    "password": self.settings.openf1_password.get_secret_value(),
+                    "username": self._username,
+                    "password": self._password.get_secret_value(),
                 },
                 timeout=self.settings.timeout,
             )

@@ -20,6 +20,7 @@ from f1_pitwall.domain.live import (
     RaceControlFeed,
     RaceControlMessage,
     SessionClassificationEntry,
+    TrackStatus,
     WeatherState,
 )
 from f1_pitwall.domain.models import Constructor, Driver, Event, Session
@@ -122,7 +123,7 @@ TRACK_CODES = {
     "virtualsafetycar": "6",
     "vsc": "6",
 }
-PUBLIC_TRACK = {
+PUBLIC_TRACK: dict[str, TrackStatus] = {
     "1": "GREEN",
     "2": "YELLOW",
     "4": "SC",
@@ -144,8 +145,8 @@ def _track_code(row: dict) -> str | None:
 
 def _number(row: dict) -> int | None:
     try:
-        return int(row.get("driver_number"))
-    except (TypeError, ValueError):
+        return int(row["driver_number"])
+    except (KeyError, TypeError, ValueError):
         return None
 
 
@@ -435,7 +436,7 @@ class LiveService:
             start, duration = _dt(row.get("date_start")), row.get("lap_duration")
             if number not in ids or not lap_no or not start or not duration:
                 continue
-            completed = _seconds(start, origin) + float(duration)
+            completed = (start - origin).total_seconds() + float(duration)
             if completed < 0:
                 continue
             latest_lap[number] = max(int(lap_no), latest_lap.get(number, 0))
@@ -554,7 +555,7 @@ class LiveService:
             for row in bundle.race_control[-50:]
         ]
         return RaceControlFeed(
-            track_status=PUBLIC_TRACK.get(code, "UNKNOWN"),
+            track_status=PUBLIC_TRACK.get(code or "", "UNKNOWN"),
             messages=messages,
             freshness=self.metadata(bundle),
         )
@@ -681,7 +682,7 @@ class LiveService:
                 state = await asyncio.to_thread(lambda: AnalysisContext(history, leader_lap).state)
             except Exception as exc:
                 missing.append(f"normalized race state: {type(exc).__name__}")
-        if missing:
+        if missing or state is None:
             driver_state = None
             if state and driver_id:
                 found = next((d for d in state.drivers if d.driver.id == driver_id), None)

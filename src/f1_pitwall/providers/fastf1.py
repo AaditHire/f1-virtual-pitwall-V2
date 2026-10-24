@@ -365,7 +365,7 @@ def normalize_radio(records, ids, event: Event, api_path: str, started_at: float
             if number not in ids or audio_url is None or audio_url in seen:
                 continue
             seen.add(audio_url)
-            timestamp = capture.get("Utc")
+            timestamp = str(capture.get("Utc") or "")
             try:
                 provider_timestamp = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
                 if provider_timestamp.tzinfo is None:

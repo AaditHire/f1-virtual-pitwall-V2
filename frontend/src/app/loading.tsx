@@ -1,1 +1,9 @@
-export default function Loading(){return <div className="loading-shell" aria-label="Loading"><div className="loading-line" style={{width:"28%"}}/><div className="loading-line"/><div className="loading-line" style={{width:"72%"}}/></div>}
+export default function Loading() {
+  return (
+    <div className="loading-shell" aria-label="Loading">
+      <div className="loading-line" style={{ width: "28%" }} />
+      <div className="loading-line" />
+      <div className="loading-line" style={{ width: "72%" }} />
+    </div>
+  );
+}

@@ -4,6 +4,13 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
+PriorSource = Literal[
+    "SAME_RACE_OBSERVED",
+    "EARLIER_SAME_CIRCUIT",
+    "REGULATION_ERA",
+    "INSUFFICIENT",
+]
+
 
 class StintCompoundPrior(BaseModel):
     compound: Literal["SOFT", "MEDIUM", "HARD"]
@@ -14,12 +21,7 @@ class StintCompoundPrior(BaseModel):
     competitive_stint_iqr_laps: tuple[float, float] | None = None
     pace_sample_count: int = 0
     length_sample_count: int = 0
-    source: Literal[
-        "SAME_RACE_OBSERVED",
-        "EARLIER_SAME_CIRCUIT",
-        "REGULATION_ERA",
-        "INSUFFICIENT",
-    ]
+    source: PriorSource
     uncertainty_seconds_per_lap: float | None = None
     components: dict[str, Any] = Field(default_factory=dict)
     warnings: list[str] = Field(default_factory=list)

@@ -8,14 +8,29 @@ export function ConnectionIndicator() {
     let alive = true;
     const check = async () => {
       if (document.hidden) return;
-      try { const response = await fetch("/backend/health", { cache: "no-store" }); if (alive) setOnline(response.ok); }
-      catch { if (alive) setOnline(false); }
+      try {
+        const response = await fetch("/backend/health", { cache: "no-store" });
+        if (alive) setOnline(response.ok);
+      } catch {
+        if (alive) setOnline(false);
+      }
     };
     void check();
     const timer = window.setInterval(check, 30_000);
-    const onVisible = () => { if (!document.hidden) void check(); };
+    const onVisible = () => {
+      if (!document.hidden) void check();
+    };
     document.addEventListener("visibilitychange", onVisible);
-    return () => { alive = false; window.clearInterval(timer); document.removeEventListener("visibilitychange", onVisible); };
+    return () => {
+      alive = false;
+      window.clearInterval(timer);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
   }, []);
-  return <div className="connection" aria-live="polite"><i className={online ? "ok" : online === false ? "bad" : "idle"} />{online ? "Backend online" : online === false ? "Backend offline" : "Checking backend"}</div>;
+  return (
+    <div className="connection" aria-live="polite">
+      <i className={online ? "ok" : online === false ? "bad" : "idle"} />
+      {online ? "Backend online" : online === false ? "Backend offline" : "Checking backend"}
+    </div>
+  );
 }

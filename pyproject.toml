@@ -25,6 +25,7 @@ dev = [
     "pytest>=8,<10",
     "pytest-asyncio>=0.24,<2",
     "ruff==0.16.6",  # CI checks formatting; formatter output changes between releases
+    "pyright==1.1.414",  # pinned for the same reason: new releases add checks
 ]
 # The knowledge/LLM research package (phases 13+); not used by the API.
 research = [
@@ -59,3 +60,11 @@ line-length = 100
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
+
+[tool.pyright]
+include = ["src"]
+# Uses the local .venv when present (no activation needed); CI falls back to its own Python.
+venvPath = "."
+venv = ".venv"
+pythonVersion = "3.12"
+typeCheckingMode = "standard"

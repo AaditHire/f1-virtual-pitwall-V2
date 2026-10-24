@@ -105,21 +105,21 @@ class Hub:
                 "next_session", lambda: self.calendar.get_next_session(events)
             )
             home.weekend_status = "off_season"
-            event = home.current_or_next_event
-            if event:
-                home.weekend_schedule = event.sessions
+            upcoming = home.current_or_next_event
+            if upcoming:
+                home.weekend_schedule = upcoming.sessions
                 home.weekend_status = (
                     await section(
                         "weekend_status",
-                        lambda: self.calendar.event_state(event, self.calendar.clock()),
+                        lambda: self.calendar.event_state(upcoming, self.calendar.clock()),
                     )
                     or "unavailable"
                 )
                 grid = await section(
-                    "grid", lambda: self.results.get_starting_grid(event.year, event.round)
+                    "grid", lambda: self.results.get_starting_grid(upcoming.year, upcoming.round)
                 )
                 if grid:
-                    home.grid_event, home.recent_or_available_grid = event, grid
+                    home.grid_event, home.recent_or_available_grid = upcoming, grid
         if season:
             drivers, teams = await asyncio.gather(
                 section(

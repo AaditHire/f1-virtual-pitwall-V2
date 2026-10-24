@@ -120,8 +120,8 @@ def _action_paths(context, driver_id, actions, trajectory_count, seed):
         kind = action.kind
         extension = direct[action.id].extension_laps or 0
         curve = curves[action.id]
-        cumulative = [[None] * 5 for _ in range(trajectory_count)]
-        positions = [[None] * 5 for _ in range(trajectory_count)]
+        cumulative: list[list[float | None]] = [[None] * 5 for _ in range(trajectory_count)]
+        positions: list[list[int | None]] = [[None] * 5 for _ in range(trajectory_count)]
         for trajectory in range(trajectory_count):
             total = 0.0
             latent = _quantile_draw(latent_values[kind], shared[trajectory]["latent"])

@@ -7,6 +7,8 @@ from pydantic import BaseModel, Field
 from f1_pitwall.domain.analysis import Confidence, TrafficLevel
 from f1_pitwall.domain.models import Driver
 
+Applicability = Literal["RELIABLE", "USABLE", "WEAK", "OUT_OF_DOMAIN"]
+
 
 class ShortHorizonState(BaseModel):
     driver: Driver
@@ -35,7 +37,7 @@ class HorizonOutcome(BaseModel):
     uncertainty_seconds: float | None = None
     prediction_interval_80: tuple[float, float] | None = None
     prediction_interval_90: tuple[float, float] | None = None
-    applicability: Literal["RELIABLE", "USABLE", "WEAK", "OUT_OF_DOMAIN"] | None = None
+    applicability: Applicability | None = None
     expected_position: int | None = None
     position_range: tuple[int, int] | None = None
     expected_position_change: float | None = None
@@ -113,7 +115,7 @@ class RolloutDistribution(BaseModel):
     position_range_90: tuple[int, int] | None = None
     median_net_pit_cycle_position: int | None = None
     net_pit_cycle_position_range_80: tuple[int, int] | None = None
-    applicability: Literal["RELIABLE", "USABLE", "WEAK", "OUT_OF_DOMAIN"] | None = None
+    applicability: Applicability | None = None
 
 
 class ProbabilisticRollout(BaseModel):

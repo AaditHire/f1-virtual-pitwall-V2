@@ -109,7 +109,7 @@ def estimate_pit_loss(context: AnalysisContext):
         exit_warm_up_seconds=None,
         sample_count=len(samples),
         confidence="MEDIUM"
-        if len(samples) >= 3 and mad <= 3
+        if len(samples) >= 3 and mad is not None and mad <= 3
         else "LOW"
         if samples
         else "INSUFFICIENT",

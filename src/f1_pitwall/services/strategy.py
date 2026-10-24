@@ -30,6 +30,12 @@ NORMAL_STOP_COOLDOWN_LAPS = 3
 POINTS = (25, 18, 15, 12, 10, 8, 6, 4, 2, 1)
 
 
+def _score(action: StrategyAction) -> float:
+    """Sort key for actions already filtered to those with a score."""
+    assert action.action_score is not None
+    return action.action_score
+
+
 def _round(value):
     return round(value, 3) if value is not None else None
 
@@ -201,6 +207,8 @@ def _evaluate_action(
             "objective": objective,
         }
         return action
+    # Guaranteed by the missing-input checks above.
+    assert pace.seconds is not None and pit_loss.total_seconds is not None
 
     extension = 0 if action.kind == "PIT_NOW" else action.extension_laps
     fresh_laps = HORIZON_LAPS - extension
@@ -336,7 +344,7 @@ def recommend_driver_action(context, driver_id, pit_loss=None):
     ]
     scored = sorted(
         (action for action in decision.actions if action.action_score is not None),
-        key=lambda action: action.action_score,
+        key=_score,
         reverse=True,
     )
     missing = []
@@ -369,16 +377,14 @@ def recommend_driver_action(context, driver_id, pit_loss=None):
 
     best_pit = max(
         (action for action in scored if action.kind == "PIT_NOW"),
-        key=lambda action: action.action_score,
+        key=_score,
     )
     best_extend = max(
         (action for action in scored if action.kind == "EXTEND"),
-        key=lambda action: action.action_score,
+        key=_score,
     )
-    best, second = sorted(
-        (best_pit, best_extend), key=lambda action: action.action_score, reverse=True
-    )
-    margin = best.action_score - second.action_score
+    best, second = sorted((best_pit, best_extend), key=_score, reverse=True)
+    margin = _score(best) - _score(second)
     decision.decision_score = best.action_score
     decision.alternative_score = second.action_score
     decision.decision_margin = _round(margin)

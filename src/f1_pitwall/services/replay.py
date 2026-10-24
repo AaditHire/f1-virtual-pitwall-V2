@@ -60,7 +60,9 @@ class ReplayService:
         return race
 
     async def _snapshot(self, event) -> HistoricalRace | None:
-        data = await self.snapshots.fetch(event) if self.snapshots else None
+        if self.snapshots is None:
+            return None
+        data = await self.snapshots.fetch(event)
         if data is None:
             return None
         return await asyncio.to_thread(self.snapshots.decode, event, data)

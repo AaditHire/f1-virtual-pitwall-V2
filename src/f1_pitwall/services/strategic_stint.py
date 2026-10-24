@@ -8,6 +8,7 @@ from math import sqrt
 from statistics import median
 
 from f1_pitwall.domain.strategic import (
+    PriorSource,
     StintCompoundPrior,
     StrategicActionValue,
     StrategicPitComparison,
@@ -29,10 +30,10 @@ MIN_ERA_SAMPLES = 10
 DRY_COMPOUNDS = {"SOFT", "MEDIUM", "HARD"}
 
 
-def _quantile(values, fraction):
+def _quantile(values, fraction) -> float:
     ordered = sorted(values)
     if not ordered:
-        return None
+        raise ValueError("a quantile needs at least one value")
     index = (len(ordered) - 1) * fraction
     lower = int(index)
     upper = min(lower + 1, len(ordered) - 1)
@@ -77,9 +78,7 @@ def _same_race_segments(context):
             ages = [
                 row.tyre_age for row in records if row.number == number and row.tyre_age is not None
             ]
-            constructor = (
-                participant.get(driver_id).constructor if participant.get(driver_id) else None
-            )
+            constructor = (entry := participant.get(driver_id)) and entry.constructor
             segments.append(
                 {
                     "race": f"{context.race.event.year}/current",
@@ -106,7 +105,7 @@ def _eligible_historical_segments(context):
     ]
 
 
-def _source_pools(context):
+def _source_pools(context) -> tuple[tuple[PriorSource, list, int], ...]:
     same_race = _same_race_segments(context)
     historical = _eligible_historical_segments(context)
     circuit = [row for row in historical if row["circuit_id"] == context.race.event.circuit.id]
@@ -117,7 +116,9 @@ def _source_pools(context):
     )
 
 
-def _select_evidence(context, compound, field, require_non_null=True):
+def _select_evidence(
+    context, compound, field, require_non_null=True
+) -> tuple[PriorSource, list, list]:
     for source, pool, minimum in _source_pools(context):
         exact = [
             row
@@ -173,9 +174,11 @@ def estimate_compound_prior(context, driver_id, compound):
         compound_effect_seconds_per_lap=round(compound_effect, 3)
         if compound_effect is not None
         else None,
-        pace_iqr_seconds_per_lap=tuple(round(value, 3) for value in pace_iqr) if pace_iqr else None,
+        pace_iqr_seconds_per_lap=(round(pace_iqr[0], 3), round(pace_iqr[1], 3))
+        if pace_iqr
+        else None,
         median_competitive_stint_laps=round(median(lengths), 1) if lengths else None,
-        competitive_stint_iqr_laps=tuple(round(value, 1) for value in length_iqr)
+        competitive_stint_iqr_laps=(round(length_iqr[0], 1), round(length_iqr[1], 1))
         if length_iqr
         else None,
         pace_sample_count=len(paces),
@@ -466,7 +469,7 @@ def compare_strategic_actions(context, driver_id, trajectory_count=100, seed=0):
                     )
                     interval = all_ranges[checkpoint]
                     action.cumulative_ranges_90[checkpoint] = (
-                        tuple(round(value, 3) for value in interval) if interval else None
+                        (round(interval[0], 3), round(interval[1], 3)) if interval else None
                     )
             terminal = all_values[horizon]
             action.terminal_expected_seconds = round(terminal, 3) if terminal is not None else None

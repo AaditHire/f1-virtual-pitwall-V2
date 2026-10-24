@@ -2,6 +2,7 @@
 
 import asyncio
 from datetime import UTC, datetime
+from typing import Any
 
 from pydantic import ValidationError
 
@@ -22,7 +23,7 @@ class CurrentWeekendService:
     async def current(self) -> WeekendState:
         result = WeekendState()
 
-        async def optional(name, call, default=None):
+        async def optional(name: str, call, default: Any = None) -> Any:
             try:
                 return await call()
             except (ProviderError, NotFound, ValidationError) as exc:

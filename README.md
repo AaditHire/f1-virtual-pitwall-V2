@@ -116,7 +116,8 @@ Invoke-RestMethod 'http://127.0.0.1:8000/api/v1/pitwall/2024/1/25/drivers/f1:MAX
 .venv\Scripts\python -m pytest -q
 .venv\Scripts\ruff check .
 .venv\Scripts\ruff format --check .
-cd frontend; npm run lint; npm test; npm run build
+.venv\Scripts\pyright
+cd frontend; npm run lint; npm run format:check; npm test; npm run build
 ```
 
 CI runs the same checks on every push to `main`. Default tests skip the network; run

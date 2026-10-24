@@ -23,6 +23,7 @@ from f1_pitwall.domain.replay import DriverRaceState, RaceState
 SessionStatus = Literal["UPCOMING", "LIVE", "COMPLETED", "DELAYED", "UNKNOWN"]
 LiveAvailability = Literal["LIVE_AVAILABLE", "DELAYED_AVAILABLE", "HISTORICAL_ONLY", "UNAVAILABLE"]
 FreshnessState = Literal["FRESH", "DELAYED", "STALE", "UNKNOWN"]
+TrackStatus = Literal["GREEN", "YELLOW", "DOUBLE_YELLOW", "SC", "VSC", "RED", "UNKNOWN"]
 
 
 class Freshness(BaseModel):
@@ -97,9 +98,7 @@ class RaceControlMessage(BaseModel):
 
 
 class RaceControlFeed(BaseModel):
-    track_status: Literal["GREEN", "YELLOW", "DOUBLE_YELLOW", "SC", "VSC", "RED", "UNKNOWN"] = (
-        "UNKNOWN"
-    )
+    track_status: TrackStatus = "UNKNOWN"
     messages: list[RaceControlMessage] = Field(default_factory=list)
     freshness: Freshness
 

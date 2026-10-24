@@ -11,6 +11,7 @@ from statistics import mean, median
 import joblib
 
 from f1_pitwall.domain.simulation import (
+    Applicability,
     OneLapTransition,
     ProbabilisticRollout,
     RolloutDistribution,
@@ -73,9 +74,9 @@ def _artifact():
         return FALLBACK_ARTIFACT
 
 
-def _quantile(values, fraction):
+def _quantile(values, fraction) -> float:
     if not values:
-        return None
+        raise ValueError("a quantile needs at least one value")
     ordered = sorted(values)
     index = (len(ordered) - 1) * fraction
     lower = int(index)
@@ -217,17 +218,17 @@ def rollout_action(
     kind = direct.kind
     extension = direct.extension_laps or 0
     artifact = artifact_override or _artifact()
-    selected = artifact.get("selected_error_model", "PERSISTENT")
-    error_model = selected if error_model in {None, "FROZEN_SELECTED"} else error_model
+    if error_model is None or error_model == "FROZEN_SELECTED":
+        error_model = artifact.get("selected_error_model", "PERSISTENT")
     curve = _deterministic_curve(direct, state.gap_to_leader)
-    applicability = {
+    applicability: dict[int, Applicability] = {
         horizon: (_anchor_outcome(direct, horizon).applicability or "USABLE")
         for horizon in HORIZONS
     }
     rng = random.Random(seed)
     cumulative = [[0.0] * 5 for _ in range(trajectory_count)]
-    positions = [[None] * 5 for _ in range(trajectory_count)]
-    increments = [[None] * 5 for _ in range(trajectory_count)]
+    positions: list[list[int | None]] = [[None] * 5 for _ in range(trajectory_count)]
+    increments: list[list[float | None]] = [[None] * 5 for _ in range(trajectory_count)]
     if curve is not None:
         deterministic_increments = [curve[0]] + [curve[i] - curve[i - 1] for i in range(1, 5)]
         for trajectory in range(trajectory_count):
@@ -290,8 +291,8 @@ def rollout_action(
     transitions = []
     for lap_index in range(1, 6):
         phase = _phase_for_lap(kind, extension, lap_index)
-        values = [row[lap_index - 1] for row in increments if row[lap_index - 1] is not None]
-        pos = [row[lap_index - 1] for row in positions if row[lap_index - 1] is not None]
+        values = [value for row in increments if (value := row[lap_index - 1]) is not None]
+        pos = [value for row in positions if (value := row[lap_index - 1]) is not None]
         transitions.append(
             OneLapTransition(
                 lap_index=lap_index,
@@ -316,7 +317,7 @@ def rollout_action(
     outcomes = []
     for horizon in HORIZONS:
         values = [row[horizon - 1] for row in cumulative] if curve is not None else []
-        pos = [row[horizon - 1] for row in positions if row[horizon - 1] is not None]
+        pos = [value for row in positions if (value := row[horizon - 1]) is not None]
         anchor = _anchor_outcome(direct, horizon)
         outcomes.append(
             RolloutDistribution(

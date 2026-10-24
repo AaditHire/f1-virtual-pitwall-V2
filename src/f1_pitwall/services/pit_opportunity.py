@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from f1_pitwall.domain.paired import PairedComparison, PitOpportunityValue
+from f1_pitwall.domain.paired import OpportunityCandidate, PairedComparison, PitOpportunityValue
 from f1_pitwall.services.paired import EQUIVALENCE_BANDS, POSITION_EQUIVALENCE_PLACES
 
 TIME_STRONG_FREQUENCY = 0.70
@@ -42,7 +42,7 @@ def _position_strength(comparison):
 
 def calculate_pit_opportunity(
     comparison: PairedComparison,
-    candidate="FULL_EVIDENCE",
+    candidate: OpportunityCandidate = "FULL_EVIDENCE",
     rejoin_traffic="UNKNOWN",
     applicability="USABLE",
 ):

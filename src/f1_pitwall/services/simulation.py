@@ -234,8 +234,11 @@ def _usable_gap(context, driver):
         if item.position is not None and item.status == "active" and not item.lapped
     }
     chain = [ordered.get(position) for position in range(2, driver.position + 1)]
-    if chain and all(item is not None and item.gap_to_ahead is not None for item in chain):
-        result = sum(item.gap_to_ahead for item in chain), "reconstructed_interval_chain"
+    gaps = [
+        item.gap_to_ahead for item in chain if item is not None and item.gap_to_ahead is not None
+    ]
+    if chain and len(gaps) == len(chain):
+        result = sum(gaps), "reconstructed_interval_chain"
         cache[driver.driver.id] = result
         context._short_horizon_gap_cache = cache
         return result
@@ -783,6 +786,8 @@ def simulate_action(context, driver_id, action, calibration=None):
             outcome.warnings.append("Cannot simulate: missing " + ", ".join(missing) + ".")
             outcomes.append(outcome)
             continue
+        # Guaranteed by the missing-input checks above.
+        assert relative_pace is not None and state.gap_to_leader is not None
         raw_delta, trace, dynamic_unknown = _dynamic_path(
             context,
             driver_id,

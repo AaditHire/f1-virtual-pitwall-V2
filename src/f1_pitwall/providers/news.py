@@ -76,7 +76,7 @@ class RSSProvider:
                     published_at=timestamp,
                     summary=(plain(item.findtext("description")) or "")[:600] or None,
                     image_url=safe_url(image.get("url")) if image is not None else None,
-                    tags=[plain(c.text) for c in item.findall("category") if plain(c.text)],
+                    tags=[tag for c in item.findall("category") if (tag := plain(c.text))],
                 )
             )
         if skipped:

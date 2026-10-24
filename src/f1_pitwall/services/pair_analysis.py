@@ -98,16 +98,12 @@ def calculate_pair(context, driver_id, target_id, pit_loss, kind, new_compound=N
         }
     )
     if kind == "undercut":
-        result.estimated_margin = target_pace.seconds - fresh_pace - penalty - gap
+        margin = target_pace.seconds - fresh_pace - penalty - gap
     else:
-        result.estimated_margin = fresh_pace - own_pace.seconds + penalty - own_penalty - gap
-    result.opportunity = (
-        "YES"
-        if result.estimated_margin > 0.5
-        else "NO"
-        if result.estimated_margin < -0.5
-        else "MARGINAL"
-    )
+        # own_penalty is known here: the guard above returns early for an overcut without it.
+        margin = fresh_pace - own_pace.seconds + penalty - (own_penalty or 0.0) - gap
+    result.estimated_margin = margin
+    result.opportunity = "YES" if margin > 0.5 else "NO" if margin < -0.5 else "MARGINAL"
     # Transferred clean-lap evidence cannot justify high-confidence out-lap claims.
     result.confidence = "LOW"
     return result
