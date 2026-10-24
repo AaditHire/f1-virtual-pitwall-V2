@@ -8,7 +8,8 @@ import pytest
 from f1_pitwall.core.exceptions import ProviderError
 from f1_pitwall.domain.live import LiveSession, LiveTimingBundle
 from f1_pitwall.domain.pitwall import PitWallSnapshot
-from f1_pitwall.services.live import LiveService, driver_reference, freshness
+from f1_pitwall.providers.openf1 import driver_reference
+from f1_pitwall.services.live import LiveService, freshness
 
 
 def live_fixture(now: datetime, *, tyres=True, weather=True, positions=True):

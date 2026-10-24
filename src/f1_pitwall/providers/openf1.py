@@ -24,6 +24,24 @@ def name_key(name: str) -> str:
     return re.sub(r"[^a-z0-9]", "", name.lower())
 
 
+def _letters(value: str) -> str:
+    ascii_name = unicodedata.normalize("NFKD", value).encode("ascii", "ignore").decode()
+    return re.sub(r"[^A-Za-z]", "", ascii_name).upper()
+
+
+def driver_reference(row: dict, first: str, last: str) -> str | None:
+    """The F1 timing 'Reference' (e.g. MAXVER01) that archive replay uses as the driver id.
+
+    OpenF1 headshot URLs embed it verbatim; otherwise rebuild it from the name, which matches the
+    usual first-three + last-three + '01' pattern but can miss a driver numbered '02'.
+    """
+    match = re.search(r"/([A-Z]{6}\d{2})_", row.get("headshot_url") or "")
+    if match:
+        return match[1]
+    head, tail = _letters(first)[:3], _letters(last)[:3]
+    return f"{head}{tail}01" if len(head) == 3 and len(tail) == 3 else None
+
+
 class Weekend(BaseModel):
     """Normalized provider weekend used solely to enrich our event schedule."""
 
@@ -87,11 +105,11 @@ class OpenF1:
         self.base = http.settings.openf1_url.rstrip("/")
         self.name = "openf1"
 
-    async def rows(self, path: str, **params) -> list[dict]:
+    async def rows(self, path: str, ttl: float | None = None, **params) -> list[dict]:
         data = json.loads(
             await self.http.get(
                 f"{self.base}/{path}",
-                self.http.settings.short_ttl,
+                self.http.settings.short_ttl if ttl is None else ttl,
                 empty_on_no_results=True,
                 **params,
             )
@@ -99,6 +117,11 @@ class OpenF1:
         if not isinstance(data, list):
             raise ValueError("expected a list")
         return data
+
+    @normalized
+    async def archive_rows(self, path: str, session_key: int) -> list[dict]:
+        # A whole race is megabytes; the replay cache keeps the parsed race, not these bytes.
+        return await self.rows(path, ttl=0, session_key=session_key)
 
     @normalized
     async def _live_rows(self, path: str, session_key: int) -> list[dict]:

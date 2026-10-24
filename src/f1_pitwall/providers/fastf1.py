@@ -310,45 +310,52 @@ def normalize_lap_revisions(records, ids, laps):
 
 def normalize_lap_validity(records, ids, laps):
     """Explicit car/lap deletions; message Lap is the race clock, not the offending lap."""
-    validity = []
+    timed = []
     for stamp, update in records:
-        at = seconds(stamp)
         messages = update.get("Messages", {})
-        for message in messages.values() if isinstance(messages, dict) else messages:
-            text = message.get("Message", "").upper()
-            car = re.search(r"\bCAR (\d+)\b", text)
-            number = str(message.get("RacingNumber", car[1] if car else ""))
-            if number not in ids or not any(word in text for word in ("DELETED", "REINSTATED")):
+        values = messages.values() if isinstance(messages, dict) else messages
+        timed.extend((seconds(stamp), message) for message in values)
+    return lap_validity(timed, ids, laps)
+
+
+def lap_validity(messages, ids, laps):
+    """Lap deletions and reinstatements from timed race control messages."""
+    validity = []
+    for at, message in messages:
+        text = message.get("Message", "").upper()
+        car = re.search(r"\bCAR (\d+)\b", text)
+        number = str(message.get("RacingNumber", car[1] if car else ""))
+        if number not in ids or not any(word in text for word in ("DELETED", "REINSTATED")):
+            continue
+        lap = re.search(r"\bLAP (\d+)\b", text)
+        if lap:
+            lap_number = int(lap[1])
+        else:
+            # NEXT LAP messages often identify only a time. Require a unique observed match.
+            time_match = re.search(r"\bTIME (\d+:\d+\.\d+)\b", text)
+            duration = lap_duration(time_match[1]) if time_match else None
+            matches = {
+                r.number
+                for r in laps
+                if r.driver_id == ids[number]
+                and r.available_at <= at
+                and r.completed_at <= at
+                and duration is not None
+                and r.lap_time_seconds is not None
+                and abs(r.lap_time_seconds - duration) < 0.001
+            }
+            if len(matches) != 1:
                 continue
-            lap = re.search(r"\bLAP (\d+)\b", text)
-            if lap:
-                lap_number = int(lap[1])
-            else:
-                # NEXT LAP messages often identify only a time. Require a unique observed match.
-                time_match = re.search(r"\bTIME (\d+:\d+\.\d+)\b", text)
-                duration = lap_duration(time_match[1]) if time_match else None
-                matches = {
-                    r.number
-                    for r in laps
-                    if r.driver_id == ids[number]
-                    and r.available_at <= at
-                    and r.completed_at <= at
-                    and duration is not None
-                    and r.lap_time_seconds is not None
-                    and abs(r.lap_time_seconds - duration) < 0.001
-                }
-                if len(matches) != 1:
-                    continue
-                lap_number = matches.pop()
-            if lap_number > 0:
-                validity.append(
-                    LapValidity(
-                        driver_id=ids[number],
-                        lap_number=lap_number,
-                        at=at,
-                        valid="REINSTATED" in text,
-                    )
+            lap_number = matches.pop()
+        if lap_number > 0:
+            validity.append(
+                LapValidity(
+                    driver_id=ids[number],
+                    lap_number=lap_number,
+                    at=at,
+                    valid="REINSTATED" in text,
                 )
+            )
     return validity
 
 

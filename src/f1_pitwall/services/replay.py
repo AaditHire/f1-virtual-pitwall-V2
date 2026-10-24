@@ -1,7 +1,7 @@
 import asyncio
 from collections import OrderedDict
 
-from f1_pitwall.core.exceptions import NotFound
+from f1_pitwall.core.exceptions import NotFound, ProviderError
 from f1_pitwall.domain.replay import (
     AvailableLaps,
     DriverRaceState,
@@ -11,6 +11,7 @@ from f1_pitwall.domain.replay import (
 )
 from f1_pitwall.providers.fastf1 import FastF1Provider
 from f1_pitwall.providers.jolpica import Jolpica
+from f1_pitwall.providers.openf1_archive import OpenF1Archive
 from f1_pitwall.providers.replay_snapshots import SnapshotStore
 from f1_pitwall.services.race_state import RaceStateBuilder, cutoff_for
 from f1_pitwall.services.season import SeasonService
@@ -24,9 +25,10 @@ class ReplayService:
         provider: FastF1Provider,
         cache_size: int = 4,
         snapshots: SnapshotStore | None = None,
+        archive: OpenF1Archive | None = None,
     ):
         self.seasons, self.jolpica, self.provider = seasons, jolpica, provider
-        self.snapshots = snapshots
+        self.snapshots, self.archive = snapshots, archive
         self.cache_size = cache_size
         self._cache: OrderedDict[tuple[int, int], HistoricalRace] = OrderedDict()
         # One shared load per race; loads of different races never wait for each other.
@@ -53,7 +55,7 @@ class ReplayService:
             raise NotFound(f"Event {year}/{round} is unavailable")
         race = await self._snapshot(event)
         if race is None:
-            race = await asyncio.to_thread(self.provider.load, event)
+            race = await self._fetch(event)
         self._cache[key] = race
         while len(self._cache) > self.cache_size:
             self._cache.popitem(last=False)
@@ -66,6 +68,21 @@ class ReplayService:
         if data is None:
             return None
         return await asyncio.to_thread(self.snapshots.decode, event, data)
+
+    async def _fetch(self, event) -> HistoricalRace:
+        # F1's own archive needs an F1 TV login since October 2026, so OpenF1 comes first for the
+        # seasons it covers; FastF1 still serves 2021-2022 from its public mirror.
+        if self.archive is None or not self.archive.covers(event):
+            return await asyncio.to_thread(self.provider.load, event)
+        try:
+            return await self.archive.load(event)
+        except ProviderError as first:
+            try:
+                return await asyncio.to_thread(self.provider.load, event)
+            except ProviderError as second:
+                raise ProviderError(
+                    "replay", f"{first.message} (OpenF1); {second.message} (FastF1)"
+                ) from second
 
     def _loaded(self, key: tuple[int, int], task: asyncio.Future[HistoricalRace]) -> None:
         self._loading.pop(key, None)

@@ -2,7 +2,8 @@
 
     python scripts/build_replay_snapshots.py --years 2021-2026 --out snapshots --existing names.txt
 
-Snapshots always come from FastF1, never from previously published snapshots.
+Snapshots always come from the timing sources (OpenF1 for 2023+, FastF1 before), never from
+previously published snapshots.
 """
 
 import argparse

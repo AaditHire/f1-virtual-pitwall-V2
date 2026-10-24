@@ -10,6 +10,7 @@ from f1_pitwall.providers.http import ProviderHTTP
 from f1_pitwall.providers.jolpica import Jolpica
 from f1_pitwall.providers.news import RSSProvider
 from f1_pitwall.providers.openf1 import UNAUTHORIZED_HINT, OpenF1, OpenF1Auth
+from f1_pitwall.providers.openf1_archive import OpenF1Archive
 from f1_pitwall.providers.replay_snapshots import SnapshotStore
 from f1_pitwall.services.analysis import AnalysisService
 from f1_pitwall.services.calendar import CalendarService
@@ -48,6 +49,7 @@ class Hub:
             FastF1Provider(settings),
             settings.replay_cache_size,
             SnapshotStore(client, settings),
+            OpenF1Archive(self.openf1),
         )
         self.analysis = AnalysisService(self.replay)
         self.strategy = StrategyService(self.replay)
