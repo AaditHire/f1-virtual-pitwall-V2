@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import asyncio
+import logging
 import re
 import unicodedata
 from datetime import UTC, datetime, timedelta
 
-from f1_pitwall.core.exceptions import ProviderError
+from f1_pitwall.core.exceptions import NotFound, ProviderError
 from f1_pitwall.domain.enums import SessionType
 from f1_pitwall.domain.live import (
     CurrentPitWallResponse,
@@ -34,6 +35,8 @@ from f1_pitwall.domain.replay import (
 from f1_pitwall.providers.fastf1 import slug
 from f1_pitwall.providers.live import LiveTimingProvider
 from f1_pitwall.services.analysis_context import AnalysisContext
+
+log = logging.getLogger(__name__)
 
 
 def _letters(value: str) -> str:
@@ -254,7 +257,9 @@ class LiveService:
     async def _event(self, session: LiveSession) -> Event | None:
         try:
             events = await self.calendar.get_calendar(session.year)
-        except (ProviderError, Exception):
+        except (ProviderError, NotFound) as exc:
+            # The session still renders without its calendar event; bugs should not hide here.
+            log.warning("live_event_unavailable year=%s error=%s", session.year, exc)
             return None
         matches = [
             event

@@ -91,6 +91,23 @@ async def test_schema_drift_is_observable():
         assert provider.http.status.status == "degraded"
 
 
+async def test_schema_drift_evicts_only_the_malformed_response():
+    def handler(request):
+        if "/drivers" in request.url.path:
+            return httpx.Response(200, json={"changed_schema": []})
+        return httpx.Response(
+            200, json=response_table("SeasonTable", "Seasons", [{"season": "2030", "url": "u"}])
+        )
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        provider = Jolpica(ProviderHTTP("jolpica", client, Settings()))
+        await provider.seasons()
+        with pytest.raises(ProviderError, match="schema"):
+            await provider.drivers(2030)
+        cached = list(provider.http.cache)
+        assert len(cached) == 1 and "/seasons" in cached[0]
+
+
 @pytest.mark.parametrize(
     "body,empty", [({"detail": "No results found."}, True), ({"detail": "Not Found"}, False)]
 )

@@ -35,6 +35,14 @@ class Settings(BaseModel):
         values = {}
         for name in cls.model_fields:
             value = os.getenv(f"F1_{name.upper()}")
+            if value is not None and name == "news_feeds":
+                try:
+                    value = json.loads(value)
+                except json.JSONDecodeError as exc:
+                    raise ValueError(
+                        'F1_NEWS_FEEDS must be a JSON object like {"Source name": "https://feed"}'
+                        f" (invalid JSON at character {exc.pos})"
+                    ) from None
             if value is not None:
-                values[name] = json.loads(value) if name == "news_feeds" else value
+                values[name] = value
         return cls.model_validate(values)

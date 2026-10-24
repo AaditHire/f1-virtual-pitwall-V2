@@ -2,6 +2,7 @@ import asyncio
 import logging
 import time
 from collections import OrderedDict
+from contextvars import ContextVar
 from datetime import UTC, datetime
 from email.utils import parsedate_to_datetime
 from functools import wraps
@@ -15,6 +16,8 @@ from f1_pitwall.core.exceptions import ProviderError
 from f1_pitwall.domain.models import DataSourceStatus
 
 log = logging.getLogger(__name__)
+# Cache keys read by the current normalized() call, so schema drift evicts only those entries.
+_read_keys: ContextVar[set[str] | None] = ContextVar("provider_read_keys", default=None)
 
 
 class ProviderAuth(Protocol):
@@ -57,6 +60,8 @@ class ProviderHTTP:
         self, url: str, ttl: float, *, empty_on_no_results: bool = False, **params
     ) -> bytes:
         key = str(httpx.URL(url, params=params))
+        if (keys := _read_keys.get()) is not None:
+            keys.add(key)
         cached = self.cache.get(key)
         if cached and cached[0] > time.monotonic():
             self.cache.move_to_end(key)
@@ -163,13 +168,20 @@ def normalized(method):
 
     @wraps(method)
     async def wrapped(self, *args, **kwargs):
+        outer, keys = _read_keys.get(), set()
+        token = _read_keys.set(keys)
         try:
             result = await method(self, *args, **kwargs)
         except (KeyError, TypeError, ValueError, ValidationError) as exc:
-            self.http.cache.clear()
+            for key in keys:
+                self.http.cache.pop(key, None)
             raise self.http.fail(
                 method.__name__, f"invalid provider schema: {type(exc).__name__}"
             ) from exc
+        finally:
+            _read_keys.reset(token)
+            if outer is not None:
+                outer |= keys
         self.http.status.errors.pop(method.__name__, None)
         self.http.status.status = "degraded" if self.http.status.errors else "ok"
         return result

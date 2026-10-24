@@ -62,6 +62,7 @@ describe("LivePitWall", () => {
     const { unmount } = render(<LivePitWall initialStatus={{ ...liveStatus("HISTORICAL_ONLY"), reason: "No active session" }}/>);
     expect(screen.getByText("Session offline")).toBeInTheDocument();
     expect(screen.getByText("Provider state · HISTORICAL ONLY")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Replay the latest race" })).toHaveAttribute("href", "/replay");
     unmount();
     render(<LivePitWall initialStatus={liveStatus("UNAVAILABLE")}/>);
     expect(screen.getByText("Provider offline")).toBeInTheDocument();
